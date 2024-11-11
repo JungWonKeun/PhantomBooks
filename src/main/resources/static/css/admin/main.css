@@ -2,20 +2,25 @@
   border: 1px solid black;
 }
 
-body{
-  width: 1800px;
-  height: 880px;
-  
+.content-box{
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  justify-content: space-between;
+}
+
+.sideBar{
+  width: 300px;
+  height: 850PX;
 }
 
 .content{
-  margin-left: 300px;
   display: flex;
   flex-direction: column;
 }
 
 .date{
-  width: 1600px;
+  width: 1500px;
   height: 100px;
   display: flex;
   flex-direction: row;
@@ -40,12 +45,11 @@ body{
 .content-box{
   display: flex;
   justify-content: row;
-  margin-top: 50px;
-  height: 550px;
+  height: 700px;
 }
 
 .graph{
-  width: 1200px;
+  width: 1000px;
   height: 550px;
 }
 
@@ -61,5 +65,5 @@ body{
 
 .sales-table{
   width: 500px;
-  height: 440px;
+  height: 520px;
 }
