@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/header.css" th:href="@{/css/styles.css}">
+    <title>Header</title>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <!-- 로고 -->
+            <div class="logo">
+                <a href="/" th:href="@{/}">
+                    <img src="../static/images/logo.png" alt="Logo">
+                </a>
+            </div>
+
+            <!-- 카테고리 메뉴 -->
+            <nav class="categories">
+                <a href="#">카테고리1</a>
+                <a href="#">카테고리2</a>
+                <a href="#">카테고리3</a>
+                <a href="#">고객지원</a>
+            </nav>
+
+            <!-- 사용자 메뉴 -->
+            <div class="user-menu">
+                <a href="/login"class="headerLoginBtn">Login</a>
+                <a href="/join"class="headerJoinBtn">Join us</a>
+                <a href="/cart"class="headerCartBtn">Cart</a>
+            </div>
+
+            <!-- 검색 바 -->
+            <div class="search-bar">
+                <form action="#" method="get">
+                    <input type="text" name="query" placeholder="검색어를 입력하세요" />
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </header>
+</body>
+</html>
