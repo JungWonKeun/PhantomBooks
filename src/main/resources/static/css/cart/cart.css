@@ -1,30 +1,39 @@
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   border: 1px solid black;
+}
 
-}body {
+body {
   font-family: Arial, sans-serif;
 }
+
 .cartRecommendContainer {
   padding: 20px;
   background-color: #f9f9f9;
+  overflow: hidden;
 }
 
 .recommendWrapperContainer {
   width: 100%;
   margin: 0 auto;
   overflow: hidden; /* 스크롤바 숨기기 */
+  position: relative;
 }
 
 .recommendation-wrapper {
   display: flex;
-  cursor: grab;
   position: relative;
-  transition: transform 0.3s ease-in-out;
+  cursor: grab;
   user-select: none;
+  overflow-x: auto; /* 가로 스크롤 활성화 */
+  scrollbar-width: none; /* Firefox에서 스크롤바 숨기기 */
+  -ms-overflow-style: none; /* IE에서 스크롤바 숨기기 */
+}
+
+.recommendation-wrapper::-webkit-scrollbar {
+  display: none; /* Chrome, Safari에서 스크롤바 숨기기 */
 }
 
 .recommendation-list {
@@ -36,7 +45,7 @@
 }
 
 .recommendation-item {
-  flex: 0 0 25%;
+  flex: 0 0 calc(20% - 10px); /* 5개 보이도록 설정 */
   text-align: center;
   background-color: #fff;
   border: 1px solid #ddd;
@@ -53,27 +62,12 @@
   margin-bottom: 10px;
 }
 
+.recommendation-item a {
+  color: black;
+  text-decoration: none; /* 밑줄 제거 */
+}
+
 .recommendation-item h3 {
   margin: 10px 0;
   font-size: 16px;
-}
-
-.recommendation-item a {
-  color: black;
-  text-decoration: none; 
-}
-
-.cart-btn {
-  display: inline-block;
-  padding: 5px 10px;
-  color: #fff;
-  background-color: #007bff;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-}
-
-
-.cart-btn:hover {
-  background-color: #0056b3;
 }
