@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>장바구니 페이지</title>
+  <link rel="stylesheet" href="/css/cart/cart.css">
+
+</head>
+<body>
+  <h1>장바구니</h1>
+  <section class="cartSection">
+    <div class="cartContainer">
+      <table class="cartTable">
+        <thead>
+            <tr>
+              <th></th>
+              <th></th>
+              <th>상품명</th>
+              <th>가격</th>
+              <th>수량</th>
+              <th>삭제</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+              <td><input type="checkbox"></td>
+              <td><img src="book1.jpg" alt="책 이미지"></td>
+              <td>책 이름 1</td>
+              <td>10,000원</td>
+              <td>1(여기에는 누르면 수량 바뀌게 리액트로 설정할 예정)</td>
+              <td><button class="delete-btn">X</button></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox"></td>
+              <td><img src="book2.jpg" alt="책 이미지"></td>
+              <td>책 이름 2</td>
+              <td>15,000원</td>
+              <td>1(여기에는 누르면 수량 바뀌게 리액트로 설정할 예정)</td>
+              <td><button class="delete-btn">X</button></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox"></td>
+              <td><img src="book3.jpg" alt="책 이미지"></td>
+              <td>책 이름 3</td>
+              <td>10,000원</td>
+              <td>1(여기에는 누르면 수량 바뀌게 리액트로 설정할 예정)</td>
+              <td><button class="delete-btn">X</button></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox"></td>
+              <td><img src="book4.jpg" alt="책 이미지"></td>
+              <td>책 이름 4</td>
+              <td>15,000원</td>
+              <td>1(여기에는 누르면 수량 바뀌게 리액트로 설정할 예정)</td>
+              <td><button class="delete-btn">X</button></td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="cartOrderSection">
+    <div>
+      <table>
+        <tr>
+          <td>총 상품가격</td>
+          <td>OOO 원</td>
+        </tr>
+        <tr>
+          <td>적립 마일리지</td>
+          <td>OOO p</td>
+        </tr>
+        <tr>
+          <td>총 주문 상품 수</td>
+          <td>OOO 개</td>
+        </tr>
+      </table>
+    </div>
+  </section>
+
+  
+  <section>
+    <div class="cartRecommendContainer">
+      <h1>추천 도서</h1>
+      <div class="recommendWrapperContainer">
+        <div class="recommendation-wrapper" id="scroll-container">
+          <ul class="recommendation-list">
+            <li class="recommendation-item">
+              <a href="#">
+                <img src="recommend1.jpg" alt="추천 도서 1">
+                <h3>추천 도서 1</h3>
+                <p>12,000원</p>
+              </a>
+              <button class="cart-btn">장바구니에 넣기</button>
+            </li>
+            <li class="recommendation-item">
+              <a href="#">
+                <img src="recommend2.jpg" alt="추천 도서 2">
+                <h3>추천 도서 2</h3>
+                <p>15,000원</p>
+              </a>
+              <button class="cart-btn">장바구니에 넣기</button>
+            </li>
+            <li class="recommendation-item">
+              <a href="#">
+                <img src="recommend3.jpg" alt="추천 도서 3">
+                <h3>추천 도서 3</h3>
+                <p>10,000원</p>
+              </a>
+              <button class="cart-btn">장바구니에 넣기</button>
+            </li>
+            <li class="recommendation-item">
+              <a href="#">
+                <img src="recommend4.jpg" alt="추천 도서 4">
+                <h3>추천 도서 4</h3>
+                <p>10,000원</p>
+              </a>
+              <button class="cart-btn">장바구니에 넣기</button>
+            </li>
+            <li class="recommendation-item">
+              <a href="#">
+                <img src="recommend5.jpg" alt="추천 도서 5">
+                <h3>추천 도서 5</h3>
+                <p>10,000원</p>
+              </a>
+              <button class="cart-btn">장바구니에 넣기</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const scrollContainer = document.getElementById('scroll-container');
+      let isDragging = false;
+      let startX;
+      let scrollLeft;
+
+      // 드래그 시작
+      scrollContainer.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        scrollContainer.style.cursor = 'grabbing';
+        startX = e.pageX - scrollContainer.offsetLeft;
+        scrollLeft = scrollContainer.scrollLeft;
+      });
+
+      // 드래그 중
+      scrollContainer.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        const x = e.pageX - scrollContainer.offsetLeft;
+        const walk = (x - startX) * 1.5; // 속도 조정
+        scrollContainer.scrollLeft = scrollLeft - walk;
+      });
+
+      // 드래그 종료
+      const stopDragging = () => {
+        isDragging = false;
+        scrollContainer.style.cursor = 'grab';
+      };
+
+      scrollContainer.addEventListener('mouseup', stopDragging);
+      scrollContainer.addEventListener('mouseleave', stopDragging);
+    });
+  </script>
+</body>
+</html>
