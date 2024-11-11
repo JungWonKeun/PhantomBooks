@@ -1,11 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
     <link rel="stylesheet" href="../static/css/header.css" th:href="@{/css/styles.css}">
     <title>로그인 시 헤더</title>
+=======
+    <link rel="stylesheet" href="../../static/css/plagments/header.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Header</title>
+
+>>>>>>> c47fc25299ae31c5e40a1e78d8df82508fc1dd07
 </head>
+
 <body>
     <header>
         <div class="header-container">
@@ -29,7 +38,12 @@
                 <a href="/login"class="headerLoginBtn">로그인</a>
                 <a href="/join"class="headerJoinBtn">회원가입</a>
                 <a href="/cart"class="headerCartBtn">장바구니</a>
+                <a>Login</a>
+                <a href="/join" class="headerJoinBtn">Join us</a>
+                <a href="/cart" class="headerCartBtn">Cart</a>
             </div>
+
+            <button type="button" class="btn btn-primary" onclick="openLoginModal()">로그인</button>
 
             <!-- 검색 바 -->
             <div class="search-bar">
@@ -40,5 +54,49 @@
             </div>
         </div>
     </header>
+    
+
+    <div class="modal modal-sheet position-static d-block bg-body-secondary p-4 py-md-5" tabindex="-1" role="dialog"
+        id="modalSignin" style="display : none">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content rounded-4 shadow">
+                <div class="modal-header p-5 pb-4 border-bottom-0">
+                    <h1 class="fw-bold mb-0 fs-2">Sign up for free</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body p-5 pt-0">
+                    <form class="">
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control rounded-3" id="floatingInput"
+                                placeholder="name@example.com">
+                            <label for="floatingInput">ID</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control rounded-3" id="floatingPassword"
+                                placeholder="Password">
+                            <label for="floatingPassword">Password</label>
+                        </div>
+                        <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">logIn</button>
+                        <small class="text-body-secondary">By clicking Sign up, you agree to the terms of use.</small>
+                        <hr class="my-4">
+                        <h2 class="fs-5 fw-bold mb-3">Or use a third-party</h2>
+                        <a href="signUp" class="w-100 py-2 mb-2 btn btn-outline-primary rounded-3" type="submit">
+                            회원가입
+                        </a>
+                        <a href="findId" class="w-100 py-2 mb-2 btn btn-outline-secondary rounded-3" type="submit">
+                            아이디 / 비밀번호 찾기
+                        </a>
+                        <button class="w-100 py-2 mb-2 btn btn-outline-secondary rounded-3" type="submit">
+                            카카오톡 로그인
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
