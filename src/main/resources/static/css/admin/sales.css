@@ -1,0 +1,93 @@
+*{
+  border: 1px solid black;
+}
+
+body{
+  width: 1800px;
+  height: 880px;
+  
+}
+
+.content{
+  margin-left: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.date{
+  width: 1600px;
+  height: 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.date > button, input {
+  height: 40px;
+  margin-right: 20px;
+}
+
+
+.sales{
+  font-size: 25px;
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.content-box{
+  display: flex;
+  justify-content: row;
+  margin-top: 50px;
+  height: 550px;
+}
+
+.graph{
+  width: 1200px;
+  height: 550px;
+}
+
+.graph-title{
+  display: flex;
+  flex-direction: row;
+}
+
+
+.salesRank{
+  width: 500px;
+  height: 550px;
+}
+
+.salesRank > table{
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.sales-table{
+  width: 500px;
+  height: 440px;
+}
+
+
+.cal-month,
+.cal-days,
+.cal-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  align-items: center;
+}
+.cal-month-name {
+  grid-column-start: 2;
+  grid-column-end: 7;
+  text-align: center;
+}
+.cal-weekday,
+.cal-btn {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  height: 3rem;
+  padding: 0;}
