@@ -4,9 +4,44 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>결제 페이지</title>
+  <link rel="stylesheet" href="/static/css/order/order.css">
 </head>
 <body>
-  <p>안녕ㅇㅁㄴㅇㅁㄴㅇ</p>
+  <section class="addressSection">
+    <div>
+      <h2>주문/ 결제</h2>
+       <div class="basicAddress">
+          <p>기본 배송지를 등록해주세요</p>
+          <button>배송지 입력</button>
+       </div>
+    </div>
+  </section>
+
+  <h4>주문 상품 목록</h4>
+  <div class="orderMainContainer">
+    <section class="orderlistSection">
+      <div>
+        <h4>주문 상품 목록</h4> <h3>총 N 개</h3>
+        <hr>
+         <div class="basicAddress">
+            <div>
+              <img src="{imgUrl}" alt="책 사진";>
+              <h3>책 제목    개수     가격</h3>
+            </div>
+         </div>
+      </div>
+    </section>
   
+    <section class="orderBtnSection">
+      <div>
+        <h3>상품 금액 : OOO 원</h3>
+        <h3>배송비    : OOO 원</h3>
+        <h3>마일리지 사용 : OOO 원</h3>
+        <hr>
+        <h3>최종 결제 금액 :  OOO 원</h3>
+        <button>결제하기</button>
+      </div>
+    </section>
+  </div>
 </body>
 </html>
