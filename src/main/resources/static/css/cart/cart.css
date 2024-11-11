@@ -1,0 +1,79 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border: 1px solid black;
+
+}body {
+  font-family: Arial, sans-serif;
+}
+.cartRecommendContainer {
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.recommendWrapperContainer {
+  width: 100%;
+  margin: 0 auto;
+  overflow: hidden; /* 스크롤바 숨기기 */
+}
+
+.recommendation-wrapper {
+  display: flex;
+  cursor: grab;
+  position: relative;
+  transition: transform 0.3s ease-in-out;
+  user-select: none;
+}
+
+.recommendation-list {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.recommendation-item {
+  flex: 0 0 25%;
+  text-align: center;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  color: black;
+  text-decoration: none;
+}
+
+.recommendation-item img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.recommendation-item h3 {
+  margin: 10px 0;
+  font-size: 16px;
+}
+
+.recommendation-item a {
+  color: black;
+  text-decoration: none; 
+}
+
+.cart-btn {
+  display: inline-block;
+  padding: 5px 10px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+
+.cart-btn:hover {
+  background-color: #0056b3;
+}
