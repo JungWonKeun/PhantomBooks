@@ -86,13 +86,13 @@
       <div class="recommendWrapperContainer">
         <div class="recommendation-wrapper" id="scroll-container">
           <ul class="recommendation-list">
+            <!-- 여러 항목 추가 -->
             <li class="recommendation-item">
               <a href="#">
                 <img src="recommend1.jpg" alt="추천 도서 1">
                 <h3>추천 도서 1</h3>
                 <p>12,000원</p>
               </a>
-              <button class="cart-btn">장바구니에 넣기</button>
             </li>
             <li class="recommendation-item">
               <a href="#">
@@ -100,7 +100,6 @@
                 <h3>추천 도서 2</h3>
                 <p>15,000원</p>
               </a>
-              <button class="cart-btn">장바구니에 넣기</button>
             </li>
             <li class="recommendation-item">
               <a href="#">
@@ -108,7 +107,6 @@
                 <h3>추천 도서 3</h3>
                 <p>10,000원</p>
               </a>
-              <button class="cart-btn">장바구니에 넣기</button>
             </li>
             <li class="recommendation-item">
               <a href="#">
@@ -116,7 +114,6 @@
                 <h3>추천 도서 4</h3>
                 <p>10,000원</p>
               </a>
-              <button class="cart-btn">장바구니에 넣기</button>
             </li>
             <li class="recommendation-item">
               <a href="#">
@@ -124,7 +121,41 @@
                 <h3>추천 도서 5</h3>
                 <p>10,000원</p>
               </a>
-              <button class="cart-btn">장바구니에 넣기</button>
+            </li>
+            <li class="recommendation-item">
+              <a href="#">
+                <img src="recommend6.jpg" alt="추천 도서 6">
+                <h3>추천 도서 6</h3>
+                <p>10,000원</p>
+              </a>
+            </li>
+            <li class="recommendation-item">
+              <a href="#">
+                <img src="recommend7.jpg" alt="추천 도서 7">
+                <h3>추천 도서 7</h3>
+                <p>10,000원</p>
+              </a>
+            </li>
+            <li class="recommendation-item">
+              <a href="#">
+                <img src="recommend8.jpg" alt="추천 도서 8">
+                <h3>추천 도서 8</h3>
+                <p>10,000원</p>
+              </a>
+            </li>
+            <li class="recommendation-item">
+              <a href="#">
+                <img src="recommend9.jpg" alt="추천 도서 9">
+                <h3>추천 도서 9</h3>
+                <p>10,000원</p>
+              </a>
+            </li>
+            <li class="recommendation-item">
+              <a href="#">
+                <img src="recommend10.jpg" alt="추천 도서10">
+                <h3>추천 도서 10</h3>
+                <p>10,000원</p>
+              </a>
             </li>
           </ul>
         </div>
@@ -132,39 +163,7 @@
     </div>
   </section>
   
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const scrollContainer = document.getElementById('scroll-container');
-      let isDragging = false;
-      let startX;
-      let scrollLeft;
-
-      // 드래그 시작
-      scrollContainer.addEventListener('mousedown', (e) => {
-        isDragging = true;
-        scrollContainer.style.cursor = 'grabbing';
-        startX = e.pageX - scrollContainer.offsetLeft;
-        scrollLeft = scrollContainer.scrollLeft;
-      });
-
-      // 드래그 중
-      scrollContainer.addEventListener('mousemove', (e) => {
-        if (!isDragging) return;
-        e.preventDefault();
-        const x = e.pageX - scrollContainer.offsetLeft;
-        const walk = (x - startX) * 1.5; // 속도 조정
-        scrollContainer.scrollLeft = scrollLeft - walk;
-      });
-
-      // 드래그 종료
-      const stopDragging = () => {
-        isDragging = false;
-        scrollContainer.style.cursor = 'grab';
-      };
-
-      scrollContainer.addEventListener('mouseup', stopDragging);
-      scrollContainer.addEventListener('mouseleave', stopDragging);
-    });
-  </script>
+  
+  <script src="/js/cart/cart.js"></script>
 </body>
 </html>
