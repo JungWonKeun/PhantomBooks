@@ -9,7 +9,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // CSS 파일 요청을 처리하는 핸들러
+    	
         registry.addResourceHandler("/css/**")
                 .addResourceLocations("classpath:/static/css/");
         
