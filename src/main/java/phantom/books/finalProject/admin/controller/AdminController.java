@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminController {
 
 	@GetMapping("")
-	public String main() {
+	public String admin() {
 		return "admin/main";
 	}
 	
@@ -18,6 +18,7 @@ public class AdminController {
 		return "admin/schedule";
 	}
 	
+
 	@GetMapping("sales")
 	public String sales() {
 		return "admin/sales";
@@ -28,4 +29,5 @@ public class AdminController {
 		return "admin/manager";
 	}
 	
+
 }
