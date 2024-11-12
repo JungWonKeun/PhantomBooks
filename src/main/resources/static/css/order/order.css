@@ -3,6 +3,10 @@
   color: red;
 }
 
+body{
+  margin-left: 18%;
+}
+
 .orderMainContainer {
   display: flex;
   justify-content: space-between;
