@@ -1,4 +1,4 @@
-package phantom.books.finalProject.main.controller;
+package phantom.books.finalProject.main;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
