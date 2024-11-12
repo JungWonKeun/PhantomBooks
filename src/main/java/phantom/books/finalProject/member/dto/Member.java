@@ -27,5 +27,4 @@ public class Member {
 	private String		birthDate;				// 회원 생일
 	private String		memberName;				// 회원 이름
 	private String		rankName;					// 회원 등급 이름
-
 }
