@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,7 +24,10 @@
       </div>
       
       <div class="book-detail-body">
-        <div class="book-detail-image">책 이미지</div>
+        <div class="book-detail-image">
+          <img th:src="${book != null and book.bookCover != null ? book.bookCover : '/images/bookCover/default.jpg'}" alt="책 이미지">
+
+        </div>
         <div class="book-detail-info">
           <div class="book-detail-Title">책이름</div>
           <div class="book-detail-price">판매가 00,000원</div>

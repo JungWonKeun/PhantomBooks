@@ -115,16 +115,17 @@ public class FileConfig implements WebMvcConfigurer {
 		.addResourceHandler(boardResourceHandler)
 		.addResourceLocations(boardResourceLocation);
 		//  /images/board/ 로 시작하는 주소로 요청이 있을 경우
-		//  서버 컴퓨터에 C:/uploadFiles/board/ 폴더로 연결		
+		//  서버 컴퓨터에 C:/uploadFiles/board/ 폴더로 연결	
+		
+        registry.addResourceHandler("/images/bookCover/**")
+        .addResourceLocations("file:///C:/images/bookCover/");
 	}
 	
+	 
 	
-	
-	
+
 }
 
-
-   
    
    
    
