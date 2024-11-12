@@ -10,19 +10,23 @@ import phantom.books.finalProject.member.dto.Member;
 @Mapper
 public interface AdminMapper {
 
+	// 전체 회원수 카운트
+	int countMember();
+
+	// 탈퇴 회원 수 조회
+	int countDelFl();
+	
 	// 메인페이지 페이지네이션
 	int countMemberList(String sort);
 
-	
 	// 회원리스트
 	List<Member> memberList(String sort, RowBounds bounds);
-
 
 	// 회원 삭제
 	int deleteMember(int memberNo);
 
 
-	int countMember();
+
 	
 	
 
