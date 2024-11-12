@@ -1,10 +1,11 @@
 <div th:fragment="cssLinks">
   <link rel="stylesheet" th:href="@{/css/fragments/header.css}">
 </div>
-
-
+  <!-- 세션 상태에 따른 헤더 삽입 -->
+  <div th:if= "${session.loginMember != null}">
   <header th:replace="~{common/unLoginHeader :: header}"></header>
-
-
+</div>
+  
+  
 
   <script th:src="@{/js/fragments/header.js}"></script>
