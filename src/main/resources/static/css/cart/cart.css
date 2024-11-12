@@ -1,39 +1,69 @@
 * {
-  margin: 0;
   padding: 0;
   box-sizing: border-box;
-  border: 1px solid black;
 }
 
 body {
   font-family: Arial, sans-serif;
+  margin-left: 18%;
+}
+
+.cartSection {
+  margin-top: 2%;
+}
+
+.cartOrderSection {
+  margin-top: 5%;
+}
+
+.selectBookOrderBtn {
+  display: inline-block;
+  text-align: center;
+  margin-top: 5%;
+  margin-left: 20%;
+  color: white;
+  background-color: black;
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.selectBookOrderBtn:hover {
+  background-color: white;
+  color: black;
 }
 
 .cartRecommendContainer {
-  padding: 20px;
   background-color: #f9f9f9;
   overflow: hidden;
+  position: relative;
+  width: 100%;
+  max-width: 1000px;
 }
 
 .recommendWrapperContainer {
-  width: 100%;
-  margin: 0 auto;
-  overflow: hidden; /* 스크롤바 숨기기 */
+  overflow: hidden; 
   position: relative;
 }
 
 .recommendation-wrapper {
   display: flex;
-  position: relative;
   cursor: grab;
   user-select: none;
-  overflow-x: auto; /* 가로 스크롤 활성화 */
-  scrollbar-width: none; /* Firefox에서 스크롤바 숨기기 */
-  -ms-overflow-style: none; /* IE에서 스크롤바 숨기기 */
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.recommendation-wrapper.active {
+  cursor: grabbing;
 }
 
 .recommendation-wrapper::-webkit-scrollbar {
-  display: none; /* Chrome, Safari에서 스크롤바 숨기기 */
+  display: none;
 }
 
 .recommendation-list {
@@ -45,7 +75,9 @@ body {
 }
 
 .recommendation-item {
-  flex: 0 0 calc(20% - 10px); /* 5개 보이도록 설정 */
+  flex: 0 0 calc(20% - 20px);
+  width: calc(20% - 20px);
+  height: 300px;
   text-align: center;
   background-color: #fff;
   border: 1px solid #ddd;
@@ -54,20 +86,48 @@ body {
   padding: 10px;
   color: black;
   text-decoration: none;
+  overflow: hidden;
 }
 
 .recommendation-item img {
   max-width: 100%;
-  height: auto;
+  max-height: 100%;
+  object-fit: contain;
   margin-bottom: 10px;
 }
 
 .recommendation-item a {
   color: black;
-  text-decoration: none; /* 밑줄 제거 */
+  text-decoration: none;
 }
 
 .recommendation-item h3 {
   margin: 10px 0;
-  font-size: 16px;
+  font-size: 14px;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
+
+.slider-indicator {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50%; /* slider-indicator 길이 */
+  height: 4px;
+  background: #ddd;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.slider-indicator .scroll-bar {
+  height: 100%;
+  background: #333;
+  width: 10%; /* 기본 너비, JavaScript에서 동적으로 설정 */
+  border-radius: 2px;
+  transition: transform 0.3s ease; /* 부드러운 이동 */
+  transform: translateX(0);
+}
+

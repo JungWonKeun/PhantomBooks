@@ -8,8 +8,8 @@
 
 </head>
 <body>
-  <h1>장바구니</h1>
   <section class="cartSection">
+    <h1>장바구니</h1>
     <div class="cartContainer">
       <table class="cartTable">
         <thead>
@@ -77,6 +77,7 @@
         </tr>
       </table>
     </div>
+    <a href="/order" class="selectBookOrderBtn">선택한 상품 주문</a>
   </section>
 
   
@@ -86,7 +87,6 @@
       <div class="recommendWrapperContainer">
         <div class="recommendation-wrapper" id="scroll-container">
           <ul class="recommendation-list">
-            <!-- 여러 항목 추가 -->
             <li class="recommendation-item">
               <a href="#">
                 <img src="recommend1.jpg" alt="추천 도서 1">
@@ -152,17 +152,26 @@
             </li>
             <li class="recommendation-item">
               <a href="#">
-                <img src="recommend10.jpg" alt="추천 도서10">
+                <img src="recommend10.jpg" alt="추천 도서 10">
                 <h3>추천 도서 10</h3>
+                <p>10,000원</p>
+              </a>
+            </li>
+            <li class="recommendation-item">
+              <a href="#">
+                <img src="recommend11.jpg" alt="추천 도서 11">
+                <h3>추천 도서 11</h3>
                 <p>10,000원</p>
               </a>
             </li>
           </ul>
         </div>
+        <div class="slider-indicator">
+          <div class="scroll-bar"></div>
+        </div>
       </div>
     </div>
   </section>
-  
   
   <script src="/js/cart/cart.js"></script>
 </body>
