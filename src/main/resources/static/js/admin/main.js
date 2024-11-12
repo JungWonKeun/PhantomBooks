@@ -1,5 +1,6 @@
 const list = document.querySelector("#list");
 
+
 const listUp = (cp, sort) => {
   fetch("/admin/memberList?cp="+cp + "&sort="+sort)
   .then(response => {
@@ -12,7 +13,27 @@ const listUp = (cp, sort) => {
     const memberList = map.memberList;
     const pagination = map.pagination;
 
+    const countMember = map.countMember;
+    const countDelFl = map.countDelFl;
+    const countMemberList = map.countMemberList;
+
     list.innerHTML = '';
+    
+    const sales = document.querySelector(".sales");
+    sales.innerHTML = '';
+
+    const div1 = document.createElement("div");
+    div1.innerHTML = "총 회원 수 : " + countMember + "명";
+    
+    const div2 = document.createElement("div");
+    div2.innerHTML = "기간 중 가입 회원 수 : " + countMemberList + "명";
+    
+    const div3 = document.createElement("div");
+    div3.innerHTML = "기간 중 탈퇴 회원수 : " + countDelFl + "명";
+
+    sales.appendChild(div1);
+    sales.appendChild(div2);
+    sales.appendChild(div3);
 
     memberList.forEach(member => {
 
@@ -39,27 +60,35 @@ const listUp = (cp, sort) => {
       th5.append(deleteBtn);
 
       deleteBtn.addEventListener("click", () => {
-        fetch("admin/delete", {
-          method : "DELETE",
-          headers : {"Content-Type" : "application/json"},
-          body : member.memberNo
-        })
-        .then(response => {
-          if(response.ok) return response.json();
-          throw new Error("삭제 실패");
-        })
-        .then(result => {
-          if(result > 0 ) return listUp();
-        })
-        .catch(err => console.error(err));
+
+        const alarm = confirm("삭제하시겠습니까?");
+
+        if(alarm){
+          fetch("admin/delete", {
+            method : "DELETE",
+            headers : {"Content-Type" : "application/json"},
+            body : member.memberNo
+          })
+          .then(response => {
+            if(response.ok) return response.json();
+            throw new Error("삭제 실패");
+          })
+          .then(result => {
+            if(result > 0 ) {
+              alert("회원 정보를 삭제하였습니다.");
+              listUp(cp, sortSelect.value);
+            }
+          })
+          .catch(err => console.error(err));
+        }else{
+          alert("삭제가 취소되었습니다.");
+        }
       })
      
       tr.append(th1, td2, td3, td4, th5);
 
       list.append(tr);
-    
     })
-
       // 페이지네이션 출력
       const pg = document.querySelector('.pagination');
       pg.innerHTML = '';

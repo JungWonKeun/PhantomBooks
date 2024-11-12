@@ -39,17 +39,16 @@
               <div>거래액 그래프</div>
               <div>클릭 된 버튼 / 정렬 기준</div>
               
-              <div class="dropdown">
-                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  전체 매출
-                </a>
-              
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">카테고리</a></li>
-                  <li><a class="dropdown-item" href="#">출판사</a></li>
-                  <li><a class="dropdown-item" href="#">온/오프라인</a></li>
-                </ul>
+              <div class="sort-dropdown">
+                <select id="sortSelect">
+                    <option value="sales">전체 매출</option>
+                    <option value="category">카테고리</option>
+                    <option value="company">출판사</option>
+                    <option value="online">온라인</option>
+                    <option value="offline">오프라인</option>
+                </select>
               </div>
+      
   
             </div>
             <div class="graph-section">
@@ -59,87 +58,39 @@
     
           <div class="salesRank">
             <h2>판매 순위</h2>
-            <table class="sales-table">
-              <tr>
-                <th>1️⃣</th>
-                <td>책이름</td>
-                <td>카테고리</td>
-                <td>판매수량</td>
-                <td>수익</td>
-              </tr>
-              <tr>
-                <th>1️⃣</th>
-                <td>책이름</td>
-                <td>카테고리</td>
-                <td>판매수량</td>
-                <td>수익</td>
-              </tr>
-              <tr>
-                <th>1️⃣</th>
-                <td>책이름</td>
-                <td>카테고리</td>
-                <td>판매수량</td>
-                <td>수익</td>
-              </tr>
-              <tr>
-                <th>1️⃣</th>
-                <td>책이름</td>
-                <td>카테고리</td>
-                <td>판매수량</td>
-                <td>수익</td>
-              </tr>
-              <tr>
-                <th>1️⃣</th>
-                <td>책이름</td>
-                <td>카테고리</td>
-                <td>판매수량</td>
-                <td>수익</td>
-              </tr>
-              <tr>
-                <th>1️⃣</th>
-                <td>책이름</td>
-                <td>카테고리</td>
-                <td>판매수량</td>
-                <td>수익</td>
-              </tr>
-              <tr>
-                <th>1️⃣</th>
-                <td>책이름</td>
-                <td>카테고리</td>
-                <td>판매수량</td>
-                <td>수익</td>
-              </tr>
-              <tr>
-                <th>1️⃣</th>
-                <td>책이름</td>
-                <td>카테고리</td>
-                <td>판매수량</td>
-                <td>수익</td>
-              </tr>
-              <tr>
-                <th>1️⃣</th>
-                <td>책이름</td>
-                <td>카테고리</td>
-                <td>판매수량</td>
-                <td>수익</td>
-              </tr>
-              <tr>
-                <th>1️⃣</th>
-                <td>책이름</td>
-                <td>카테고리</td>
-                <td>판매수량</td>
-                <td>수익</td>
-              </tr>
-              
-              
+            <table class="sales-table" border="1" >
+              <thead>
+                <tr>
+                  <th>책 번호</th>
+                  <th>책이름</th>
+                  <th>카테고리</th>
+                  <th>판매수량</th>
+                  <th>수익</th>
+                </tr>
+              </thead>
+              <tbody  id="salesRank">
+                <tr>
+                  <th>1️⃣</th>
+                  <td>책이름</td>
+                  <td>카테고리</td>
+                  <td>판매수량</td>
+                  <td>수익</td>
+                </tr>
+              </tbody>
             </table>
+            <div class="pagination-area" >
+              <ul class="pagination">
+              
+                
+              </ul>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  
+  <script src="/js/admin/sales.js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

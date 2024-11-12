@@ -31,5 +31,4 @@ public class Member {
 	private String    loginDate;				// 최근 접속일
 	private String    memberDelFl;			// 삭제여부
 	private int       ahthority;        // 회원 권한
-	
 }

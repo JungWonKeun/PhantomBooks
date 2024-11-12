@@ -22,7 +22,13 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public Map<String, Object> memberList(int cp, String sort) {
 		
+		// 전체 회원 수 조회
 		int countMember = mapper.countMember();
+		
+		// 탈퇴한 회원 수 조회
+		int countDelFl = mapper.countDelFl();
+		
+		// sort 조건 만족하는 회원 수 조회
 		int countMemberList = mapper.countMemberList(sort);
 		Pagination pagination = new Pagination(cp, countMemberList, 10, 5);
 		
@@ -35,6 +41,8 @@ public class AdminServiceImpl implements AdminService{
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("countMember", countMember);
+		map.put("countDelFl", countDelFl);
+		map.put("countMemberList", countMemberList);
     map.put("memberList", memberList);
     map.put("pagination", pagination);
 		
