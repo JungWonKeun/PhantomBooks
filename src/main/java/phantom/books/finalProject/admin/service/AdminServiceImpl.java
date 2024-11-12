@@ -22,7 +22,8 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public Map<String, Object> memberList(int cp, String sort) {
 		
-		int countMemberList = mapper.countMemberList(cp, sort);
+		int countMember = mapper.countMember();
+		int countMemberList = mapper.countMemberList(sort);
 		Pagination pagination = new Pagination(cp, countMemberList, 10, 5);
 		
 		int limit = pagination.getLimit();
@@ -30,13 +31,20 @@ public class AdminServiceImpl implements AdminService{
 		
 		RowBounds bounds = new RowBounds(offset, limit);
 		
-		List<Member> memberList = mapper.memberList(bounds);
+		List<Member> memberList = mapper.memberList(sort, bounds);
 		
 		Map<String, Object> map = new HashMap<>();
+		map.put("countMember", countMember);
     map.put("memberList", memberList);
     map.put("pagination", pagination);
 		
 		return map;
+	}
+	
+	// 회원 삭제
+	@Override
+	public int deleteMember(int memberNo) {
+		return mapper.deleteMember(memberNo);
 	}
 	
 }

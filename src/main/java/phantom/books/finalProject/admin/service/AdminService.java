@@ -10,4 +10,10 @@ public interface AdminService {
 	 */
 	Map<String, Object> memberList(int cp, String sort);
 
+	/** 회원 삭제
+	 * @param memberNo
+	 * @return
+	 */
+	int deleteMember(int memberNo);
+
 }

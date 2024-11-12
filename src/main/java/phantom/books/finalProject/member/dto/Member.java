@@ -25,6 +25,11 @@ public class Member {
 	private String		addDetailAddress;	// 추가 상세 주소
 	private String		telNo;						// 회원 전화 번호
 	private String		birthDate;				// 회원 생일
-	private String		memberName;				// 회원 이름
+	private String		name;							// 회원 이름
 	private String		rankName;					// 회원 등급 이름
+	private String    signupDate;				// 가입일
+	private String    loginDate;				// 최근 접속일
+	private String    memberDelFl;			// 삭제여부
+	private int       ahthority;        // 회원 권한
+	
 }
