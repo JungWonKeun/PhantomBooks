@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -55,4 +56,14 @@ public class MemberController {
 			return loginMember;
 		}
 	}
+	
+	/** 회원 가입 페이지 전환
+	 * @return 회원 가입 페이지
+	 */
+	@GetMapping("signUp")
+	public String signUp() {
+		return "member/signUp";
+	}
+	
+	
 }
