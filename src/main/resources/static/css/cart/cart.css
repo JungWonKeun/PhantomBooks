@@ -1,6 +1,7 @@
 * {
   padding: 0;
   box-sizing: border-box;
+  border: 1px solid black;
 }
 
 body {
@@ -56,6 +57,7 @@ body {
   user-select: none;
   overflow-x: auto;
   scrollbar-width: none;
+  transition: transform 0.2s ease-out; 
 }
 
 .recommendation-wrapper.active {
@@ -115,7 +117,7 @@ body {
   bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
-  width: 50%; /* slider-indicator 길이 */
+  width: 50%;
   height: 4px;
   background: #ddd;
   border-radius: 2px;
@@ -125,9 +127,14 @@ body {
 .slider-indicator .scroll-bar {
   height: 100%;
   background: #333;
-  width: 10%; /* 기본 너비, JavaScript에서 동적으로 설정 */
+  width: 10%; /* 초기 너비 */
   border-radius: 2px;
-  transition: transform 0.3s ease; /* 부드러운 이동 */
   transform: translateX(0);
+  transition: transform 0.1s ease-out; /* 부드러운 이동 */
 }
+
+
+
+
+
 
