@@ -3,10 +3,30 @@
 <mapper namespace="phantom.books.finalProject.login.mapper.LoginMapper">
 
 	<select id="login" resultType="Member">
-		SELECT *
+		SELECT
+		MEMBER_NO,
+		MEMBER_ID,
+		MEMBER_PW,
+		ZIP,
+		ADDRESS,
+		DETAIL_ADDRESS,
+		ADD_ZIP,
+		ADD_ADDRESS,
+		ADD_DETAIL_ADDRESS,
+		TEL_NO,
+		TO_CHAR(BIRTH_DATE,
+		'YYYY"년" MM"월" DD"일"') BIRTH_DATE,
+		NAME,
+		RANK_NAME
 		FROM "MEMBER"
 		WHERE MEMBER_ID = #{memberId}
 	</select>
+	
+	<update id="updateLoginDate">
+		UPDATE "MEMBER"
+   		SET LOGIN_DATE = SYSDATE
+    	WHERE MEMBER_NO = #{memberNo}
+	</update>
 
 
 </mapper>
