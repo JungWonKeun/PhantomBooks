@@ -7,35 +7,56 @@
 		 COUNT(*)
 		FROM "MEMBER"
 		<choose>
-			<when test="sort == weeks">
-				WHERE SIGNUP_DATE >= CURDATE() - INTERVAL 7 DAY;
+			<when test="sort == 'weeks'">
+				WHERE SIGNUP_DATE >= CURRENT_DATE - INTERVAL '7' DAY
 			</when>
-			<when test="sort == month">
-				WHERE SIGNUP_DATE >= CURDATE() - INTERVAL 1 MONTH;
+			<when test="sort == 'month'">
+				WHERE SIGNUP_DATE >= CURRENT_DATE - INTERVAL '1' MONTH
 			</when>
-			<when test="sort == 6 month">
-				WHERE SIGNUP_DATE >= CURDATE() - INTERVAL 6 MONTH;
+			<when test="sort == '6month'">
+				WHERE SIGNUP_DATE >= CURRENT_DATE - INTERVAL '6' MONTH
 			</when>
 		</choose>
 	</select>
 	
 <select id="memberList" resultType="Member">
 	SELECT
-		*
+		MEMBER_NO,
+	 	MEMBER_ID,
+		MEMBER_PW,
+		ZIP,
+		ADDRESS,
+		DETAIL_ADDRESS,
+		ADD_ZIP,
+		ADD_ADDRESS,
+		ADD_DETAIL_ADDRESS,
+		TEL_NO,
+		TO_CHAR(BIRTH_DATE, 'YYYY"년" MM"월" DD"일"') BIRTH_DATE,
+		NAME,
+		RANK_NAME,
+		TO_CHAR(SIGNUP_DATE,'YYYY"년" MM"월" DD"일"') SIGNUP_DATE,
+		TO_CHAR(LOGIN_DATE,'YYYY"년" MM"월" DD"일"') LOGIN_DATE,
+		AUTHORITY
 	FROM "MEMBER"
 	<choose>
-		<when test="sort == weeks">
-			WHERE SIGNUP_DATE >= CURDATE() - INTERVAL 7 DAY;
+		<when test="sort == 'weeks'">
+			WHERE SIGNUP_DATE >= CURRENT_DATE - INTERVAL '7'DAY
 		</when>
-		<when test="sort == month">
-			WHERE SIGNUP_DATE >= CURDATE() - INTERVAL 1 MONTH;
+		<when test="sort == 'month'">
+			WHERE SIGNUP_DATE >= CURRENT_DATE - INTERVAL '1'MONTH
 		</when>
-		<when test="sort == 6 month">
-			WHERE SIGNUP_DATE >= CURDATE() - INTERVAL 6 MONTH;
+		<when test="sort == '6month'">
+			WHERE SIGNUP_DATE >= CURRENT_DATE - INTERVAL '6'MONTH
 		</when>
 	</choose> 
-	
+	ORDER BY SIGNUP_DATE DESC, MEMBER_NO DESC
 </select>
+
+<delete id="deleteMember">
+	DELETE 
+	FROM "MEMBER"
+	WHERE MEMBER_NO = #{memberNo}
+</delete>
 
 
 </mapper>
