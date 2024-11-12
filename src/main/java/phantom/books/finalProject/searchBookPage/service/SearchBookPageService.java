@@ -8,7 +8,9 @@ import phantom.books.finalProject.searchBookPage.dto.Book;
 
 public interface SearchBookPageService {
 
-	// 모든 책 조회
-	List<Book> allBook(Model model);
+	
+	// 모든 책 조회 인터페이스
+	List<Book> allBook();
+	
 
 }

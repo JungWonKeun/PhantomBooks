@@ -9,6 +9,6 @@ import phantom.books.finalProject.searchBookPage.dto.Book;
 @Mapper
 public interface SearchBookPageMapper {
 
-	List<Book> allBook = null;
+	List<Book> allBook ();
 
 }
