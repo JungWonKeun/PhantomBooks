@@ -1,11 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Welcome to PhantomBooks</title>
+  <link rel="stylesheet" href="/css/main/main.css">
 </head>
 <body>
-  <p>ㅎㅇ</p>
+  <header th:replace="~{common/unLoginHeader :: header}"></header>
+  <section class="recommend">
+    <h2>오늘의 추천 도서</h2>
+    <div class="book">
+      <div class="book-cover"></div>
+      <div class="book-info">
+        <p th:text="'책 제목: ' + ${book.bookTitle}"></p>
+        <p th:text="'출판사: ' + ${book.companyName}"></p>
+        <p th:text="${book.bookPrice} + '원'"></p>
+        <p th:text="${book.bookContent}"></p>
+      </div>
+    </div>
+  </section>
+  
+  <section class="personalized">
+    <h2>취향에 맞는 추천도서</h2>
+    <div class="book-carousel">
+      <button class="carousel-btn left">&larr;</button>
+      <div class="books">
+        <div th:each="book : ${recommendedBooks}">
+          <div class="book-cover"></div>
+        </div>
+      </div>
+      <button class="carousel-btn right">&rarr;"></button>
+    </div>
+  </section>
 </body>
 </html>
