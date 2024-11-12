@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="phantom.books.finalProject.admin.mapper.AdminMapper">
+
+	<select id="countMemberList" resultType="int">
+		SELECT
+		 COUNT(*)
+		FROM "MEMBER"
+		<choose>
+			<when test="sort == weeks">
+				WHERE SIGNUP_DATE >= CURDATE() - INTERVAL 7 DAY;
+			</when>
+			<when test="sort == month">
+				WHERE SIGNUP_DATE >= CURDATE() - INTERVAL 1 MONTH;
+			</when>
+			<when test="sort == 6 month">
+				WHERE SIGNUP_DATE >= CURDATE() - INTERVAL 6 MONTH;
+			</when>
+		</choose>
+	</select>
+	
+<select id="memberList" resultType="Member">
+	SELECT
+		*
+	FROM "MEMBER"
+	<choose>
+		<when test="sort == weeks">
+			WHERE SIGNUP_DATE >= CURDATE() - INTERVAL 7 DAY;
+		</when>
+		<when test="sort == month">
+			WHERE SIGNUP_DATE >= CURDATE() - INTERVAL 1 MONTH;
+		</when>
+		<when test="sort == 6 month">
+			WHERE SIGNUP_DATE >= CURDATE() - INTERVAL 6 MONTH;
+		</when>
+	</choose> 
+	
+</select>
+
+
+</mapper>
