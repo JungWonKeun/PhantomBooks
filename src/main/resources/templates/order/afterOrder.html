@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>결제 완료 페이지</title>
+
+</head>
+<body>
+  <section class="addressSection">
+    <div>
+      <h2>주문/ 배송 조회</h2>
+          <p>주문이 완료되었습니다</p>
+    </div>
+  </section>
+
+  <h4>주문 날짜       주문 번호</h4>
+  <div class="orderMainContainer">
+    <section class="orderlistSection">
+      <div>
+        <h4>주문 상품 목록</h4> <h3>총 N 개</h3>
+        <hr>
+         <div class="basicAddress">
+            <div>
+              <img src="{imgUrl}" alt="책 사진";>
+              <h3>책 제목    개수     가격</h3>
+            </div>
+         </div>
+      </div>
+    </section>
+  
+    <section class="orderBtnSection">
+      <div>
+        <h3>상품 금액 : OOO 원</h3>
+        <h3>배송비    : OOO 원</h3>
+        <h3>마일리지 사용 : OOO 원</h3>
+        <hr>
+        <h3>최종 결제 금액 :  OOO 원</h3>
+        <button>결제하기</button>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
