@@ -1,29 +1,33 @@
+header {
+  padding: 0;
+}
+
 .header-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 10px 20px;
-  background-color: #f9f9f9;
-  border-bottom: 1px solid #ddd;
+  background-color: ivory;
   position: relative;
+  flex : 1;
 }
 
 .logo {
-  flex: 1;
+  flex: 0;
+  margin-left: 22%;
 }
 
-.logo img {
-  height: 180px;
-  margin-left: 200px;
+.logoImg {
+  max-height: 180px;
+  max-width: 200px;
 }
 
 .categories {
-  flex: 2;
+  flex: 1;
   display: flex;
   justify-content: center;
   gap: 20px;
-  margin-top: -100px;
-  margin-right: 500px;
+  margin-top: -90px;
 }
 
 .categories a {
@@ -34,7 +38,6 @@
 
 .search-bar {
   position: absolute;
-  bottom: -10px;
   left: 50%;
   top: 50%;
   transform: translateX(-50%);
@@ -53,7 +56,6 @@
 .search-bar button {
   padding: 5px 15px;
   background-color: #333;
-  height: 50px;
   color: #fff;
   border: none;
   border-radius: 3px;
@@ -65,26 +67,22 @@
   display: flex;
   justify-content: flex-end;
   gap: 15px;
-  margin-top: -150px;
-  margin-right: 200px;
+  margin-top : -150px;
 }
 
 .user-menu a {
   text-decoration: none;
-  color: #333;
-  font-weight: bold;
-  border: 1px solid black;
+  color: white;
   border-radius: 10%;
-  padding: 5px;
-}
-
-.headerLoginBtn{
-  background-color: yellow;
+  padding: 12px 5px;
+  text-decoration-line: none;
 }
 
 .headerJoinBtn{
-  background-color: gray;
+  background-color: #0D6EFD;
+  color:white;
 }
 .headerCartBtn{
-  background-color: green;
+  background-color: #0D6EFD;
+  color:white;
 }

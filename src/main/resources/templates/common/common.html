@@ -5,6 +5,10 @@
   <div th:if= "${session.loginMember != null}">
   <header th:replace="~{common/unLoginHeader :: header}"></header>
 </div>
+  <div th:if= "${session.unLoginHeader != null}">
+    <header th:replace="~{common/loginHeader :: header}">
+    </header>
+  </div>
   
   
 
