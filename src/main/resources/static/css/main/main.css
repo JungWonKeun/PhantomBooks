@@ -4,10 +4,21 @@
   box-sizing: border-box;
 }
 
+header{
+  top: 0;
+  width: 100%;
+  background-color: #f5f5f5;
+  z-index: 1000;
+  padding: 15px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
 body {
   font-family: Arial, sans-serif;
-  display: flex;
-  justify-content: center;
+  margin-top: 100px;
 }
 
 main {
@@ -17,21 +28,36 @@ main {
 }
 
 .recommend, .personalized {
-  margin-bottom: 30px;
+  margin: 20px auto;
+  max-width: 800px;
+  height: 410px;
+  background-color: #fafafa;
+  border: 1px solid black;
 }
 
-.recommend .book, .personalized .books {
+.recommend .book {
   display: flex;
+  width: 798px;
+  height: 380px;
+  align-items: center;
+  padding: 10px;
+}
+
+.personalized .books{
+  display: flex;
+  min-width: 1000px;
+  height: 380px;
   align-items: center;
   background-color: #eee;
   padding: 10px;
 }
 
 .book-cover {
-  width: 100px;
-  height: 150px;
+  width: 209px;
+  height: 289px;
   background-color: #5c1a1a;
   margin-right: 15px;
+  
 }
 
 .book-info p {
@@ -41,20 +67,6 @@ main {
 .personalized .book-carousel {
   display: flex;
   align-items: center;
-}
-
-.carousel-btn {
-  background-color: #ddd;
-  padding: 10px;
-  border-radius: 50%;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.carousel-btn:hover {
-  background-color: #ccc;
 }
 
 .books {
@@ -67,4 +79,90 @@ main {
   width: 80px;
   height: 120px;
   background-color: #5c1a1a;
+}
+
+.recommendWrapperContainer {
+  overflow: hidden; 
+  position: relative;
+}
+
+.recommendation-wrapper {
+  display: flex;
+  cursor: grab;
+  user-select: none;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.recommendation-wrapper.active {
+  cursor: grabbing;
+}
+
+.recommendation-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.recommendation-list {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.recommendation-item {
+  flex: 0 0 calc(20% - 20px);
+  width: calc(20% - 20px);
+  height: 300px;
+  text-align: center;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  color: black;
+  text-decoration: none;
+  overflow: hidden;
+}
+
+.recommendation-item img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.recommendation-item a {
+  color: black;
+  text-decoration: none;
+}
+
+.recommendation-item h3 {
+  margin: 10px 0;
+  font-size: 14px;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.slider-indicator {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50%; /* slider-indicator 길이 */
+  height: 4px;
+  background: #ddd;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.slider-indicator .scroll-bar {
+  height: 100%;
+  background: #333;
+  width: 10%; /* 기본 너비, JavaScript에서 동적으로 설정 */
+  border-radius: 2px;
+  transition: transform 0.3s ease; /* 부드러운 이동 */
+  transform: translateX(0);
 }
