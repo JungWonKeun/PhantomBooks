@@ -22,5 +22,10 @@ public class SearchBookPageServiceImpl implements SearchBookPageService{
 		return mapper.allBook();
 	}
 	
+	@Override
+	public Book bookDetail(int bookNo) {
+		return mapper.bookDetail(bookNo);
+	}
+	
 	
 }

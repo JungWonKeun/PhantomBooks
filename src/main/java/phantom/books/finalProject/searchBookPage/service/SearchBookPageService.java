@@ -11,6 +11,11 @@ public interface SearchBookPageService {
 	
 	// 모든 책 조회 인터페이스
 	List<Book> allBook();
+
+	// 책 상세 페이지
+	Book bookDetail(int bookNo);
+
+	
 	
 
 }
