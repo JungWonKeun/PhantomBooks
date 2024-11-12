@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import phantom.books.finalProject.admin.mapper.AdminMapper;
+import phantom.books.finalProject.member.dto.Member;
 import phantom.books.finalProject.pagination.Pagination;
 
 @Service
