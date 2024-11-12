@@ -3,7 +3,23 @@
 <mapper namespace="phantom.books.finalProject.searchBookPage.mapper.SearchBookPageMapper">
 
 
-
+<!-- 모든 책 조회 SQL 쿼리 -->
+<select id="allBook" resultType="Book">
+    SELECT
+        BOOK_NO AS bookNo,
+        BOOK_TITLE AS bookTitle,
+        BOOK_CONTENT AS bookContent,
+        BOOK_COVER AS bookCover,
+        BOOK_DATE AS bookDate,
+        BOOK_WRITER AS bookWriter,
+        COMPANY_NAME AS companyName,
+        BOOK_TALT AS bookTalt,
+        BOOK_PRICE AS bookPrice,
+        BOOK_PAGE_COUNT AS bookPageCount,
+        BOOK_YN AS bookYn
+    FROM
+        BOOK
+</select>
 
 
 </mapper>

@@ -17,9 +17,9 @@ public class SearchBookPageServiceImpl implements SearchBookPageService{
 	private final SearchBookPageMapper mapper;
 	
 	@Override
-	public List<Book> allBook(Model model) {
+	public List<Book> allBook() {
 		
-		return mapper.allBook;
+		return mapper.allBook();
 	}
 	
 	
