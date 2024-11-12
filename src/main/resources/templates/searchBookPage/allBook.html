@@ -5,35 +5,38 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>모든 책 조회 페이지</title>
-  <link rel="stylesheet" href="/css/searchBookPage/bookDetail.css">
+  <link rel="stylesheet" href="/css/searchBookPage/allBook.css">
 </head>
 
 <body>
-  <header><h1>모든 책 조회</h1></header>
+  <header></header>
   <main>
     <div class="search-result">
       <p>검색결과 (<span th:text="${allBook.size()}">0</span>건)</p>
     </div>
 
     <!-- 책 목록을 반복하여 표시 -->
-    <div th:each="book : ${allBook}" class="book-item">
-      <div class="book-item-image">
-        <img th:src="${book.bookCover != null ? book.bookCover : '/images/default-book.png'}" alt="책 이미지">
+
+      <div th:each="book : ${allBook}" class="book-item">
+        <div class="book-item-image">
+          <img th:src="${book.bookCover != null ? book.bookCover : '/images/bookCover/default.jpg'}" alt="책 이미지">
+        </div>
+        <div class="book-item-details">
+          <div class="book-item-info">
+            <p><strong>제목:</strong> <span th:text="${book.bookTitle}">책 제목</span></p>
+            <p><strong>지은이:</strong> <span th:text="${book.bookWriter}">지은이</span></p>
+            <p><strong>출판사:</strong> <span th:text="${book.companyName}">출판사</span></p>
+            <p><strong>옮긴이:</strong> <span th:text="${book.bookTalt}">옮긴이</span></p>
+            <p><strong>가격:</strong> <span th:text="${book.bookPrice}">0</span>원</p>
+            <p><strong>출간일:</strong> <span th:text="${book.bookDate}">출간일</span></p>
+          </div>
+        </div>
+        <div class="book-item-actions">
+          <label class="buttonBag"><button>장바구니</button></label>
+          <label class="buttonBuy"><button>바로구매</button></label>
+          <label class="buttonWish"><button>찜</button></label>
+        </div>
       </div>
-      <div class="book-item-details">
-        <p><strong>제목:</strong> <span th:text="${book.bookTitle}">책 제목</span></p>
-        <p><strong>지은이:</strong> <span th:text="${book.bookWriter}">지은이</span></p>
-        <p><strong>출판사:</strong> <span th:text="${book.companyName}">출판사</span></p>
-        <p><strong>옮긴이:</strong> <span th:text="${book.bookTalt}">옮긴이</span></p>
-        <p><strong>가격:</strong> <span th:text="${book.bookPrice}">0</span>원</p>
-        <p><strong>출간일:</strong> <span th:text="${book.bookDate}">출간일</span></p>
-      </div>
-      <div class="book-item-actions">
-        <label class="buttonBag"><button>장바구니</button></label>
-        <label class="buttonBuy"><button>바로구매</button></label>
-       <label class="buttonWish"> <button>찜</button></label>
-      </div>
-    </div>
   </main>
 </body>
 
