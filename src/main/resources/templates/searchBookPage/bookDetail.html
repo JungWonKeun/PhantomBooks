@@ -3,35 +3,45 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>책 검색 상세 페이지</title>
+  <title th:text="${book.bookTitle}"></title>
   <link rel="stylesheet" href="/css/searchBookPage/bookDetail.css">
 </head>
 <body>
-  <header><h1>책 상세 조회 페이지</h1></header>
+  <header></header>
   <main>
     <div class="book-detail">
       <div class="book-detail-header">
         <div class="book-detail-header-info">
-          <div class="book-detail-header-name">책이름</div>
-          <div class="book-detail-header-score">별점</div>
+          <div class="book-detail-header-name" th:text="${book.bookTitle}">책이름</div>
+          <!-- <div class="book-detail-header-score" th:text="${book.book}">별점</div> -->
         </div>
         <div class="book-detail-header-meta">
-          <div class="book-detail-header-writer">지은이</div>
-          <div class="book-detail-header-translator">옮긴이</div>
-          <div class="book-detail-header-date">출간일</div>
-          <div class="book-detail-header-sales">판매지수</div>
+          <div class="book-detail-header-writer">지은이 :
+             <span th:text="${book.bookWriter}"></span>
+            </div>
+          <div class="book-detail-header-translator">옮긴이 :
+             <span th:text="${book.bookTalt}"></span></div>
+          <div class="book-detail-header-date">출간일
+            <span th:text="${book.bookDate.substring(0, 10)}"></span>
+          </div>
+          <!-- <div class="book-detail-header-sales" th:text="${book.salesRank}">판매지수</div> -->
         </div>
       </div>
       
       <div class="book-detail-body">
         <div class="book-detail-image">
           <img th:src="${book != null and book.bookCover != null ? book.bookCover : '/images/bookCover/default.jpg'}" alt="책 이미지">
-
         </div>
         <div class="book-detail-info">
-          <div class="book-detail-Title">책이름</div>
-          <div class="book-detail-price">판매가 00,000원</div>
-          <div class="book-detail-mileage">마일리지</div>
+          <div class="book-detail-Title" >
+            <span th:text="${book.bookTitle}">
+            </span>
+          </div>
+          <div class="book-detail-price"> <span th:text="${book.bookPrice}">
+          </span>원</div>
+          <div class="book-detail-mileage">
+            <span th:text="${T(java.lang.Math).round(book.bookPrice * 0.05)}">
+            </span>마일리지</div>
           <div class="book-detail-shipping">배송비 3,500원</div>
         </div>
       </div>
@@ -39,12 +49,11 @@
       <div class="book-detail-actions">
         <div class="book-detail-cart"><label class="book-detail-button"><button>장바구니</button></label></div>
         <div class="book-detail-wishlist"><label class="book-detail-button"><button>찜</button></label></div>
-        <div class="book-detail-buy"><label  class="book-detail-button"><button>바로 구매</button></label></div>
+        <div class="book-detail-buy"><label class="book-detail-button"><button>바로 구매</button></label></div>
       </div>
       
       <div class="book-detail-content">
-        <div class="book-detail-table-of-contents">목차</div>
-        <div class="book-detail-summary">책 줄거리</div>
+        <div class="book-detail-table-of-contents" th:text="${book.bookContent}">목차</div>
       </div>
     </div>
   </main>

@@ -21,5 +21,24 @@
         BOOK
 </select>
 
+<select id="bookDetail" resultType="Book">
+    SELECT
+        BOOK_NO AS bookNo,
+        BOOK_TITLE AS bookTitle,
+        BOOK_CONTENT AS bookContent,
+        BOOK_COVER AS bookCover,
+        BOOK_DATE AS bookDate,
+        BOOK_WRITER AS bookWriter,
+        COMPANY_NAME AS companyName,
+        BOOK_TALT AS bookTalt,
+        BOOK_PRICE AS bookPrice,
+        BOOK_PAGE_COUNT AS bookPageCount,
+        BOOK_YN AS bookYn
+    FROM
+        BOOK
+    WHERE 
+    	BOOK_NO = ${bookNo}
+</select>
+
 
 </mapper>

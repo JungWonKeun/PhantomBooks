@@ -15,9 +15,8 @@
       <p>검색결과 (<span th:text="${allBook.size()}">0</span>건)</p>
     </div>
 
-    <!-- 책 목록을 반복하여 표시 -->
-
-      <div th:each="book : ${allBook}" class="book-item">
+    <div th:each="book : ${allBook}" class="book-item">
+      <a th:href="@{/searchBookPage/bookDetail/{bookNo}(bookNo=${book.bookNo})}">
         <div class="book-item-image">
           <img th:src="${book.bookCover != null ? book.bookCover : '/images/bookCover/default.jpg'}" alt="책 이미지">
         </div>
@@ -31,12 +30,13 @@
             <p><strong>출간일:</strong> <span th:text="${book.bookDate}">출간일</span></p>
           </div>
         </div>
-        <div class="book-item-actions">
-          <label class="buttonBag"><button>장바구니</button></label>
-          <label class="buttonBuy"><button>바로구매</button></label>
-          <label class="buttonWish"><button>찜</button></label>
-        </div>
+      </a>
+      <div class="book-item-actions">
+        <label class="buttonBag"><button>장바구니</button></label>
+        <label class="buttonBuy"><button>바로구매</button></label>
+        <label class="buttonWish"><button>찜</button></label>
       </div>
+    </div>
   </main>
 </body>
 
