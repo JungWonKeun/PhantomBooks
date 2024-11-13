@@ -78,11 +78,7 @@ header {
   text-decoration-line: none;
 }
 
-.headerJoinBtn{
-  background-color: #0D6EFD;
-  color:white;
-}
-.headerCartBtn{
-  background-color: #0D6EFD;
-  color:white;
+#modalLogin {
+  display: none;
+  position: fixed;
 }
