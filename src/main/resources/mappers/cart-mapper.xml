@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="phantom.books.finalProject.cart.mapper.CartMapper">
+	
+	<select id="getCartItems" parameterType="int" resultType="phantom.books.finalProject.cart.dto.CartDto">
+        SELECT 
+            c.CART_COUNT AS cartCount,
+            b.BOOK_NO AS bookNo,
+            b.BOOK_TITLE AS bookTitle,
+            b.BOOK_COVER AS bookCover,
+            b.BOOK_PRICE AS bookPrice
+        FROM 
+            cart c
+        JOIN 
+            book b ON c.BOOK_NO = b.BOOK_NO
+        WHERE 
+            c.MEMBER_NO = #{memberNo}
+    </select>
+
 </mapper>
