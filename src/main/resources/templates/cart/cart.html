@@ -5,174 +5,176 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>장바구니 페이지</title>
   <link rel="stylesheet" href="/css/cart/cart.css">
-
 </head>
 <body>
-  <section class="cartSection">
-    <h1>장바구니</h1>
-    <div class="cartContainer">
-      <table class="cartTable">
-        <thead>
-            <tr>
-              <th></th>
-              <th></th>
-              <th>상품명</th>
-              <th>가격</th>
-              <th>수량</th>
-              <th>삭제</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-              <td><input type="checkbox"></td>
-              <td><img src="book1.jpg" alt="책 이미지"></td>
-              <td>책 이름 1</td>
-              <td>10,000원</td>
-              <td>1(여기에는 누르면 수량 바뀌게 리액트로 설정할 예정)</td>
-              <td><button class="delete-btn">X</button></td>
-            </tr>
-            <tr>
-              <td><input type="checkbox"></td>
-              <td><img src="book2.jpg" alt="책 이미지"></td>
-              <td>책 이름 2</td>
-              <td>15,000원</td>
-              <td>1(여기에는 누르면 수량 바뀌게 리액트로 설정할 예정)</td>
-              <td><button class="delete-btn">X</button></td>
-            </tr>
-            <tr>
-              <td><input type="checkbox"></td>
-              <td><img src="book3.jpg" alt="책 이미지"></td>
-              <td>책 이름 3</td>
-              <td>10,000원</td>
-              <td>1(여기에는 누르면 수량 바뀌게 리액트로 설정할 예정)</td>
-              <td><button class="delete-btn">X</button></td>
-            </tr>
-            <tr>
-              <td><input type="checkbox"></td>
-              <td><img src="book4.jpg" alt="책 이미지"></td>
-              <td>책 이름 4</td>
-              <td>15,000원</td>
-              <td>1(여기에는 누르면 수량 바뀌게 리액트로 설정할 예정)</td>
-              <td><button class="delete-btn">X</button></td>
-            </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <section class="cartOrderSection">
-    <div>
-      <table>
-        <tr>
-          <td>총 상품가격</td>
-          <td>OOO 원</td>
-        </tr>
-        <tr>
-          <td>적립 마일리지</td>
-          <td>OOO p</td>
-        </tr>
-        <tr>
-          <td>총 주문 상품 수</td>
-          <td>OOO 개</td>
-        </tr>
-      </table>
-    </div>
-    <a href="/order" class="selectBookOrderBtn">선택한 상품 주문</a>
-  </section>
-
+  <header th:replace="~{common/unLoginHeader :: header}"></header>
+  <main class="cartMain">
+    <section class="cartSection">
+      <h2>장바구니</h2>
+      <div class="cartContainer">
+        <table class="cartTable">
+          <thead>
+              <tr>
+                <th></th>
+                <th></th>
+                <th>상품명</th>
+                <th>가격</th>
+                <th>수량</th>
+                <th>삭제</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td><img src="book1.jpg" alt="책 이미지"></td>
+                <td>책 이름 1</td>
+                <td>10,000원</td>
+                <td>1(여기에는 누르면 수량 바뀌게 리액트로 설정할 예정)</td>
+                <td><button class="delete-btn">X</button></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td><img src="book2.jpg" alt="책 이미지"></td>
+                <td>책 이름 2</td>
+                <td>15,000원</td>
+                <td>1(여기에는 누르면 수량 바뀌게 리액트로 설정할 예정)</td>
+                <td><button class="delete-btn">X</button></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td><img src="book3.jpg" alt="책 이미지"></td>
+                <td>책 이름 3</td>
+                <td>10,000원</td>
+                <td>1(여기에는 누르면 수량 바뀌게 리액트로 설정할 예정)</td>
+                <td><button class="delete-btn">X</button></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td><img src="book4.jpg" alt="책 이미지"></td>
+                <td>책 이름 4</td>
+                <td>15,000원</td>
+                <td>1(여기에는 누르면 수량 바뀌게 리액트로 설정할 예정)</td>
+                <td><button class="delete-btn">X</button></td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
   
-  <section>
-    <div class="cartRecommendContainer">
-      <h1>추천 도서</h1>
-      <div class="recommendWrapperContainer">
-        <div class="recommendation-wrapper" id="scroll-container">
-          <ul class="recommendation-list">
-            <li class="recommendation-item">
-              <a href="#">
-                <img src="recommend1.jpg" alt="추천 도서 1">
-                <h3>추천 도서 1</h3>
-                <p>12,000원</p>
-              </a>
-            </li>
-            <li class="recommendation-item">
-              <a href="#">
-                <img src="recommend2.jpg" alt="추천 도서 2">
-                <h3>추천 도서 2</h3>
-                <p>15,000원</p>
-              </a>
-            </li>
-            <li class="recommendation-item">
-              <a href="#">
-                <img src="recommend3.jpg" alt="추천 도서 3">
-                <h3>추천 도서 3</h3>
-                <p>10,000원</p>
-              </a>
-            </li>
-            <li class="recommendation-item">
-              <a href="#">
-                <img src="recommend4.jpg" alt="추천 도서 4">
-                <h3>추천 도서 4</h3>
-                <p>10,000원</p>
-              </a>
-            </li>
-            <li class="recommendation-item">
-              <a href="#">
-                <img src="recommend5.jpg" alt="추천 도서 5">
-                <h3>추천 도서 5</h3>
-                <p>10,000원</p>
-              </a>
-            </li>
-            <li class="recommendation-item">
-              <a href="#">
-                <img src="recommend6.jpg" alt="추천 도서 6">
-                <h3>추천 도서 6</h3>
-                <p>10,000원</p>
-              </a>
-            </li>
-            <li class="recommendation-item">
-              <a href="#">
-                <img src="recommend7.jpg" alt="추천 도서 7">
-                <h3>추천 도서 7</h3>
-                <p>10,000원</p>
-              </a>
-            </li>
-            <li class="recommendation-item">
-              <a href="#">
-                <img src="recommend8.jpg" alt="추천 도서 8">
-                <h3>추천 도서 8</h3>
-                <p>10,000원</p>
-              </a>
-            </li>
-            <li class="recommendation-item">
-              <a href="#">
-                <img src="recommend9.jpg" alt="추천 도서 9">
-                <h3>추천 도서 9</h3>
-                <p>10,000원</p>
-              </a>
-            </li>
-            <li class="recommendation-item">
-              <a href="#">
-                <img src="recommend10.jpg" alt="추천 도서 10">
-                <h3>추천 도서 10</h3>
-                <p>10,000원</p>
-              </a>
-            </li>
-            <li class="recommendation-item">
-              <a href="#">
-                <img src="recommend11.jpg" alt="추천 도서 11">
-                <h3>추천 도서 11</h3>
-                <p>10,000원</p>
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div class="slider-indicator">
-          <div class="scroll-bar"></div>
+    <section class="cartOrderSection">
+      <div>
+        <table>
+          <tr>
+            <td>총 상품가격</td>
+            <td>OOO 원</td>
+          </tr>
+          <tr>
+            <td>적립 마일리지</td>
+            <td>OOO p</td>
+          </tr>
+          <tr>
+            <td>총 주문 상품 수</td>
+            <td>OOO 개</td>
+          </tr>
+        </table>
+      </div>
+      <a href="/order" class="selectBookOrderBtn">선택한 상품 주문</a>
+    </section>
+  
+    
+    <section>
+      <div class="cartRecommendContainer">
+        <h2>추천 도서</h2>
+        <div class="recommendWrapperContainer">
+          <div class="recommendation-wrapper" id="scroll-container">
+            <ul class="recommendation-list">
+              <li class="recommendation-item">
+                <a href="#">
+                  <img src="recommend1.jpg" alt="추천 도서 1">
+                  <h3>추천 도서 1</h3>
+                  <p>12,000원</p>
+                </a>
+              </li>
+              <li class="recommendation-item">
+                <a href="#">
+                  <img src="recommend2.jpg" alt="추천 도서 2">
+                  <h3>추천 도서 2</h3>
+                  <p>15,000원</p>
+                </a>
+              </li>
+              <li class="recommendation-item">
+                <a href="#">
+                  <img src="recommend3.jpg" alt="추천 도서 3">
+                  <h3>추천 도서 3</h3>
+                  <p>10,000원</p>
+                </a>
+              </li>
+              <li class="recommendation-item">
+                <a href="#">
+                  <img src="recommend4.jpg" alt="추천 도서 4">
+                  <h3>추천 도서 4</h3>
+                  <p>10,000원</p>
+                </a>
+              </li>
+              <li class="recommendation-item">
+                <a href="#">
+                  <img src="recommend5.jpg" alt="추천 도서 5">
+                  <h3>추천 도서 5</h3>
+                  <p>10,000원</p>
+                </a>
+              </li>
+              <li class="recommendation-item">
+                <a href="#">
+                  <img src="recommend6.jpg" alt="추천 도서 6">
+                  <h3>추천 도서 6</h3>
+                  <p>10,000원</p>
+                </a>
+              </li>
+              <li class="recommendation-item">
+                <a href="#">
+                  <img src="recommend7.jpg" alt="추천 도서 7">
+                  <h3>추천 도서 7</h3>
+                  <p>10,000원</p>
+                </a>
+              </li>
+              <li class="recommendation-item">
+                <a href="#">
+                  <img src="recommend8.jpg" alt="추천 도서 8">
+                  <h3>추천 도서 8</h3>
+                  <p>10,000원</p>
+                </a>
+              </li>
+              <li class="recommendation-item">
+                <a href="#">
+                  <img src="recommend9.jpg" alt="추천 도서 9">
+                  <h3>추천 도서 9</h3>
+                  <p>10,000원</p>
+                </a>
+              </li>
+              <li class="recommendation-item">
+                <a href="#">
+                  <img src="recommend10.jpg" alt="추천 도서 10">
+                  <h3>추천 도서 10</h3>
+                  <p>10,000원</p>
+                </a>
+              </li>
+              <li class="recommendation-item">
+                <a href="#">
+                  <img src="recommend11.jpg" alt="추천 도서 11">
+                  <h3>추천 도서 11</h3>
+                  <p>10,000원</p>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="slider-indicator">
+            <div class="scroll-bar"></div>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
-  
+    </section>
+  </main>
+  <div th:replace="common/footer :: footer"></div>
   <script src="/js/cart/cart.js"></script>
 </body>
 </html>
