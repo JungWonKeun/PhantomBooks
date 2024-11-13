@@ -6,6 +6,7 @@
   <title>결제 페이지</title>
   <link rel="stylesheet" href="/css/order/order.css">
 
+  <script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
 </head>
 <body>
   <section class="addressSection">
@@ -40,9 +41,29 @@
         <h3>마일리지 사용 : OOO 원</h3>
         <hr>
         <h3>최종 결제 금액 :  OOO 원</h3>
-        <button>결제하기</button>
+        <button onclick="requestPay()">결제하기</button>
       </div>
     </section>
   </div>
+
+  <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+
+<button onclick="requestPay()">결제하기</button>
+
+<script>
+IMP.init("imp14397622");
+
+function requestPay() {
+  IMP.request_pay({
+    channelKey: "채널키",
+    pay_method: "card",
+    merchant_uid: "test_m3fap7ff",
+    name: "테스트 결제",
+    amount: 100,
+    buyer_tel: "010-0000-0000",
+  });
+}
+</script>
+
 </body>
 </html>

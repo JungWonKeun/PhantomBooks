@@ -6,12 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Welcome to PhantomBooks</title>
   <link rel="stylesheet" href="/css/main/main.css">
-  <header th:replace="~{common/unLoginHeader :: header}"></header>
 </head>
+
 <body>
+  <header th:replace="~{common/common}"></header>
   <section class="recommend">
     <h2>오늘의 추천 도서</h2>
-    <div class="book">
+  <div class="book-slider" id="bookSlider">
+    <div class="book" data-index="0">
       <div class="book-cover"></div>
       <div class="book-info">
         <h5>책이름: OOO
@@ -21,17 +23,45 @@
           15,500원
           <br>
           <br>
-          <p>코딩 개발자를 꿈꾸는 자라면 필독!!
-            샬라샬라얄리얄리얄라숑얄라리얄라 </p>
+          <p>코딩 개발자를 꿈꾸는 자라면 필독!! 샬라샬라얄리얄리얄라숑얄라리얄라</p>
         </h5>
       </div>
     </div>
+    <div class="book" data-index="1">
+      <div class="book-cover"></div>
+      <div class="book-info">
+        <h5>책이름: QQQ
+          <p>정원근 · PhantomBooks</p>
+          <br>
+          <br>
+          18,000원
+          <br>
+          <br>
+          <p>데이터 분석의 길잡이! 샬라샬라얄리얄리얄라숑얄라리얄라</p>
+        </h5>
+      </div>
+    </div>
+    <div class="book" data-index="2">
+      <div class="book-cover"></div>
+      <div class="book-info">
+        <h5>책이름: RRR
+          <p>정원근 · PhantomBooks</p>
+          <br>
+          <br>
+          20,000원
+          <br>
+          <br>
+          <p>소프트웨어 개발자로서 성공하는 방법! 샬라샬라얄리얄리얄라숑얄라리얄라</p>
+        </h5>
+      </div>
+    </div>
+  </div>
   </section>
 
   <section class="personalized">
-  <h2>취향에 맞는 추천도서</h2>
-  <br>
-  <br>
+    <h2>취향에 맞는 추천도서</h2>
+    <br>
+    <br>
     <div class="RecommendContainer">
       <div class="recommendWrapperContainer">
         <div class="recommendation-wrapper" id="scroll-container">
@@ -122,6 +152,9 @@
     </div>
   </section>
 
-  <script src="/js/main/main.js"></script>
+<!-- 푸터 조각 삽입 -->
+<footer th:replace="~{common/footer :: footer}"></footer>
+<script src="/js/main/main.js"></script>
 </body>
+
 </html>

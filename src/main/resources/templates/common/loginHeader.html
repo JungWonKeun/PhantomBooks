@@ -1,42 +1,33 @@
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/plagments/header.css">
-    <title>Header</title>
-</head>
-<body>
-    <header>
-        <div class="header-container">
-            <!-- 로고 -->
-            <div class="logo">
-                <a href="/">
-                    <img src="/images/logo.png" alt="Logo" class="logoImg">
-                </a>
-            </div>
+<div th:fragment="header">
+    <header class="header-container">
+        <!-- 로고 -->
+        <div class="logo">
+            <a href="/">
+                <img src="/images/logo.png" alt="Logo" class="logoImg">
+            </a>
+        </div>
 
-            <!-- 카테고리 메뉴 -->
-            <nav class="categories">
-                <a href="#">카테고리1</a>
-                <a href="#">카테고리2</a>
-                <a href="#">카테고리3</a>
-                <a href="#">고객지원</a>
-            </nav>
-            
-            <!-- 사용자 메뉴 -->
-            <div class="user-menu">
-                <a href="/login" class="headerLoginBtn">  로그아웃</a>
-                <a href="/myPage"  class="headerJoinBtn"> 마이페이지</a>
-                <a href="/cart"  class="headerCartBtn">   장바구니</a>
-            </div>
-            
-            <!-- 검색 바 -->
-            <div class="search-bar">
-                <form action="#" method="get">
-                    <input type="text" name="query" placeholder="검색어를 입력하세요" />
-                    <button type="submit">Search</button>
-                </form>
-            </div>
+        <!-- 카테고리 메뉴 -->
+        <nav class="categories">
+            <a href="#">카테고리1</a>
+            <a href="#">카테고리2</a>
+            <a href="#">카테고리3</a>
+            <a href="#">고객지원</a>
+        </nav>
+
+        <!-- 검색 바 -->
+        <div class="search-bar">
+            <form action="#" method="get">
+                <input type="text" name="query" placeholder="검색어를 입력하세요" />
+                <button type="submit">Search</button>
+            </form>
+        </div>
+
+        <!-- 사용자 메뉴 -->
+        <div class="user-menu">
+            <a href="/member/logout" class="btn btn-primary headerLogoutBtn"> 로그아웃</a>
+            <a href="/myPage" class="btn btn-primary headerJoinBtn"> 마이페이지</a>
+            <a href="/cart" class="btn btn-primary headerCartBtn"> 장바구니</a>
         </div>
     </header>
-</body>
-</html>
+</div>

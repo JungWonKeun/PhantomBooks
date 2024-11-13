@@ -1,0 +1,20 @@
+package phantom.books.finalProject.admin.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+
+import phantom.books.finalProject.searchBookPage.dto.Book;
+
+@Mapper
+public interface ManagerMapper {
+
+	// 페이지네이션 설정을 위한 카운트
+	int countBookList(@Param("sort") String sort, @Param("text") String text);
+
+	// 관리자 재고 관리 페이지 리스트 
+	List<Book> bookList(@Param("sort") String sort, @Param("text") String text, RowBounds bounds);
+
+}

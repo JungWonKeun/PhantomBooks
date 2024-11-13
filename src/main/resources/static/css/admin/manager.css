@@ -1,17 +1,22 @@
 *{
   border: 1px solid black;
+  margin: 0;
+  padding: 0;
 }
 
 .content-box{
   display: flex;
   flex-direction: row;
   align-items: start;
-  justify-content: space-between;
+  justify-content: start;
+
+  margin-top: 10px;
 }
 
 .sideBar{
   width: 300px;
-  height: 850PX;
+  height: 850px;
+  margin-right: 80px;
 }
 
 .content{

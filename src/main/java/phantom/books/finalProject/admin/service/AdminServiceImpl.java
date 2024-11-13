@@ -20,7 +20,7 @@ public class AdminServiceImpl implements AdminService{
 	
 	// 메인 페이지 회원 목록 조회
 	@Override
-	public Map<String, Object> memberList(int cp, String sort) {
+	public Map<String, Object> memberList(int cp, String term, String sort) {
 		
 		// 전체 회원 수 조회
 		int countMember = mapper.countMember();
@@ -29,7 +29,7 @@ public class AdminServiceImpl implements AdminService{
 		int countDelFl = mapper.countDelFl();
 		
 		// sort 조건 만족하는 회원 수 조회
-		int countMemberList = mapper.countMemberList(sort);
+		int countMemberList = mapper.countMemberList(term, sort);
 		Pagination pagination = new Pagination(cp, countMemberList, 10, 5);
 		
 		int limit = pagination.getLimit();
@@ -37,7 +37,7 @@ public class AdminServiceImpl implements AdminService{
 		
 		RowBounds bounds = new RowBounds(offset, limit);
 		
-		List<Member> memberList = mapper.memberList(sort, bounds);
+		List<Member> memberList = mapper.memberList(term, sort, bounds);
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("countMember", countMember);
