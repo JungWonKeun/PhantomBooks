@@ -11,33 +11,56 @@
 <body>
   <header></header>
   <main>
-    <div class="search-result">
-      <p>검색결과 (<span th:text="${allBook.size()}">0</span>건)</p>
-    </div>
-
-    <div th:each="book : ${allBook}" class="book-item">
-      <a th:href="@{/searchBookPage/bookDetail/{bookNo}(bookNo=${book.bookNo})}">
-        <div class="book-item-image">
-          <img th:src="${book.bookCover != null ? book.bookCover : '/images/bookCover/default.jpg'}" alt="책 이미지">
-        </div>
-        <div class="book-item-details">
-          <div class="book-item-info">
-            <p><strong>제목:</strong> <span th:text="${book.bookTitle}">책 제목</span></p>
-            <p><strong>지은이:</strong> <span th:text="${book.bookWriter}">지은이</span></p>
-            <p><strong>출판사:</strong> <span th:text="${book.companyName}">출판사</span></p>
-            <p><strong>옮긴이:</strong> <span th:text="${book.bookTalt}">옮긴이</span></p>
-            <p><strong>가격:</strong> <span th:text="${book.bookPrice}">0</span>원</p>
-            <p><strong>출간일:</strong> <span th:text="${book.bookDate}">출간일</span></p>
-          </div>
-        </div>
-      </a>
-      <div class="book-item-actions">
-        <label class="buttonBag"><button>장바구니</button></label>
-        <label class="buttonBuy"><button>바로구매</button></label>
-        <label class="buttonWish"><button>찜</button></label>
+    <form action="/addCheckedBooks" method="post" id="bookForm">
+ <div class="search-result-container">
+      <div class="search-result">
+        <p>검색결과 (<span th:text="${allBook.size()}">0</span>건)</p>
       </div>
-    </div>
+     
+      <div class="check-toGo">
+        <label class="allCheck">
+          <button type="button" onclick="ifChecked('all')">전체선택</button>
+        </label>
+        <label class="check-bagButton">
+          <button type="button" onclick="ifChecked('cart')">장바구니</button
+            ></label>
+        <label class="check-wishListButton">
+          <button type="button" onclick="ifChecked('wishlist')">찜</button>
+        </label>
+      </div>
+ </div>
+
+
+ 
+        <div th:each="book : ${allBook}" class="book-item">
+          <div>
+            <input type="checkbox" th:name="${book.bookNo}" class="book-checkbox" id="bookCheckbox">
+          </div>
+          <a th:href="@{/searchBookPage/bookDetail/{bookNo}(bookNo=${book.bookNo})}">
+            <div class="book-item-image">
+              <img th:src="${book.bookCover != null ? book.bookCover : '/images/bookCover/default.jpg'}" alt="책 이미지">
+            </div>
+            <div class="book-item-details">
+              <div class="book-item-info">
+                <p><strong>제목:</strong> <span th:text="${book.bookTitle}">책 제목</span></p>
+                <p><strong>지은이:</strong> <span th:text="${book.bookWriter}">지은이</span></p>
+                <p><strong>출판사:</strong> <span th:text="${book.companyName}">출판사</span></p>
+                <p><strong>옮긴이:</strong> <span th:text="${book.bookTalt}">옮긴이</span></p>
+                <p><strong>가격:</strong> <span th:text="${book.bookPrice}">0</span>원</p>
+                <p><strong>출간일:</strong> <span th:text="${book.bookDate.substring(0, 10)}">출간일</span></p>
+              </div>
+            </div>
+          </a>
+          <div class="book-item-actions">
+            <label class="buttonBag" onclick="addToCart()"><button>장바구니</button></label>
+            <label class="buttonWish"><button onclick="addToWishList()">찜</button></label>
+            <label class="buttonBuy"><button onclick="buyNow()">바로구매</button></label>
+          </div>
+  </div>
+</form>
   </main>
+  <footer></footer>
+  <script src="/js/searchBookPage/allBook.js"></script>
 </body>
 
 </html>
