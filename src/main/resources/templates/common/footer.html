@@ -1,0 +1,54 @@
+<div th:fragment="footer">
+  <!-- 푸터 영역 시작 -->
+  <div class="footer">
+      <div class="footer-content">
+          <!-- 고객 센터 정보 영역 (화면 왼쪽에 고정) -->
+          <div class="customer-center">
+              <h3>고객 센터</h3>
+              <p>10:00 - 17:00</p>
+              <p class="footer-info">
+PHANTOM BOOKS <br>
+대표 정원근 <br>
+서울특별시 종로구 남대문로 120, 2층 <br>
+대표전화: 1800-0000 <br>
+이메일: ask@Phantom.inc <br>
+통신판매업신고: 2024-서울종로-02525 <br>
+사업자 정보 자세히 보기 <br>
+PHANTOM BOOKS는 통신판매중개자로서 중개하는 거래에 대하여 책임을 부하지 않습니다.
+              </p>
+          </div>
+          <!-- 푸터 링크 섹션 (화면 중앙에 배치) -->
+          <div class="footer-links">
+              <div>
+                  <h4>회사소개</h4>
+                  <ul>
+                      <li>전체 카테고리</li>
+                      <li></li>
+                      <li>지원 기기 및 이용환경</li>
+                  </ul>
+              </div>
+              <div>
+                  <h4>이용약관</h4>
+                  <ul>
+                      <li>지식 재산권 침해 센터</li>
+                      <li>기업 고객 문의</li>
+                  </ul>
+              </div>
+              <div>
+                  <h4>개인정보 처리 방침</h4>
+                  <ul>
+                      <li>이용 약관</li>
+                      <li>환불 정책</li>
+                  </ul>
+              </div>
+          </div>
+      </div>
+      <!-- 맨 위로 이동 버튼 영역 -->
+      <div class="scroll-to-top">
+          <img src="/images/top-icon.png" alt="Scroll to Top" onclick="scrollToTop()" style="cursor: pointer; width: 40px; height: 40px;">
+      </div>
+  </div>
+  <!-- 푸터 스타일 링크 추가 -->
+  <link rel="stylesheet" th:href="@{/css/fragments/footer.css}">
+  <script src="js/fragments/footer.js"></script>
+</div>
