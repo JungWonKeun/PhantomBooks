@@ -1,0 +1,80 @@
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.main-content {
+  min-height: calc(100vh - 100px - 200px); /* 전체 뷰포트 높이에서 헤더와 푸터의 높이를 뺀 값 */
+  box-sizing: border-box;
+}
+
+.footer {
+  background-color: #bfbfbf;
+  padding: 20px;
+  color: #333;
+  position: relative;
+  width: 100%; /* 푸터를 화면 전체에 꽉 차게 */
+  box-sizing: border-box; /* 패딩을 포함한 너비 계산 */
+  z-index: 2500;
+  margin: 0; /* 여백 제거하여 화면 아래 부분을 꽉 채우도록 설정 */
+}
+
+
+.footer-content {
+  display: flex;
+  align-items: flex-start;
+  width: 100%; /* 푸터 콘텐츠를 전체 화면 너비로 */
+  justify-content: flex-start; /* 고객센터 섹션과 링크 섹션 간격 넓히기 */
+  flex-wrap: wrap;
+  gap: 80px; /* 고객 센터와 푸터 링크 섹션 간의 간격을 넓힘 */
+  box-sizing: border-box; /* 패딩을 포함한 너비 계산 */
+}
+
+/* 고객 센터와 회사 정보 스타일 (화면 왼쪽에 고정) */
+.customer-center {
+  max-width: 300px;
+  text-align: left;
+  font-size: 13px;
+}
+
+.footer-info {
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+/* 푸터 링크 섹션 스타일 */
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: left;
+  gap: 120px; /* 섹션 간의 간격을 넓힘 */
+  justify-content: center; /* 왼쪽에 맞춰 배치하되 전체적으로 우측으로 이동 */
+  flex-grow: 1; /* 나머지 공간을 채우도록 설정 */
+  margin-left: 120px; /* 고객 센터와의 간격을 주기 위해 좌측 여백 추가 */
+}
+
+.footer-links h4 {
+  font-weight: bold;
+  font-size: 15px; /* 제목의 폰트 크기 약간 증가 */
+  margin-bottom: 10px; /* 제목 아래 간격 감소 */
+}
+
+.footer-links ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links ul li {
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+
+/* 맨 위로 이동 버튼 스타일 */
+.scroll-to-top {
+  position: fixed;
+  right: 20px; /* 오른쪽 끝에 배치 */
+  bottom: 20px;
+  z-index: 1000;
+}
+
