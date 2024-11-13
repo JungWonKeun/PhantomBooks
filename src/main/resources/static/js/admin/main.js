@@ -1,5 +1,13 @@
 const list = document.querySelector("#list");
 
+/* 사이드바 열고 닫기 */
+document.querySelectorAll('.menu').forEach(menu => {
+  menu.addEventListener('click', function () {
+    const openMenu = document.querySelector('.menu.active');
+
+    this.classList.toggle('active');
+  });
+});
 
 const listUp = (cp, sort, term) => {
   fetch("/admin/memberList?cp="+cp + "&sort="+sort + "&term=" +term)
@@ -152,13 +160,13 @@ sortSelect.addEventListener('change', () => {
   listUp(1, sortSelect.value);
   if(sortSelect.value == 'signUp'){
     listName.innerHTML = "가입 회원현황";
-    termSelect.hidden = false;
+    termSelect.classList.remove('hidden');
   }else if(sortSelect.value == 'delete'){
     listName.innerHTML = "탈퇴 회원";
-    termSelect.hidden = true;
+    termSelect.classList.add('hidden');
   }else{
     listName.innerHTML = "로그인 6개월 이상";
-    termSelect.hidden = true;
+    termSelect.hidden.classList.add('hidden');
   }
 
 });
