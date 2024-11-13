@@ -12,4 +12,9 @@ public class MainController {
 	public String main() {
 		return "main/main";
 	}
+	
+	@GetMapping("query")
+	public String query() {
+		return "main/query";
+	}
 }
