@@ -65,18 +65,46 @@ h2 {
   margin-bottom: 10px;
 }
 
+
+/* 오늘의 추천 도서 CSS */
+.book-slider {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 410px;
+}
+
+.book {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0; 
+  display: none; 
+  transition: opacity 1s ease; 
+}
+
+.book.active {
+  opacity: 1;
+  display: block;
+}
+
+.book.hidden {
+  opacity: 0;
+}
+
+
+
+
 .personalized .book-carousel {
   display: flex;
   align-items: center;
 }
 
-.books {
-  display: flex;
-  gap: 10px;
-  overflow-x: auto;
-}
 
-.books .book-cover {
+
+.book .book-cover {
   width: 80px;
   height: 120px;
   background-color: #5c1a1a;
