@@ -16,9 +16,18 @@
     </div>
   
     <div class="content">
-      <h1>회원가입 현황</h1>
+      <h1>
+        <!-- 글자 크기 수정 필요 -->
+        <div class="sort-dropdown">
+          <select id="sortSelect">
+              <option value="signUp" name="가입 회원현황">가입 회원현황</option>
+              <option value="delete">탈퇴 회원</option>
+              <option value="unlogin">로그인 6개월 이상</option>
+          </select>
+        </div>
+      </h1>
       <div class="sort-dropdown">
-        <select id="sortSelect">
+        <select id="termSelect" >
             <option value="weeks">1주일</option>
             <option value="month">1개월</option>
             <option value="6month">6개월</option>
@@ -45,7 +54,10 @@
           </div>
     
           <div class="memberList">
-            <h2>최근 가입 회원</h2>
+            <div id="listName">
+              가입 회원현황
+            </div>
+
             <table class="member-table">
               <thead>
                 <tr>

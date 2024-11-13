@@ -61,10 +61,11 @@ public class AdminController {
 	@ResponseBody
 	public Map<String, Object> memberList(
       @RequestParam("cp") int cp, 
-      @RequestParam("sort") String sort
+      @RequestParam("sort") String sort,
+      @RequestParam(value = "term", required = false, defaultValue = "weeks") String term 
 		){
 		
-			return service.memberList(cp, sort);
+			return service.memberList(cp, term, sort);
 		}
 	
 	/** 회원 삭제

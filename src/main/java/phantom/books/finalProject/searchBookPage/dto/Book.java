@@ -27,7 +27,22 @@ public class Book {
 	    private int bookPageCount;      // 페이지 수
 	    private char bookYn;            // 책 여부
 	    private String bookDate;        // 출간일
+	    private String insertDate;
 
+	    /* 책 관리 테이블 정보*/
+	    private int bookCount;          // 책 개수
+	    private int basicCount; 				// 기본 책 수량
+	    
+	    /*프리퍼런스*/
+	    private int preferenceNo;   		// 프리퍼런스 번호
+	    private String preferenceName; 		// 프리퍼런스 이름
+	    
+	    /* 카테고리 */
+	    private int categoryNo;					// 카테고리 번호
+	    private String categoryName;			// 카테고리 이름
+	    
+	    
+	    
 
 	
 }
