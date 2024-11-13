@@ -14,7 +14,7 @@ import phantom.books.finalProject.order.service.AfterOrderService;
 @SessionAttributes({"loginMember"})
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/after-order")
+@RequestMapping("/afterorder")
 public class AfterOrderController {
 
 	private final AfterOrderService service;
