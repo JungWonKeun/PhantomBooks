@@ -1,4 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
+
+  /* 오늘의 추천 도서  */
+  const books = document.querySelectorAll(".book");
+  let currentIndex = 0;
+
+  books[currentIndex].classList.add("active");
+
+  function showNextBook() {
+    books[currentIndex].classList.remove("active");
+
+    currentIndex = (currentIndex + 1) % books.length;
+
+    books[currentIndex].classList.add("active");
+  }
+
+  // 5초마다 호출
+  setInterval(showNextBook, 5000);
+
+
+
   const scrollContainer = document.getElementById('scroll-container');
   const scrollBar = document.querySelector('.scroll-bar');
   const sliderIndicator = document.querySelector('.slider-indicator');
@@ -95,4 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 초기화
   updateScrollBar();
+
+  // ----------------------------------------------
+  
 });
