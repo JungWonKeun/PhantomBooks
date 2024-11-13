@@ -119,16 +119,55 @@ searchText.hidden = true;
 sortSelect.addEventListener('change', () => {
   if(sortSelect.value == 'all'){
     listUp(1, sortSelect.value);
-  }else if(sortSelect.value == 'company'){
+    searchText.hidden = true;
+  }else{
     searchText.hidden = false;
+
+    const resultArea = document.querySelector("#resultArea");
 
     searchText.addEventListener("input", () => {
       text = searchText.value.trim();
 
-      listUp(1, sortSelect.value, text)
+      listUp(1, sortSelect.value, text);
+
+      fetch(url)
+      .then(response => {
+        if(response.ok) return response.json();
+        throw new Error("검색 실패");
+      })
+      .then(list => {
+        console.log(list);
+    
+        resultArea.innerHTML = ""; // 이전 검색 결과 비우기
+    
+        if (list.length == 0) {
+          const li = document.createElement("li");
+          li.classList.add("result-row");
+          li.innerText = "일치하는 출판사가 없습니다";
+          resultArea.append(li);
+          return;
+        }
+    
+        for (let company of list) {
+          // li요소 생성(한 행을 감싸는 요소)
+          const li = document.createElement("li");
+          li.classList.add("result-row");
+    
+          let companyName = company.companyName;
+    
+          const span = document.createElement("span");
+          span.innerHTML = `${companyName}`.replace(text, `<mark>${text}</mark>`);
+    
+          // 요소 조립(화면에 추가)
+          li.append(span);
+          resultArea.append(li);
+    
+          // 클릭 시 채팅방 입장 함수 호출
+          li.addEventListener("click", listUp(1, sortSelect.value, text));
+        }
+      })
+      .catch(err => console.error(err));
     })
-  }else{
-    listName.innerHTML = "로그인 6개월 이상";
   }
 
 });
@@ -137,75 +176,53 @@ sortSelect.addEventListener('change', () => {
 /**
  * 출판사 검색 시 자동완성 추천
  */
-const resultArea = document.querySelector("#resultArea");
-
-searchText.addEventListener("input", () => {
-  fetch("/admin/manager/inputText?text="+text)
-  .then(re)
-
-.then(response => {
-  if(response.ok) return response.json();
-  throw new Error("검색 실패");
-})
-.then(list => {
-  console.log(list);
-
-  resultArea.innerHTML = ""; // 이전 검색 결과 비우기
-
-  if (list.length == 0) {
-    const li = document.createElement("li");
-    li.classList.add("result-row");
-    li.innerText = "일치하는 출판사가 없습니다";
-    resultArea.append(li);
-    return;
-  }
-
-  for (let company of list) {
-    // li요소 생성(한 행을 감싸는 요소)
-    const li = document.createElement("li");
-    li.classList.add("result-row");
-    li.setAttribute("data-id", company.companyName);
-
-    // 프로필 이미지 요소
-    const img = document.createElement("img");
-    img.classList.add("result-row-img");
-
-    // 프로필 이미지 여부에 따른 src 속성 선택
-    if (member.profileImage == null) img.setAttribute("src", userDefaultImage);
-    else img.setAttribute("src", member.profileImage);
-
-    let nickname = member.memberNickname;
-    let email = member.memberEmail;
-
-    const span = document.createElement("span");
-    span.innerHTML = `${nickname} ${email}`.replace(query, `<mark>${query}</mark>`);
-
-    // 요소 조립(화면에 추가)
-    li.append(img, span);
-    resultArea.append(li);
-
-    // 클릭 시 채팅방 입장 함수 호출
-    li.addEventListener("click", chattingEnter);
 
 
-  }
+const url = "/admin/manager/inputText?sort=" + sort + "&text=" + text
 
-  
-})
-.catch(err => console.error(err));
+searchText.addEventListener("input", (sort, text) => {
+  fetch(url)
+  .then(response => {
+    if(response.ok) return response.json();
+    throw new Error("검색 실패");
+  })
+  .then(list => {
+    console.log(list);
 
+    resultArea.innerHTML = ""; // 이전 검색 결과 비우기
+
+    if (list.length == 0) {
+      const li = document.createElement("li");
+      li.classList.add("result-row");
+      li.innerText = "일치하는 출판사가 없습니다";
+      resultArea.append(li);
+      return;
+    }
+
+    for (let company of list) {
+      // li요소 생성(한 행을 감싸는 요소)
+      const li = document.createElement("li");
+      li.classList.add("result-row");
+
+      let companyName = company.companyName;
+
+      const span = document.createElement("span");
+      span.innerHTML = `${companyName}`.replace(text, `<mark>${text}</mark>`);
+
+      // 요소 조립(화면에 추가)
+      li.append(span);
+      resultArea.append(li);
+
+      // 클릭 시 채팅방 입장 함수 호출
+      li.addEventListener("click", listUp(1, sortSelect.value, text));
+    }
+  })
+  .catch(err => console.error(err));
 })
 
-
-
-
-
-
-
-
-
-
-
+/**
+ * 페이지네이션
+ */
 const paginationAddEvent = () => {
   const pagination = document.querySelectorAll('.pagination a');
 
@@ -220,6 +237,9 @@ const paginationAddEvent = () => {
   });
 }
 
+/**
+ * 문서 시작시 실행하는 함수
+ */
 document.addEventListener("DOMContentLoaded",()=>{
   listUp(1, sortSelect.value, text);
 })

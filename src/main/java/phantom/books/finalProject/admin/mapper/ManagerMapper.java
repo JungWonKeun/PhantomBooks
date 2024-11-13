@@ -20,4 +20,7 @@ public interface ManagerMapper {
 	// 등록 여부 수정 
 	int insert(int bookNo);
 
+	// 출판사 검색 
+	List<Book> inputText(String sort, String text);
+
 }

@@ -1,6 +1,10 @@
 package phantom.books.finalProject.admin.service;
 
+import java.util.List;
 import java.util.Map;
+
+import phantom.books.finalProject.searchBookPage.dto.Book;
+
 
 public interface ManagerService {
 
@@ -9,5 +13,8 @@ public interface ManagerService {
 
 	// 등록 여부 수정
 	int insert(int bookNo);
+
+	// 출판사 검색
+	List<Book> inputText(String sort, String text);
 
 }
