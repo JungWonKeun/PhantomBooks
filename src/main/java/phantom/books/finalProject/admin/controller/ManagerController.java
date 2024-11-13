@@ -1,5 +1,6 @@
 package phantom.books.finalProject.admin.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.RequiredArgsConstructor;
 import phantom.books.finalProject.admin.service.ManagerService;
+import phantom.books.finalProject.searchBookPage.dto.Book;
 
 @Controller
 @RequiredArgsConstructor
@@ -36,6 +38,15 @@ public class ManagerController {
 	public int insert(
 			@RequestBody int bookNo) {
 		return managerService.insert(bookNo);
+	}
+	
+	
+	@GetMapping("inputText")
+	@ResponseBody
+	public List<Book> inputText(
+			@RequestParam("sort") String sort,
+			@RequestParam("text") String text) {
+		return managerService.inputText(sort, text);
 	}
 	
 }
