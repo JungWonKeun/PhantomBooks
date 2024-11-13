@@ -3,6 +3,8 @@ package phantom.books.finalProject.member.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import phantom.books.finalProject.member.dto.Member;
 import phantom.books.finalProject.member.service.MemberService;
 
-@SessionAttributes({ "loginMember" })
+@SessionAttributes({"loginMember"})
 @Controller
 @RequestMapping("member")
 @Slf4j
@@ -41,29 +44,38 @@ public class MemberController {
 	 */
 	@PostMapping("login")
 	@ResponseBody
-	public Member login(
-			@RequestParam("memberId") String memberId, 
-			@RequestParam("memberPw") String memberPw,
-			HttpSession session) {
+	public ResponseEntity<?> login(@RequestParam("memberId") String memberId, @RequestParam("memberPw") String memberPw, HttpSession session) {
+	    Member loginMember = service.login(memberId, memberPw);
 
-		Member loginMember = service.login(memberId, memberPw);
-
-		if (loginMember == null) {
-			return null;
-		} else {
-      
-			session.setAttribute("loginMember", loginMember);
-			return loginMember;
-		}
+	    if (loginMember == null) {
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+	                             .body("{\"error\": \"Invalid credentials\"}");
+	    } else {
+	        session.setAttribute("loginMember", loginMember);
+	        return ResponseEntity.ok(loginMember);
+	    }
 	}
-	
-	/** 회원 가입 페이지 전환
+
+
+	/**
+	 * 회원 가입 페이지 전환
+	 * 
 	 * @return 회원 가입 페이지
 	 */
 	@GetMapping("signUp")
 	public String signUp() {
 		return "member/signUp";
 	}
+
 	
+	@GetMapping("logout")
+	public String logout(SessionStatus status) {
+		
+		status.setComplete();
+		
+		return "redirect:/";
+	}
 	
 }
+
+
