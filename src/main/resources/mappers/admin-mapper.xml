@@ -20,14 +20,20 @@
 		 COUNT(*)
 		FROM "MEMBER"
 		<choose>
-			<when test="sort == 'weeks'">
+			<when test="term == 'weeks' and sort == 'signUp'">
 				WHERE SIGNUP_DATE >= CURRENT_DATE - INTERVAL '7' DAY
 			</when>
-			<when test="sort == 'month'">
+			<when test="term == 'month' and sort == 'signUp'">
 				WHERE SIGNUP_DATE >= CURRENT_DATE - INTERVAL '1' MONTH
 			</when>
-			<when test="sort == '6month'">
+			<when test="term == '6month' and sort == 'signUp'">
 				WHERE SIGNUP_DATE >= CURRENT_DATE - INTERVAL '6' MONTH
+			</when>
+			<when test="sort == 'delete'">
+				WHERE MEMBER_DEL_FL = 'Y'
+			</when>
+			<when test="sort == 'unlogin'">
+				WHERE MONTHS_BETWEEN(CURRENT_DATE, LOGIN_DATE) >= 6
 			</when>
 		</choose>
 	</select>
@@ -52,14 +58,20 @@
 		AUTHORITY
 	FROM "MEMBER"
 	<choose>
-		<when test="sort == 'weeks'">
-			WHERE SIGNUP_DATE >= CURRENT_DATE - INTERVAL '7'DAY
+			<when test="term == 'weeks' and sort == 'signUp'">
+				WHERE SIGNUP_DATE >= CURRENT_DATE - INTERVAL '7' DAY
+			</when>
+			<when test="term == 'month' and sort == 'signUp'">
+				WHERE SIGNUP_DATE >= CURRENT_DATE - INTERVAL '1' MONTH
+			</when>
+			<when test="term == '6month' and sort == 'signUp'">
+				WHERE SIGNUP_DATE >= CURRENT_DATE - INTERVAL '6' MONTH
+			</when>
+		<when test="sort == 'delete'">
+			WHERE MEMBER_DEL_FL = 'Y'
 		</when>
-		<when test="sort == 'month'">
-			WHERE SIGNUP_DATE >= CURRENT_DATE - INTERVAL '1'MONTH
-		</when>
-		<when test="sort == '6month'">
-			WHERE SIGNUP_DATE >= CURRENT_DATE - INTERVAL '6'MONTH
+		<when test="sort == 'unlogin'">
+			WHERE MONTHS_BETWEEN(CURRENT_DATE, LOGIN_DATE) >= 6
 		</when>
 	</choose> 
 	ORDER BY SIGNUP_DATE DESC, MEMBER_NO DESC

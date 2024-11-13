@@ -8,7 +8,7 @@ public interface AdminService {
 	 * @param cp
 	 * @return
 	 */
-	Map<String, Object> memberList(int cp, String sort);
+	Map<String, Object> memberList(int cp, String term, String sort);
 
 	/** 회원 삭제
 	 * @param memberNo

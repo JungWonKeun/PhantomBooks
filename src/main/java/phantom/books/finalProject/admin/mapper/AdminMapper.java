@@ -3,6 +3,7 @@ package phantom.books.finalProject.admin.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 import phantom.books.finalProject.member.dto.Member;
@@ -17,10 +18,10 @@ public interface AdminMapper {
 	int countDelFl();
 	
 	// 메인페이지 페이지네이션
-	int countMemberList(String sort);
+	int countMemberList(@Param("term") String term, @Param("sort") String sort);
 
 	// 회원리스트
-	List<Member> memberList(String sort, RowBounds bounds);
+	List<Member> memberList(@Param("term") String term, @Param("sort") String sort, RowBounds bounds);
 
 	// 회원 삭제
 	int deleteMember(int memberNo);

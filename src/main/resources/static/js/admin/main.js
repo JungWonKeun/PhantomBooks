@@ -1,8 +1,8 @@
 const list = document.querySelector("#list");
 
 
-const listUp = (cp, sort) => {
-  fetch("/admin/memberList?cp="+cp + "&sort="+sort)
+const listUp = (cp, sort, term) => {
+  fetch("/admin/memberList?cp="+cp + "&sort="+sort + "&term=" +term)
   .then(response => {
     if(response.ok) return response.json();
     throw new Error("조회 실패");
@@ -29,7 +29,11 @@ const listUp = (cp, sort) => {
     div2.innerHTML = "기간 중 가입 회원 수 : " + countMemberList + "명";
     
     const div3 = document.createElement("div");
-    div3.innerHTML = "기간 중 탈퇴 회원수 : " + countDelFl + "명";
+    
+    if(countDelFl > 0 ){
+      div3.innerHTML = "기간 중 탈퇴 회원수 : " + countDelFl + "명";
+    } else(div3.innerHTML = "탈퇴 신청 회원이 없습니다.")
+    
 
     sales.appendChild(div1);
     sales.appendChild(div2);
@@ -40,13 +44,18 @@ const listUp = (cp, sort) => {
       // 감싸는 tr태그 생성
       const tr = document.createElement("tr"); 
 
+      if(memberList == null){
+        th1.rowSpan = 5;
+        th1.innerText = "검색 결과가 없습니다."
+        tr.append(th1);
+      }else{
+
       const th1 = document.createElement("th");
       th1.append(member.memberNo);
 
       const td2 = document.createElement("td");
       td2.append(member.name);
 
-      // 수정해야되요~~~!!!!
       const td3 = document.createElement("td");
       td3.append(member.signupDate);
 
@@ -86,7 +95,7 @@ const listUp = (cp, sort) => {
       })
      
       tr.append(th1, td2, td3, td4, th5);
-
+    }
       list.append(tr);
     })
       // 페이지네이션 출력
@@ -126,10 +135,32 @@ const listUp = (cp, sort) => {
 /**
  * 정렬 기준 변경 이벤트
  */
+
+/* 기간 정렬 기준*/
+const termSelect = document.querySelector('#termSelect');
+
+termSelect.hidden = false;
+
+termSelect.addEventListener('change', () => {
+  listUp(1, termSelect.value);
+});
+
 const sortSelect = document.querySelector('#sortSelect');
+const listName = document.querySelector("#listName");
 
 sortSelect.addEventListener('change', () => {
   listUp(1, sortSelect.value);
+  if(sortSelect.value == 'signUp'){
+    listName.innerHTML = "가입 회원현황";
+    termSelect.hidden = false;
+  }else if(sortSelect.value == 'delete'){
+    listName.innerHTML = "탈퇴 회원";
+    termSelect.hidden = true;
+  }else{
+    listName.innerHTML = "로그인 6개월 이상";
+    termSelect.hidden = true;
+  }
+
 });
 
 /**
@@ -150,5 +181,5 @@ const paginationAddEvent = () => {
 }
 
 document.addEventListener("DOMContentLoaded",()=>{
-  listUp(1, sortSelect.value);
+  listUp(1, sortSelect.value, termSelect.value);
 })
