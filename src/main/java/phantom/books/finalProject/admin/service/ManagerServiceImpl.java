@@ -40,4 +40,10 @@ public class ManagerServiceImpl implements ManagerService {
 		
 		return map;
 	}
+	
+	// 등록 여부 수정
+	@Override
+	public int insert(int bookNo) {
+		return mapper.insert(bookNo);
+	}
 }

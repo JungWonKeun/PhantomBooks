@@ -4,6 +4,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,6 +29,13 @@ public class ManagerController {
 			@RequestParam(value = "text", required = false) String text) {
 		
 		return managerService.manager(cp, sort, text);
+	}
+	
+	@PutMapping("insert")
+	@ResponseBody
+	public int insert(
+			@RequestBody int bookNo) {
+		return managerService.insert(bookNo);
 	}
 	
 }

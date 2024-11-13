@@ -27,7 +27,7 @@ public class Book {
 	    private int bookPageCount;      // 페이지 수
 	    private char bookYn;            // 책 여부
 	    private String bookDate;        // 출간일
-	    private String insertDate;
+	    private String insertDate;      // 등록일자
 
 	    /* 책 관리 테이블 정보*/
 	    private int bookCount;          // 책 개수

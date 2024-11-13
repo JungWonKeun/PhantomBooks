@@ -44,7 +44,7 @@ const listUp = (cp, sort, term) => {
       // 감싸는 tr태그 생성
       const tr = document.createElement("tr"); 
 
-      if(memberList == null){
+      if(memberList.length == 0){
         th1.rowSpan = 5;
         th1.innerText = "검색 결과가 없습니다."
         tr.append(th1);
