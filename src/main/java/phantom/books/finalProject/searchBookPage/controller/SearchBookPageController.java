@@ -1,7 +1,5 @@
 package phantom.books.finalProject.searchBookPage.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -9,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.RequiredArgsConstructor;
 import phantom.books.finalProject.searchBookPage.dto.Book;
@@ -21,24 +20,19 @@ public class SearchBookPageController {
 
 	private final SearchBookPageService service;
 	
-	// 모든 책 페이지 조회
-	@GetMapping("/allBook")
-	public String allBook(Model model) {
-	    // 모든 책 조회 서비스 호출
-	    List<Book> allBook = service.allBook();
-	    model.addAttribute("allBook", allBook);  // 조회된 책 목록을 모델에 추가
-	    return "searchBookPage/allBook";  // HTML 페이지로 이동
-	}
-	
-//	검색후 페이지
-	@GetMapping("searchBook")
-	public String searchBook() {
-		
-		
-		return "searchBookPage/searchBook";
-	}
-	
-	
+	@GetMapping("/searchBooks")
+    public String searchBooks(@RequestParam(value = "query", required = false) String query, Model model) {
+        List<Book> books;
+        if (query == null || query.trim().isEmpty()) {
+            // 검색어가 없으면 전체 책 조회
+            books = service.allBook();
+        } else {
+            // 검색어가 있으면 해당 제목의 책 조회
+            books = service.searchBooksByTitle(query);
+        }
+        model.addAttribute("allBook", books);
+        return "searchBookPage/allBook"; // 결과를 보여줄 Thymeleaf 템플릿
+    }
 // 상세조회
 	@GetMapping("/bookDetail/{bookNo}")
 	public String bookDetail(Model model, @PathVariable("bookNo") int bookNo) {
