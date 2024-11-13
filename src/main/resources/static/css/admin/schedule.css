@@ -8,18 +8,17 @@ body{
 }
 
 .content{
-  width: 1500px;
+  width: 1800px;
   height: 800px;
-  margin-left: 300px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 
 }
-.title{
-  width: 1500px;
-  height: 100px;
+.sideBar{
+  height: auto;
+  width: 300px;
+  margin-right: 80px;
 }
-
 
 .calendar{
   display: flex;
@@ -28,6 +27,7 @@ body{
   align-items: flex-start;
   width: 1500px;
   height: 700px;
+  margin-left: 80px;
 }
 
 .calendar-box{

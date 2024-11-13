@@ -17,4 +17,7 @@ public interface ManagerMapper {
 	// 관리자 재고 관리 페이지 리스트 
 	List<Book> bookList(@Param("sort") String sort, @Param("text") String text, RowBounds bounds);
 
+	// 등록 여부 수정 
+	int insert(int bookNo);
+
 }
