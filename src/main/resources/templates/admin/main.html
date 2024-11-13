@@ -5,134 +5,136 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>관리자 메인페이지</title>
 
+  <script src="https://kit.fontawesome.com/5eb8a8a2db.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="/css/admin/main.css">
 </head>
 <body>
-  <h1>우측에 이름, 직급(담당업무)/비밀번호/이메일 변경 페이지로 이동</h1>
-  
-  <section class="content-box">
-    <div class="sideBar">
-      <h3>
-        <a href="/admin">회원 관리</a>
-      </h3>
-      <h3>
-        <a href="/admin/sales">매출 관리</a>
-      </h3>
-      <h3>
-        <a href="/admin/manager">재고 관리</a>
-      </h3>
-      <h3>
-        <a href="/admin/schedule">일정 관리</a>
-      </h3>
-      <h3>
-        <a href="/admin/request">발주 요청</a>
-      </h3>
-      <h3>
-        <a href="/admin/newBook">새 책 등록</a>
-      </h3>
-      <h3>
-        <a href="/admin/query">문의 관리</a>
-      </h3>
-      <h3>
-        <a href="/admin/review">리뷰 관리</a>
-      </h3>
-      <h3>
-        <a href="#">추가 해야되면 복사</a>
-      </h3>
-    </div>
-  
-    <div class="content">
-      <h1>
-        <!-- 글자 크기 수정 필요 -->
-        <div class="sort-dropdown">
-          <select id="sortSelect">
-              <option value="signUp" name="가입 회원현황">가입 회원현황</option>
+  <header>
+    <h1>우측에 이름, 직급(담당업무)/비밀번호/이메일 변경 페이지로 이동</h1>
+  </header>
+  <main>
+    <section class="content-box">
+      <div class="sideBar">
+        <h3 class="menu">
+          <i class="fa-solid fa-users"></i>&nbsp;&nbsp;사용자 관련 관리
+          <ul class="submenu">
+            <li><a href="/admin">&nbsp;&nbsp;&nbsp;-&nbsp;회원 관리</a></li>
+            <li><a href="/admin/query">&nbsp;&nbsp;&nbsp;-&nbsp;문의 관리</a></li>
+            <li><a href="/admin/review">&nbsp;&nbsp;&nbsp;-&nbsp;리뷰 관리</a></li>
+          </ul>
+        </h3>
+      
+        <h3 class="menu">
+          <i class="fa-solid fa-arrow-trend-up"></i>&nbsp;&nbsp;매출 및 일정 관리
+          <ul class="submenu">
+            <li><a href="/admin/sales">&nbsp;&nbsp;&nbsp;-&nbsp;매출 관리</a></li>
+            <li><a href="/admin/schedule">&nbsp;&nbsp;&nbsp;-&nbsp;일정 관리</a></li>
+          </ul>
+        </h3>
+        
+        <h3 class="menu">
+          <i class="fa-solid fa-warehouse"></i>&nbsp;&nbsp;도서 관리
+          <ul class="submenu">
+            <li><a href="/admin/newBook">&nbsp;&nbsp;&nbsp;-&nbsp;새 책 등록</a></li>
+            <li><a href="/admin/manager">&nbsp;&nbsp;&nbsp;-&nbsp;재고 관리</a></li>
+            <li><a href="/admin/request">&nbsp;&nbsp;&nbsp;-&nbsp;발주 요청</a></li>
+          </ul>
+        </h3>
+      </div>
+    
+      <div class="content">
+        <h1>
+          <div class="sort-dropdown">
+            <select id="sortSelect" class="dropbtn">
+              <option value="signUp" selected>가입 회원현황</option>
               <option value="delete">탈퇴 회원</option>
               <option value="unlogin">로그인 6개월 이상</option>
+            </select>
+          </div>
+        </h1>
+
+        <div class="sort-dropdown">
+          <select id="termSelect" >
+              <option value="weeks">1주일</option>
+              <option value="month">1개월</option>
+              <option value="6month">6개월</option>
           </select>
         </div>
-      </h1>
-      <div class="sort-dropdown">
-        <select id="termSelect" >
-            <option value="weeks">1주일</option>
-            <option value="month">1개월</option>
-            <option value="6month">6개월</option>
-        </select>
-      </div>
-    
-      <div class="graph-box">
-    
-        <div class="sales"> 
-          <div>총 회원 수 : 00명</div>
-          <div>기간 중 가입 회원 수 : 00명</div>
-          <div>기간 중 탈퇴 회원수 : 00명</div>
-        </div>
-    
-        <div class="content-box">
-          <div class="graph">
-            <div class="graph-title">
-              <span>회원가입 현황</span>
-              <span>클릭 된 버튼 / 기간</span>
-            </div>
-            <div class="graph-section">
-              <a href="#">그래프 그릴거예여</a>
-            </div>
+      
+        <div class="graph-box">
+      
+          <div class="sales"> 
+            <div>총 회원 수 : 00명</div>
+            <div>기간 중 가입 회원 수 : 00명</div>
+            <div>기간 중 탈퇴 회원수 : 00명</div>
           </div>
-    
-          <div class="memberList">
-            <div id="listName">
-              가입 회원현황
+      
+          <div class="content-box2">
+            <div class="graph">
+              <div class="graph-title">
+                <span>회원가입 현황</span>
+                <span>클릭 된 버튼 / 기간</span>
+              </div>
+              <div class="graph-section">
+                <a href="#">그래프 그릴거예여</a>
+              </div>
             </div>
-
-            <table class="member-table">
-              <thead>
-                <tr>
-                  <th>회원번호</th>
-                  <th>회원 아이디</th>
-                  <th>가입일</th>
-                  <th>최근 로그인</th>
-                  <th>탈퇴 처리</th>
-                </tr>
-              </thead>
-
-              <tbody id="list">
-                <tr>
-                  <th>2️⃣</th>
-                  <td>책이름</td>
-                  <td>매출량</td>
-                  <td>상승 / 하강 화살표</td>
-                </tr>
-                <tr>
-                  <th>3️⃣</th>
-                  <td>책이름</td>
-                  <td>매출량</td>
-                  <td>상승 / 하강 화살표</td>
-                </tr>
-                <tr>
-                  <th>4️⃣</th>
-                  <td>책이름</td>
-                  <td>매출량</td>
-                  <td>상승 / 하강 화살표</td>
-                </tr>
-                <tr>
-                  <th>5️⃣</th>
-                  <td>책이름</td>
-                  <td>매출량</td>
-                  <td>상승 / 하강 화살표</td>
-                </tr>
-              </tbody>
-            </table>
-            <div class="pagination-area" >
-              <ul class="pagination">
-              
+      
+            <div class="memberList">
+              <div id="listName">
+                가입 회원현황
+              </div>
+  
+              <table class="member-table">
+                <thead>
+                  <tr>
+                    <th>회원번호</th>
+                    <th>회원 아이디</th>
+                    <th>가입일</th>
+                    <th>최근 로그인</th>
+                    <th>탈퇴 처리</th>
+                  </tr>
+                </thead>
+  
+                <tbody id="list">
+                  <tr>
+                    <th>2️⃣</th>
+                    <td>책이름</td>
+                    <td>매출량</td>
+                    <td>상승 / 하강 화살표</td>
+                  </tr>
+                  <tr>
+                    <th>3️⃣</th>
+                    <td>책이름</td>
+                    <td>매출량</td>
+                    <td>상승 / 하강 화살표</td>
+                  </tr>
+                  <tr>
+                    <th>4️⃣</th>
+                    <td>책이름</td>
+                    <td>매출량</td>
+                    <td>상승 / 하강 화살표</td>
+                  </tr>
+                  <tr>
+                    <th>5️⃣</th>
+                    <td>책이름</td>
+                    <td>매출량</td>
+                    <td>상승 / 하강 화살표</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="pagination-area" >
+                <ul class="pagination">
                 
-              </ul>
+                  
+                </ul>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
   <script src="/js/admin/main.js"></script>
 </body>
