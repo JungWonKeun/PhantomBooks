@@ -36,7 +36,8 @@
         BOOK_YN AS bookYn
     FROM
         BOOK
-   
+    WHERE
+        LOWER(BOOK_TITLE) LIKE '%' || LOWER(#{title}) || '%'
 </select>
 
 
