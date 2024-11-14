@@ -6,6 +6,7 @@
   <title>결제 완료 페이지</title>
   <link rel="stylesheet" href="/css/order/order.css">
 
+  
 </head>
 <body>
   <section class="addressSection">
@@ -19,23 +20,21 @@
   <div class="orderMainContainer">
     <section class="orderlistSection">
       <div>
-        <h4>주문 상품 목록 <button>취소 신청</button></h4> 
-        <h3>총 N 개</h3>
-        
-        <hr>
-         <div class="basicAddress">
-            <div>
-              <h3>배송 정보</h3>
-              <h4>받는 사람 / 전화번호 <button>배송정보 변경</button></h4>
-              <h4>주소 ~~~</h4>
-
-
-            </div>
-         </div>
+        <h4>주문 상품 목록</h4>
+        <div>
+          <ul>
+            <li>주문 번호: <span th:text="${order.orderId}"></span></li>
+            <li>주문 날짜: <span th:text="${order.orderDate}"></span></li>
+            <li>총 결제 금액: <span th:text="${order.totalPrice} + '원'"></span></li>
+            <li>배송 주소: <span th:text="${order.deliveryAddress}"></span></li>
+            <li>수령인: <span th:text="${order.receiver}"></span></li>
+          </ul>
+        </div>
       </div>
     </section>
   
     
   </div>
+  <script src="/static/js/order/afterOrder"></script>
 </body>
 </html>
