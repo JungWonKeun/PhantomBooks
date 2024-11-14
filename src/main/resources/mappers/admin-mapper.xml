@@ -89,11 +89,20 @@
 	ORDER BY SIGNUP_DATE DESC, MEMBER_NO DESC
 </select>
 
-<delete id="deleteMember">
-	DELETE 
-	FROM "MEMBER"
-	WHERE MEMBER_NO = #{memberNo}
-</delete>
+	<delete id="deleteMember">
+		DELETE 
+		FROM "MEMBER"
+		WHERE MEMBER_NO = #{memberNo}
+	</delete>
+
+
+	<!-- 6개월 이상 로그인 안 한 회원 조회 -->
+	<select id="countInactiveMember" resultType="_int">
+	    SELECT
+	        COUNT(*)
+	    FROM "MEMBER"
+	    WHERE MONTHS_BETWEEN(CURRENT_DATE, LOGIN_DATE) >= 6
+	</select>
 
 
 </mapper>

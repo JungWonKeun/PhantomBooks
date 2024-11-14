@@ -24,6 +24,13 @@ const listUp = (cp, sort, term) => {
     const countMember = map.countMember;
     const countDelFl = map.countDelFl;
     const countMemberList = map.countMemberList;
+    const countInactiveMembers = map.countInactiveMembers || 0;  // 6개월 이상 로그인 안한 회원이 없을때 0 반환하는 구문
+
+
+    // console.log("로그인 6개월 이상 회원 수:", countInactiveMembers);
+
+    // 현재 이용중인 회원 수
+    const currentMembers = countMember - countDelFl;
 
     list.innerHTML = '';
     
@@ -46,46 +53,50 @@ const listUp = (cp, sort, term) => {
     div1.appendChild(spanCount);
 
     sales.appendChild(div1);
-    
-    // "기간 중 가입 회원 수" 스타일 적용
+
+    // "현재 이용 중인 회원 수" 스타일 적용
     const div2 = document.createElement("div");
 
-    const spanJoinTitle = document.createElement("span");
-    spanJoinTitle.classList.add("sales-title");
-    spanJoinTitle.innerText = "기간 중 가입 회원 수";
+    const spanCurrentTitle = document.createElement("span");
+    spanCurrentTitle.classList.add("sales-title");
+    spanCurrentTitle.innerText = "현재 이용 중인 회원 수";
 
-    const spanJoinCount = document.createElement("span");
-    spanJoinCount.classList.add("sales-count");
-    spanJoinCount.innerText = countMemberList + "명";
+    const spanCurrentCount = document.createElement("span");
+    spanCurrentCount.classList.add("sales-count");
+    spanCurrentCount.innerText = currentMembers + "명";
 
-    div2.appendChild(spanJoinTitle);
+    div2.appendChild(spanCurrentTitle);
     div2.appendChild(document.createElement("br"));
-    div2.appendChild(spanJoinCount);
+    div2.appendChild(spanCurrentCount);
 
     sales.appendChild(div2);
+    
+   // "선택된 기준에 따른 회원 수" 스타일 적용
+   const div3 = document.createElement("div");
 
-    // "기간 중 탈퇴 회원 수" 스타일 적용
-    const div3 = document.createElement("div");
+   const spanSortTitle = document.createElement("span");
+   spanSortTitle.classList.add("sales-title");
 
-    const spanLeaveTitle = document.createElement("span");
-    spanLeaveTitle.classList.add("sales-title");
+   const spanSortCount = document.createElement("span");
+   spanSortCount.classList.add("sales-count");
 
-    if (countDelFl > 0) {
-      spanLeaveTitle.innerText = "기간 중 탈퇴 회원 수";
+   // sortSelect 값에 따라 다른 데이터 표시
+   if (sort === "signUp") {
+     spanSortTitle.innerText = "기간 중 가입 회원 수";
+     spanSortCount.innerText = countMemberList + "명";
+   } else if (sort === "delete") {
+     spanSortTitle.innerText = "기간 중 탈퇴 회원 수";
+     spanSortCount.innerText = countDelFl + "명";
+   } else if (sort === "unlogin") {
+     spanSortTitle.innerText = "로그인 6개월 이상 회원 수";
+     spanSortCount.innerText = countInactiveMembers + "명";
+   }
 
-      const spanLeaveCount = document.createElement("span");
-      spanLeaveCount.classList.add("sales-count");
-      spanLeaveCount.innerText = countDelFl + "명";
+   div3.appendChild(spanSortTitle);
+   div3.appendChild(document.createElement("br"));
+   div3.appendChild(spanSortCount);
 
-      div3.appendChild(spanLeaveTitle);
-      div3.appendChild(document.createElement("br"));
-      div3.appendChild(spanLeaveCount);
-    } else {
-      spanLeaveTitle.innerText = "탈퇴 신청 회원이 없습니다.";
-      div3.appendChild(spanLeaveTitle);
-    }
-
-    sales.appendChild(div3);
+   sales.appendChild(div3);
 
     memberList.forEach(member => {
 
@@ -93,13 +104,13 @@ const listUp = (cp, sort, term) => {
       const tr = document.createElement("tr"); 
 
       if(memberList.length == 0){
-        th1.rowSpan = 5;
-        th1.innerText = "검색 결과가 없습니다."
-        tr.append(th1);
+        td.colSpan = 5;
+        td.innerText = "검색 결과가 없습니다."
+        tr.appendChild(td);
       }else{
 
-      const th1 = document.createElement("th");
-      th1.append(member.memberNo);
+      const td1 = document.createElement("td");
+      td1.append(member.memberNo);
 
       const td2 = document.createElement("td");
       td2.append(member.memberId);
@@ -110,11 +121,11 @@ const listUp = (cp, sort, term) => {
       const td4 = document.createElement("td");
       td4.append(member.loginDate);
 
-      const th5 = document.createElement("th");
+      const td5 = document.createElement("td");
       const deleteBtn = document.createElement("button");
       deleteBtn.innerText = "ID삭제 처리";
 
-      th5.append(deleteBtn);
+      td5.append(deleteBtn);
 
       deleteBtn.addEventListener("click", () => {
 
@@ -142,7 +153,7 @@ const listUp = (cp, sort, term) => {
         }
       })
      
-      tr.append(th1, td2, td3, td4, th5);
+      tr.append(td1, td2, td3, td4, td5);
     }
       list.append(tr);
     })
@@ -194,6 +205,19 @@ const sixMonth = document.querySelector(".sixMonth");
 const dateSelect = document.querySelector(".dateSelect");
 const date = document.querySelector(".date");
 
+// 버튼 클릭 시 색 변경
+const buttons = document.querySelectorAll(".btn-container > button");
+buttons.forEach(button => {
+  button.addEventListener("click", () => {
+    buttons.forEach(btn => btn.classList.remove("active"));
+
+    button.classList.add("active");
+
+    if (!button.classList.contains("dateSelect")) {
+      date.classList.add("hidden");
+    }
+  });
+});
 
 week.addEventListener("click", () => {
   term = "weeks";
@@ -228,24 +252,39 @@ const sortSelect = document.querySelector('#sortSelect');
 const listName = document.querySelector("#listName");
 
 sortSelect.addEventListener('change', () => {
-  listUp(1, sortSelect.value);
+  const selectedSort = sortSelect.value;
 
-  if(sortSelect.value == 'signUp'){
+  term = '';
+
+  buttons.forEach(button => button.classList.remove('active')); 
+  date.value = '';
+  date.classList.add('hidden');
+
+
+  if (selectedSort === 'signUp') {
     listName.innerHTML = "가입 회원현황";
     termSelect.classList.remove('hidden');
-    date.classList.add('hidden');
-
-  }else if(sortSelect.value == 'delete'){
+  } else if (selectedSort === 'delete') {
     listName.innerHTML = "탈퇴 회원";
     termSelect.classList.add('hidden');
-    date.classList.add('hidden');
-
-  }else{
+  } else if (selectedSort === 'unlogin') {
     listName.innerHTML = "로그인 6개월 이상";
     termSelect.classList.add('hidden');
-    date.classList.add('hidden');
   }
-  
+
+  listUp(1, selectedSort, term)
+    .then(() => {
+      const salesTitle = document.querySelector('.sales-title');
+      const salesCount = document.querySelector('.sales-count');
+
+      if (selectedSort === 'signUp') {
+        salesTitle.innerText = "기간 중 가입 회원 수";
+      } else if (selectedSort === 'delete') {
+        salesTitle.innerText = "기간 중 탈퇴 회원 수";
+      } else if (selectedSort === 'unlogin') {
+        salesTitle.innerText = "로그인 6개월 이상 회원 수";
+      }
+    });
 });
 
 /**

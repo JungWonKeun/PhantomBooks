@@ -16,4 +16,6 @@ public interface AdminService {
 	 */
 	int deleteMember(int memberNo);
 
+	int countInactiveMember();
+
 }
