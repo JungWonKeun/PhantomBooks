@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="phantom.books.finalProject.order.mapper.OrderMapper">
+
+	<!-- 주문 ID로 주문 정보 조회 -->
+    <select id="findOrderByOrderId" parameterType="string" resultType="OrderDto">
+        SELECT 
+            o.order_no AS orderNo,
+            o.member_no AS memberNo,
+            o.auth_no AS authNo,
+            o.order_date AS orderDate,
+            o.order_count AS orderCount,
+            b.book_no AS bookNo,
+            b.book_count AS bookCount,
+            o.order_price AS orderPrice,
+            o.discount_price AS discountPrice,
+            o.refund_yn AS refundYn
+        FROM orders o
+        LEFT JOIN order_books b ON o.order_no = b.order_no
+        WHERE o.order_no = #{orderId}
+    </select>
 </mapper>
