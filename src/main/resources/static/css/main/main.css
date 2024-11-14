@@ -24,6 +24,13 @@ main {
   padding: 20px;
 }
 
+.main-content {
+  min-height: calc(100vh - 377px); /* 푸터 높이 277px + 헤더 높이 100px */
+  box-sizing: border-box;
+  flex: 1;
+}
+
+
 h2 {
   font-weight: bold !important;
 }

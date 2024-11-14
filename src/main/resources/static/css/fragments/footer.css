@@ -1,80 +1,62 @@
-html, body {
-  height: 100%;
-  margin: 0;
+/* 전체 페이지를 감싸는 컨테이너 */
+.container {
+  display: flex; /* Flexbox를 사용하여 자식 요소들을 세로 방향으로 정렬 */
+  flex-direction: column; /* 세로 방향으로 배치 */
+  min-height: 100vh; /* 전체 화면 높이 */
 }
 
+/* 주요 콘텐츠가 flex-grow로 남은 공간을 채우도록 */
 .main-content {
-  min-height: calc(100vh - 100px - 200px); /* 전체 뷰포트 높이에서 헤더와 푸터의 높이를 뺀 값 */
-  box-sizing: border-box;
+  flex: 1; /* 주 콘텐츠가 남은 공간을 차지하여 푸터가 하단에 고정되도록 함 */
+  padding: 20px; /* 내부 여백 */
+  box-sizing: border-box; /* padding을 포함한 전체 너비 계산 */
 }
 
+/* 푸터 */
 .footer {
-  background-color: #bfbfbf;
-  padding: 20px;
-  color: #333;
-  position: relative;
-  width: 100%; /* 푸터를 화면 전체에 꽉 차게 */
-  box-sizing: border-box; /* 패딩을 포함한 너비 계산 */
-  z-index: 2500;
-  margin: 0; /* 여백 제거하여 화면 아래 부분을 꽉 채우도록 설정 */
+  display:flex;
+  flex-direction: column;
+  background-color: #bfbfbf; /* 푸터 배경색 */
+  color: #333; /* 푸터 글자색 */
+  width: 100%; /* 화면 전체 너비를 차지하도록 설정 */
+  padding: 20px; /* 내부 여백 */
+  box-sizing: border-box; /* padding을 포함한 전체 너비 계산 */
+  height: 277px; /* 푸터 높이 */
+  z-index: 2500; /* 다른 요소 위에 나타나도록 설정 */
 }
 
-
+/* 푸터 콘텐츠 */
 .footer-content {
-  display: flex;
-  align-items: flex-start;
-  width: 100%; /* 푸터 콘텐츠를 전체 화면 너비로 */
-  justify-content: flex-start; /* 고객센터 섹션과 링크 섹션 간격 넓히기 */
-  flex-wrap: wrap;
-  gap: 80px; /* 고객 센터와 푸터 링크 섹션 간의 간격을 넓힘 */
-  box-sizing: border-box; /* 패딩을 포함한 너비 계산 */
+  display: flex; /* Flexbox를 사용하여 자식 요소들을 가로 방향으로 정렬 */
+  justify-content: space-around; /* 각 자식 요소 간 간격을 균등하게 분배 */
+  align-items: flex-start; /* 자식 요소들을 상단에 맞춰 정렬 */
+  gap: 80px; /* 자식 요소 간 간격 */
 }
 
-/* 고객 센터와 회사 정보 스타일 (화면 왼쪽에 고정) */
+/* 고객 센터와 회사 정보 스타일 */
 .customer-center {
-  max-width: 300px;
-  text-align: left;
-  font-size: 13px;
+  max-width: 300px; /* 고객 센터 영역 최대 너비 */
+  font-size: 13px; /* 글자 크기 */
 }
 
-.footer-info {
-  margin-top: 10px;
-  font-size: 13px;
+/* 푸터 링크 섹션 */
+.footer-links-section {
+  display: flex; /* Flexbox를 사용하여 자식 요소들을 세로 방향으로 정렬 */
+  flex-direction: column; /* 세로 방향으로 배치 */
 }
 
-/* 푸터 링크 섹션 스타일 */
 .footer-links {
-  display: flex;
-  flex-wrap: wrap;
-  text-align: left;
-  gap: 120px; /* 섹션 간의 간격을 넓힘 */
-  justify-content: center; /* 왼쪽에 맞춰 배치하되 전체적으로 우측으로 이동 */
-  flex-grow: 1; /* 나머지 공간을 채우도록 설정 */
-  margin-left: 120px; /* 고객 센터와의 간격을 주기 위해 좌측 여백 추가 */
+  display: flex; /* Flexbox를 사용하여 자식 요소들을 가로 방향으로 정렬 */
+  flex-wrap: wrap; /* 화면 크기에 따라 줄바꿈 가능 */
+  gap: 50px; /* 자식 요소 간 간격 */
+  justify-content: space-between; /* 각 요소 간격을 균등하게 */
+  margin-left: 120px; /* 왼쪽 여백 추가 */
 }
 
-.footer-links h4 {
-  font-weight: bold;
-  font-size: 15px; /* 제목의 폰트 크기 약간 증가 */
-  margin-bottom: 10px; /* 제목 아래 간격 감소 */
-}
-
-.footer-links ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.footer-links ul li {
-  margin-bottom: 6px;
-  font-size: 13px;
-}
-
-/* 맨 위로 이동 버튼 스타일 */
+/* 맨 위로 이동 버튼 */
 .scroll-to-top {
-  position: fixed;
-  right: 20px; /* 오른쪽 끝에 배치 */
-  bottom: 20px;
-  z-index: 1000;
+  position: fixed; /* 화면에 고정하여 스크롤 시에도 위치 고정 */
+  right: 20px; /* 화면 오른쪽 끝에서 20px 떨어진 위치 */
+  bottom: 20px; /* 화면 하단에서 20px 떨어진 위치 */
+  z-index: 1000; /* 다른 요소 위에 나타나도록 설정 */
 }
-
