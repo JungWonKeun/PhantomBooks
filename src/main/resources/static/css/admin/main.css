@@ -143,10 +143,45 @@
   display: block;
 }
 
+.title{
+  display: flex;
+  flex-direction: row;
+}
+
+.btn-container{
+  width: 900px;
+  height: 50px;
+  margin-left: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+}
+
+.btn-container > button{
+  width: 100px;
+  height: 40px;
+  border-radius: 5px;
+  font-weight: 150px;
+  font-size: larger;
+  margin-right: 10px;
+}
+.btn-container > input{
+  width: 150px;
+  height: 40px;
+  border-radius: 5px;
+  font-weight: 150px;
+  font-size: larger;
+}
+
 .sort-dropdown {
   position: relative;
   display: inline-block;
   margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
 #sortSelect {

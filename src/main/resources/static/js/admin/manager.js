@@ -130,49 +130,13 @@ sortSelect.addEventListener('change', () => {
 
       listUp(1, sortSelect.value, text);
 
-      fetch(url)
-      .then(response => {
-        if(response.ok) return response.json();
-        throw new Error("검색 실패");
-      })
-      .then(list => {
-        console.log(list);
-    
-        resultArea.innerHTML = ""; // 이전 검색 결과 비우기
-    
-        if (list.length == 0) {
-          const li = document.createElement("li");
-          li.classList.add("result-row");
-          li.innerText = "일치하는 출판사가 없습니다";
-          resultArea.append(li);
-          return;
-        }
-    
-        for (let company of list) {
-          // li요소 생성(한 행을 감싸는 요소)
-          const li = document.createElement("li");
-          li.classList.add("result-row");
-    
-          let companyName = company.companyName;
-    
-          const span = document.createElement("span");
-          span.innerHTML = `${companyName}`.replace(text, `<mark>${text}</mark>`);
-    
-          // 요소 조립(화면에 추가)
-          li.append(span);
-          resultArea.append(li);
-    
-          // 클릭 시 채팅방 입장 함수 호출
-          li.addEventListener("click", listUp(1, sortSelect.value, text));
-        }
-      })
-      .catch(err => console.error(err));
+     
+      
+  
     })
   }
 
-});
-
-
+})
 /**
  * 출판사 검색 시 자동완성 추천
  */

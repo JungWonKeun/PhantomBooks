@@ -185,7 +185,7 @@ const listUp = (cp, sort, term) => {
  */
 
 /* 기간 정렬 기준*/
-const termSelect = document.querySelector('#termSelect');
+const termSelect = document.querySelector('#btn-container');
 
 termSelect.hidden = false;
 
