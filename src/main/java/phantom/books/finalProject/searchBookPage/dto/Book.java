@@ -41,7 +41,8 @@ public class Book {
 	    private int categoryNo;					// 카테고리 번호
 	    private String categoryName;			// 카테고리 이름
 	    
-	    
+	    /*장바구니에 집어 넣을 회원 번호*/
+	    private int memberNo;
 	    
 
 	
