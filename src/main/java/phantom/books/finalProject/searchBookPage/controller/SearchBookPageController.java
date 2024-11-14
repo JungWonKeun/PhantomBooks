@@ -31,7 +31,7 @@ public class SearchBookPageController {
             books = service.searchBooksByTitle(query);
         }
         model.addAttribute("allBook", books);
-        return "searchBookPage/allBook"; // 결과를 보여줄 Thymeleaf 템플릿
+        return "searchBookPage/searchBook"; // 결과를 보여줄 Thymeleaf 템플릿
     }
 // 상세조회
 	@GetMapping("/bookDetail/{bookNo}")
