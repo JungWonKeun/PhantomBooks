@@ -30,21 +30,61 @@ const listUp = (cp, sort, term) => {
     const sales = document.querySelector(".sales");
     sales.innerHTML = '';
 
+    // "총 회원 수" 스타일 적용
     const div1 = document.createElement("div");
-    div1.innerHTML = "총 회원 수 : " + countMember + "명";
-    
-    const div2 = document.createElement("div");
-    div2.innerHTML = "기간 중 가입 회원 수 : " + countMemberList + "명";
-    
-    const div3 = document.createElement("div");
-    
-    if(countDelFl > 0 ){
-      div3.innerHTML = "기간 중 탈퇴 회원수 : " + countDelFl + "명";
-    } else(div3.innerHTML = "탈퇴 신청 회원이 없습니다.")
-    
+
+    const spanTitle = document.createElement("span");
+    spanTitle.classList.add("sales-title");
+    spanTitle.innerText = " 총 회원 수";
+
+    const spanCount = document.createElement("span");
+    spanCount.classList.add("sales-count");
+    spanCount.innerText = countMember + "명";
+
+    div1.appendChild(spanTitle);
+    div1.appendChild(document.createElement("br")); 
+    div1.appendChild(spanCount);
 
     sales.appendChild(div1);
+    
+    // "기간 중 가입 회원 수" 스타일 적용
+    const div2 = document.createElement("div");
+
+    const spanJoinTitle = document.createElement("span");
+    spanJoinTitle.classList.add("sales-title");
+    spanJoinTitle.innerText = "기간 중 가입 회원 수";
+
+    const spanJoinCount = document.createElement("span");
+    spanJoinCount.classList.add("sales-count");
+    spanJoinCount.innerText = countMemberList + "명";
+
+    div2.appendChild(spanJoinTitle);
+    div2.appendChild(document.createElement("br"));
+    div2.appendChild(spanJoinCount);
+
     sales.appendChild(div2);
+
+    // "기간 중 탈퇴 회원 수" 스타일 적용
+    const div3 = document.createElement("div");
+
+    const spanLeaveTitle = document.createElement("span");
+    spanLeaveTitle.classList.add("sales-title");
+
+    if (countDelFl > 0) {
+      spanLeaveTitle.innerText = "기간 중 탈퇴 회원 수";
+
+      const spanLeaveCount = document.createElement("span");
+      spanLeaveCount.classList.add("sales-count");
+      spanLeaveCount.innerText = countDelFl + "명";
+
+      div3.appendChild(spanLeaveTitle);
+      div3.appendChild(document.createElement("br"));
+      div3.appendChild(spanLeaveCount);
+    } else {
+      spanLeaveTitle.innerText = "탈퇴 신청 회원이 없습니다.";
+      div3.appendChild(spanLeaveTitle);
+    }
+
     sales.appendChild(div3);
 
     memberList.forEach(member => {
