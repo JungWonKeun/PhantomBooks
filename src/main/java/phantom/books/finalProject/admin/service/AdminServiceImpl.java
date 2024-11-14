@@ -30,6 +30,10 @@ public class AdminServiceImpl implements AdminService{
 		
 		// sort 조건 만족하는 회원 수 조회
 		int countMemberList = mapper.countMemberList(term, sort);
+		
+		// 6개월 이상 로그인 안 한 회원 수 조회
+		int countInactiveMember = mapper.countInactiveMember();
+		
 		Pagination pagination = new Pagination(cp, countMemberList, 10, 5);
 		
 		int limit = pagination.getLimit();
@@ -43,8 +47,11 @@ public class AdminServiceImpl implements AdminService{
 		map.put("countMember", countMember);
 		map.put("countDelFl", countDelFl);
 		map.put("countMemberList", countMemberList);
+		
     map.put("memberList", memberList);
     map.put("pagination", pagination);
+    
+    map.put("countInactiveMembers", countInactiveMember);
 		
 		return map;
 	}
@@ -54,5 +61,11 @@ public class AdminServiceImpl implements AdminService{
 	public int deleteMember(int memberNo) {
 		return mapper.deleteMember(memberNo);
 	}
+	
+	// 6개월 이상 로그인 안 한 회원 수 조회
+	@Override
+    public int countInactiveMember() {
+        return mapper.countInactiveMember();
+    }
 	
 }

@@ -26,7 +26,8 @@ public interface AdminMapper {
 	// 회원 삭제
 	int deleteMember(int memberNo);
 
-
+	// 6개월 이상 로그인 안 한 회원 수 조회
+    int countInactiveMember();
 
 	
 	
