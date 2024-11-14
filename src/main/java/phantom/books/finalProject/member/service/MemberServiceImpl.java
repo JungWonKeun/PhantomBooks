@@ -54,5 +54,11 @@ public class MemberServiceImpl implements MemberService {
     log.debug("로그인 성공 - 로그인한 회원: " + loginMember);
     return loginMember;
 	}
+	
+	
+	@Override
+	public int idCheck(String memberId) {
+		return mapper.idCheck(memberId);
+	}
 
 }

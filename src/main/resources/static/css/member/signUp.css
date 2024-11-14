@@ -14,3 +14,7 @@
 .form-control {
   padding-right: 60px; /* 여유 있는 오른쪽 패딩 추가 */
 }
+
+div label {
+  margin-left: 3px; /* input 깨짐 방지 */
+}

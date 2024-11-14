@@ -18,4 +18,13 @@ public interface MemberMapper {
 	 * @return
 	 */
 	int updateLoginDate(int memberNo);
+
+	
+	/** memberId 중복검사
+	 * @param memberId
+	 * @return
+	 */
+	int idCheck(String memberId);
+	
+	
 }

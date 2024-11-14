@@ -4,7 +4,7 @@ document.querySelector("#modalLogin form").addEventListener("submit", function (
   const memberId = document.querySelector("input[name='memberId']").value;
   const memberPw = document.querySelector("input[name='memberPw']").value;
 
-  fetch("member/login", {
+  fetch("/member/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
