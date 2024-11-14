@@ -34,7 +34,12 @@
     	WHERE MEMBER_NO = #{memberNo}
 	</update>
 	
-	
+	<select id="idCheck" resultType="_int">
+		SELECT 	COUNT(*)
+		FROM 	"MEMBER"
+		WHERE 	MEMBER_ID = #{memberId}
+		And 	MEMBER_DEL_FL = 'N'
+	</select>
 
 
 </mapper>

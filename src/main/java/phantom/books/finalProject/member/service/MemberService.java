@@ -11,6 +11,14 @@ public interface MemberService {
 	 */
 	Member login(String memberId, String memberPw);
 
+	
+	
+	/** 아이디 중복검사
+	 * @param memberId
+	 * @return 
+	 */
+	int idCheck(String memberId);
+
 
 
 

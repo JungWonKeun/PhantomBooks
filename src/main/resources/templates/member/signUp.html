@@ -26,7 +26,7 @@
         <span id="idHelpAlphaNumeric" class="form-text">영어와 숫자만 사용</span>
       </div>
       <div class="col-auto">
-        <button type="button" class="btn btn-primary">ID 중복검사</button>
+        <button type="button" class="btn btn-primary" onclick="checkId(); onIdCheckSuccess();">ID 중복검사</button>
       </div>
     </div>
 
@@ -42,7 +42,7 @@
       </div>
       <div class="col-auto">
         <span id="passwordHelpLength" class="form-text">8~12자 사이로</span> <br>
-        <span id="passwordHelpChars" class="form-text">문자, 특수문자, 숫자를 모두 사용</span> 
+        <span id="passwordHelpChars" class="form-text">문자, 특수문자, 숫자를 모두 사용</span>
       </div>
     </div>
 
@@ -56,24 +56,38 @@
         <div class="invalid-feedback">이름을 입력해주세요.</div>
       </div>
       <div class="form-floating col-6 position-relative">
-        <input type="text" class="form-control" id="floatingBirth" placeholder="YYYY/MM/DD">
+        <input type="text" class="form-control" id="floatingBirth" placeholder="YYYY/MM/DD" required>
         <label for="floatingBirth">생일 (YYYYMMDD)</label>
         <button type="button" class="btn-close clear-btn" onclick="clearInput('floatingBirth')" aria-label="Clear"
           tabindex="-1"></button>
+        <div class="invalid-feedback">공란 or 숫자 8자를 입력해주세요.</div>
       </div>
     </div>
 
-    <!-- 전화번호 입력, 인증 버튼 -->
+    <!-- 전화번호 입력, 인증 문자 발송 버튼 -->
     <div class="form-floating row g-3 mb-2 mt-2 position-relative">
       <div class="form-floating col-6 position-relative">
         <input type="tel" class="form-control" id="floatingPhone" placeholder="전화번호 입력" required>
         <label for="floatingPhone">전화번호 (-없이 숫자만 작성해주세요)</label>
         <button type="button" class="btn-close clear-btn" onclick="clearInput('floatingPhone')" aria-label="Clear"
           tabindex="-1"></button>
-        <div class="invalid-feedback">전화번호를 입력해주세요. 개발자 도구에 window.setPhoneVerified(true) 입력 시 인증 완료</div>
+        <div class="invalid-feedback">전화번호를 입력해주세요.</div>
       </div>
       <div class="col-auto">
-        <button type="button" class="btn btn-primary">전화번호 인증</button>
+        <button type="button" class="btn btn-primary" onclick="requestVerificationCode(); onPhoneVerificationSuccess();">전화번호 인증</button>
+      </div>
+    </div>
+
+    <!-- 인증번호 입력, 인증 버튼 -->
+    <div class="form-floating row g-3 mb-2 mt-2 position-relative" id="verificationSection" style="display: none;">
+      <div class="form-floating col-6 position-relative">
+        <input type="text" class="form-control" id="floatingPhoneCheck" placeholder="인증번호 입력" required>
+        <label for="floatingPhoneCheck">인증번호 확인</label>
+        <button type="button" class="btn-close clear-btn" onclick="clearInput('floatingPhoneCheck')" aria-label="Clear"
+          tabindex="-1"></button>
+      </div>
+      <div class="col-auto">
+        <button type="button" class="btn btn-primary" onclick="verifyCode()">인증번호 인증</button>
       </div>
     </div>
 
@@ -81,7 +95,7 @@
     <div class="form-floating row g-3 mb-2 mt-2 position-relative">
       <div class="form-floating col-8 position-relative">
         <input type="text" class="form-control" id="floatingAddress" placeholder="주소 입력">
-        <label for="floatingAddress">주소(기본 배송지)</label>
+        <label for="floatingAddress">검색할 주소 (기본 배송지)</label>
         <button type="button" class="btn-close clear-btn" onclick="clearInput('floatingAddress')" aria-label="Clear"
           tabindex="-1"></button>
       </div>
@@ -100,7 +114,7 @@
       <label for="floatingMainAddress">주소</label>
     </div>
     <div class="form-floating mb-2 mt-2 position-relative">
-      <input type="text" class="form-control" id="floatingDetailAddress" placeholder="상세 주소">
+      <input type="text" class="form-control" id="floatingDetailAddress" placeholder="상세 주소" readonly>
       <label for="floatingDetailAddress">상세 주소</label>
       <button type="button" class="btn-close clear-btn" onclick="clearInput('floatingDetailAddress')"
         aria-label="Clear"></button>
