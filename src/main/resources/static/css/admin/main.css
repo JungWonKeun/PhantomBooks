@@ -28,7 +28,9 @@ html, body {
   align-items: stretch;
   gap: 20px;
   width: 100%; 
+  min-height: 100vh;
   height: 100%;
+  overflow-x: hidden;
 }
 
 
@@ -98,6 +100,8 @@ html, body {
   background-color: #efefef;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  min-width: 0; 
+  max-width: 100%;
 }
 
 .dropdown {
@@ -287,8 +291,7 @@ html, body {
   font-size: 25px;
   font-weight: bold;
   display: flex;
-  gap: 250px;
-  
+  gap: 155px;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
@@ -350,6 +353,11 @@ html, body {
 
 
 /* 테이블 스타일 */
+.memberList{
+  margin-right: 100px;
+}
+
+
 .member-table {
   width: 700px;
   table-layout: fixed;
