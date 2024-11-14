@@ -99,22 +99,6 @@
 			INSERT_DATE = CURRENT_DATE
 		WHERE BOOK_NO = #{bookNo}
 	</update>
-	
-	
-	<select id="inputText" resultType="Book">
-		SELECT 
-			COMPANY_NAME,
-			BOOK_TITLE
-		FROM "BOOK"
-		<choose>
-			<when test="sort == 'company">
-			WHERE COMPANY_NAME LIKE '%'||#{text}||'%'
-			</when>
-			<when test="sort=='title'">
-			WHERE BOOK_TITLE LIKE '%'||#{text}||'%'
-			</when>
-		</choose>
-		
-	</select>
 
+	
 </mapper>
