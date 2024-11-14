@@ -62,7 +62,7 @@ public class AdminController {
 	public Map<String, Object> memberList(
       @RequestParam("cp") int cp, 
       @RequestParam("sort") String sort,
-      @RequestParam(value = "term", required = false, defaultValue = "weeks") String term 
+      @RequestParam(value = "term", required = false, defaultValue = "year") String term 
 		){
 		
 			return service.memberList(cp, term, sort);

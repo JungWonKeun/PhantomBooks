@@ -102,7 +102,7 @@ const listUp = (cp, sort, term) => {
       th1.append(member.memberNo);
 
       const td2 = document.createElement("td");
-      td2.append(member.name);
+      td2.append(member.memberId);
 
       const td3 = document.createElement("td");
       td3.append(member.signupDate);
@@ -185,30 +185,67 @@ const listUp = (cp, sort, term) => {
  */
 
 /* 기간 정렬 기준*/
-const termSelect = document.querySelector('#btn-container');
+const termSelect = document.querySelector('.btn-container');
+let term = '';
 
-termSelect.hidden = false;
+const week = document.querySelector(".weeks");
+const month = document.querySelector(".month");
+const sixMonth = document.querySelector(".sixMonth");
+const dateSelect = document.querySelector(".dateSelect");
+const date = document.querySelector(".date");
 
-termSelect.addEventListener('change', () => {
-  listUp(1, termSelect.value);
+
+week.addEventListener("click", () => {
+  term = "weeks";
+  listUp(1, sortSelect.value, term);
 });
+month.addEventListener("click", () => {
+  term = "month";
+  listUp(1, sortSelect.value, term);
+});
+sixMonth.addEventListener("click", () => {
+  term = "6month";
+  listUp(1, sortSelect.value, term);
+});
+
+dateSelect.addEventListener("click", () => {
+  
+  date.classList.remove('hidden');
+
+  date.addEventListener("input", ()=>{
+
+    const text = date.value.trim();
+    
+    term = text;
+  
+    listUp(1, sortSelect.value, term);
+  })
+});
+
+
 
 const sortSelect = document.querySelector('#sortSelect');
 const listName = document.querySelector("#listName");
 
 sortSelect.addEventListener('change', () => {
   listUp(1, sortSelect.value);
+
   if(sortSelect.value == 'signUp'){
     listName.innerHTML = "가입 회원현황";
     termSelect.classList.remove('hidden');
+    date.classList.add('hidden');
+
   }else if(sortSelect.value == 'delete'){
     listName.innerHTML = "탈퇴 회원";
     termSelect.classList.add('hidden');
+    date.classList.add('hidden');
+
   }else{
     listName.innerHTML = "로그인 6개월 이상";
-    termSelect.hidden.classList.add('hidden');
+    termSelect.classList.add('hidden');
+    date.classList.add('hidden');
   }
-
+  
 });
 
 /**
@@ -229,5 +266,5 @@ const paginationAddEvent = () => {
 }
 
 document.addEventListener("DOMContentLoaded",()=>{
-  listUp(1, sortSelect.value, termSelect.value);
+  listUp(1, sortSelect.value, term);
 })
