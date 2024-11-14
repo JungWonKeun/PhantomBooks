@@ -15,9 +15,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto findOrderByOrderId(String orderId) {
         OrderDto order = mapper.findOrderByOrderId(orderId); 
-        if (order == null) {
-            log.warn("주문 정보가 없습니다 : {}", orderId);
-        }
         return order;
     }
 }

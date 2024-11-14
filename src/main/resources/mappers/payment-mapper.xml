@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mubatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="phantom.books.finalProject.payment.mapper.PaymentMapper">
+
+    <!-- 결제 정보 저장 -->
+    <insert id="insertPayment">
+        INSERT INTO ORDER_LIST (
+        ORDER_NO,
+        MEMBER_NO,
+        BOOK_NO,
+        BOOK_COUNT,
+        ORDER_PRICE,
+        DISCOUNT_PRICE,
+        REFUND_YN
+    ) VALUES (
+        #{orderNo},
+        #{memberNo},
+        #{bookNo},
+        #{bookCount},
+        #{orderPrice},
+        #{discountPrice},
+        'N'
+    )
+    </insert>
+</mapper>
