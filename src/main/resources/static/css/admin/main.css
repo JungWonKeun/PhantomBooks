@@ -149,7 +149,7 @@
 }
 
 .btn-container{
-  width: 900px;
+  width: 1200px;
   height: 50px;
   margin-left: 40px;
   display: flex;
@@ -166,13 +166,16 @@
   font-size: larger;
   margin-right: 10px;
 }
+
 .btn-container > input{
-  width: 150px;
+  width: 170px;
   height: 40px;
   border-radius: 5px;
   font-weight: 150px;
   font-size: larger;
+  padding: 5px;
 }
+
 
 .sort-dropdown {
   position: relative;
@@ -236,7 +239,7 @@
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-#termSelect.hidden {
+.btn-container.hidden, .date.hidden {
   visibility: hidden; 
   pointer-events: none;
 }

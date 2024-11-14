@@ -20,6 +20,9 @@
 		 COUNT(*)
 		FROM "MEMBER"
 		<choose>
+			<when test="sort == 'signUp' and term == 'year'">
+				WHERE SIGNUP_DATE >= CURRENT_DATE - INTERVAL '1' YEAR
+			</when>
 			<when test="term == 'weeks' and sort == 'signUp'">
 				WHERE SIGNUP_DATE >= CURRENT_DATE - INTERVAL '7' DAY
 			</when>
@@ -28,6 +31,9 @@
 			</when>
 			<when test="term == '6month' and sort == 'signUp'">
 				WHERE SIGNUP_DATE >= CURRENT_DATE - INTERVAL '6' MONTH
+			</when>
+			<when test= "sort == 'signUp' and term != null and term != ''">
+				WHERE SIGNUP_DATE > #{term}
 			</when>
 			<when test="sort == 'delete'">
 				WHERE MEMBER_DEL_FL = 'Y'
@@ -58,6 +64,9 @@
 		AUTHORITY
 	FROM "MEMBER"
 	<choose>
+			<when test="sort == 'signUp' and term == 'year'">
+				WHERE SIGNUP_DATE >= CURRENT_DATE - INTERVAL '1' YEAR
+			</when>
 			<when test="term == 'weeks' and sort == 'signUp'">
 				WHERE SIGNUP_DATE >= CURRENT_DATE - INTERVAL '7' DAY
 			</when>
@@ -66,6 +75,9 @@
 			</when>
 			<when test="term == '6month' and sort == 'signUp'">
 				WHERE SIGNUP_DATE >= CURRENT_DATE - INTERVAL '6' MONTH
+			</when>
+			<when test= "sort == 'signUp' and term != null and term != ''">
+				WHERE SIGNUP_DATE > #{term}
 			</when>
 		<when test="sort == 'delete'">
 			WHERE MEMBER_DEL_FL = 'Y'
