@@ -152,3 +152,79 @@ a {
   margin-left: auto;
 }
 
+/* 카테고리,프리퍼런스 관련 css */
+/* 모달 창 스타일 */
+/* 모달 창 스타일 */
+.checkbox-category {
+  display: none;
+  position: absolute;
+  width: 300px;
+  padding: 10px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+/* 체크박스 그리드 스타일 */
+/* 모달 창 스타일 */
+.checkbox-category {
+  display: none;
+  position: absolute;
+  width: 300px;
+  padding: 10px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+/* 체크박스 그리드 스타일 */
+/* 모달 창 스타일 */
+.checkbox-category {
+  display: none; /* 기본적으로 숨김 */
+  position: absolute;
+  width: 300px;
+  padding: 10px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+/* 모달 창을 표시할 때 사용되는 클래스 */
+.checkbox-category.visible {
+  display: block;
+}
+
+/* 체크박스 그리드 스타일 */
+.checkbox-categoryList {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
+}
+
+/* 선택된 항목 스타일 */
+.selected-value-item {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 5px;
+  padding: 3px 5px;
+  background-color: #f0f0f0;
+  border-radius: 3px;
+  font-size: 14px;
+}
+
+.selected-value-item .remove-btn {
+  margin-left: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #888;
+}
+
+
+
+/* 여기 까지  */
