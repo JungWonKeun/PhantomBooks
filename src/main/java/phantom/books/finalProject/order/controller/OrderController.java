@@ -27,18 +27,16 @@ public class OrderController {
 	}
 	 
 	@GetMapping("/afterOrder")
-	public String afterOrder(
-			@RequestParam("orderId") String orderId, 
-			Model model) {
+	public String afterOrder(@RequestParam("orderId") String orderId, Model model) {
 	    OrderDto order = service.findOrderByOrderId(orderId);
 
 	    if (order == null) {
 	        model.addAttribute("errorMessage", "주문 정보를 찾을 수 없습니다.");
-	        return "error/error"; // 에러 페이지로 이동
+	        return "error/error";
 	    }
 
 	    model.addAttribute("order", order);
-	    return "order/afterOrder"; 
+	    return "order/afterOrder";
 	}
 }
 

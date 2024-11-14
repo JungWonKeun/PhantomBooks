@@ -18,18 +18,38 @@
 
   <h4>주문 날짜       주문 번호</h4>
   <div class="orderMainContainer">
-    <section class="orderlistSection">
+    <section>
       <div>
-        <h4>주문 상품 목록</h4>
-        <div>
-          <ul>
-            <li>주문 번호: <span th:text="${order.orderId}"></span></li>
-            <li>주문 날짜: <span th:text="${order.orderDate}"></span></li>
-            <li>총 결제 금액: <span th:text="${order.totalPrice} + '원'"></span></li>
-            <li>배송 주소: <span th:text="${order.deliveryAddress}"></span></li>
-            <li>수령인: <span th:text="${order.receiver}"></span></li>
-          </ul>
-        </div>
+        <h2>주문 정보</h2>
+        <ul>
+          <li>주문 번호: <span th:text="${order.orderNo}"></span></li>
+          <li>주문 날짜: <span th:text="${order.orderDate}"></span></li>
+          <li>총 결제 금액: <span th:text="${order.totalPrice} + '원'"></span></li>
+          <li>배송 주소: <span th:text="${order.deliveryAddress}"></span></li>
+          <li>수령인: <span th:text="${order.receiver}"></span></li>
+        </ul>
+      </div>
+    
+      <div>
+        <h2>주문 상품 목록</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>책 번호</th>
+              <th>책 제목</th>
+              <th>가격</th>
+              <th>수량</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="book : ${order.books}">
+              <td th:text="${book.bookNo}"></td>
+              <td th:text="${book.bookTitle}"></td>
+              <td th:text="${book.bookPrice} + '원'"></td>
+              <td th:text="${book.bookCount}"></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </section>
   

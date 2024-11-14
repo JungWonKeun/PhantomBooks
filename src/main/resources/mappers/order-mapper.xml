@@ -3,20 +3,43 @@
 <mapper namespace="phantom.books.finalProject.order.mapper.OrderMapper">
 
 	<!-- 주문 ID로 주문 정보 조회 -->
-    <select id="findOrderByOrderId" parameterType="string" resultType="OrderDto">
-        SELECT 
-            o.order_no AS orderNo,
-            o.member_no AS memberNo,
-            o.auth_no AS authNo,
-            o.order_date AS orderDate,
-            o.order_count AS orderCount,
-            b.book_no AS bookNo,
-            b.book_count AS bookCount,
-            o.order_price AS orderPrice,
-            o.discount_price AS discountPrice,
-            o.refund_yn AS refundYn
-        FROM orders o
-        LEFT JOIN order_books b ON o.order_no = b.order_no
-        WHERE o.order_no = #{orderId}
-    </select>
+    <select id="findOrderByOrderId" parameterType="string" resultMap="OrderResultMap">
+	    SELECT 
+	        o.order_no AS orderNo,
+	        o.member_no AS memberNo,
+	        o.auth_no AS authNo,
+	        o.order_date AS orderDate,
+	        o.order_count AS orderCount,
+	        o.order_price AS totalPrice,
+	        d.user_address AS deliveryAddress,
+	        d.user_name AS receiver,
+	        b.book_no AS bookNo,
+	        b.book_title AS bookTitle,
+	        b.book_price AS bookPrice,
+	        ol.book_count AS bookCount
+	    FROM orders o
+	    LEFT JOIN delivery d ON o.order_no = d.order_no
+	    LEFT JOIN order_list ol ON o.order_no = ol.order_no
+	    LEFT JOIN book b ON ol.book_no = b.book_no
+	    WHERE o.order_no = #{orderId}
+	</select>
+	
+	<resultMap id="OrderResultMap" type="OrderDto">
+	    <id property="orderNo" column="orderNo" />
+	    <result property="memberNo" column="memberNo" />
+	    <result property="authNo" column="authNo" />
+	    <result property="orderDate" column="orderDate" />
+	    <result property="orderCount" column="orderCount" />
+	    <result property="totalPrice" column="totalPrice" />
+	    <result property="deliveryAddress" column="deliveryAddress" />
+	    <result property="receiver" column="receiver" />
+	    
+	    <collection property="books" ofType="Book">
+	        <id property="bookNo" column="bookNo" />
+	        <result property="bookTitle" column="bookTitle" />
+	        <result property="bookPrice" column="bookPrice" />
+	        <result property="bookCount" column="bookCount" />
+	    </collection>
+	</resultMap>
+
 </mapper>
