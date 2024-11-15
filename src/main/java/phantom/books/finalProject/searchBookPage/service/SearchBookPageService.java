@@ -23,8 +23,13 @@ public interface SearchBookPageService {
 	// 선택한 책 장바구니 담기
 	int putCart(Map<String, Object> map);
 
+
 	// 검색 페이지에서 선택한 책 장바구니 담기
 	int putSingleCart(int memberNo, int bookNo);
+
+	// 책 상세조회 장바구니
+	int detailCart(int memberNo, int bookNo);
+
 
 
 	

@@ -27,8 +27,8 @@ public interface SearchBookPageMapper {
 	// 검색창에서 1개  장바구니로 보내기
 	int putSingleCart(@Param("memberNo") int memberNo,@Param("bookNo") int bookNo);
 
-
-	
+	// 상세조회 페이지에서 1개 장바구니로 보내기
+	int detailCart(@Param("memberNo") int memberNo,@Param("bookNo") int bookNo);	
 
 	
 
