@@ -29,18 +29,53 @@ public class SearchBookPageController {
 	private final SearchBookPageService service;
 
 	@GetMapping("/searchBooks")
-	public String searchBooks(@RequestParam(value = "query", required = false) String query, Model model) {
-		List<Book> books;
-		if (query == null || query.trim().isEmpty()) {
-			// 검색어가 없으면 전체 책 조회
-			books = service.allBook();
-		} else {
-			// 검색어가 있으면 해당 제목의 책 조회
-			books = service.searchBooksByTitle(query);
-		}
-		model.addAttribute("allBook", books);
-		return "searchBookPage/searchBook"; // 결과를 보여줄 Thymeleaf 템플릿
+	public String searchBooks(
+	        @RequestParam(value = "query", required = false) String query,
+	        @RequestParam(value = "category", required = false) List<String> categories,
+	        @RequestParam(value = "preference", required = false) List<String> preferences,
+	        @RequestParam("cp") int cp,
+	        Model model) {
+
+	    // 입력값이 비어있으면 null로 처리해 서비스로 전달
+	    String finalQuery = query.trim().isEmpty() ? null : query.trim();
+	    List<String> finalCategories = (categories == null || categories.isEmpty()) ? null : categories;
+	    List<String> finalPreferences = (preferences == null || preferences.isEmpty()) ? null : preferences;
+
+	    // 검색 서비스 호출
+	    List<Book> books = service.searchBooks(finalQuery, finalCategories, finalPreferences, cp);
+
+	    model.addAttribute("allBook", books);
+	    return "searchBookPage/searchBook"; // 결과를 보여줄 Thymeleaf 템플릿
 	}
+
+	
+	/*
+	 * @GetMapping("/searchBooks") public String searchBooks(
+	 * 
+	 * @RequestParam(value = "query", required = false) String query,
+	 * 
+	 * @RequestParam(value = "sortOption", required = false) List<preference>
+	 * sortOption,
+	 * 
+	 * @RequestParam("cp") int cp, Model model) {
+	 * 
+	 * return "searchBookPage/searchBook"; // 결과를 보여줄 Thymeleaf 템플릿 }
+	 */
+	
+	/*
+	 * @GetMapping("/searchBooks") public String searchBooks(
+	 * 
+	 * @RequestParam(value = "query", required = false) String query,
+	 * 
+	 * @equestParam(value = "sortOption", required = false) String sortOption,
+	 * 
+	 * @RequestParam("cp") int cp, Model model) { List<Book> books; if ((query ==
+	 * null || query.trim().isEmpty()) && (sortOption == null ||
+	 * sortOption.isEmpty())) { // 검색어와 정렬 옵션이 모두 없으면 전체 책 조회 books =
+	 * service.allBook(cp); } else { // 검색어 또는 정렬 옵션이 있는 경우 검색 수행 books =
+	 * service.searchBooks(query, sortOption, cp); } model.addAttribute("allBook",
+	 * books); return "searchBookPage/searchBook"; // 결과를 보여줄 Thymeleaf 템플릿 }
+	 */
 
 // 상세조회
 	@GetMapping("/bookDetail/{bookNo}")

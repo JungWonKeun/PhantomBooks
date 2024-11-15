@@ -24,6 +24,7 @@
 		BOOK
 	</select>
 
+
 	<select id="searchBooksByTitle" resultType="Book">
 		SELECT
 		BOOK_NO AS
@@ -100,17 +101,54 @@
 	<update id="putSingleCart">
 		MERGE INTO CART c
 		USING (
-		SELECT #{memberNo, jdbcType=INTEGER} AS memberNo, #{bookNo,
+		SELECT #{memberNo,
+		jdbcType=INTEGER} AS memberNo, #{bookNo,
 		jdbcType=INTEGER} AS bookNo
 		FROM dual
 		) src
-		ON (c.MEMBER_NO = src.memberNo AND c.BOOK_NO = src.bookNo)
+		ON (c.MEMBER_NO = src.memberNo AND c.BOOK_NO =
+		src.bookNo)
 		WHEN MATCHED THEN
 		UPDATE SET c.CART_COUNT = c.CART_COUNT + 1
 		WHEN NOT MATCHED THEN
 		INSERT (MEMBER_NO, BOOK_NO, CART_COUNT)
-		VALUES (src.memberNo, src.bookNo, 1)
+		VALUES
+		(src.memberNo, src.bookNo, 1)
 	</update>
+	
+<!-- 카테고리/옵션/쿼리 검색 -->
+	<select id="searchBooks" resultType="map">
+		SELECT *
+		FROM books
+		WHERE 1=1
+
+		<!-- 검색어 조건 -->
+		<if test="query != null">
+			AND title LIKE CONCAT('%', #{query}, '%')
+		</if>
+
+		<!-- 카테고리 조건 -->
+		<if test="categories != null and categories.size() > 0">
+			AND category IN
+			<foreach item="category" collection="categories" open="("
+				separator="," close=")">
+				#{category}
+			</foreach>
+		</if>
+
+		<!-- 프리퍼런스 조건 -->
+		<if test="preferences != null and preferences.size() > 0">
+			AND preference IN
+			<foreach item="preference" collection="preferences" open="("
+				separator="," close=")">
+				#{preference}
+			</foreach>
+		</if>
+
+		<!-- 페이징 처리 -->
+		LIMIT #{cp}, 10
+	</select>
+
 
 
 

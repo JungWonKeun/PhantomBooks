@@ -3,19 +3,19 @@ package phantom.books.finalProject.searchBookPage.service;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.ui.Model;
 
-import phantom.books.finalProject.member.dto.Member;
 import phantom.books.finalProject.searchBookPage.dto.Book;
 
 public interface SearchBookPageService {
 
 	
-	// 모든 책 조회 인터페이스
-	List<Book> allBook();
+	/*
+	 * // 모든 책 조회 인터페이스 List<Book> allBook(int cp);
+	 */
 
 	// 검색한 책 조회
-	List<Book> searchBooksByTitle(String query);
+	/* List<Book> searchBooks(String query, String sortOption, int cp); */
+
 	
 	// 책 상세 조회
 	Book bookDetail(int bookNo);
@@ -29,6 +29,17 @@ public interface SearchBookPageService {
 
 	// 책 상세조회 장바구니
 	int detailCart(int memberNo, int bookNo);
+
+	// 옵션이랑 쿼리 데이터를 이용한 검색
+	 List<Book> searchBooks(String query, List<String> categories, List<String> preferences, int cp);
+
+	
+
+	
+	
+
+	
+	
 
 
 

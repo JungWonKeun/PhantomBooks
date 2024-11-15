@@ -182,7 +182,6 @@ function detailCart(button) {
 
 
 /* 옵션 박스  */
-/* 카테고리 박스  */
 document.addEventListener("DOMContentLoaded", function () {
     const categoryButton = document.getElementById("categoryButton");
     const checkboxCategory = document.getElementById("checkboxCategory");
@@ -196,12 +195,14 @@ document.addEventListener("DOMContentLoaded", function () {
     categoryButton.onclick = function (event) {
         event.stopPropagation();
         toggleModal(checkboxCategory, categoryButton);
+        checkboxPreference.classList.remove("visible");
     };
   
     // Preference 버튼 클릭 시 모달 창 표시/숨기기 및 위치 설정
     preferenceButton.onclick = function (event) {
         event.stopPropagation();
         toggleModal(checkboxPreference, preferenceButton);
+        checkboxCategory.classList.remove("visible");
     };
   
     // 체크박스 클릭 시 선택된 값 업데이트
@@ -261,5 +262,56 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
   
+  
 
 /* 옵션 박스 끝 */
+
+
+/**
+ * 옵션/쿼리/cp 용JS
+ */
+
+
+const searchBookPage = (cp, query, categories, preferences) => {
+
+  fetch("/searchBookPage/searchBooks?cp=" + cp + "&query=" + query + "&categories=" + categories + "&preferences=" + preferences)
+  .then(response => {
+    if(response.ok) return response.json();
+    throw new Error("조회 실패");
+  })
+  .then( map => {
+
+    const pagination = map.pagination;
+
+    list.innerHTML = '';
+
+    const pg = document.querySelector('.pagination');
+    pg.innerHTML = '';
+
+    const {startPage, endPage, currentPage, prevPage, nextPage, maxPage} = pagination;
+
+    
+      // 버튼 생성 + 화면 추가 함수
+      const createPageBtn = (page, text) => {
+        const a = document.createElement('a');
+        a.textContent = text;
+        a.dataset.page = page;
+
+        if(!isNaN(Number(text)) &&  page == currentPage) a.classList.add('current');
+        pg.append(a);
+      }
+
+      createPageBtn(1, '처음');
+      createPageBtn(prevPage, '이전');
+
+      for(let i = startPage; i <= endPage; i++) {
+        createPageBtn(i, i);
+      }
+
+      createPageBtn(nextPage, '다음');
+      createPageBtn(maxPage, '마지막');
+
+      // 페이지네이션 클릭 이벤트 추가
+      paginationAddEvent();
+})
+}
