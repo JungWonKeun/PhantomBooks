@@ -47,9 +47,4 @@ public class ManagerServiceImpl implements ManagerService {
 		return mapper.insert(bookNo);
 	}
 	
-	// 출판사 검색
-	@Override
-	public List<Book> inputText(String sort, String text) {
-		return mapper.inputText(sort, text);
-	}
 }

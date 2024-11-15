@@ -41,12 +41,5 @@ public class ManagerController {
 	}
 	
 	
-	@GetMapping("inputText")
-	@ResponseBody
-	public List<Book> inputText(
-			@RequestParam("sort") String sort,
-			@RequestParam("text") String text) {
-		return managerService.inputText(sort, text);
-	}
 	
 }

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>관리자 문의 관리 페이지</title>
+
+  <link rel="stylesheet" href="/css/admin/query.css">
+</head>
+<body>
+  <h1>좌측 로고 이미지 , 우측에 이름, 직급(담당업무)/비밀번호/이메일 변경 페이지로 이동</h1>
+
+  <section class="content-box">
+    <div class="sideBar">
+      <h3>
+        <a href="/admin">회원 관리</a>
+      </h3>
+      <h3>
+        <a href="/admin/sales">매출 관리</a>
+      </h3>
+      <h3>
+        <a href="/admin/manager">재고 관리</a>
+      </h3>
+      <h3>
+        <a href="/admin/schedule">일정 관리</a>
+      </h3>
+      <h3>
+        <a href="/admin/request">발주 요청</a>
+      </h3>
+      <h3>
+        <a href="/admin/newBook">새 책 등록</a>
+      </h3>
+      <h3>
+        <a href="/admin/query">문의 관리</a>
+      </h3>
+      <h3>
+        <a href="/admin/review">리뷰 관리</a>
+      </h3>
+      <h3>
+        <a href="#">추가 해야되면 복사</a>
+      </h3>
+    </div>
+  
+    <div class="content">
+      <h2>문의관리</h2>
+      <select class="sortSelect">
+        <option value="all">답변 상태</option>
+        <option value="no">미답변</option>
+        <option value="ok">답변 완료</option>
+      </select>
+    
+      <div class="query-box">
+        <div class="query">
+          <div class="status">답변 상태</div>
+          <div class="title">제목</div>
+          <div class="writer">작성자</div>
+          <div class="writeDate">작성일</div>
+        </div>
+
+        <div class="queryContent"> 
+          <div class="status">답변완료</div> <!-- div1 -->
+          <div>
+            <div class="title faq-toggle">
+              <span class="arrow-icon"></span>배송이 언제되는건가요?
+            </div>
+            <div class="supporting-text" style="display: none;">
+              <p> 
+                20241105에 주문을 했는데 <br>
+                아직도 배송이 안오네요 <br>
+                <br>
+                언제 배송이 도착할까요?
+              </p>
+              <hr>
+              <p>
+                저도 잘몰라요
+              </p>
+            </div>
+          </div>
+          <div class="writer">정원근</div>
+          <div class="writeDate">2024.11.15</div>
+        </div>
+        <div class="pagination-area" >
+          <ul class="pagination">
+          
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="/js/admin/query.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const toggles = document.querySelectorAll(".faq-toggle");
+        toggles.forEach(toggle => {
+            toggle.addEventListener("click", function () {
+                const answer = document.querySelector(".supporting-text");
+                const icon = this.querySelector(".arrow-icon");
+                if (answer.style.display === "block") {
+                    answer.style.display = "none";
+                } else {
+                    answer.style.display = "block";
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>

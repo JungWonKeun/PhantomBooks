@@ -53,6 +53,14 @@ public class AdminController {
 	public String manager() {
 		return "admin/manager";
 	}
+	
+	/** 관리자 리뷰 관리 페이지 forward
+	 * @return
+	 */
+	@GetMapping("query")
+	public String query() {
+		return "admin/query";
+	}
 
 	
 //----------------------------------------------------------------------------------------------------------------------------
