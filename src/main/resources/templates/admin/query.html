@@ -89,24 +89,23 @@
     </div>
   </section>
 
-  <script src="/js/admin/query.js"></script>
-
+  
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const toggles = document.querySelectorAll(".faq-toggle");
-        toggles.forEach(toggle => {
-            toggle.addEventListener("click", function () {
+      const toggles = document.querySelectorAll(".faq-toggle");
+      toggles.forEach(toggle => {
+        toggle.addEventListener("click", function () {
                 const answer = document.querySelector(".supporting-text");
                 const icon = this.querySelector(".arrow-icon");
                 if (answer.style.display === "block") {
-                    answer.style.display = "none";
+                  answer.style.display = "none";
                 } else {
-                    answer.style.display = "block";
+                  answer.style.display = "block";
                 }
-            });
+              });
         });
     });
-</script>
-
+  </script>
+<script src="/js/customer/query.js"></script>
 </body>
 </html>

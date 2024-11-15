@@ -1,4 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mubatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="phantom.books.finalProject.customer.mapper.CustomerMapper">
+<mapper
+	namespace="phantom.books.finalProject.customer.mapper.CustomerMapper">
+
+	<!-- customer-mapper.xml -->
+	<insert id="submitQuery" parameterType="Query"
+		useGeneratedKeys="true">
+
+		<selectKey order="BEFORE" resultType="_int"
+			keyProperty="queryNo">
+			SELECT SEQ_QUERY_NO.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO QUERY
+		VALUES (
+			#{queryNo},
+			#{memberNo}, 
+			#{queryTitle}, 
+			#{queryContent},
+			SYSDATE,
+			SYSDATE,
+			#{queryImgNo},
+			NULL,
+			DEFAULT
+		)
+	</insert>
+
 </mapper>

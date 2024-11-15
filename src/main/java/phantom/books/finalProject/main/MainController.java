@@ -13,8 +13,4 @@ public class MainController {
 		return "main/main";
 	}
 	
-//	@GetMapping("support")
-//	public String query() {
-//		return "customer/support";
-//	}
 }
