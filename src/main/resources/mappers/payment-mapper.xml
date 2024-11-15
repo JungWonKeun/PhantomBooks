@@ -3,23 +3,17 @@
 <mapper namespace="phantom.books.finalProject.payment.mapper.PaymentMapper">
 
     <!-- 결제 정보 저장 -->
-    <insert id="insertPayment">
-        INSERT INTO ORDER_LIST (
-        ORDER_NO,
-        MEMBER_NO,
-        BOOK_NO,
-        BOOK_COUNT,
-        ORDER_PRICE,
-        DISCOUNT_PRICE,
-        REFUND_YN
+    <insert id="insertPayment" parameterType="PaymentDto">
+    INSERT INTO payment (
+        order_no,
+        member_no,
+        total_price,
+        status
     ) VALUES (
         #{orderNo},
         #{memberNo},
-        #{bookNo},
-        #{bookCount},
-        #{orderPrice},
-        #{discountPrice},
-        'N'
-    )
-    </insert>
+        #{totalPrice},
+        #{status}
+    );
+</insert>
 </mapper>

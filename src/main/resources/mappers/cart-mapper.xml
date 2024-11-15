@@ -7,7 +7,7 @@
             c.CART_COUNT AS cartCount,
             b.BOOK_NO AS bookNo,
             b.BOOK_TITLE AS bookTitle,
-            b.BOOK_COVER AS bookCover,
+            COALESCE(b.BOOK_COVER, '/images/bookCover/default.jpg') AS bookCover,
             b.BOOK_PRICE AS bookPrice
         FROM 
             cart c

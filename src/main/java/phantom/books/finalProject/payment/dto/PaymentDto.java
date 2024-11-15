@@ -14,11 +14,8 @@ import lombok.ToString;
 @ToString
 @Builder
 public class PaymentDto {
-	private int orderNo;        
-    private int memberNo;       
-    private int bookNo;         
-    private int bookCount;      
-    private int orderPrice;     
-    private int discountPrice;  
-    private String refundYn;       
+	private int orderNo;
+    private int memberNo;
+    private int totalPrice;
+    private String status;      
 }

@@ -6,5 +6,5 @@ import phantom.books.finalProject.payment.dto.PaymentDto;
 
 @Mapper
 public interface PaymentMapper {
-    int insertPayment(PaymentDto paymentDto);
+    void insertPayment(PaymentDto paymentDto);
 }

@@ -12,15 +12,15 @@ import phantom.books.finalProject.payment.mapper.PaymentMapper;
 @Service
 public class PaymentServiceImpl implements PaymentService {
 
-    private final PaymentMapper paymentMapper;
+    private final PaymentMapper mapper;
 
     @Override
     public boolean savePayment(PaymentDto paymentDto) {
         try {
-            int result = paymentMapper.insertPayment(paymentDto);
-            return result > 0;
+            mapper.insertPayment(paymentDto);
+            return true;
         } catch (Exception e) {
-            log.error("ORDER_LIST 저장 실패: {}", e.getMessage());
+            log.error("결제 정보 저장 중 오류 발생: {}", e.getMessage());
             return false;
         }
     }

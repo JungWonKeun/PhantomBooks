@@ -10,12 +10,14 @@ import phantom.books.finalProject.cart.mapper.CartMapper;
 
 @Service
 @RequiredArgsConstructor
-public class CartServiceImpl implements CartService{
+public class CartServiceImpl implements CartService {
 
-	private final CartMapper mapper;
-	
-	@Override
-	public List<CartDto> getCartItems(int memberNo) {
-		return mapper.getCartItems(memberNo);
-	}
+    private final CartMapper mapper;
+    
+    @Override
+    public List<CartDto> getCartItems(int memberNo) {
+        List<CartDto> cartItems = mapper.getCartItems(memberNo);
+        return cartItems != null ? cartItems : List.of();
+    }
 }
+
