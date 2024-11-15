@@ -32,8 +32,9 @@ public class QueryController {
 	@PutMapping("insertReply")
 	@ResponseBody
 	public int insertReply(
+			@RequestParam("queryNo") int queryNo,
 			@RequestParam("reply") String reply){
-		return service.insertReply(reply);
+		return service.insertReply(queryNo, reply);
 	}
 }
 ;

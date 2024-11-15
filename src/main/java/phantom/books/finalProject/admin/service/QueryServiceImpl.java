@@ -50,8 +50,8 @@ public class QueryServiceImpl implements QueryService{
 	
 	// 문의 답변 등록
 	@Override
-	public int insertReply(String reply) {
-		return mapper.insertReply(reply);
+	public int insertReply( int queryNo, String reply) {
+		return mapper.insertReply(queryNo, reply);
 	}
 
 }

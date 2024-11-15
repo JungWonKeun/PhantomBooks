@@ -18,6 +18,6 @@ public interface QueryMapper {
 	List<Query> queryList(@Param("cp") int cp, @Param("sort") String sort, RowBounds bounds);
 
 	// 문의 답변 등록
-	int insertReply(String reply);
+	int insertReply(@Param("queryNo") int queryNo, @Param("reply") String reply);
 
 }

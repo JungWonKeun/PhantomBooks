@@ -61,6 +61,10 @@ const listUp = (cp, sort) => {
         const p1 = document.createElement("p");
         p1.innerHTML = query.queryContent;
 
+        p1.addEventListener("click", () => {
+          fetch("/admin/query/insertReply?queryNo=" + query.queryNo, {method : "put"})
+        })
+
 
         // 답글 작성 부분
         const p2 = document.createElement("p");
@@ -72,21 +76,13 @@ const listUp = (cp, sort) => {
           
           p2.appendChild(input, button);
           
-          button.addEventListener("click", () => {
-            if(input.value.trim() ==null) 
-              return confirm("답변을 작성해주세요.");
+          const inputReply = input.value.trim();
 
-            fetch("/admin/query/insertReply", {method : "put"})
-            .then(response => {
-              if(!response.ok) throw new Error("답변 등록 실패");
-              response.text();
-            })
-            .then(result => {
-              if(result> 0){
-                alert("답변을 등록하였습니다.");
-              }
-            })
-            .catch(err => console.error(err));
+          button.addEventListener("click", () => {
+            if(inputReply == null){ 
+              return confirm("답변을 작성해주세요.");
+            }
+            submit;
           })
         }
 
