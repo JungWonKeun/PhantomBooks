@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -99,24 +100,39 @@ public class MemberController {
 	
 	/** 아이디 중복 검사
 	 * @param memberId
-	 * @return 성공시 1, 실패시 0
+	 * @return 0 : 아이디 중복 없음, 1 : 아이디 중복
 	 */
 	@ResponseBody
 	@PostMapping("idCheck")
-	public int idCheck(@RequestParam("memberId") String memberId) {
-		return service.idCheck(memberId);
+	public int idCheck(@RequestBody Map<String, String> request) {
+	    String memberId = request.get("memberId");
+	    return service.idCheck(memberId);
 	}
 	
 	
 	
-
+	// 임시로 인증 성공시키기
 	// 전화번호 인증 코드 요청
+	@PostMapping("/requestVerification")
+	public ResponseEntity<Map<String, String>> requestVerification(@RequestParam("telNo") String telNo) {
+		// 4자리 인증 코드 생성
+		String verificationCode = String.valueOf((int) ((Math.random() * 9000) + 1000)); // 1000~9999 사이의 랜덤 숫자 생성
+	   Map<String, String> response = new HashMap<>();
+	    response.put("status", "success");
+	    response.put("verificationCode", verificationCode);
+	    
+	    // 전화번호와 인증 코드 저장
+	    verificationCodes.put(telNo, verificationCode); // 전화번호와 인증 코드 저장
+	    verificationTimestamps.put(telNo, System.currentTimeMillis()); // 인증 코드 발송 시간 저장
+		
+    return ResponseEntity.ok(response);
+	/*	
+	  // 전화번호 인증 코드 요청
 	@PostMapping("/requestVerification")
 	public ResponseEntity<String> requestVerification(@RequestParam("telNo") String telNo) {
 		// 4자리 인증 코드 생성
 		String verificationCode = String.valueOf((int) ((Math.random() * 9000) + 1000)); // 1000~9999 사이의 랜덤 숫자 생성
-
-		// CoolSMS SDK를 사용해 인증 코드 발송
+	 	// CoolSMS SDK를 사용해 인증 코드 발송
 		try {
 			DefaultMessageService messageService = NurigoApp.INSTANCE.initialize(apiKey, apiSecret, apiUrl);
 
@@ -138,7 +154,7 @@ public class MemberController {
 		} catch (Exception e) {
 			e.printStackTrace(); // 기타 오류 로그 출력
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("인증 코드 발송에 실패했습니다.");
-		}
+		}*/
 	}
 
 

@@ -34,11 +34,12 @@
     	WHERE MEMBER_NO = #{memberNo}
 	</update>
 	
+	<!-- 아이디 중복 검사  -->
 	<select id="idCheck" resultType="_int">
 		SELECT 	COUNT(*)
 		FROM 	"MEMBER"
 		WHERE 	MEMBER_ID = #{memberId}
-		And 	MEMBER_DEL_FL = 'N'
+		AND 	MEMBER_DEL_FL = 'N'
 	</select>
 
 
