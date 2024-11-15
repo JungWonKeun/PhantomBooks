@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>결제 페이지</title>
   <link rel="stylesheet" href="/css/order/order.css">
-
   <script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
 </head>
 <body>
@@ -13,102 +12,101 @@
   <main class="orderMain">
     <section class="addressSection">
       <div>
-        <h2>주문/ 결제</h2>
-         <div class="basicAddress">
-            <p>기본 배송지를 등록해주세요</p>
-            <button>배송지 입력</button>
-         </div>
+        <h2>주문/결제</h2>
+        <div class="basicAddress">
+          <p>기본 배송지를 등록해주세요</p>
+          <button>배송지 입력</button>
+        </div>
       </div>
     </section>
-  
+
     <h4>주문 상품 목록</h4>
     <div class="orderMainContainer">
       <section class="orderlistSection">
         <div>
-          <h4>주문 상품 목록</h4> <h3>총 N 개</h3>
+          <h4>주문 상품 목록</h4>
+          <h3>총 <span th:text="${orderItems.size()}"></span> 개</h3>
           <hr>
-           <div class="basicAddress">
-              <div>
-                <img src="{imgUrl}" alt="책 사진";>
-                <h3>책 제목    개수     가격</h3>
-              </div>
-           </div>
+          <div class="orderItems">
+            <div th:each="item : ${orderItems}" class="orderItem">
+              <img th:src="${item.bookCover}" alt="책 사진">
+              <h3>
+                <span th:text="${item.bookTitle}"></span>
+                <span th:text="'x ' + ${item.cartCount}"></span>
+                <span th:text="${item.bookPrice * item.cartCount} + ' 원'"></span>
+              </h3>
+            </div>
+          </div>
         </div>
       </section>
-    
+
       <section class="orderBtnSection">
         <div>
-          <h3>상품 금액 : OOO 원</h3>
-          <h3>배송비    : OOO 원</h3>
-          <h3>마일리지 사용 : OOO 원</h3>
+          <h3>상품 금액 : <span th:text="${orderItems.stream().mapToInt(item -> item.bookPrice * item.cartCount).sum()} + ' 원'"></span></h3>
+          <h3>배송비    : <span>3,000 원</span></h3>
           <hr>
-          <h3>최종 결제 금액 :  OOO 원</h3>
+          <h3>
+            최종 결제 금액 : 
+            <span th:text="${orderItems.stream().mapToInt(item -> item.bookPrice * item.cartCount).sum() + 3000} + ' 원'"></span>
+          </h3>
           <button onclick="requestPay()">결제하기</button>
         </div>
       </section>
     </div>
-  
+
     <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
-  
-  <button onclick="requestPay()">결제하기</button>
-  
-  </main>
+    <script>
+      IMP.init("imp14397622");
 
-  <footer th:replace="~{common/footer :: footer}"></footer>
+      function requestPay() {
+        const payButton = document.querySelector("button[onclick='requestPay()']");
+        payButton.disabled = true;
+        payButton.innerText = "결제 진행 중...";
 
-  <script>
-  IMP.init("imp14397622");
+        const totalPrice = document.querySelector(".orderBtnSection h3:last-child span").innerText.replace(" 원", "");
+        IMP.request_pay(
+          {
+            channelKey: "",
+            pay_method: "card",
+            merchant_uid: "order_" + new Date().getTime(),
+            name: "주문 상품 결제",
+            amount: parseInt(totalPrice, 10),
+            buyer_tel: "010-0000-0000",
+          },
+          function (rsp) {
+            payButton.disabled = false;
+            payButton.innerText = "결제하기";
 
-  function requestPay() {
-    const payButton = document.querySelector("button[onclick='requestPay()']");
-    payButton.disabled = true;
-    payButton.innerText = "결제 진행 중...";
-
-    IMP.request_pay(
-      {
-        channelKey: "",
-        pay_method: "card",
-        merchant_uid: "test_m3fap7f211asdsasadddaaaa",
-        name: "테스트 결제",
-        amount: 100,
-        buyer_tel: "010-0000-0000",
-      },
-      function (rsp) {
-        payButton.disabled = false;
-        payButton.innerText = "결제하기";
-
-        if (rsp.success) {
-          fetch("/payment", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              merchant_uid: rsp.merchant_uid,
-              amount: rsp.paid_amount,
-              buyer_tel: rsp.buyer_tel,
-              status: rsp.status,
-            }),
-          })
-            .then((response) => {
-              if (response.ok) {
-                window.location.href = "/order/afterOrder?orderId=" + rsp.merchant_uid;
-              } else {
-                alert("결제 정보 저장 실패");
-              }
-            })
-            .catch((err) => {
-              console.error("Error:", err);
-              alert("결제 중 문제가 발생했습니다.");
-            });
-        } else {
-          alert("결제에 실패하였습니다. 에러: " + rsp.error_msg);
-        }
+            if (rsp.success) {
+              fetch("/payment", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  merchant_uid: rsp.merchant_uid,
+                  amount: rsp.paid_amount,
+                  buyer_tel: rsp.buyer_tel,
+                  status: rsp.status,
+                }),
+              })
+                .then((response) => {
+                  if (response.ok) {
+                    window.location.href = "/order/afterOrder?orderId=" + rsp.merchant_uid;
+                  } else {
+                    alert("결제 정보 저장 실패");
+                  }
+                })
+                .catch((err) => {
+                  console.error("Error:", err);
+                  alert("결제 중 문제가 발생했습니다.");
+                });
+            } else {
+              alert("결제에 실패하였습니다. 에러: " + rsp.error_msg);
+            }
+          }
+        );
       }
-    );
-  }
-
-</script>
-
+    </script>
+  </main>
+  <footer th:replace="~{common/footer :: footer}"></footer>
 </body>
 </html>

@@ -42,4 +42,58 @@
 	    </collection>
 	</resultMap>
 
+
+	<select id="findOrderItemByBookNoAndQuantity" parameterType="map" resultMap="OrderResultMap">
+	    SELECT 
+	        b.BOOK_NO AS bookNo,
+	        b.BOOK_TITLE AS bookTitle,
+	        b.BOOK_PRICE AS bookPrice,
+	        #{quantity} AS cartCount
+	    FROM book b
+	    WHERE b.BOOK_NO = #{bookNo}
+	</select>
+
+
+
+	<select id="getOrderItemsByIds" parameterType="map" resultType="OrderDto">
+	    SELECT 
+	        c.CART_COUNT AS cartCount,
+	        b.BOOK_NO AS bookNo,
+	        b.BOOK_TITLE AS bookTitle,
+	        COALESCE(b.BOOK_COVER, '/images/bookCover/default.jpg') AS bookCover,
+	        b.BOOK_PRICE AS bookPrice
+	    FROM 
+	        cart c
+	    JOIN 
+	        book b ON c.BOOK_NO = b.BOOK_NO
+	    WHERE 
+	        c.MEMBER_NO = #{memberNo}
+	        AND b.BOOK_NO IN 
+	        <foreach item="id" collection="selectedItems" open="(" separator="," close=")">
+	            #{id}
+	        </foreach>
+	</select>
+
+	
+	<insert id="saveOrder" parameterType="OrderDto">
+	    INSERT INTO orders (
+	        order_no,
+	        member_no,
+	        order_date,
+	        order_count,
+	        order_price,
+	        delivery_address,
+	        receiver
+	    ) VALUES (
+	        #{orderNo},
+	        #{memberNo},
+	        NOW(),
+	        #{orderCount},
+	        #{totalPrice},
+	        #{deliveryAddress},
+	        #{receiver}
+	    );
+	</insert>
+
+
 </mapper>

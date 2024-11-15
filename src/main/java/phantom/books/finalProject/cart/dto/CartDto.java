@@ -19,4 +19,8 @@ public class CartDto {
 	private String bookCover;
 	private int bookPrice;
 	private int cartCount;
+	
+	public String getBookCover() {
+        return bookCover != null ? bookCover : "/images/bookCover/default.jpg";
+    }
 }
