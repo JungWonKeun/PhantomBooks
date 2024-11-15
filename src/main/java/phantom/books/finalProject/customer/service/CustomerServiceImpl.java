@@ -4,18 +4,17 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import lombok.RequiredArgsConstructor;
 import phantom.books.finalProject.customer.dto.FAQ;
 import phantom.books.finalProject.customer.dto.Notice;
 import phantom.books.finalProject.customer.mapper.CustomerMapper;
+import phantom.books.finalProject.query.dto.Query;
 
 @Service
+@RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerMapper customerMapper;
-
-    public CustomerServiceImpl(CustomerMapper customerMapper) {
-        this.customerMapper = customerMapper;
-    }
 
     @Override
     public List<FAQ> getFAQList() {
@@ -30,5 +29,10 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public List<Notice> getNoticeList() {
         return customerMapper.selectNoticeList();
+    }
+    
+    @Override
+    public int submitQuery(Query query) {
+    	return customerMapper.submitQuery(query);
     }
 }
