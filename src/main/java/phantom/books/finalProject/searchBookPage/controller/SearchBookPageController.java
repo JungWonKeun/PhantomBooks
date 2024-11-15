@@ -1,6 +1,5 @@
 package phantom.books.finalProject.searchBookPage.controller;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -13,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
-import jakarta.mail.Session;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import phantom.books.finalProject.member.dto.Member;
@@ -84,25 +81,38 @@ public class SearchBookPageController {
 		return "redirect:/searchBookPage/searchBooks";
 	}
 	
-	@PutMapping("singleCart")
-	public String singleCart(@SessionAttribute("loginMember") Member loginMember,@RequestBody Book bookNo) {
-		
-		int memberNo = loginMember.getMemberNo();
-		
-		log.debug("memberNo : {}", memberNo);
-		log.debug("bookNo2 : {}", bookNo);
-	
-		
-		int addCart = service.putSingleCart(memberNo, bookNo.getBookNo());
-		
-		String message = null;
-		
-		if(addCart>0)message="추가 성공";
-	
-		
-		return "redirect:/searchBookPage/searchBooks";
+	@ResponseBody
+	@PutMapping("/singleCart")
+	public String singleCart(@SessionAttribute("loginMember") Member loginMember, @RequestBody Map<String, Object> requestData) {
+	    int memberNo = loginMember.getMemberNo();
+	    int bookNo = (int) requestData.get("bookNo");
+
+	    log.debug("memberNo : {}", memberNo);
+	    log.debug("bookNo : {}", bookNo);
+
+	    int addCart = service.putSingleCart(memberNo, bookNo);
+
+	    String message = addCart > 0 ? "추가 성공" : "추가 실패";
+
+	    return message;
 	}
-	
+
+	@ResponseBody
+	@PutMapping("/detailCart")
+	public String detailCart(@SessionAttribute("loginMember") Member loginMember, @RequestBody Map<String, Object> requestData) {
+	    int memberNo = loginMember.getMemberNo();
+	    int bookNo = (int) requestData.get("bookNo");
+
+	    log.debug("memberNo : {}", memberNo);
+	    log.debug("bookNo : {}", bookNo);
+
+	    int addCart = service.detailCart(memberNo, bookNo);
+
+	    String message = addCart > 0 ? "추가 성공" : "추가 실패";
+
+	    return message;
+	}
+
 	
 
 }

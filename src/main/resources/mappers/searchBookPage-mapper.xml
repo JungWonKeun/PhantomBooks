@@ -10,12 +10,14 @@
 		BOOK_NO AS bookNo,
 		BOOK_TITLE AS bookTitle,
 		BOOK_CONTENT AS bookContent,
-		BOOK_COVER AS bookCover,
+		BOOK_COVER AS
+		bookCover,
 		BOOK_DATE AS bookDate,
 		BOOK_WRITER AS bookWriter,
 		COMPANY_NAME AS companyName,
 		BOOK_TALT AS bookTalt,
-		BOOK_PRICE AS bookPrice,
+		BOOK_PRICE AS
+		bookPrice,
 		BOOK_PAGE_COUNT AS bookPageCount,
 		BOOK_YN AS bookYn
 		FROM
@@ -24,15 +26,18 @@
 
 	<select id="searchBooksByTitle" resultType="Book">
 		SELECT
-		BOOK_NO AS bookNo,
+		BOOK_NO AS
+		bookNo,
 		BOOK_TITLE AS bookTitle,
 		BOOK_CONTENT AS bookContent,
-		BOOK_COVER AS bookCover,
+		BOOK_COVER
+		AS bookCover,
 		BOOK_DATE AS bookDate,
 		BOOK_WRITER AS bookWriter,
 		COMPANY_NAME AS companyName,
 		BOOK_TALT AS bookTalt,
-		BOOK_PRICE AS bookPrice,
+		BOOK_PRICE AS
+		bookPrice,
 		BOOK_PAGE_COUNT AS bookPageCount,
 		BOOK_YN AS bookYn
 		FROM
@@ -50,12 +55,14 @@
 		BOOK_NO AS bookNo,
 		BOOK_TITLE AS bookTitle,
 		BOOK_CONTENT AS bookContent,
-		BOOK_COVER AS bookCover,
+		BOOK_COVER AS
+		bookCover,
 		BOOK_DATE AS bookDate,
 		BOOK_WRITER AS bookWriter,
 		COMPANY_NAME AS companyName,
 		BOOK_TALT AS bookTalt,
-		BOOK_PRICE AS bookPrice,
+		BOOK_PRICE AS
+		bookPrice,
 		BOOK_PAGE_COUNT AS bookPageCount,
 		BOOK_YN AS bookYn
 		FROM
@@ -67,23 +74,44 @@
 
 	<!-- 선택한 책을 장바구니에 담기 -->
 	<insert id="putCart" parameterType="map">
-			MERGE INTO CART c
-			
-			USING (
-				<foreach collection="bookNo" item="bno" separator=" UNION ALL ">
-			
-					SELECT #{memberNo} AS memberNo, #{bno} AS bookNo FROM dual
-			
-				</foreach>
-			) src
-			ON (c.MEMBER_NO = src.memberNo AND c.BOOK_NO = src.bookNo)
-			WHEN MATCHED THEN
-			UPDATE SET c.CART_COUNT = c.CART_COUNT + 1
-			WHEN NOT MATCHED THEN
-			INSERT (MEMBER_NO, BOOK_NO, CART_COUNT)
-			VALUES (src.memberNo, src.bookNo, 1)
-	</insert>
-	
+		MERGE INTO CART c
 
-	
+		USING (
+		<foreach collection="bookNo" item="bno"
+			separator=" UNION ALL ">
+
+			SELECT #{memberNo} AS memberNo, #{bno} AS bookNo FROM dual
+
+		</foreach>
+		) src
+		ON (c.MEMBER_NO = src.memberNo AND c.BOOK_NO = src.bookNo)
+		WHEN
+		MATCHED THEN
+		UPDATE SET c.CART_COUNT = c.CART_COUNT + 1
+		WHEN NOT MATCHED
+		THEN
+		INSERT (MEMBER_NO, BOOK_NO, CART_COUNT)
+		VALUES (src.memberNo,
+		src.bookNo, 1)
+	</insert>
+
+	<!-- 조회페이지에서 장바구니에 담기 -->
+
+	<update id="putSingleCart">
+		MERGE INTO CART c
+		USING (
+		SELECT #{memberNo, jdbcType=INTEGER} AS memberNo, #{bookNo,
+		jdbcType=INTEGER} AS bookNo
+		FROM dual
+		) src
+		ON (c.MEMBER_NO = src.memberNo AND c.BOOK_NO = src.bookNo)
+		WHEN MATCHED THEN
+		UPDATE SET c.CART_COUNT = c.CART_COUNT + 1
+		WHEN NOT MATCHED THEN
+		INSERT (MEMBER_NO, BOOK_NO, CART_COUNT)
+		VALUES (src.memberNo, src.bookNo, 1)
+	</update>
+
+
+
 </mapper>
