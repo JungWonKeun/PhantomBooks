@@ -50,5 +50,10 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 	public int putSingleCart(int memberNo, int bookNo) {
 		return mapper.putSingleCart(memberNo, bookNo);
 	}
-
+	
+	// 책 상세조회 장바구니
+	@Override
+	public int detailCart(int memberNo, int bookNo) {
+		return mapper.detailCart(memberNo, bookNo);
+	}
 }
