@@ -1,0 +1,27 @@
+package phantom.books.finalProject.query.dto;
+
+import org.springframework.stereotype.Service;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+public class Query {
+
+	private int memberNo;
+	private String queryTitle;
+	private String queryContent;
+	private String queryWriteDate;
+	private String queryUpdateDate;
+	private String queryImgNo;
+	private String reply;
+	private int		 status;
+	
+}

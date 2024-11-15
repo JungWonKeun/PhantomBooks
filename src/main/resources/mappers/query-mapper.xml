@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="phantom.books.finalProject.admin.mapper.QueryMapper">
+	
+	<select id="countQueryList" resultType="_int">
+		<choose>
+		<when test="sort == 'all'">
+			SELECT
+				COUNT(*)
+			FROM QUERY
+			ORDER BY QUERY_WRITE_DATE DESC
+		</when>
+			<when test="sort == 'no'">
+				SELECT
+					COUNT(*)
+				FROM QUERY
+				WHERE STATUS != 2
+				ORDER BY QUERY_WRITE_DATE DESC
+			</when>
+			<when test="sort == 'ok'">
+				SELECT
+					COUNT(*)
+				FROM QUERY
+				WHERE STATUS = 2
+				ORDER BY QUERY_WRITE_DATE DESC
+			</when>
+		</choose>
+	</select>
+	
+	<select id="queryList" resultType="Query">
+		<choose>
+			<when test="sort == 'all'">
+				SELECT
+					*
+				FROM QUERY		
+				ORDER BY QUERY_WRITE_DATE DESC		
+			</when>
+			<when test="sort == 'no'">
+				SELECT
+					*
+				FROM QUERY
+				WHERE STATUS != 2
+				ORDER BY QUERY_WRITE_DATE DESC
+			</when>
+			<when test="sort == 'ok'">
+				SELECT
+					*
+				FROM QUERY
+				WHERE STATUS = 2
+				ORDER BY QUERY_WRITE_DATE DESC
+			</when>
+		</choose>
+		 
+	</select>
+
+	<insert id="insertReply">
+		INSERT INTO QUERY (REPLY)
+		VALUE(#{reply})
+		WHERE
+	</insert>
+
+</mapper>
