@@ -1,40 +1,52 @@
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-style: normal;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Pretendard-Regular';
 }
 
-header{
+/* 고정 헤더 설정 */
+header {
+  position: fixed;
   top: 0;
+  left: 0;
   width: 100%;
-  z-index: 1000;
+  z-index: 1000; 
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background-color: #FEFEFE; 
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); 
 }
 
-body {
-  font-family: Arial, sans-serif;
-  margin-top: 100px;
-}
 
+
+/* 메인 콘텐츠 설정 */
 main {
   max-width: 800px;
-  width: 100%;
+  margin: 0 auto;
   padding: 20px;
 }
 
 .main-content {
-  min-height: calc(100vh - 377px); /* 푸터 높이 277px + 헤더 높이 100px */
+  min-height: calc(100vh - 527px); /* 푸터 높이 277px + 헤더 높이 250px */
+
   box-sizing: border-box;
   flex: 1;
 }
 
-
+/* 제목 스타일 */
 h2 {
   font-weight: bold !important;
 }
 
+/* 추천 도서 섹션 */
 .recommend, .personalized {
   margin: 20px auto;
   max-width: 800px;
@@ -51,29 +63,19 @@ h2 {
   padding: 10px;
 }
 
-.personalized .books{
-  display: flex;
-  min-width: 1000px;
-  height: 380px;
-  align-items: center;
-  background-color: #eee;
-  padding: 10px;
-}
-
+/* 개별 도서 스타일 */
 .book-cover {
   width: 209px;
   height: 289px;
   background-color: #5c1a1a;
   margin-right: 15px;
-  
 }
 
 .book-info p {
   margin-bottom: 10px;
 }
 
-
-/* 오늘의 추천 도서 CSS */
+/* 오늘의 추천 도서 슬라이더 */
 .book-slider {
   position: relative;
   overflow: hidden;
@@ -87,9 +89,9 @@ h2 {
   left: 0;
   width: 100%;
   height: 100%;
-  opacity: 0; 
-  display: none; 
-  transition: opacity 1s ease; 
+  opacity: 0;
+  display: none;
+  transition: opacity 1s ease;
 }
 
 .book.active {
@@ -97,31 +99,7 @@ h2 {
   display: block;
 }
 
-.book.hidden {
-  opacity: 0;
-}
-
-
-
-
-.personalized .book-carousel {
-  display: flex;
-  align-items: center;
-}
-
-
-
-.book .book-cover {
-  width: 80px;
-  height: 120px;
-  background-color: #5c1a1a;
-}
-
-.recommendWrapperContainer {
-  overflow: hidden; 
-  position: relative;
-}
-
+/* 개별 도서 목록 */
 .recommendation-wrapper {
   display: flex;
   cursor: grab;
@@ -182,23 +160,25 @@ h2 {
   white-space: nowrap;
 }
 
+/* 슬라이더 인디케이터 */
 .slider-indicator {
-  position: absolute;
-  bottom: 10px;
+  position: relative;
+  bottom: -5px;
   left: 50%;
   transform: translateX(-50%);
-  width: 50%; /* slider-indicator 길이 */
   height: 4px;
   background: #ddd;
   border-radius: 2px;
   overflow: hidden;
+  width: 50%; 
+  max-width: 800px; 
 }
 
 .slider-indicator .scroll-bar {
   height: 100%;
   background: #333;
-  width: 10%; /* 기본 너비, JavaScript에서 동적으로 설정 */
+  width: 10%; 
   border-radius: 2px;
-  transition: transform 0.3s ease; /* 부드러운 이동 */
+  transition: transform 0.3s ease; 
   transform: translateX(0);
 }

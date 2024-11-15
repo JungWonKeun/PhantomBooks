@@ -5,11 +5,14 @@
 }
 
 *{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   font-family: 'Pretendard-Regular';
   font-weight: 100;
 }
 
-body{
+.orderMain{
   margin-left: 18%;
 }
 

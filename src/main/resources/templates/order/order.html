@@ -9,98 +9,104 @@
   <script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
 </head>
 <body>
-  <section class="addressSection">
-    <div>
-      <h2>주문/ 결제</h2>
-       <div class="basicAddress">
-          <p>기본 배송지를 등록해주세요</p>
-          <button>배송지 입력</button>
-       </div>
-    </div>
-  </section>
-
-  <h4>주문 상품 목록</h4>
-  <div class="orderMainContainer">
-    <section class="orderlistSection">
+  <header th:replace="~{common/common}"></header>
+  <main class="orderMain">
+    <section class="addressSection">
       <div>
-        <h4>주문 상품 목록</h4> <h3>총 N 개</h3>
-        <hr>
+        <h2>주문/ 결제</h2>
          <div class="basicAddress">
-            <div>
-              <img src="{imgUrl}" alt="책 사진";>
-              <h3>책 제목    개수     가격</h3>
-            </div>
+            <p>기본 배송지를 등록해주세요</p>
+            <button>배송지 입력</button>
          </div>
       </div>
     </section>
   
-    <section class="orderBtnSection">
-      <div>
-        <h3>상품 금액 : OOO 원</h3>
-        <h3>배송비    : OOO 원</h3>
-        <h3>마일리지 사용 : OOO 원</h3>
-        <hr>
-        <h3>최종 결제 금액 :  OOO 원</h3>
-        <button onclick="requestPay()">결제하기</button>
-      </div>
-    </section>
-  </div>
+    <h4>주문 상품 목록</h4>
+    <div class="orderMainContainer">
+      <section class="orderlistSection">
+        <div>
+          <h4>주문 상품 목록</h4> <h3>총 N 개</h3>
+          <hr>
+           <div class="basicAddress">
+              <div>
+                <img src="{imgUrl}" alt="책 사진";>
+                <h3>책 제목    개수     가격</h3>
+              </div>
+           </div>
+        </div>
+      </section>
+    
+      <section class="orderBtnSection">
+        <div>
+          <h3>상품 금액 : OOO 원</h3>
+          <h3>배송비    : OOO 원</h3>
+          <h3>마일리지 사용 : OOO 원</h3>
+          <hr>
+          <h3>최종 결제 금액 :  OOO 원</h3>
+          <button onclick="requestPay()">결제하기</button>
+        </div>
+      </section>
+    </div>
+  
+    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+  
+  <button onclick="requestPay()">결제하기</button>
+  
+  </main>
 
-  <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+  <footer th:replace="~{common/footer :: footer}"></footer>
 
-<button onclick="requestPay()">결제하기</button>
+  <script>
+  IMP.init("imp14397622");
 
-<script>
-IMP.init("imp14397622");
+  function requestPay() {
+    const payButton = document.querySelector("button[onclick='requestPay()']");
+    payButton.disabled = true;
+    payButton.innerText = "결제 진행 중...";
 
-function requestPay() {
-  const payButton = document.querySelector("button[onclick='requestPay()']");
-  payButton.disabled = true;
-  payButton.innerText = "결제 진행 중...";
+    IMP.request_pay(
+      {
+        channelKey: "",
+        pay_method: "card",
+        merchant_uid: "test_m3fap7f211asdsasadddaaaa",
+        name: "테스트 결제",
+        amount: 100,
+        buyer_tel: "010-0000-0000",
+      },
+      function (rsp) {
+        payButton.disabled = false;
+        payButton.innerText = "결제하기";
 
-  IMP.request_pay(
-    {
-      channelKey: "",
-      pay_method: "card",
-      merchant_uid: "test_m3fap7f211asdsasadddaaaa",
-      name: "테스트 결제",
-      amount: 100,
-      buyer_tel: "010-0000-0000",
-    },
-    function (rsp) {
-      payButton.disabled = false;
-      payButton.innerText = "결제하기";
-
-      if (rsp.success) {
-        fetch("/payment", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            merchant_uid: rsp.merchant_uid,
-            amount: rsp.paid_amount,
-            buyer_tel: rsp.buyer_tel,
-            status: rsp.status,
-          }),
-        })
-          .then((response) => {
-            if (response.ok) {
-              window.location.href = "/order/afterOrder?orderId=" + rsp.merchant_uid;
-            } else {
-              alert("결제 정보 저장 실패");
-            }
+        if (rsp.success) {
+          fetch("/payment", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              merchant_uid: rsp.merchant_uid,
+              amount: rsp.paid_amount,
+              buyer_tel: rsp.buyer_tel,
+              status: rsp.status,
+            }),
           })
-          .catch((err) => {
-            console.error("Error:", err);
-            alert("결제 중 문제가 발생했습니다.");
-          });
-      } else {
-        alert("결제에 실패하였습니다. 에러: " + rsp.error_msg);
+            .then((response) => {
+              if (response.ok) {
+                window.location.href = "/order/afterOrder?orderId=" + rsp.merchant_uid;
+              } else {
+                alert("결제 정보 저장 실패");
+              }
+            })
+            .catch((err) => {
+              console.error("Error:", err);
+              alert("결제 중 문제가 발생했습니다.");
+            });
+        } else {
+          alert("결제에 실패하였습니다. 에러: " + rsp.error_msg);
+        }
       }
-    }
-  );
-}
+    );
+  }
 
 </script>
 
