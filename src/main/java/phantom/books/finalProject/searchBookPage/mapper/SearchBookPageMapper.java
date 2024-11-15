@@ -5,18 +5,19 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
 
-import phantom.books.finalProject.member.dto.Member;
 import phantom.books.finalProject.searchBookPage.dto.Book;
 
 @Mapper
 public interface SearchBookPageMapper {
 
-	// 책 전체 조회
-	List<Book> allBook ();
+	
+	// 책 제목/옵션 조회
+	List<Book> searchBooksByTitle(@Param("query") String query,@Param("sortOption") String sortOption, @Param("cp") int cp);
 
 	// 제목의 책 조회
-	List<Book> searchBooksByTitle(String query);
+	int searchBooksByTitle(@Param("query") String query,@Param("sortOption") String sortOption);
 	
 	// 책 상세 조회
 	Book bookDetail(int bookNo);
@@ -28,7 +29,19 @@ public interface SearchBookPageMapper {
 	int putSingleCart(@Param("memberNo") int memberNo,@Param("bookNo") int bookNo);
 
 	// 상세조회 페이지에서 1개 장바구니로 보내기
-	int detailCart(@Param("memberNo") int memberNo,@Param("bookNo") int bookNo);	
+	int detailCart(@Param("memberNo") int memberNo,@Param("bookNo") int bookNo);
+
+	List<Book> searchBooksByTitle(String query, RowBounds bounds);
+
+	 List<Book> searchBooks(Map<String, Object> params);
+
+	
+
+	
+
+	
+
+	
 
 	
 
