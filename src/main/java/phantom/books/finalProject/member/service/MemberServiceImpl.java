@@ -56,6 +56,10 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	
+	
+	/** 아이디 중복 검사
+	 * @return 0 : 아이디 중복 없음, 1 : 아이디 중복
+	 */
 	@Override
 	public int idCheck(String memberId) {
 		return mapper.idCheck(memberId);
