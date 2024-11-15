@@ -56,7 +56,7 @@
 	<insert id="insertReply">
 		INSERT INTO QUERY (REPLY)
 		VALUE(#{reply})
-		WHERE
+		WHERE QUERY_NO = #{queryNo}
 	</insert>
 
 </mapper>
