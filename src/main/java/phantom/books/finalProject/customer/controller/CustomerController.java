@@ -24,75 +24,76 @@ import phantom.books.finalProject.query.dto.Query;
 @RequiredArgsConstructor
 public class CustomerController {
 
-    private final CustomerService customerService;
+	private final CustomerService customerService;
 
+	/**
+	 * 고객 지원 페이지로 이동
+	 * 
+	 * @param model - View에 데이터를 전달하기 위한 Model 객체
+	 * @return 고객지원 페이지 템플릿 경로("customer/support")
+	 */
+	@GetMapping("/support")
+	public String customerSupportPage(Model model) {
+		return "customer/support";
+	}
 
-    /** 고객 지원 페이지로 이동
-     * @param model - View에 데이터를 전달하기 위한 Model 객체
-     * @return 고객지원 페이지 템플릿 경로("customer/support")
-     */
-    @GetMapping("/support")
-    public String customerSupportPage(Model model) {
-        return "customer/support";
-    }
+	/**
+	 * 전체 FAQ 리스트를 JSON 형태로 반환하는 메서드
+	 * 
+	 * @return 활성화된 FAQ 리스트
+	 */
+	@GetMapping("/customer/faq")
+	@ResponseBody
+	public List<FAQ> getFAQList() {
+		return customerService.getFAQList();
+	}
 
-    /** 전체 FAQ 리스트를 JSON 형태로 반환하는 메서드
-     * @return 활성화된 FAQ 리스트
-     */
-    @GetMapping("/customer/faq")
-    @ResponseBody
-    public List<FAQ> getFAQList() {
-        return customerService.getFAQList();
-    }
+	/**
+	 * 특정 키워드가 포함된 FAQ 리스트를 검색하여 JSON 형태로 반환하는 메서드
+	 * 
+	 * @param query - 검색할 키워드
+	 * @return 검색된 FAQ 리스트
+	 */
+	@GetMapping("/customer/faq/search")
+	@ResponseBody
+	public List<FAQ> searchFAQ(@RequestParam("query") String query) {
+		return customerService.searchFAQ(query);
+	}
 
-    /** 특정 키워드가 포함된 FAQ 리스트를 검색하여 JSON 형태로 반환하는 메서드
-     * @param query - 검색할 키워드
-     * @return 검색된 FAQ 리스트
-     */
-    @GetMapping("/customer/faq/search")
-    @ResponseBody
-    public List<FAQ> searchFAQ(@RequestParam("query") String query) {
-        return customerService.searchFAQ(query);
-    }
+	/**
+	 * 공지사항 리스트를 JSON 형태로 반환
+	 * 
+	 * @return 활성화된 공지사항 리스트
+	 */
+	@GetMapping("/customer/notice")
+	@ResponseBody
+	public List<Notice> getNoticeList() {
+		return customerService.getNoticeList();
+	}
 
-    /** 공지사항 리스트를 JSON 형태로 반환
-     * @return 활성화된 공지사항 리스트
-     */
-    @GetMapping("/customer/notice")
-    @ResponseBody
-    public List<Notice> getNoticeList() {
-        return customerService.getNoticeList();
-    }
-    
-    /**
-     * 1:1 문의 페이지로 이동
-     * @param model - View에 데이터를 전달하기 위한 Model 객체
-     * @return 1:1 문의 페이지의 템플릿 경로("customer/query")
-     */
-    @GetMapping("/customer/query")
-    public String customerQueryPage(Model model) {
-        // query.html 템플릿을 반환
-        return "customer/query";
-    }
-    
-    @PostMapping("/customer/query/submit")
-//    @ResponseBody
-    public String submitQuery(
-    		@RequestParam("menu") String subject,
-			@RequestParam("content") String content,
-			@RequestParam("title") String title,
-			Query query,
-    		@SessionAttribute("loginMember") Member loginMember) {
-    	
+	/**
+	 * 1:1 문의 페이지로 이동
+	 * 
+	 * @param model - View에 데이터를 전달하기 위한 Model 객체
+	 * @return 1:1 문의 페이지의 템플릿 경로("customer/query")
+	 */
+	@GetMapping("/customer/query")
+	public String customerQueryPage(Model model) {
+		// query.html 템플릿을 반환
+		return "customer/query";
+	}
+
+	@PostMapping("/customer/query/submit")
+	@ResponseBody
+	public int submitQuery(
+		@RequestBody Query query, @SessionAttribute("loginMember") Member loginMember) {
+
 		query.setMemberNo(loginMember.getMemberNo());
-		query.setQueryTitle(subject);
-		query.setQueryContent(content);
-		query.setQueryTitle(title);
-		
+
 		// DB에 삽입
-    	int result = customerService.submitQuery(query);
-    	
-        return "redirect:/";
-    }
+		int result = customerService.submitQuery(query);
+
+		return result;
+	}
 
 }
