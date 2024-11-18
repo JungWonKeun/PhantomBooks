@@ -1,6 +1,7 @@
 package phantom.books.finalProject.customer.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -19,4 +20,5 @@ public interface CustomerMapper {
     List<Notice> selectNoticeList();
     
 	int submitQuery(Query query);
+
 }

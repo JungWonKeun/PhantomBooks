@@ -7,4 +7,31 @@
   padding: 20px;
   box-sizing: border-box;
   flex-shrink: 0;
+  font-size: 12px;
+}
+.sideBar ul {
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.sideBar ul {
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.sideBar a {
+  text-decoration: none;
+  color: black;
+}
+
+.sideBar a:visited {
+  color: black;
+  /* 방문 후 색상도 검정으로 고정 */
+}
+
+.sideBar a:hover {
+  text-decoration: underline;
+  /* 마우스 올리면 밑줄 표시 */
 }
