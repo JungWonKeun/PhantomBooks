@@ -1,3 +1,27 @@
+.logo{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logoImg{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 180px;
+  height: auto;
+}
+
+.red {
+  font-weight: bold;
+  color: red;
+  margin-bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
 /* 기본적으로 clear-btn 버튼 숨기기 */
 .clear-btn {
   display: none;
@@ -15,6 +39,11 @@
   padding-right: 60px; /* 여유 있는 오른쪽 패딩 추가 */
 }
 
+
 div label {
   margin-left: 3px; /* input 깨짐 방지 */
+}
+
+#submitBtn{
+  margin-bottom: 100px;
 }

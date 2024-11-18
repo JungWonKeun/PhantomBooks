@@ -55,6 +55,36 @@ public class MemberServiceImpl implements MemberService {
     return loginMember;
 	}
 	
+	/** 회원가입
+	 * @param inputMember
+	 * @return 
+	 */
+	@Override
+	public int signUp(Member inputMember) {
+		
+		// 1) 비밀번호 암호화(BCrypt)
+		String encPw = encorder.encode(inputMember.getMemberPw());
+		inputMember.setMemberPw(encPw);
+		
+		// 2) 생일, 주소 미입력("") 시 null로 변경
+		if(inputMember.getBirthDate().equals("")) {
+			inputMember.setBirthDate(null);
+		}
+		
+		if(inputMember.getZip().equals("")) {
+			inputMember.setZip(null);
+		}
+		if(inputMember.getAddress().equals("")) {
+			inputMember.setAddress(null);
+		}
+		if(inputMember.getDetailAddress().equals("")) {
+			inputMember.setDetailAddress(null);
+		}
+		
+		// 3) mapper 호출 후 결과 반환
+		return mapper.signUp(inputMember);
+	}
+	
 	
 	
 	/** 아이디 중복 검사

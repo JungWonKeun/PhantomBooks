@@ -1,8 +1,19 @@
+document.addEventListener('DOMContentLoaded', function () {
+  const urlParams = new URLSearchParams(window.location.search);
+  const showLoginModal = urlParams.get('showLoginModal') === 'true';
+  if (showLoginModal) {
+    const modalLogin = new bootstrap.Modal(document.getElementById('modalLogin'), {});
+    modalLogin.show();
+  }
+});
+
+
 document.querySelector("#modalLogin form").addEventListener("submit", function (event) {
   event.preventDefault(); // 기본 폼 제출 동작을 막음
 
   const memberId = document.querySelector("input[name='memberId']").value;
   const memberPw = document.querySelector("input[name='memberPw']").value;
+
 
   fetch("/member/login", {
     method: "POST",

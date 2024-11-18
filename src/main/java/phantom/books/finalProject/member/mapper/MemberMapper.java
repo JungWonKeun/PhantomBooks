@@ -25,6 +25,14 @@ public interface MemberMapper {
 	 * @return
 	 */
 	int idCheck(String memberId);
+
+	
+	
+	/**
+	 * @param inputMember
+	 * @return
+	 */
+	int signUp(Member inputMember);
 	
 	
 }
