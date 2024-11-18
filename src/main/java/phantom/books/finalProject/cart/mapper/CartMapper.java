@@ -17,8 +17,6 @@ public interface CartMapper {
 	int deleteCartItem(Map<String, Object> params);
 
 	// 선택된 항목 장바구니에서 삭제하기
-	void deleteSelectedCartItems(int memberNo, List<Integer> selectedItems);
-
 	int deleteSelectedCartItems(Map<String, Object> params);
 
 	
