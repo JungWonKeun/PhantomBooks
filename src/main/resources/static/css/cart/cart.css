@@ -53,6 +53,10 @@
   margin-top: 20px;
 }
 
+.cartTable tbody tr.selected {
+  background-color: #a1a1a1;
+}
+
 .cartTable thead th {
   background-color: #205375;
   font-size: 18px;
