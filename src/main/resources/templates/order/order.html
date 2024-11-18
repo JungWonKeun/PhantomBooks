@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,98 +15,73 @@
         <h2>주문/결제</h2>
         <div class="basicAddress">
           <p>기본 배송지를 등록해주세요</p>
-          <button>배송지 입력</button>
+          <button onclick="registerAddress()">배송지 입력</button>
         </div>
       </div>
     </section>
 
     <h4>주문 상품 목록</h4>
-    <div class="orderMainContainer">
-      <section class="orderlistSection">
-        <div>
-          <h4>주문 상품 목록</h4>
-          <h3>총 <span th:text="${orderItems.size()}"></span> 개</h3>
-          <hr>
-          <div class="orderItems">
-            <div th:each="item : ${orderItems}" class="orderItem">
-              <img th:src="${item.bookCover}" alt="책 사진">
-              <h3>
-                <span th:text="${item.bookTitle}"></span>
-                <span th:text="'x ' + ${item.cartCount}"></span>
-                <span th:text="${item.bookPrice * item.cartCount} + ' 원'"></span>
-              </h3>
-            </div>
-          </div>
-        </div>
-      </section>
+    <table>
+      <thead>
+        <tr>
+          <th>상품명</th>
+          <th>수량</th>
+          <th>가격</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="item : ${orderItems}">
+          <td th:text="${item.bookTitle}">상품명</td>
+          <td th:text="${item.cartCount}">수량</td>
+          <td>
+            <span th:text="${item.bookPrice * item.cartCount} + ' 원'"></span>
+          </td>
+          <td>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <h3>
+      <span class="delivery-fee" th:text="'배송비: ' + ${deliveryFee} + ' 원'"></span>
+    </h3>
+   
+    <h3>총 결제 금액: 
+      <span id="totalPriceElement" th:text="${totalPrice + deliveryFee} + ' 원'"></span>
+    </h3>
 
-      <section class="orderBtnSection">
-        <div>
-          <h3>상품 금액 : <span th:text="${orderItems.stream().mapToInt(item -> item.bookPrice * item.cartCount).sum()} + ' 원'"></span></h3>
-          <h3>배송비    : <span>3,000 원</span></h3>
-          <hr>
-          <h3>
-            최종 결제 금액 : 
-            <span th:text="${orderItems.stream().mapToInt(item -> item.bookPrice * item.cartCount).sum() + 3000} + ' 원'"></span>
-          </h3>
-          <button onclick="requestPay()">결제하기</button>
-        </div>
-      </section>
-    </div>
-
-    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
-    <script>
-      IMP.init("imp14397622");
-
-      function requestPay() {
-        const payButton = document.querySelector("button[onclick='requestPay()']");
-        payButton.disabled = true;
-        payButton.innerText = "결제 진행 중...";
-
-        const totalPrice = document.querySelector(".orderBtnSection h3:last-child span").innerText.replace(" 원", "");
-        IMP.request_pay(
-          {
-            channelKey: "",
-            pay_method: "card",
-            merchant_uid: "order_" + new Date().getTime(),
-            name: "주문 상품 결제",
-            amount: parseInt(totalPrice, 10),
-            buyer_tel: "010-0000-0000",
-          },
-          function (rsp) {
-            payButton.disabled = false;
-            payButton.innerText = "결제하기";
-
-            if (rsp.success) {
-              fetch("/payment", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  merchant_uid: rsp.merchant_uid,
-                  amount: rsp.paid_amount,
-                  buyer_tel: rsp.buyer_tel,
-                  status: rsp.status,
-                }),
-              })
-                .then((response) => {
-                  if (response.ok) {
-                    window.location.href = "/order/afterOrder?orderId=" + rsp.merchant_uid;
-                  } else {
-                    alert("결제 정보 저장 실패");
-                  }
-                })
-                .catch((err) => {
-                  console.error("Error:", err);
-                  alert("결제 중 문제가 발생했습니다.");
-                });
-            } else {
-              alert("결제에 실패하였습니다. 에러: " + rsp.error_msg);
-            }
-          }
-        );
-      }
-    </script>
+    <button onclick="requestPay()">결제하기</button>
   </main>
-  <footer th:replace="~{common/footer :: footer}"></footer>
+
+  <script>
+    function requestPay() {
+      // 총 결제 금액 추출
+      const totalAmountText = document.getElementById('totalPriceElement').innerText;
+      const totalAmount = parseInt(totalAmountText.replace(/[^\d]/g, ''), 10);
+
+      PortOne.requestPayment({
+        storeId: "store-e4038486-8d83-41a5-acf1-844a009e0d94",
+        paymentId: "testm3mr3luo2d",
+        orderName: "테스트 결제",
+        // 테스트 결제 시
+        totalAmount: 100,
+        // 실제 결제 시
+        // totalAmount: totalAmount, 
+        currency: "KRW",
+        
+        payMethod: "CARD",
+        card: {},
+        onSuccess: function(response) {
+          // 결제 성공 시 리다이렉트
+          console.log('결제 성공:', response);
+          window.location.href = "/order/afterOrder.html";
+        },
+        onFailure: function(error) {
+          // 결제 실패 시 알림
+          console.error('결제 실패:', error);
+          alert('결제에 실패했습니다. 다시 시도해주세요.');
+        }
+      });
+    }
+  </script>
 </body>
 </html>
