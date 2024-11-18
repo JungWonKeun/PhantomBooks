@@ -1,7 +1,7 @@
 package phantom.books.finalProject.searchBookPage.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -33,21 +33,33 @@ public class SearchBookPageController {
 	@GetMapping("/searchBooks")
 	public String searchBooks(
 	        @RequestParam(value = "searchTitle", required = false) String searchTitle,
-	        @RequestParam(value = "category", required = false) List<String> categories,
-	        @RequestParam(value = "preference", required = false) List<String> preferences,
+	        @RequestParam(value = "category", required = false, defaultValue = "") String category,
+	        @RequestParam(value = "preference", required = false, defaultValue = "") String preference,
 	        @RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
 	        Model model) {
 
-	    // 서비스 호출
+	    // String을 List로 변환
+	    List<String> categories = (category != null && !category.isEmpty())
+	            ? Arrays.asList(category.split(","))
+	            : new ArrayList<>();
+
+	    List<String> preferences = (preference != null && !preference.isEmpty())
+	            ? Arrays.asList(preference.split(","))
+	            : new ArrayList<>();
+
+	    log.debug("searchTitle: {}", searchTitle);
+	    log.debug("categories: {}", categories);
+	    log.debug("preferences: {}", preferences);
+
 	    Map<String, Object> map = service.searchBooks(searchTitle, categories, preferences, cp);
 
-	    // 검색 결과와 페이지네이션 정보를 Model에 추가
 	    model.addAttribute("bookList", map.get("bookList"));
 	    model.addAttribute("pagination", map.get("pagination"));
 	    model.addAttribute("totalCount", map.get("totalCount"));
 
-	    return "searchBookPage/searchBook"; // 템플릿 이름 반환
+	    return "searchBookPage/searchBook";
 	}
+
 
 
 
