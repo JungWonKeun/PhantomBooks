@@ -6,13 +6,13 @@
   <title>관리자 문의 관리 페이지</title>
 
   <script src="https://kit.fontawesome.com/5eb8a8a2db.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="/css/admin/query.css">
+  <link rel="stylesheet" href="/css/admin/review.css">
 </head>
 <body>
   <section class="header">
     <div class="logo">
       <a href="/admin">
-          <img src="/images/logo.png" alt="Logo">
+          <img src="/images/고스트 코딩왕.png" alt="Logo">
       </a>
     </div>
   
@@ -89,46 +89,49 @@
   
   
     <div class="content">
-      <h2>문의관리</h2>
+      <h2>리뷰관리</h2>
       <select class="sortSelect">
-        <option value="all">답변 상태</option>
-        <option value="no">미답변</option>
-        <option value="ok">답변 완료</option>
+        <option value="all">최신순</option>
+        <option value="ok">평점 높은 순</option>
+        <option value="ok">평점 낮은 순</option>
+        <option value="no">포토 리뷰</option>
       </select>
+      <button>전체 삭제</button>
+      <button>선택 삭제</button>
     
-      <table class="query-box">
-        <thead class="query">
+      <table class="review-box">
+        <thead class="review">
           <tr>
-            <th class="queryNo">문의 번호</th>
-            <th class="title">제목</th>
-            <th class="writer">작성자</th>
-            <th class="writeDate">작성일</th>
-            <th class="status">답변 상태</th>
+            <th>
+              <input type="checkbox">
+            </th>
+            <th class="queryNo">책 번호</th>
+            <th class="title">책 제목</th>
+            <th class="score">구매자 평점</th>
+            <th class="image">사진</th>
+            <th class="content">리뷰 내용</th>
+            <th class="name">작성자</th>
+            <th class="writeDate">작성 일자</th>
+            <th class="updateDate">리뷰 수정 일자</th>
+            <th class="reviewNo">리뷰 글 번호</th>
           </tr>
         </thead>
 
-        <tbody class="queryContent"> 
+        <tbody class="reviewContent"> 
           <tr>
-            <td class="status">답변완료</td> <!-- div1 -->
-            <td><!-- div2 -->
-              <div class="title faq-toggle"> <!-- title -->
-                <span class="arrow-icon"></span>배송이 언제되는건가요?
-              </div>
-              <div class="supporting-text" style="display: none;"> <!--content -->
-                <p> 
-                  20241105에 주문을 했는데 <br>
-                  아직도 배송이 안오네요 <br>
-                  <br>
-                  언제 배송이 도착할까요?
-                </p>
-                <hr>
-                <p>
-                  저도 잘몰라요
-                </p>
-              </div>
-            </td>
-            <td class="writer">정원근</td> <!-- div3 -->
-            <td class="writeDate">2024.11.15</td> <!-- div4 -->
+            <th>
+              <input type="checkbox">
+            </th>
+            <td>2024111809230</td>
+            <td>자바란 무엇인가?</td>
+            <td>3점</td>
+            <td>사진없어요</td>
+            <td>무슨말인지 하나도 모르겠네요. 재구매는 없습니다.</td>
+            <td>정원근</td>
+            <td>2024년 11월 18일 00:00</td>
+            <td>2024년 11월 18일 09:00</td>
+            <td>1</td>
+            
           </tr>
         </tbody>
       </table>
@@ -142,22 +145,7 @@
   </section>
 
   
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const toggles = document.querySelectorAll(".faq-toggle");
-      toggles.forEach(toggle => {
-        toggle.addEventListener("click", function () {
-                const answer = document.querySelector(".supporting-text");
-                const icon = this.querySelector(".arrow-icon");
-                if (answer.style.display === "block") {
-                  answer.style.display = "none";
-                } else {
-                  answer.style.display = "block";
-                }
-              });
-        });
-    });
-  </script>
-<script src="/js/admin/query.js"></script>
+
+<script src="/js/admin/review.js"></script>
 </body>
 </html>

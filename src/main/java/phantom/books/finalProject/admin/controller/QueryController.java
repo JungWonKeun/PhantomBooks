@@ -47,5 +47,13 @@ public class QueryController {
 			) {
 		return service.deleteQuery(queryNo);
 	}
+	
+	@PutMapping("updateStatus")
+	@ResponseBody
+	public int updateStatus(
+			@RequestParam("queryNo") int queryNo) {
+		return service.updateStatus(queryNo);
+	}
+	
 }
 ;

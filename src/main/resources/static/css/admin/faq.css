@@ -21,9 +21,10 @@ html, body {
   height: 100%;
   overflow: hidden; /* 스크롤 없애기 */
 }
+
 .header{
   width: auto;
-  height: 100px;
+  height: 70px;
   margin: 0;
 
   display: flex;
@@ -36,7 +37,7 @@ html, body {
 .logo {
   position: absolute;
   left: 3%;
-  top: 6%;
+  top: 5%;
   transform: translate(-50%, -50%);
 }
 
@@ -60,6 +61,16 @@ html, body {
   border-radius: 25px;
 }
 
+.content-box {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 20px;
+  width: 100%; 
+  min-height: 100vh;
+  height: 100%;
+  overflow-x: hidden;
+}
 
 /* 사이드바 css입니당 */
 .sideBar {
@@ -113,72 +124,15 @@ html, body {
   display: block;
 }
 
-.content-box{
-  display: flex;
-  flex-direction: row;
-  align-items: start;
-  justify-content: start;
-}
-
-.sideBar{
-  width: 300px;
-  height: 850px;
-  margin-right: 80px;
-}
-
-.content{
+.content {
+  flex-grow: 1; 
   display: flex;
   flex-direction: column;
-  width: 1500px;
-  height: 850px;
+  gap: 20px;
+  padding: 20px;
+  background-color: #efefef;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  min-width: 0; 
+  max-width: 100%;
 }
-
-.sortSelect{
-  display: flex;
-  flex-direction: row;
-  width: 200px;
-  height: 40px;
-  margin-left: 1200px;
-  margin-bottom: 10px;
-  text-align: center;
-  border-radius: 10px;
-  font-size: large;
-  font-weight: bold;
-}
-
-.query-box{
-  width: 1500px;
-  height: 850px;
-}
-
-.query{
-  margin-bottom: 10px;
-}
-
-.queryContent{
-  margin-bottom: 10px;
-  width: 1500px;
-}
-
-.queryNo{
-  width: 100px;
-  text-align: center;
-}
-.status{
-  width: 200px;
-  text-align: center;
-}
-.title{
-  width: 800px;
-  text-align: center;
-}
-.writer{
-  width: 200px;
-  text-align: center;
-}
-.writeDate{
-  width: 200px;
-  text-align: center;
-}
-
-

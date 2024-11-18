@@ -60,4 +60,9 @@ public class QueryServiceImpl implements QueryService{
 		return mapper.deleteQuery(queryNo);
 	}
 
+	// 답변 상태 변경
+	@Override
+	public int updateStatus(int queryNo) {
+		return mapper.updateStatus(queryNo);
+	}
 }
