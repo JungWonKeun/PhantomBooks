@@ -26,6 +26,24 @@
 		AND MEMBER_DEL_FL = 'N'
 	</select>
 	
+	<!-- 회원 가입 -->
+	<insert id="signUp" parameterType="Member">
+		INSERT INTO "MEMBER"
+		VALUES(
+			SEQ_MEMBER_NO.NEXTVAL,
+			#{memberId},
+			#{memberPw},
+			#{zip},
+			#{address},
+			#{detailAddress},
+			NULL, NULL, NULL,
+			#{telNo},
+			#{birthDate},
+			#{name},
+			DEFAULT, NULL, DEFAULT, DEFAULT, DEFAULT
+			)
+	</insert>
+	
 	
 	<!-- 로그인 성공 시 loginDate 현재 시간으로 update -->
 	<update id="updateLoginDate">

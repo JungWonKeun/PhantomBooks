@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -97,6 +99,42 @@ public class MemberController {
 		return "member/signUp"; // 회원가입 페이지로 이동
 	}
 	
+	
+	/**
+	 * 회원 가입 수행
+	 * 
+	 * @param inputMember : 입력값이 저장된 Member 객체(커맨드 객체)
+	 * @param ra          : 리다이렉트 시 request scope로 값 전달
+	 * @return
+	 */
+	@PostMapping("signUp")
+	public String signUp(@ModelAttribute Member inputMember, RedirectAttributes ra) {
+
+		// 회원가입 데이터 검사
+		log.debug("회원가입 데이터 검사 : {}", inputMember);
+		
+		
+		if (inputMember.getMemberPw() == null || inputMember.getMemberPw().isEmpty()) {
+	    throw new IllegalArgumentException("Password cannot be null or empty");
+	}
+		// 회원 가입 서비스 호출
+		int result = service.signUp(inputMember);
+
+		// 서비스 결과에 따라 응답 제어
+		String path = null;
+		String message = null;
+
+		if (result > 0) {
+	    path = "/?showLoginModal=true";
+	    message = inputMember.getName() + "님의 가입을 환영합니다";
+	} else {
+	    path = "signUp";
+	    message = "회원 가입 실패...";
+	}
+	ra.addFlashAttribute("message", message);
+	return "redirect:" + path;
+
+	}
 	
 	/** 아이디 중복 검사
 	 * @param memberId
