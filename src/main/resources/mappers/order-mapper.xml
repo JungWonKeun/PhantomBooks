@@ -1,99 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="phantom.books.finalProject.order.mapper.OrderMapper">
 
-	<!-- 주문 ID로 주문 정보 조회 -->
+    <resultMap id="OrderResultMap" type="OrderDto">
+        <id property="orderNo" column="order_no" />
+        <result property="memberNo" column="member_no" />
+        <result property="authNo" column="auth_no" />
+        <result property="orderDate" column="order_date" />
+        <result property="orderCount" column="order_count" />
+        <result property="totalPrice" column="total_price" />
+        <result property="deliveryAddress" column="delivery_address" />
+        <result property="receiver" column="receiver" />
+    </resultMap>
+
+    <!-- 주문 ID로 주문 정보 조회 -->
     <select id="findOrderByOrderId" parameterType="string" resultMap="OrderResultMap">
-	    SELECT 
-	        o.order_no AS orderNo,
-	        o.member_no AS memberNo,
-	        o.auth_no AS authNo,
-	        o.order_date AS orderDate,
-	        o.order_count AS orderCount,
-	        o.order_price AS totalPrice,
-	        d.user_address AS deliveryAddress,
-	        d.user_name AS receiver,
-	        b.book_no AS bookNo,
-	        b.book_title AS bookTitle,
-	        b.book_price AS bookPrice,
-	        ol.book_count AS bookCount
-	    FROM orders o
-	    LEFT JOIN delivery d ON o.order_no = d.order_no
-	    LEFT JOIN order_list ol ON o.order_no = ol.order_no
-	    LEFT JOIN book b ON ol.book_no = b.book_no
-	    WHERE o.order_no = #{orderId}
-	</select>
-	
-	<resultMap id="OrderResultMap" type="OrderDto">
-	    <id property="orderNo" column="orderNo" />
-	    <result property="memberNo" column="memberNo" />
-	    <result property="authNo" column="authNo" />
-	    <result property="orderDate" column="orderDate" />
-	    <result property="orderCount" column="orderCount" />
-	    <result property="totalPrice" column="totalPrice" />
-	    <result property="deliveryAddress" column="deliveryAddress" />
-	    <result property="receiver" column="receiver" />
-	    
-	    <collection property="books" ofType="Book">
-	        <id property="bookNo" column="bookNo" />
-	        <result property="bookTitle" column="bookTitle" />
-	        <result property="bookPrice" column="bookPrice" />
-	        <result property="bookCount" column="bookCount" />
-	    </collection>
-	</resultMap>
+        SELECT * 
+        FROM orders 
+        WHERE order_no = #{orderId}
+    </select>
 
+    <!-- 주문 항목 조회 -->
+    <select id="findOrderItemByBookNoAndQuantity" parameterType="map" resultType="OrderDto">
+        SELECT 
+            b.book_no AS bookNo,
+            b.book_title AS bookTitle,
+            b.book_price AS bookPrice,
+            #{quantity} AS quantity,
+            (b.book_price * #{quantity}) AS totalPrice
+        FROM book b
+        WHERE b.book_no = #{bookNo}
+    </select>
 
-	<select id="findOrderItemByBookNoAndQuantity" parameterType="map" resultMap="OrderResultMap">
-	    SELECT 
-	        b.BOOK_NO AS bookNo,
-	        b.BOOK_TITLE AS bookTitle,
-	        b.BOOK_PRICE AS bookPrice,
-	        #{quantity} AS cartCount
-	    FROM book b
-	    WHERE b.BOOK_NO = #{bookNo}
-	</select>
+    <!-- 선택된 아이템으로 주문 항목 조회 -->
+    <select id="getOrderItemsByIds" parameterType="map" resultMap="OrderResultMap">
+        SELECT 
+            b.book_no AS bookNo,
+            b.book_title AS bookTitle,
+            b.book_price AS bookPrice,
+            c.cart_count AS quantity
+        FROM cart c
+        JOIN book b ON c.book_no = b.book_no
+        WHERE c.member_no = #{memberNo}
+          AND b.book_no IN 
+          <foreach item="id" collection="selectedItems" open="(" separator="," close=")">
+              #{id}
+          </foreach>
+    </select>
 
-
-
-	<select id="getOrderItemsByIds" parameterType="map" resultType="OrderDto">
-	    SELECT 
-	        c.CART_COUNT AS cartCount,
-	        b.BOOK_NO AS bookNo,
-	        b.BOOK_TITLE AS bookTitle,
-	        COALESCE(b.BOOK_COVER, '/images/bookCover/default.jpg') AS bookCover,
-	        b.BOOK_PRICE AS bookPrice
-	    FROM 
-	        cart c
-	    JOIN 
-	        book b ON c.BOOK_NO = b.BOOK_NO
-	    WHERE 
-	        c.MEMBER_NO = #{memberNo}
-	        AND b.BOOK_NO IN 
-	        <foreach item="id" collection="selectedItems" open="(" separator="," close=")">
-	            #{id}
-	        </foreach>
-	</select>
-
-	
-	<insert id="saveOrder" parameterType="OrderDto">
-	    INSERT INTO orders (
-	        order_no,
-	        member_no,
-	        order_date,
-	        order_count,
-	        order_price,
-	        delivery_address,
-	        receiver
-	    ) VALUES (
-	        #{orderNo},
-	        #{memberNo},
-	        NOW(),
-	        #{orderCount},
-	        #{totalPrice},
-	        #{deliveryAddress},
-	        #{receiver}
-	    );
-	</insert>
-
-
+    <!-- 주문 저장 -->
+    <insert id="saveOrder" parameterType="OrderDto">
+        INSERT INTO orders (
+            order_no, member_no, order_date, order_count, total_price, delivery_address, receiver
+        ) VALUES (
+            #{orderNo}, #{memberNo}, NOW(), #{orderCount}, #{totalPrice}, #{deliveryAddress}, #{receiver}
+        )
+    </insert>
 </mapper>

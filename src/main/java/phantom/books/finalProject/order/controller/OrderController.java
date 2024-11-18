@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import phantom.books.finalProject.cart.dto.CartDto;
 import phantom.books.finalProject.member.dto.Member;
 import phantom.books.finalProject.order.dto.OrderDto;
 import phantom.books.finalProject.order.service.OrderService;
@@ -28,28 +29,35 @@ import phantom.books.finalProject.order.service.OrderService;
 public class OrderController {
     private final OrderService service;
 
-    @RequestMapping("")
+    @GetMapping("")
     public String orderPage(
-            Model model,
-            @SessionAttribute("loginMember") Member loginMember,
-            @RequestParam(value = "selectedItems", required = false) List<Integer> selectedItems) {
+            @SessionAttribute(value = "selectedItems", required = false) List<CartDto> selectedItems,
+            @SessionAttribute(value = "loginMember", required = false) Member loginMember,
+            Model model) {
 
         if (loginMember == null) {
-            log.info("로그인이 필요합니다.");
             return "redirect:/";
         }
 
         if (selectedItems == null || selectedItems.isEmpty()) {
-            log.info("선택된 주문 항목이 없습니다.");
             model.addAttribute("errorMessage", "선택된 주문 항목이 없습니다.");
             return "error/error";
         }
 
-        List<OrderDto> orderItems = service.getOrderItemsByIds(loginMember.getMemberNo(), selectedItems);
-        model.addAttribute("orderItems", orderItems);
+        int totalPrice = selectedItems.stream()
+                .mapToInt(item -> item.getBookPrice() * item.getCartCount())
+                .sum();
+        
+        int deliveryFee = 3500;
+
+        model.addAttribute("orderItems", selectedItems);
+        model.addAttribute("totalPrice", totalPrice);
+        model.addAttribute("deliveryFee", deliveryFee);
         return "order/order";
     }
 
+    
+    
     @GetMapping("/afterOrder")
     public String afterOrder(@RequestParam("orderId") String orderId, Model model) {
         OrderDto order = service.findOrderByOrderId(orderId);
@@ -62,6 +70,8 @@ public class OrderController {
         model.addAttribute("order", order);
         return "order/afterOrder";
     }
+    
+    
 
     @PostMapping("/process")
     public String processOrder(
@@ -75,8 +85,8 @@ public class OrderController {
 
         List<OrderDto> orderItems = selectedItems.stream()
                 .map(item -> service.getOrderItemByBookNoAndQuantity(
-                        (int) item.get("bookNo"), 
-                        (int) item.get("quantity")))
+                        (Integer) item.get("bookNo"), 
+                        (Integer) item.get("quantity")))
                 .collect(Collectors.toList());
 
         model.addAttribute("orderItems", orderItems);

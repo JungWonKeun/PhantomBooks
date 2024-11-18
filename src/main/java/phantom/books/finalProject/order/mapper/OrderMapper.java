@@ -3,7 +3,7 @@ package phantom.books.finalProject.order.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.data.repository.query.Param;
+import org.apache.ibatis.annotations.Param;
 
 import phantom.books.finalProject.order.dto.OrderDto;
 
@@ -12,12 +12,12 @@ public interface OrderMapper {
     OrderDto findOrderByOrderId(String orderId);
 
     List<OrderDto> getOrderItemsByIds(
-            @Param("memberNo") int memberNo, 
+            @Param("memberNo") int memberNo,
             @Param("selectedItems") List<Integer> selectedItems);
 
     void saveOrder(OrderDto orderDto);
 
     OrderDto findOrderItemByBookNoAndQuantity(
-            @Param("bookNo") int bookNo, 
+            @Param("bookNo") int bookNo,
             @Param("quantity") int quantity);
 }
