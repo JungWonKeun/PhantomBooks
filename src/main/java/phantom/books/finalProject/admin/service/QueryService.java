@@ -8,6 +8,9 @@ public interface QueryService {
 	Map<String, Object> queryList(int cp, String sort);
 
 	// 답변 등록
-	int insertReply( int queryNo, String reply);
+	int insertReply( int queryNo, String inputReply);
+
+	// 문의 삭제
+	int deleteQuery(int queryNo);
 	
 }

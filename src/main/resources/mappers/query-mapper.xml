@@ -31,21 +31,51 @@
 		<choose>
 			<when test="sort == 'all'">
 				SELECT
-					*
-				FROM QUERY		
+					QUERY_NO,
+					MEMBER_NO,
+					QUERY_TITLE,
+					QUERY_CONTENT,
+					QUERY_WRITE_DATE,
+					QUERY_UPDATE_DATE,
+					QUERY_IMG_NO,
+					REPLY,
+					STATUS,
+					MEMBER_ID
+				FROM QUERY Q
+				LEFT JOIN "MEMBER" M USING(MEMBER_NO) 	
 				ORDER BY QUERY_WRITE_DATE DESC		
 			</when>
 			<when test="sort == 'no'">
 				SELECT
-					*
-				FROM QUERY
+					QUERY_NO,
+					MEMBER_NO,
+					QUERY_TITLE,
+					QUERY_CONTENT,
+					QUERY_WRITE_DATE,
+					QUERY_UPDATE_DATE,
+					QUERY_IMG_NO,
+					REPLY,
+					STATUS,
+					MEMBER_ID
+				FROM QUERY Q
+				LEFT JOIN "MEMBER" M USING(MEMBER_NO) 
 				WHERE STATUS != 2
 				ORDER BY QUERY_WRITE_DATE DESC
 			</when>
 			<when test="sort == 'ok'">
 				SELECT
-					*
-				FROM QUERY
+					QUERY_NO,
+					MEMBER_NO,
+					QUERY_TITLE,
+					QUERY_CONTENT,
+					QUERY_WRITE_DATE,
+					QUERY_UPDATE_DATE,
+					QUERY_IMG_NO,
+					REPLY,
+					STATUS,
+					MEMBER_ID
+				FROM QUERY Q
+				LEFT JOIN "MEMBER" M USING(MEMBER_NO) 
 				WHERE STATUS = 2
 				ORDER BY QUERY_WRITE_DATE DESC
 			</when>
@@ -53,10 +83,17 @@
 		 
 	</select>
 
-	<insert id="insertReply">
-		INSERT INTO QUERY (REPLY)
-		VALUE(#{reply})
+	<update id="insertReply">
+		UPDATE QUERY
+		SET 
+		 REPLY = #{inputReply}
+		WHERE QUERY_NO =#{queryNo}
+	</update>
+	
+	<delete id="deleteQuery">
+		DELETE 
+		FROM "QUERY"
 		WHERE QUERY_NO = #{queryNo}
-	</insert>
+	</delete>
 
 </mapper>
