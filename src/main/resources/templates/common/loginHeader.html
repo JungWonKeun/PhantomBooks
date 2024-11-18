@@ -17,7 +17,8 @@
 
         <!-- 검색 바 -->
         <div class="search-bar">
-            <form action="/searchBookPage/searchBooks" method="get">
+            <form action="/searchBookPage/searchBooks" method="get"
+             th:value="${param.searchTitle ?: ''}">
                 <input type="text" name="searchTitle" placeholder="검색어를 입력하세요" />
                 <button type="submit">Search</button>
             </form>

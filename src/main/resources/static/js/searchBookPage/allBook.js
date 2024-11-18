@@ -182,86 +182,93 @@ function detailCart(button) {
 
 
 /* 옵션 박스  */
-document.addEventListener("DOMContentLoaded", function () {
-    const categoryButton = document.getElementById("categoryButton");
+document.getElementById("categoryButton").addEventListener("click", function () {
     const checkboxCategory = document.getElementById("checkboxCategory");
     const selectedCategoryValuesDiv = document.getElementById("selectedCategoryValues");
-  
-    const preferenceButton = document.getElementById("preferenceButton");
-    const checkboxPreference = document.getElementById("checkboxPreference");
-    const selectedPreferenceValuesDiv = document.getElementById("selectedPreferenceValues");
-  
-    // 카테고리 버튼 클릭 시 모달 창 표시/숨기기 및 위치 설정
-    categoryButton.onclick = function (event) {
-        event.stopPropagation();
-        toggleModal(checkboxCategory, categoryButton);
-        checkboxPreference.classList.remove("visible");
-    };
-  
-    // Preference 버튼 클릭 시 모달 창 표시/숨기기 및 위치 설정
-    preferenceButton.onclick = function (event) {
-        event.stopPropagation();
-        toggleModal(checkboxPreference, preferenceButton);
-        checkboxCategory.classList.remove("visible");
-    };
-  
-    // 체크박스 클릭 시 선택된 값 업데이트
+
+    toggleModal(checkboxCategory, this); // 모달 표시/숨기기
+    document.getElementById("checkboxPreference").classList.remove("visible"); // 다른 모달 닫기
+
+    // 기본 값 "없음" 출력
+    if (!selectedCategoryValuesDiv.hasChildNodes()) {
+        selectedCategoryValuesDiv.innerHTML = "선택한 항목: 없음";
+    }
+
+    // 체크박스 변경 이벤트 등록
     checkboxCategory.addEventListener("change", function () {
         updateSelectedValues(checkboxCategory, selectedCategoryValuesDiv);
     });
-  
+});
+
+document.getElementById("preferenceButton").addEventListener("click", function () {
+    const checkboxPreference = document.getElementById("checkboxPreference");
+    const selectedPreferenceValuesDiv = document.getElementById("selectedPreferenceValues");
+
+    toggleModal(checkboxPreference, this); // 모달 표시/숨기기
+    document.getElementById("checkboxCategory").classList.remove("visible"); // 다른 모달 닫기
+
+    // 기본 값 "없음" 출력
+    if (!selectedPreferenceValuesDiv.hasChildNodes()) {
+        selectedPreferenceValuesDiv.innerHTML = "선택한 항목: 없음";
+    }
+
+    // 체크박스 변경 이벤트 등록
     checkboxPreference.addEventListener("change", function () {
         updateSelectedValues(checkboxPreference, selectedPreferenceValuesDiv);
     });
-  
-    // 모달 외부 클릭 시 모든 모달 숨기기
-    window.onclick = function (event) {
-        if (event.target !== categoryButton && !checkboxCategory.contains(event.target)) {
-            checkboxCategory.classList.remove("visible");
-        }
-        if (event.target !== preferenceButton && !checkboxPreference.contains(event.target)) {
-            checkboxPreference.classList.remove("visible");
-        }
-    };
-  
-    // 모달 창 표시/숨기기 함수
-    function toggleModal(modal, button) {
-        if (modal.classList.contains("visible")) {
-            modal.classList.remove("visible");
-        } else {
-            const buttonRect = button.getBoundingClientRect();
-            modal.style.top = buttonRect.bottom + window.scrollY + "px";
-            modal.style.left = buttonRect.left + "px";
-            modal.classList.add("visible");
-        }
+});
+
+// 모달 외부 클릭 시 모든 모달 숨기기
+window.onclick = function (event) {
+    if (!event.target.closest("#categoryButton") && !event.target.closest("#checkboxCategory")) {
+        document.getElementById("checkboxCategory").classList.remove("visible");
     }
-  
-    // 선택된 값 업데이트 함수
-    function updateSelectedValues(modal, displayDiv) {
-        displayDiv.innerHTML = "선택한 항목: ";
-        const selectedCheckboxes = modal.querySelectorAll("input[type='checkbox']:checked");
-  
-        selectedCheckboxes.forEach((checkbox) => {
-            const value = checkbox.value;
-            const itemDiv = document.createElement("div");
-            itemDiv.classList.add("selected-value-item");
-            itemDiv.textContent = value;
-  
-            // 선택된 항목 클릭 시 해제
-            itemDiv.onclick = function () {
-                checkbox.checked = false;
-                updateSelectedValues(modal, displayDiv);
-            };
-  
-            displayDiv.appendChild(itemDiv);
-        });
-  
-        if (selectedCheckboxes.length === 0) {
-            displayDiv.innerHTML += "없음";
-        }
+    if (!event.target.closest("#preferenceButton") && !event.target.closest("#checkboxPreference")) {
+        document.getElementById("checkboxPreference").classList.remove("visible");
     }
-  });
-  
+};
+
+// 모달 창 표시/숨기기 함수
+function toggleModal(modal, button) {
+    if (modal.classList.contains("visible")) {
+        modal.classList.remove("visible");
+    } else {
+        const buttonRect = button.getBoundingClientRect();
+        modal.style.top = buttonRect.bottom + window.scrollY + "px";
+        modal.style.left = buttonRect.left + "px";
+        modal.classList.add("visible");
+    }
+}
+
+// 선택된 값 업데이트 함수
+function updateSelectedValues(modal, displayDiv) {
+    const selectedCheckboxes = modal.querySelectorAll("input[type='checkbox']:checked");
+
+    // 선택된 항목이 없을 경우 "없음" 표시
+    if (selectedCheckboxes.length === 0) {
+        displayDiv.innerHTML = "선택한 항목: 없음";
+        return;
+    }
+
+    // 선택된 항목이 있을 경우 업데이트
+    displayDiv.innerHTML = "선택한 항목: "; // 기존 내용을 초기화
+    selectedCheckboxes.forEach((checkbox) => {
+        const labelText = checkbox.parentElement.textContent.trim(); // label 텍스트 가져오기
+        const itemDiv = document.createElement("div");
+        itemDiv.classList.add("selected-value-item");
+        itemDiv.textContent = labelText;
+
+        // 선택된 항목 클릭 시 해제
+        itemDiv.onclick = function () {
+            checkbox.checked = false;
+            updateSelectedValues(modal, displayDiv); // 업데이트 함수 재호출
+        };
+
+        displayDiv.appendChild(itemDiv);
+    });
+}
+
+
   
 
 /* 옵션 박스 끝 */
@@ -273,46 +280,215 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // 페이지 이동을 위한 버튼 모두 얻어오기
 // 페이지 이동 버튼 처리
-document.querySelectorAll(".pagination a").forEach((item) => {
-    item.addEventListener("click", (e) => {
-      e.preventDefault(); // 기본 동작 막기
-  
-      if (item.classList.contains("current")) return; // 현재 페이지는 클릭 무시
-  
-      const url = new URL(location.href); // 현재 URL 기반 생성
-  
-      // 페이지 이동 설정
-      const pageAction = item.innerText.trim();
-      if (pageAction === "<<") {
-        url.searchParams.set("cp", "1"); // 첫 페이지
-      } else if (pageAction === "<") {
-        url.searchParams.set("cp", pagination?.prevPage || "1"); // 이전 페이지
-      } else if (pageAction === ">") {
-        url.searchParams.set("cp", pagination?.nextPage || pagination?.maxPage || "1"); // 다음 페이지
-      } else if (pageAction === ">>") {
-        url.searchParams.set("cp", pagination?.maxPage || "1"); // 마지막 페이지
-      } else if (!isNaN(pageAction)) {
-        url.searchParams.set("cp", pageAction); // 특정 페이지 번호
-      } else {
-        console.error("Invalid page action:", pageAction);
-        return;
-      }
-  
-      // 검색어 및 기존 조건 추가
-      const searchTitle = document.querySelector("#searchQuery")?.value.trim(); // 검색어
-      if (searchTitle) url.searchParams.set("searchTitle", searchTitle);
-  
-      // 카테고리 추가
-      document.querySelectorAll("#checkboxCategory input:checked").forEach((checkbox) => {
-        url.searchParams.append("category", checkbox.value);
-      });
-  
-      // 프리퍼런스 추가
-      document.querySelectorAll("#checkboxPreference input:checked").forEach((checkbox) => {
-        url.searchParams.append("preference", checkbox.value);
-      });
-  
-      location.href = url.toString(); // URL 변경으로 페이지 이동
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("JavaScript Loaded!");
+
+    // Pagination 클릭 이벤트 처리
+    document.querySelectorAll(".pagination a").forEach((item) => {
+        item.addEventListener("click", handlePaginationClick);
     });
-  });
-  
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("JavaScript Loaded!");
+
+    // Pagination 클릭 이벤트 처리
+    document.querySelectorAll(".pagination a").forEach((item) => {
+        item.addEventListener("click", handlePaginationClick);
+    });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("JavaScript Loaded!");
+
+    document.querySelectorAll(".pagination a").forEach((item) => {
+        item.addEventListener("click", handlePaginationClick);
+    });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("JavaScript Loaded!");
+
+    document.querySelectorAll(".pagination a").forEach((item) => {
+        item.addEventListener("click", handlePaginationClick);
+    });
+});
+
+function handlePaginationClick(event) {
+    event.preventDefault();
+
+    const item = event.target;
+    if (item.classList.contains("current")) return;
+
+    const url = new URL(location.href);
+
+    const pageAction = item.innerText.trim();
+    if (pageAction === "<<") url.searchParams.set("cp", "1");
+    else if (pageAction === "<") url.searchParams.set("cp", pagination?.prevPage || "1");
+    else if (pageAction === ">") url.searchParams.set("cp", pagination?.nextPage || "1");
+    else if (pageAction === ">>") url.searchParams.set("cp", pagination?.maxPage || "1");
+    else if (!isNaN(pageAction)) url.searchParams.set("cp", pageAction);
+
+    // 선택된 카테고리 추가
+    const selectedCategories = Array.from(
+        document.querySelectorAll("#checkboxCategory input:checked")
+    ).map((checkbox) => checkbox.value);
+
+    selectedCategories.forEach((category) => url.searchParams.append("category", category));
+    console.log("Selected Categories:", selectedCategories);
+
+    // 선택된 프리퍼런스 추가
+    const selectedPreferences = Array.from(
+        document.querySelectorAll("#checkboxPreference input:checked")
+    ).map((checkbox) => checkbox.value);
+
+    selectedPreferences.forEach((preference) => url.searchParams.append("preference", preference));
+    console.log("Selected Preferences:", selectedPreferences);
+
+    // 확인용 최종 URL 출력
+    console.log("Generated URL:", url.toString());
+    location.href = url.toString();
+}
+
+// DOMContentLoaded: 페이지 로드 후 실행
+document.addEventListener("DOMContentLoaded", () => {
+    // 검색 바 입력 값 유지
+    const searchInput = document.querySelector('input[name="searchTitle"]');
+    const savedSearchTitle = localStorage.getItem('searchTitle');
+    if (savedSearchTitle) {
+        searchInput.value = savedSearchTitle;
+    }
+
+    // 카테고리 체크박스 상태 유지
+    const savedCategories = JSON.parse(localStorage.getItem('categories') || "[]");
+    savedCategories.forEach(category => {
+        const checkbox = document.querySelector(`#checkboxCategory input[value="${category}"]`);
+        if (checkbox) checkbox.checked = true;
+    });
+
+    // Preference 체크박스 상태 유지
+    const savedPreferences = JSON.parse(localStorage.getItem('preferences') || "[]");
+    savedPreferences.forEach(preference => {
+        const checkbox = document.querySelector(`#checkboxPreference input[value="${preference}"]`);
+        if (checkbox) checkbox.checked = true;
+    });
+
+    // 선택된 항목 표시 영역
+    const selectedCategoryValuesDiv = document.getElementById("selectedCategoryValues");
+    const selectedPreferenceValuesDiv = document.getElementById("selectedPreferenceValues");
+
+    // 초기 상태 업데이트
+    updateSelectedValues();
+
+    // 체크박스 변경 시 선택된 항목 업데이트
+    document.querySelectorAll("#checkboxCategory input").forEach(checkbox => {
+        checkbox.addEventListener("change", updateSelectedValues);
+    });
+    document.querySelectorAll("#checkboxPreference input").forEach(checkbox => {
+        checkbox.addEventListener("change", updateSelectedValues);
+    });
+
+    // 검색 실행 시 값 저장
+    document.querySelector('form').addEventListener('submit', () => {
+        // 검색어 저장
+        const searchValue = searchInput.value;
+        localStorage.setItem('searchTitle', searchValue);
+
+        // 선택된 카테고리 저장
+        const selectedCategories = Array.from(
+            document.querySelectorAll('#checkboxCategory input:checked')
+        ).map(checkbox => checkbox.value);
+        localStorage.setItem('categories', JSON.stringify(selectedCategories));
+
+        // 선택된 Preference 저장
+        const selectedPreferences = Array.from(
+            document.querySelectorAll('#checkboxPreference input:checked')
+        ).map(checkbox => checkbox.value);
+        localStorage.setItem('preferences', JSON.stringify(selectedPreferences));
+    });
+
+    // 선택한 값을 업데이트하는 함수
+    function updateSelectedValues() {
+        // 카테고리 값 업데이트
+        const selectedCategories = Array.from(
+            document.querySelectorAll("#checkboxCategory input:checked")
+        ).map(checkbox => checkbox.parentElement.textContent.trim());
+
+        if (selectedCategories.length > 0) {
+            selectedCategoryValuesDiv.innerHTML = "선택한 항목: " + selectedCategories.join(", ");
+        } else {
+            selectedCategoryValuesDiv.innerHTML = "선택한 항목: 없음";
+        }
+
+        // 프리퍼런스 값 업데이트
+        const selectedPreferences = Array.from(
+            document.querySelectorAll("#checkboxPreference input:checked")
+        ).map(checkbox => checkbox.parentElement.textContent.trim());
+
+        if (selectedPreferences.length > 0) {
+            selectedPreferenceValuesDiv.innerHTML = "선택한 항목: " + selectedPreferences.join(", ");
+        } else {
+            selectedPreferenceValuesDiv.innerHTML = "선택한 항목: 없음";
+        }
+    }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    const updateSelectedValues = () => {
+        // 선택된 카테고리 표시
+        const selectedCategories = Array.from(
+            document.querySelectorAll("#checkboxCategory input:checked")
+        ).map(checkbox => checkbox.parentElement.textContent.trim());
+        const selectedCategoryValuesDiv = document.getElementById("selectedCategoryValues");
+
+        if (selectedCategories.length > 0) {
+            selectedCategoryValuesDiv.textContent = `선택한 항목: ${selectedCategories.join(", ")}`;
+        } else {
+            selectedCategoryValuesDiv.textContent = "선택한 항목: 없음";
+        }
+
+        // 선택된 프리퍼런스 표시
+        const selectedPreferences = Array.from(
+            document.querySelectorAll("#checkboxPreference input:checked")
+        ).map(checkbox => checkbox.parentElement.textContent.trim());
+        const selectedPreferenceValuesDiv = document.getElementById("selectedPreferenceValues");
+
+        if (selectedPreferences.length > 0) {
+            selectedPreferenceValuesDiv.textContent = `선택한 항목: ${selectedPreferences.join(", ")}`;
+        } else {
+            selectedPreferenceValuesDiv.textContent = "선택한 항목: 없음";
+        }
+    };
+
+    // 페이지 로드 후 초기화
+    updateSelectedValues();
+
+    // 체크박스 변경 이벤트에 업데이트 연결
+    document.querySelectorAll("#checkboxCategory input, #checkboxPreference input")
+        .forEach(checkbox => checkbox.addEventListener("change", updateSelectedValues));
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    const searchForm = document.querySelector('form#searchForm');
+
+    searchForm.addEventListener('submit', () => {
+        const hiddenCategories = document.getElementById("hiddenCategories");
+        const hiddenPreferences = document.getElementById("hiddenPreferences");
+
+        const selectedCategories = Array.from(
+            document.querySelectorAll("#checkboxCategory input:checked")
+        ).map(checkbox => checkbox.value);
+
+        const selectedPreferences = Array.from(
+            document.querySelectorAll("#checkboxPreference input:checked")
+        ).map(checkbox => checkbox.value);
+
+        hiddenCategories.value = selectedCategories.join(",");
+        hiddenPreferences.value = selectedPreferences.join(",");
+
+        console.log("Submitting form with:");
+        console.log("Categories:", hiddenCategories.value);
+        console.log("Preferences:", hiddenPreferences.value);
+    });
+});
+
