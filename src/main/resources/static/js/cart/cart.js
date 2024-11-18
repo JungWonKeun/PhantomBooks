@@ -2,28 +2,74 @@ document.addEventListener('DOMContentLoaded', () => {
   const quantityInputs = document.querySelectorAll('.quantity-input');
   const checkboxes = document.querySelectorAll('input[type="checkbox"]');
   const totalPriceElement = document.getElementById('totalPrice');
-  const totalCountElement = document.getElementById('totalCount');
+  const totalPaymentElement = document.getElementById('totalPayment');
   const orderButton = document.getElementById('orderButton');
 
-  // 총 가격 및 총 상품 수 계산
+
+
+  // 전체 선택 버튼
+  const selectAllCheckbox = document.getElementById('selectAllCheckbox');
+  const itemCheckboxes = document.querySelectorAll('.cartTable tbody input[type="checkbox"]');
+
+  // "전체 선택" 체크박스 상태 변경 시
+  selectAllCheckbox.addEventListener('change', () => {
+    const isChecked = selectAllCheckbox.checked;
+    itemCheckboxes.forEach((checkbox) => {
+      checkbox.checked = isChecked;
+    });
+    calculateTotals(); // 총 가격 계산
+  });
+
+  // 개별 체크박스 상태 변경 시 "전체 선택" 체크박스 상태 업데이트
+  itemCheckboxes.forEach((checkbox) => {
+    checkbox.addEventListener('change', () => {
+      const allChecked = Array.from(itemCheckboxes).every((cb) => cb.checked);
+      selectAllCheckbox.checked = allChecked;
+      calculateTotals(); // 총 가격 계산
+    });
+  });
+
+  // 기존 계산 함수 포함
   function calculateTotals() {
     let totalPrice = 0;
-    let totalCount = 0;
+    const deliveryFee = 3500;
 
     document.querySelectorAll('.cartTable tbody tr').forEach((row) => {
       const checkbox = row.querySelector('input[type="checkbox"]');
-      const price = parseInt(row.querySelector('td:nth-child(4)').innerText.replace(/[^\d]/g, ''), 10) || 0; // 숫자만 추출
+      const price = parseInt(row.querySelector('td:nth-child(4)').innerText.replace(/[^\d]/g, ''), 10) || 0; 
       const quantity = parseInt(row.querySelector('.quantity-input').value, 10) || 0;
 
       if (checkbox.checked) {
         totalPrice += price * quantity;
-        totalCount += quantity;
       }
     });
 
+    const totalPayment = totalPrice + (totalPrice > 0 ? deliveryFee : 0);
+    totalPriceElement.innerText = `${totalPrice.toLocaleString()} 원`;
+    totalPaymentElement.innerText = `${totalPayment.toLocaleString()} 원`;
+  }
+
+  calculateTotals(); // 초기 계산
+
+  // 총 가격 및 총 상품 수 계산
+  function calculateTotals() {
+    let totalPrice = 0;
+    const deliveryFee = 3500;
+
+    document.querySelectorAll('.cartTable tbody tr').forEach((row) => {
+      const checkbox = row.querySelector('input[type="checkbox"]');
+      const price = parseInt(row.querySelector('td:nth-child(4)').innerText.replace(/[^\d]/g, ''), 10) || 0; 
+      const quantity = parseInt(row.querySelector('.quantity-input').value, 10) || 0;
+
+      if (checkbox.checked) {
+        totalPrice += price * quantity;
+      }
+    });
+
+    const totalPayment = totalPrice + (totalPrice > 0 ? deliveryFee : 0);
     // 총 상품 가격 및 주문 수량 업데이트
     totalPriceElement.innerText = `${totalPrice.toLocaleString()} 원`;
-    totalCountElement.innerText = `${totalCount} 개`;
+    totalPaymentElement.innerText = `${totalPayment.toLocaleString()} 원`;
   }
 
   // 수량 변경 및 체크박스 상태 변경 시 계산
@@ -40,6 +86,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // 삭제 버튼 기능
   document.querySelectorAll('.delete-btn').forEach((button) => {
     button.addEventListener('click', async () => {
+
+      const confirmDelete = confirm('장바구니에서 삭제하시겠습니까?');
+
+      if (!confirmDelete) {
+        return;
+      }
+
       const bookNo = button.getAttribute('data-id');
 
       try {
@@ -53,6 +106,84 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch (error) {
         console.error('삭제 중 오류 발생:', error);
         alert('삭제 중 오류가 발생했습니다.');
+      }
+    });
+  });
+
+  const deleteAllButton = document.getElementById('deleteAllButton');
+
+  deleteAllButton.addEventListener('click', async () => {
+    const selectedItems = [];
+    document.querySelectorAll('.cartTable tbody input[type="checkbox"]:checked').forEach((checkbox) => {
+        const bookNo = checkbox.closest('tr').querySelector('.delete-btn').getAttribute('data-id');
+        if (bookNo) {
+            selectedItems.push(parseInt(bookNo)); 
+        }
+    });
+
+    if (selectedItems.length === 0) {
+        alert('삭제할 항목을 선택하세요.');
+        return;
+    }
+
+    const confirmDelete = confirm('선택된 항목을 삭제하시겠습니까?');
+
+    if (!confirmDelete) {
+        return;
+    }
+
+    try {
+        const response = await fetch('/cart/deleteSelected', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(selectedItems),
+        });
+
+        if (response.ok) {
+            selectedItems.forEach((bookNo) => {
+                document.querySelector(`.cartTable tbody tr .delete-btn[data-id="${bookNo}"]`).closest('tr').remove();
+            });
+            calculateTotals(); // Recalculate totals
+        } else {
+            const errorMsg = await response.text();
+            console.error(`Server responded with error: ${errorMsg}`);
+            alert('삭제에 실패했습니다.');
+        }
+    } catch (error) {
+        console.error('삭제 중 오류 발생:', error);
+        alert('삭제 처리 중 문제가 발생했습니다.');
+    }
+    alert('삭제되었습니다.');
+});
+
+
+  // 가격에 ',' 표시
+  document.querySelectorAll('.book-price').forEach((element) => {
+    const price = parseInt(element.getAttribute('data-price'), 10);
+    element.textContent = price.toLocaleString() + '원';
+  });
+
+  // 수량 조절 기능
+  const quantityControls = document.querySelectorAll('.quantity-control');
+
+  quantityControls.forEach(control => {
+    const input = control.querySelector('.quantity-input');
+    const increaseBtn = control.querySelector('.increase');
+    const decreaseBtn = control.querySelector('.decrease');
+
+    // 증가 버튼
+    increaseBtn.addEventListener('click', () => {
+      const currentValue = parseInt(input.value, 10) || 0;
+      input.value = currentValue + 1;
+      calculateTotals();
+    });
+
+    // 감소 버튼
+    decreaseBtn.addEventListener('click', () => {
+      const currentValue = parseInt(input.value, 10) || 1;
+      if (currentValue > 1) {
+        input.value = currentValue - 1;
+        calculateTotals();
       }
     });
   });

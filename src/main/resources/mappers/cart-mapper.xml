@@ -2,19 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="phantom.books.finalProject.cart.mapper.CartMapper">
 	
-	<select id="getCartItems" parameterType="int" resultType="phantom.books.finalProject.cart.dto.CartDto">
+	<select id="getCartItems" parameterType="int" resultType="CartDto">
         SELECT 
             c.CART_COUNT AS cartCount,
             b.BOOK_NO AS bookNo,
             b.BOOK_TITLE AS bookTitle,
-            COALESCE(b.BOOK_COVER, '/images/bookCover/default.jpg') AS bookCover,
+            b.BOOK_COVER AS bookCover, 
             b.BOOK_PRICE AS bookPrice
         FROM 
-            cart c
+            CART c
         JOIN 
-            book b ON c.BOOK_NO = b.BOOK_NO
+            BOOK b ON c.BOOK_NO = b.BOOK_NO
         WHERE 
             c.MEMBER_NO = #{memberNo}
     </select>
+    
+    <delete id="deleteCartItem" parameterType="map">
+        DELETE FROM CART
+        WHERE MEMBER_NO = #{memberNo}
+          AND BOOK_NO = #{bookNo}
+    </delete>
+
+    <delete id="deleteSelectedCartItems" parameterType="map">
+        DELETE FROM CART
+        WHERE MEMBER_NO = #{memberNo}
+          AND BOOK_NO IN 
+          <foreach item="bookNo" collection="bookNoList" open="(" separator="," close=")">
+            #{bookNo}
+          </foreach>
+    </delete>
 
 </mapper>

@@ -3,9 +3,12 @@ package phantom.books.finalProject.cart.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +30,7 @@ import phantom.books.finalProject.member.dto.Member;
 @RequestMapping("/cart")
 public class CartController {
 
-    private final CartService cartService;
+    private final CartService service;
 
     @GetMapping
     public String cartPage(
@@ -43,7 +46,7 @@ public class CartController {
         log.info("로그인 사용자: {}, 회원 번호: {}", loginMember.getMemberNo(), loginMember.getMemberNo());
 
         // 로그인된 회원의 장바구니 아이템 가져오기
-        List<CartDto> cartItems = cartService.getCartItems(loginMember.getMemberNo());
+        List<CartDto> cartItems = service.getCartItems(loginMember.getMemberNo());
 
         if (cartItems == null || cartItems.isEmpty()) {
             log.info("장바구니가 비어 있습니다.");
@@ -54,9 +57,47 @@ public class CartController {
         return "cart/cart"; // Thymeleaf 장바구니 페이지
     }
     
-    
-    
+    @DeleteMapping("/delete/{bookNo}")
+    @ResponseBody
+    public ResponseEntity<String> deleteCartItem(
+            @PathVariable("bookNo") int bookNo,
+            @SessionAttribute(value = "loginMember", required = false) Member loginMember
+    ) {
+        if (loginMember == null) {
+            log.info("로그인이 필요합니다.");
+            return ResponseEntity.status(401).body("로그인이 필요합니다.");
+        }
+
+        log.info("장바구니 삭제 요청 - 회원 번호: {}, 책 번호: {}", loginMember.getMemberNo(), bookNo);
+
+        try {
+            boolean isDeleted = service.deleteCartItem(loginMember.getMemberNo(), bookNo);
+            if (isDeleted) {
+                log.info("장바구니 삭제 성공 - 회원 번호: {}, 책 번호: {}", loginMember.getMemberNo(), bookNo);
+                return ResponseEntity.ok("장바구니 항목이 삭제되었습니다.");
+            } else {
+                log.warn("장바구니 삭제 실패 - 존재하지 않는 항목. 회원 번호: {}, 책 번호: {}", loginMember.getMemberNo(), bookNo);
+                return ResponseEntity.status(400).body("삭제 실패: 존재하지 않는 항목입니다.");
+            }
+        } catch (Exception e) {
+            log.error("삭제 중 오류 발생 - 회원 번호: {}, 책 번호: {}, 오류: {}", loginMember.getMemberNo(), bookNo, e.getMessage());
+            return ResponseEntity.status(500).body("삭제 처리 중 오류가 발생했습니다.");
+        }
+    }
+
+    @PostMapping("/deleteSelected")
+    public ResponseEntity<Void> deleteSelectedCartItems(
+        @RequestBody List<Integer> selectedItems,
+        @SessionAttribute("loginMember") Member loginMember
+    ) {
+        try {
+            service.deleteSelectedCartItems(loginMember.getMemberNo(), selectedItems);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
 
 
 }
-
