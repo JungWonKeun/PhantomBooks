@@ -23,5 +23,7 @@ public class Query {
 	private String reply;
 	private int	   status;
 	
+	private String memberId;
+	
 	
 }

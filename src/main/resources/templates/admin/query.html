@@ -49,42 +49,48 @@
         <option value="ok">답변 완료</option>
       </select>
     
-      <div class="query-box">
-        <div class="query">
-          <div class="status">답변 상태</div>
-          <div class="title">제목</div>
-          <div class="writer">작성자</div>
-          <div class="writeDate">작성일</div>
-        </div>
+      <table class="query-box">
+        <thead class="query">
+          <tr>
+            <th class="queryNo">문의 번호</th>
+            <th class="title">제목</th>
+            <th class="writer">작성자</th>
+            <th class="writeDate">작성일</th>
+            <th class="status">답변 상태</th>
+          </tr>
+        </thead>
+        <hr>
 
-        <div class="queryContent"> 
-          <div class="status">답변완료</div> <!-- div1 -->
-          <div>
-            <div class="title faq-toggle">
-              <span class="arrow-icon"></span>배송이 언제되는건가요?
-            </div>
-            <div class="supporting-text" style="display: none;">
-              <p> 
-                20241105에 주문을 했는데 <br>
-                아직도 배송이 안오네요 <br>
-                <br>
-                언제 배송이 도착할까요?
-              </p>
-              <hr>
-              <p>
-                저도 잘몰라요
-              </p>
-            </div>
-          </div>
-          <div class="writer">정원근</div>
-          <div class="writeDate">2024.11.15</div>
-        </div>
-        <div class="pagination-area" >
-          <ul class="pagination">
+        <tbody class="queryContent"> 
+          <tr>
+            <td class="status">답변완료</td> <!-- div1 -->
+            <td><!-- div2 -->
+              <div class="title faq-toggle"> <!-- title -->
+                <span class="arrow-icon"></span>배송이 언제되는건가요?
+              </div>
+              <div class="supporting-text" style="display: none;"> <!--content -->
+                <p> 
+                  20241105에 주문을 했는데 <br>
+                  아직도 배송이 안오네요 <br>
+                  <br>
+                  언제 배송이 도착할까요?
+                </p>
+                <hr>
+                <p>
+                  저도 잘몰라요
+                </p>
+              </div>
+            </td>
+            <td class="writer">정원근</td> <!-- div3 -->
+            <td class="writeDate">2024.11.15</td> <!-- div4 -->
+          </tr>
+        </tbody>
+      </table>
+      <div class="pagination-area" >
+        <ul class="pagination">
+        
           
-            
-          </ul>
-        </div>
+        </ul>
       </div>
     </div>
   </section>
@@ -106,6 +112,6 @@
         });
     });
   </script>
-<script src="/js/customer/query.js"></script>
+<script src="/js/admin/query.js"></script>
 </body>
 </html>
