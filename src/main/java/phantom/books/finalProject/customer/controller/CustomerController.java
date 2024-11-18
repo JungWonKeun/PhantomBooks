@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import lombok.RequiredArgsConstructor;
 import phantom.books.finalProject.customer.dto.FAQ;
-import phantom.books.finalProject.customer.dto.Notice;
 import phantom.books.finalProject.customer.service.CustomerService;
 import phantom.books.finalProject.member.dto.Member;
 import phantom.books.finalProject.query.dto.Query;
@@ -62,14 +61,12 @@ public class CustomerController {
 	}
 
 	/**
-	 * 공지사항 리스트를 JSON 형태로 반환
-	 * 
-	 * @return 활성화된 공지사항 리스트
+	 * 공지사항 페이지로 이동
+	 * @return 
 	 */
 	@GetMapping("/customer/notice")
-	@ResponseBody
-	public List<Notice> getNoticeList() {
-		return customerService.getNoticeList();
+	public String getNoticeList() {
+		return "customer/notice";
 	}
 
 	/**

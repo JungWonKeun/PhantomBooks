@@ -35,3 +35,32 @@
   text-decoration: underline;
   /* 마우스 올리면 밑줄 표시 */
 }
+
+.submenu {
+  display: none; /* 처음엔 숨겨진 상태 */
+  list-style-type: none;
+  padding-left: 20px;
+}
+
+.submenu li {
+  padding: 5px 0;
+}
+
+/* 기존 스타일 */
+.menu-item {
+  font-size: 18px; /* 예시로 메인 메뉴 글자 크기 */
+  font-weight: bold;
+}
+
+/* 서브메뉴 스타일 추가 */
+.submenu li a {
+  font-size: 16px; /* 서브메뉴의 글자 크기를 조정합니다 */
+  font-weight: normal;
+  color: #333; /* 원하는 글자 색상을 지정합니다 */
+  padding: 5px 10px;
+  text-decoration: none; /* 링크 아래의 밑줄을 제거합니다 */
+}
+
+.submenu li a:hover {
+  color: #007bff; /* 서브메뉴 항목에 마우스를 올렸을 때 색상 변경 */
+}
