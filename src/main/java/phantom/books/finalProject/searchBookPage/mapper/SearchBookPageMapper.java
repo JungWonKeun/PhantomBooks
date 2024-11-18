@@ -31,11 +31,18 @@ public interface SearchBookPageMapper {
 	// 상세조회 페이지에서 1개 장바구니로 보내기
 	int detailCart(@Param("memberNo") int memberNo,@Param("bookNo") int bookNo);
 
-	List<Book> searchBooksByTitle(String query, RowBounds bounds);
+	// 책 개수 조회
+    int countBooks(@Param("searchTitle") String searchTitle, 
+                   @Param("categories") List<String> categories, 
+                   @Param("preferences") List<String> preferences);
 
-	 List<Book> searchBooks(Map<String, Object> params);
+    // 책 목록 조회
+    List<Book> searchBooks(@Param("searchTitle") String searchTitle, 
+                           @Param("categories") List<String> categories, 
+                           @Param("preferences") List<String> preferences, 
+                           RowBounds bounds);
 
-	
+
 
 	
 

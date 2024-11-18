@@ -4,14 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import lombok.RequiredArgsConstructor;
-import phantom.books.finalProject.member.dto.Member;
 import phantom.books.finalProject.pagination.Pagination;
 import phantom.books.finalProject.searchBookPage.dto.Book;
 import phantom.books.finalProject.searchBookPage.mapper.SearchBookPageMapper;
@@ -79,17 +75,32 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 		return mapper.detailCart(memberNo, bookNo);
 	}
 	
-	 @Override
-	    public List<Book> searchBooks(String query, List<String> categories, List<String> preferences, int cp) {
-	        // 검색 조건을 기반으로 책 목록 조회
-	        Map<String, Object> params = new HashMap<>();
-	        params.put("query", query);
-	        params.put("categories", categories);
-	        params.put("preferences", preferences);
-	        params.put("cp", cp);
+	@Override
+    public Map<String, Object> searchBooks(String searchTitle, List<String> categories, List<String> preferences, int cp) {
+        // 전체 책 개수 조회
+        int totalCount = mapper.countBooks(searchTitle, categories, preferences);
 
-	        return mapper.searchBooks(params);
-	    }
+        // 페이지네이션 계산
+        Pagination pagination = new Pagination(cp, totalCount, 10, 5);
 
-	
+        // RowBounds를 활용한 페이징 처리
+        int limit = pagination.getLimit();
+        int offset = (cp - 1) * limit;
+
+        RowBounds bounds = new RowBounds(offset, limit);
+
+        // 책 목록 조회
+        List<Book> bookList = mapper.searchBooks(searchTitle, categories, preferences, bounds);
+
+        // 결과를 담을 Map 생성
+        Map<String, Object> result = new HashMap<>();
+        result.put("pagination", pagination);
+        result.put("totalCount", totalCount);
+        result.put("bookList", bookList);
+
+        return result;
+    }
+
+
+
 }

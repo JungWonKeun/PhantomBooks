@@ -271,47 +271,48 @@ document.addEventListener("DOMContentLoaded", function () {
  * 옵션/쿼리/cp 용JS
  */
 
-
-const searchBookPage = (cp, query, categories, preferences) => {
-
-  fetch("/searchBookPage/searchBooks?cp=" + cp + "&query=" + query + "&categories=" + categories + "&preferences=" + preferences)
-  .then(response => {
-    if(response.ok) return response.json();
-    throw new Error("조회 실패");
-  })
-  .then( map => {
-
-    const pagination = map.pagination;
-
-    list.innerHTML = '';
-
-    const pg = document.querySelector('.pagination');
-    pg.innerHTML = '';
-
-    const {startPage, endPage, currentPage, prevPage, nextPage, maxPage} = pagination;
-
-    
-      // 버튼 생성 + 화면 추가 함수
-      const createPageBtn = (page, text) => {
-        const a = document.createElement('a');
-        a.textContent = text;
-        a.dataset.page = page;
-
-        if(!isNaN(Number(text)) &&  page == currentPage) a.classList.add('current');
-        pg.append(a);
+// 페이지 이동을 위한 버튼 모두 얻어오기
+// 페이지 이동 버튼 처리
+document.querySelectorAll(".pagination a").forEach((item) => {
+    item.addEventListener("click", (e) => {
+      e.preventDefault(); // 기본 동작 막기
+  
+      if (item.classList.contains("current")) return; // 현재 페이지는 클릭 무시
+  
+      const url = new URL(location.href); // 현재 URL 기반 생성
+  
+      // 페이지 이동 설정
+      const pageAction = item.innerText.trim();
+      if (pageAction === "<<") {
+        url.searchParams.set("cp", "1"); // 첫 페이지
+      } else if (pageAction === "<") {
+        url.searchParams.set("cp", pagination?.prevPage || "1"); // 이전 페이지
+      } else if (pageAction === ">") {
+        url.searchParams.set("cp", pagination?.nextPage || pagination?.maxPage || "1"); // 다음 페이지
+      } else if (pageAction === ">>") {
+        url.searchParams.set("cp", pagination?.maxPage || "1"); // 마지막 페이지
+      } else if (!isNaN(pageAction)) {
+        url.searchParams.set("cp", pageAction); // 특정 페이지 번호
+      } else {
+        console.error("Invalid page action:", pageAction);
+        return;
       }
-
-      createPageBtn(1, '처음');
-      createPageBtn(prevPage, '이전');
-
-      for(let i = startPage; i <= endPage; i++) {
-        createPageBtn(i, i);
-      }
-
-      createPageBtn(nextPage, '다음');
-      createPageBtn(maxPage, '마지막');
-
-      // 페이지네이션 클릭 이벤트 추가
-      paginationAddEvent();
-})
-}
+  
+      // 검색어 및 기존 조건 추가
+      const searchTitle = document.querySelector("#searchQuery")?.value.trim(); // 검색어
+      if (searchTitle) url.searchParams.set("searchTitle", searchTitle);
+  
+      // 카테고리 추가
+      document.querySelectorAll("#checkboxCategory input:checked").forEach((checkbox) => {
+        url.searchParams.append("category", checkbox.value);
+      });
+  
+      // 프리퍼런스 추가
+      document.querySelectorAll("#checkboxPreference input:checked").forEach((checkbox) => {
+        url.searchParams.append("preference", checkbox.value);
+      });
+  
+      location.href = url.toString(); // URL 변경으로 페이지 이동
+    });
+  });
+  

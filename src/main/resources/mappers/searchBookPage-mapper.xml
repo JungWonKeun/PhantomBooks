@@ -5,7 +5,8 @@
 
 
 	<!-- 모든 책 조회 SQL 쿼리 -->
-	<select id="allBook" resultType="Book">
+	
+<!-- 	<select id="allBook" resultType="Book">
 		SELECT
 		BOOK_NO AS bookNo,
 		BOOK_TITLE AS bookTitle,
@@ -23,9 +24,9 @@
 		FROM
 		BOOK
 	</select>
+ -->
 
-
-	<select id="searchBooksByTitle" resultType="Book">
+<!-- 	<select id="searchBooksByTitle" resultType="Book">
 		SELECT
 		BOOK_NO AS
 		bookNo,
@@ -46,7 +47,7 @@
 		WHERE
 		LOWER(BOOK_TITLE) LIKE '%' || LOWER(#{title}) || '%'
 	</select>
-
+ -->
 
 
 
@@ -117,39 +118,61 @@
 	</update>
 	
 <!-- 카테고리/옵션/쿼리 검색 -->
-	<select id="searchBooks" resultType="map">
-		SELECT *
-		FROM books
-		WHERE 1=1
+<!-- 책 개수 조회 -->
+<select id="countBooks" resultType="int">
+    SELECT COUNT(*)
+    FROM BOOK
+    WHERE 1=1
+    <if test="searchTitle != null and searchTitle != ''">
+        AND LOWER(BOOK_TITLE) LIKE '%' || LOWER(#{searchTitle}) || '%'
+    </if>
+    <if test="categories != null and categories.size() > 0">
+        AND CATEGORY IN
+        <foreach item="category" collection="categories" open="(" separator="," close=")">
+            #{category}
+        </foreach>
+    </if>
+    <if test="preferences != null and preferences.size() > 0">
+        AND PREFERENCE IN
+        <foreach item="preference" collection="preferences" open="(" separator="," close=")">
+            #{preference}
+        </foreach>
+    </if>
+</select>
 
-		<!-- 검색어 조건 -->
-		<if test="query != null">
-			AND title LIKE CONCAT('%', #{query}, '%')
-		</if>
-
-		<!-- 카테고리 조건 -->
-		<if test="categories != null and categories.size() > 0">
-			AND category IN
-			<foreach item="category" collection="categories" open="("
-				separator="," close=")">
-				#{category}
-			</foreach>
-		</if>
-
-		<!-- 프리퍼런스 조건 -->
-		<if test="preferences != null and preferences.size() > 0">
-			AND preference IN
-			<foreach item="preference" collection="preferences" open="("
-				separator="," close=")">
-				#{preference}
-			</foreach>
-		</if>
-
-		<!-- 페이징 처리 -->
-		LIMIT #{cp}, 10
-	</select>
-
-
+<!-- 책 목록 조회 -->
+<select id="searchBooks" resultType="Book">
+    SELECT 
+        BOOK_NO AS bookNo,
+        BOOK_TITLE AS bookTitle,
+        BOOK_CONTENT AS bookContent,
+        BOOK_COVER AS bookCover,
+        BOOK_DATE AS bookDate,
+        BOOK_WRITER AS bookWriter,
+        COMPANY_NAME AS companyName,
+        BOOK_TALT AS bookTalt,
+        BOOK_PRICE AS bookPrice,
+        BOOK_PAGE_COUNT AS bookPageCount,
+        BOOK_YN AS bookYn
+    FROM BOOK
+    WHERE 1=1
+    <if test="searchTitle != null and searchTitle != ''">
+        AND LOWER(BOOK_TITLE) LIKE '%' || LOWER(#{searchTitle}) || '%'
+    </if>
+    <if test="categories != null and categories.size() > 0">
+        AND CATEGORY IN
+        <foreach item="category" collection="categories" open="(" separator="," close=")">
+            #{category}
+        </foreach>
+    </if>
+    <if test="preferences != null and preferences.size() > 0">
+        AND PREFERENCE IN
+        <foreach item="preference" collection="preferences" open="(" separator="," close=")">
+            #{preference}
+        </foreach>
+    </if>
+    ORDER BY BOOK_DATE DESC, BOOK_NO DESC
+</select>
 
 
 </mapper>
