@@ -25,6 +25,16 @@
             <!-- Main Form Start -->
             <form method="post" action="/customer/query/submit" id="myForm" classname="myForm">
               <div class="form-group">
+                <label for="menu">
+                  <h4>문의유형</h4>
+                </label>
+                <select class="form-control" id="subject" name="menu">
+                  <option value="1">유형 선택</option>
+                  <option value="2">주문관련</option>
+                  <option value="3">배송관련</option>
+                  <option value="4">취소/환불</option>
+                  <option value="5">기타문의</option>
+                </select>
               </div>
               <br>
 
