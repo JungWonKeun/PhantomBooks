@@ -1,6 +1,7 @@
 package phantom.books.finalProject.customer.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -83,6 +84,11 @@ public class CustomerController {
 		return "customer/query";
 	}
 
+	/** 1:1 문의 제출 처리
+	 * @param query
+	 * @param loginMember
+	 * @return
+	 */
 	@PostMapping("/customer/query/submit")
 	@ResponseBody
 	public int submitQuery(
@@ -95,5 +101,24 @@ public class CustomerController {
 
 		return result;
 	}
-
+	
+	/**
+	 * 1:1문의 내역 페이지로 이동
+	 * 
+	 * @param model - View에 데이터를 전달하기 위한 Model 객체
+	 * @return 고객지원 페이지 템플릿 경로("customer/support")
+	 */
+	@GetMapping("/customer/inquiry")
+	public String queryList (Model model) {
+		return "customer/inquiry";
+	}
+	
+	/** 자주묻는 질문 페이지로 이동
+	 * @param model - 데이터를 전달하기 위한 Model 객체
+	 * @return 자주묻는 질문 페이지 템플릿 경로("customer/faq")
+	 */
+	@GetMapping("/customer/qna")
+	public String faq (Model model) {
+		return "customer/qna";
+	}
 }

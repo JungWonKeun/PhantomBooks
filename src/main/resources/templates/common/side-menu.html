@@ -1,59 +1,27 @@
-  <script src="https://kit.fontawesome.com/5eb8a8a2db.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="/css/fragments/side-menu.css">
-  <style>
-    .sideBar ul {
-      list-style-type: none;
-      padding-left: 0;
-      margin: 0;
-    }
+<script src="https://kit.fontawesome.com/5eb8a8a2db.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/css/fragments/side-menu.css">
 
-    .sideBar ul {
-      list-style-type: none;
-      padding-left: 0;
-      margin: 0;
-    }
+<div th:fragment="side-menu">
+  <div class="sideBar">
+    <h3 class="menu">
+      <i class="fa-solid fa-question-circle"><a href="/customer/qna"></i>&nbsp;&nbsp;자주 묻는 질문(FAQ) </a>
+    </h3>
 
-    .sideBar a {
-      text-decoration: none;
-      color: black;
-    }
+    <h3 class="menu">
+      <i class="fa-solid fa-comments"></i>&nbsp;&nbsp;1:1 문의
+      <ul class="submenu">
+        <li><a href="/customer/query">&nbsp;&nbsp;&nbsp;-&nbsp;1:1 문의하기</a></li>
+        <li><a href="/customer/inquiry">&nbsp;&nbsp;&nbsp;-&nbsp;1:1 문의내역</a></li>
+      </ul>
+    </h3>
 
-    .sideBar a:visited {
-      color: black;
-      /* 방문 후 색상도 검정으로 고정 */
-    }
+    <h3 class="menu">
+      <a href="#"><i class="fa-solid fa-undo-alt"></i>&nbsp;&nbsp;반품/환불 정책</a>
+    </h3>
 
-    .sideBar a:hover {
-      text-decoration: underline;
-      /* 마우스 올리면 밑줄 표시 */
-    }
-  </style>
-  
-  <div th:fragment="side-menu">
-    <div class="sideBar">
-      <h3 class="menu">
-        <i class="fa-solid fa-question-circle"></i>&nbsp;&nbsp;자주 묻는 질문(FAQ)
-        <ul class="submenu">
-          <li><a href="#">&nbsp;&nbsp;&nbsp;-&nbsp;배송</a></li>
-          <li><a href="#">&nbsp;&nbsp;&nbsp;-&nbsp;환불</a></li>
-          <li><a href="#">&nbsp;&nbsp;&nbsp;-&nbsp;계정</a></li>
-        </ul>
-      </h3>
-  
-      <h3 class="menu">
-        <i class="fa-solid fa-comments"></i>&nbsp;&nbsp;1:1 문의
-        <ul class="submenu">
-          <li><a href="#">&nbsp;&nbsp;&nbsp;-&nbsp;1:1 문의하기</a></li>
-          <li><a href="#">&nbsp;&nbsp;&nbsp;-&nbsp;1:1 문의내역</a></li>
-        </ul>
-      </h3>
-  
-      <h3 class="menu">
-        <a href="#"><i class="fa-solid fa-undo-alt"></i>&nbsp;&nbsp;반품/환불 정책</a>
-      </h3>
-      
-      <h3 class="menu">
-        <a href="#"><i class="fa-solid fa-book"></i>&nbsp;&nbsp;책 구매 및 추천 관련 가이드</a>
-      </h3>
-    </div>
+    <h3 class="menu">
+      <a href="#"><i class="fa-solid fa-book"></i>&nbsp;&nbsp;책 구매 및 추천 관련 가이드</a>
+    </h3>
+
   </div>
+</div>
