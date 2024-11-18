@@ -30,8 +30,11 @@ public interface SearchBookPageService {
 	// 책 상세조회 장바구니
 	int detailCart(int memberNo, int bookNo);
 
+
 	// 옵션이랑 쿼리 데이터를 이용한 검색
-	 List<Book> searchBooks(String query, List<String> categories, List<String> preferences, int cp);
+	Map<String, Object> searchBooks(String searchTitle, List<String> categories, List<String> preferences, int cp);
+	
+	 
 
 	
 

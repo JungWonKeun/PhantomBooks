@@ -11,7 +11,7 @@
 <body>
   <header th:replace="~{common/common}"></header>
   <main>
-    <!-- 모달 버튼 -->
+    
     <!-- 선택한 값이 표시되는 영역 -->
     <div id="selectedCategoryValues">선택한 항목:</div>
     <div id="selectedPreferenceValues">선택한 항목:</div>
@@ -85,7 +85,8 @@
 
       <div class="search-result-container">
         <div class="search-result">
-          <p>검색결과 (<span th:text="${allBook.size()}">0</span>건)</p>
+          <p>검색결과 (<span th:text="${totalCount}">0</span>건)</p>
+
         </div>
 
         <div class="check-toGo">
@@ -102,7 +103,7 @@
 
 
 
-      <div th:each="book : ${allBook}" class="book-item">
+      <div th:each="book : ${bookList}" class="book-item">
         <div>
             <!-- bookNo를 input 요소의 value로 저장해둠 -->
             <input type="checkbox" th:value="${book.bookNo}" class="book-checkbox" id="bookCheckbox">
@@ -113,7 +114,6 @@
             </div>
             <div class="book-item-details">
                 <div class="book-item-info">
-                    <!-- 책 제목을 찾기 위해 제목에 book-title 클래스를 추가 -->
                     <p><strong>제목:</strong> <span class="book-title" th:text="${book.bookTitle}">책 제목</span></p>
                     <p><strong>지은이:</strong> <span th:text="${book.bookWriter}">지은이</span></p>
                     <p><strong>출판사:</strong> <span th:text="${book.companyName}">출판사</span></p>
@@ -123,6 +123,8 @@
                 </div>
             </div>
         </a>
+    </div>
+    
         <div class="book-item-actions">
             <!-- 장바구니 버튼 클릭 시 singleCartBtn(this) 호출 -->
             <label class="buttonBag">
@@ -137,13 +139,49 @@
         </div>
     </div>
     </form>
-    <div class="pagination-area" >
-      <ul class="pagination">
-      
-        
+    <div class="pagination-area" th:unless="${#lists.isEmpty(bookList)}">
+
+      <ul class="pagination" th:object="${pagination}">
+
+        <!-- 첫 페이지로 이동 -->
+        <li><a href="#">&lt;&lt;</a></li>
+
+        <!-- 이전 목록 마지막 번호로 이동 -->
+        <li><a href="#">&lt;</a></li>
+
+        <!-- 특정 페이지로 이동 -->
+
+
+        <!-- 
+          #numbers.sequence(startPage, endPage)
+          -> startPage 부터 endPage까지 1씩 증가하는 숫자를 가진
+             List를 만들어서 반환
+        -->
+        <th:block th:each="i : *{#numbers.sequence(startPage, endPage)}">
+
+          <!-- 현재 보고있는 페이지 -->
+          <li th:if="${i} == *{currentPage}">
+            <a class="current" th:text="${i}">현재 페이지</a>
+          </li>
+
+          <!-- 보고있지 않은 페이지 -->
+          <li th:unless="${i} == *{currentPage}">
+            <a href="#" th:text="${i}">이동할 수 있는 페이지</a>
+          </li>
+
+        </th:block>
+
+
+        <!-- 다음 목록 시작 번호로 이동 -->
+        <li><a href="#">&gt;</a></li>
+
+        <!-- 끝 페이지로 이동 -->
+        <li><a href="#">&gt;&gt;</a></li>
       </ul>
-    </div>
   </main>
+  <script th:inline="javascript">
+    const pagination = /*[[${pagination}]]*/ "페이지네이션객체";
+  </script>
   <footer th:replace="~{common/footer :: footer}"></footer>
   <script src="/js/searchBookPage/allBook.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

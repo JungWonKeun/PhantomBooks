@@ -1,5 +1,7 @@
 package phantom.books.finalProject.searchBookPage.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,26 +29,28 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class SearchBookPageController {
 
 	private final SearchBookPageService service;
-
+	
 	@GetMapping("/searchBooks")
 	public String searchBooks(
-	        @RequestParam(value = "query", required = false) String query,
+	        @RequestParam(value = "searchTitle", required = false) String searchTitle,
 	        @RequestParam(value = "category", required = false) List<String> categories,
 	        @RequestParam(value = "preference", required = false) List<String> preferences,
-	        @RequestParam("cp") int cp,
+	        @RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
 	        Model model) {
 
-	    // 입력값이 비어있으면 null로 처리해 서비스로 전달
-	    String finalQuery = query.trim().isEmpty() ? null : query.trim();
-	    List<String> finalCategories = (categories == null || categories.isEmpty()) ? null : categories;
-	    List<String> finalPreferences = (preferences == null || preferences.isEmpty()) ? null : preferences;
+	    // 서비스 호출
+	    Map<String, Object> map = service.searchBooks(searchTitle, categories, preferences, cp);
 
-	    // 검색 서비스 호출
-	    List<Book> books = service.searchBooks(finalQuery, finalCategories, finalPreferences, cp);
+	    // 검색 결과와 페이지네이션 정보를 Model에 추가
+	    model.addAttribute("bookList", map.get("bookList"));
+	    model.addAttribute("pagination", map.get("pagination"));
+	    model.addAttribute("totalCount", map.get("totalCount"));
 
-	    model.addAttribute("allBook", books);
-	    return "searchBookPage/searchBook"; // 결과를 보여줄 Thymeleaf 템플릿
+	    return "searchBookPage/searchBook"; // 템플릿 이름 반환
 	}
+
+
+
 
 	
 	/*

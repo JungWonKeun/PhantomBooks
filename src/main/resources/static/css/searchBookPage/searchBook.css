@@ -228,3 +228,56 @@ a {
 
 
 /* 여기 까지  */
+
+/* 페이지네이션 컨테이너 스타일 */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  list-style-type: none;
+  padding: 0;
+}
+
+/* 각 페이지 버튼 스타일 */
+.pagination li {
+  margin: 0 5px;
+}
+
+.pagination a {
+  display: inline-block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #333; /* 일반 텍스트 색상 */
+  border: 1px solid #ddd; /* 기본 테두리 */
+  border-radius: 5px; /* 모서리 둥글게 */
+  transition: all 0.3s ease; /* 부드러운 전환 효과 */
+}
+
+/* 현재 페이지 버튼 스타일 */
+.pagination a.current {
+  background-color: #007bff; /* 현재 페이지 배경색 */
+  color: #fff; /* 현재 페이지 텍스트 색상 */
+  border-color: #007bff;
+  font-weight: bold;
+}
+
+/* 버튼 hover 효과 */
+.pagination a:hover {
+  background-color: #f0f0f0;
+  color: #007bff;
+  border-color: #007bff;
+}
+
+/* 첫/마지막 페이지 버튼 강조 */
+.pagination a:first-child,
+.pagination a:last-child {
+  font-weight: bold;
+}
+
+/* 비활성화 버튼 스타일 (필요시 사용) */
+.pagination a.disabled {
+  pointer-events: none; /* 클릭 비활성화 */
+  opacity: 0.5; /* 흐려짐 효과 */
+  cursor: default;
+}
