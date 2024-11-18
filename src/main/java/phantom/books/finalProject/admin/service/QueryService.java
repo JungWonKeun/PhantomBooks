@@ -12,5 +12,8 @@ public interface QueryService {
 
 	// 문의 삭제
 	int deleteQuery(int queryNo);
+
+	// 답변 상태 변경
+	int updateStatus(int queryNo);
 	
 }

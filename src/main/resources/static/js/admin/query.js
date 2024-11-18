@@ -3,8 +3,16 @@
 const title = document.querySelector(".title");
 const text = document.querySelector(".supporting-text");
 
-
 const queryContent = document.querySelector(".queryContent");
+
+/* 사이드바 열고 닫기 */
+document.querySelectorAll('.menu').forEach(menu => {
+  menu.addEventListener('click', function () {
+    const openMenu = document.querySelector('.menu.active');
+
+    this.classList.toggle('active');
+  });
+});
 
 const listUp = (cp, sort) => {
   fetch("/admin/query/queryList?cp="+cp +"&sort="+sort)
@@ -55,8 +63,20 @@ const listUp = (cp, sort) => {
       content.style.display = "none";
       
       // 제목 클릭 시 내용이 보이게 하기
-      span2.addEventListener("click", () => {
+      // + 답변상태 변경
+      title.addEventListener("click", () => {
         content.style.display = "block";
+
+        fetch("/admin/query/updateStatus?queryNo=" + query.queryNo, {method : "PUT"})
+        .then(response => {
+          if(response.ok) return response.json();
+          throw new Error("안읽혀요");
+        })
+        .then(result => {
+          if(result > 0) return span1.innerHTML = "관리자 확인";
+          console.error("안되요~");
+        })
+
       })
 
       
@@ -79,14 +99,14 @@ const listUp = (cp, sort) => {
 
       p2.append(input, updateBtn, deleteBtn);
 
-      let inputReply = input.value.trim();
+      
 
       if(query.reply != null){
         input.value = query.reply;
         updateBtn.innerHTML ="수정하기";
 
-        updateBtn.addEventListener("click", () => {
-          if(inputReply == query.reply){ 
+        updateBtn.addEventListener("click", (e) => {
+          if(input.value.trim() == query.reply){ 
             
             // 제출 막기
             e.preventDefault();
@@ -97,7 +117,7 @@ const listUp = (cp, sort) => {
           fetch("/admin/query?queryNo="+query.queryNo, {
             method : "PUT",
             headers : {"Content-Type" : "application/json"},
-            body : inputReply
+            body : input.value.trim()
           })
           .then(response => {
             if(response.ok) return response.json();
@@ -116,7 +136,7 @@ const listUp = (cp, sort) => {
         updateBtn.innerText = "답글 작성하기";
 
         updateBtn.addEventListener("click", () => {
-          if(inputReply == null){ 
+          if(input.value.trim() == ""){ 
             alert("답글을 작성해주세요.");
             return;
           }
@@ -124,7 +144,7 @@ const listUp = (cp, sort) => {
           fetch("/admin/query?queryNo="+query.queryNo, {
             method : "PUT",
             headers : {"Content-Type" : "application/json"},
-            body : inputReply
+            body : input.value.trim()
           })
           .then(response => {
             if(response.ok) return response.json();
@@ -141,13 +161,13 @@ const listUp = (cp, sort) => {
         })
       }
 
-
+      // 삭제버튼 클릭시
       deleteBtn.addEventListener("click", () => {
         
         const alarm = confirm("문의글을 삭제하시겠습니까?");
 
         if(alarm){
-          // 수정하기 버튼 클릭 시
+
           fetch("/admin/query?queryNo="+query.queryNo, { method : "DELETE" })
           .then(response => {
             if(response.ok) return response.json();
@@ -180,7 +200,6 @@ const listUp = (cp, sort) => {
       td4.classList.add("writeDate");
 
       // 답변 상태
-
       let status = '';
 
       if( query.status === 0){

@@ -115,6 +115,11 @@ const listUp = (cp, sort, term) => {
       const td2 = document.createElement("td");
       td2.append(member.memberId);
 
+      // 아이디 클릭 시 사용자 정보 보이기
+      td2.addEventListener("click", () => {
+        const popup = document.querySelector(".pop-up")
+      })
+
       const td3 = document.createElement("td");
       td3.append(member.signupDate);
 
