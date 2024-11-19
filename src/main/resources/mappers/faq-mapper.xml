@@ -46,13 +46,35 @@
 	</delete>
 
 
-	<!-- 6개월 이상 로그인 안 한 회원 조회 -->
 	<select id="countInactiveMember" resultType="_int">
 	    SELECT
 	        COUNT(*)
 	    FROM "MEMBER"
 	    WHERE MONTHS_BETWEEN(CURRENT_DATE, LOGIN_DATE) >= 6
 	</select>
+	
+	
+	<insert id="insertFaq"
+			useGeneratedKeys="true">
 
+		<selectKey order="BEFORE" resultType="_int"
+			keyProperty="faqId">
+			SELECT SEQ_FAQ_ID.NEXTVAL FROM DUAL
+		</selectKey>
+		
+		INSERT INTO FAQ
+		VALUES (
+		#{faqId},
+		#{title},
+		#{content},
+		'N')
+	</insert>
+
+	<update id="updateFaq">
+		UPDATE FAQ
+		SET
+			FAQ_YN = DECODE(FAQ_YN, 'Y', 'N', 'Y')
+		WHERE FAQ_ID = #{faqId}
+	</update>
 
 </mapper>

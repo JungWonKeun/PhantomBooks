@@ -6,8 +6,12 @@ import java.util.Map;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.RequiredArgsConstructor;
 import phantom.books.finalProject.admin.service.FaqService;
@@ -38,5 +42,27 @@ public class FaqController {
 		
 		
 		 return "admin/faq";
+	}
+	
+	
+	// FAQ 추가하기 
+	@PutMapping("")
+	@ResponseBody
+	public int insertFaq(
+			@RequestBody FAQ faq) {
+		
+		return service.insertFaq(faq);
+	}
+	
+	// 노출 버튼 클릭시 상태 변경
+	@PostMapping("")
+	@ResponseBody
+	public int updateFaq(
+			@RequestParam("faqId") int faqId) {
+		
+		parseInt 
+				
+		
+		return service.updateFaq(faqId);
 	}
 }

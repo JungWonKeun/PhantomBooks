@@ -24,10 +24,10 @@ public class FaqServiceImpl implements FaqService {
 	public Map<String, Object> faqList(String key, int cp) {
 	// sort 조건 만족하는 문의 리스트 수 조회
 		
-				int countFaqList = mapper.countFaqList(cp, key);
+				int countFaqList = mapper.countFaqList(key);
 				
 				// 페이지네이션
-				Pagination pagination = new Pagination(cp, countFaqList, 10, 5);
+				Pagination pagination = new Pagination(cp, countFaqList);
 				
 				int limit = pagination.getLimit();
 				int offset = (cp-1) * limit;
@@ -43,6 +43,18 @@ public class FaqServiceImpl implements FaqService {
 		    
 				
 				return map;
+	}
+
+	// FAQ 추가하기 
+	@Override
+	public int insertFaq(FAQ faq) {
+		return mapper.insertFaq(faq);
+	}
+	
+	// 노출상태 변경
+	@Override
+	public int updateFaq(int faqId) {
+		return mapper.updateFaq(faqId);
 	}
 	
 }

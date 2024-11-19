@@ -13,9 +13,16 @@ import phantom.books.finalProject.query.dto.Query;
 public interface FaqMapper {
 	
 	// FAQ 리스트 카운트 하기
-	int countFaqList(@Param("cp") int cp, @Param("key") String key);
+	int countFaqList(@Param("key") String key);
 
 	// FAQ 리스트 조회하기
 	List<FAQ> faqList(@Param("cp") int cp, @Param("key") String key, RowBounds bounds);
 
+	// FAQ 추가하기
+	int insertFaq(FAQ faq);
+
+	// 노출 상태 변경
+	int updateFaq(int faqId);
+	
+	
 }
