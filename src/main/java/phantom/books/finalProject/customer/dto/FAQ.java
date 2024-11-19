@@ -14,7 +14,7 @@ import lombok.ToString;
 @ToString
 @Builder
 public class FAQ {
-    private Long faqId;
+    private int faqId;
     private String title;
     private String content;
     private String faqYn;

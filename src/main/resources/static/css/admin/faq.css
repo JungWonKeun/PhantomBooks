@@ -136,3 +136,5 @@ html, body {
   min-width: 0; 
   max-width: 100%;
 }
+
+.popup-layer-close{ display: none;  }

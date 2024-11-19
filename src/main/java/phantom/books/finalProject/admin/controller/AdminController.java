@@ -70,13 +70,7 @@ public class AdminController {
 		return "admin/review";
 	}
 
-	/** 관리자 FAQ 관리 페이지 forward
-	 * @return
-	 */
-	@GetMapping("faq")
-	public String faq() {
-		return "admin/faq";
-	}
+
 
 	
 //----------------------------------------------------------------------------------------------------------------------------

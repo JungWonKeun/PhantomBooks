@@ -37,8 +37,9 @@
       
       <!-- 관리자 담당 업무 -->
       <div class="adminName">
-        <div>
-          담당
+        <div th:each= "faq:${faqList}"
+             th:text="${faq.faqId}">
+             name
         </div>
       </div>
   
@@ -92,20 +93,22 @@
   
     <div class="content">
       <h2>FAQ 관리</h2>
-      <select class="sortSelect">
+      <select name="key" class="sortSelect">
         <option value="all">전체보기</option>
         <option value="Y">노출</option>
         <option value="N">비노출</option>
       </select>
-      <button>전체 선택 해제</button>
-      <button>선택한 내용 상태 변경</button>
-      <button>선택한 내용 삭제</button>
+      <button id="all">전체 선택 해제</button>
+      <button id="selectUpdate">선택한 내용 상태 변경</button>
+      <button id="selectDelete">선택한 내용 삭제</button>
+
+
     
       <table class="faq-box">
         <thead class="faq">
           <tr>
             <th class="checkbox">
-              <input type="checkbox">
+              <input type="checkbox" id="allSelectBtn"></input> 
             </th>
             <th class="faqNo">글 번호</th>
             <th class="title">제목</th>
@@ -116,21 +119,21 @@
         </thead>
 
         <tbody class="faqContent"> 
-          <th:block th:if= "${#list.isEmpty(faqList)}">
+          <th:block th:if= "${#lists.isEmpty(faqList)}">
             <tr>
               <th colspan="5">FAQ로 등록된 자료가 없습니다.</th>
             </tr>
           </th:block>
 
-          <th:block th:unless="${#list.isEmpty(faqList)}">
+          <th:block th:unless="${#lists.isEmpty(faqList)}">
             <tr th:each= "faq:${faqList}"
                 th:object="${faq}">  
               
               <td>
-                <input type="checkbox" id="selectFaq">
+                <input type="checkbox" th:id="'faq'+${faqId}" th:value="*{faqId}" >
               </td>
 
-              <td th:text="*{faqId}">
+              <td th:text="*{faqId}" th:name="*{faqId}">
                 FAQ 번호
               </td>
               <td th:text="*{title}">
@@ -143,61 +146,78 @@
                 N
               </td>
               <td>
-                <button class="updateBtn">노출 상태 변경</button>
+                <button class="updateBtn">
+                  노출 상태 변경<input type="text" th:value="*{faqId}" class="updateId" hidden>
+                </button>
+                
               </td>
             </tr>
           </th:block>
         </tbody>
       </table>
 
+      
+      <div class="pagination-area" th:unless= "${#lists.isEmpty(faqList)}">
+        
+        <ul class="pagination" th:object="${pagination}">
+          
+          <!-- 첫 페이지로 이동 -->
+          <li><a href="#">&lt;&lt;</a></li>
+          
+          <!-- 이전 목록 마지막 번호로 이동 -->
+          <li><a href="#">&lt;</a></li>
+          
+          <!-- 특정 페이지로 이동 -->
+          
+          <!-- 
+            #numbers.sequence(startPage, endPage)
+            -> startPage부터 endPage까지 1씩 증가하는 숫자를 가진
+            List를 만들어서 반환
+          -->
+          <th:block th:each= "i : *{#numbers.sequence(startPage, endPage)}">
+            
+            <!-- 현재 보고있는 페이지 -->
+            <li th:if= "${i}==*{currentPage}">
+              <a class="current" th:text="${i}">현재 페이지</a>
+            </li>
+            
+            <!-- 보고있지 않은 페이지 -->                    
+            <li th:unless = "${i} == *{currentPage}">
+              <a href="#" th:text="${i}">이동할 수 있는 페이지</a>
+            </li>
+            
+            
+          </th:block>
+          
+          <!-- 다음 목록 시작 번호로 이동 -->
+          <li><a href="#">&gt;</a></li>
+          
+          <!-- 끝 페이지로 이동 -->
+          <li><a href="#">&gt;&gt;</a></li>
+        </ul>
+      </div>
+
       <div class="btn-area">
         <!-- 로그인 상태일 때만 글쓰기 버튼 노출 -->
         <button th:if= "${session.loginMember}"
         id="insertBtn">글쓰기</button>                     
       </div>
+  
+      <div id="addPopupLayer" class="popup-layer-close">
+        <div class="input-area">
+          제목 <input type="text" id="inputTitle" name="title" placeholder="제목을 입력하세요" autocomplete="off">
+          내용 <input type="text" id="inputContent" name="content" placeholder="내용을 입력하세요" autocomplete="off"></input>
+        </div>
+  
+  
+        <button id="addFaqBtn">등록하기</button>
+        <button id="back">돌아가기</button>
+      </div>
 
-      <div class="pagination-area" th:unless= "${#lists.isEmpty(boardList)}">
-
-        <ul class="pagination" th:object="${pagination}">
-        
-            <!-- 첫 페이지로 이동 -->
-            <li><a href="#">&lt;&lt;</a></li>
-
-            <!-- 이전 목록 마지막 번호로 이동 -->
-            <li><a href="#">&lt;</a></li>
-
-            <!-- 특정 페이지로 이동 -->
-            
-            <!-- 
-                #numbers.sequence(startPage, endPage)
-                -> startPage부터 endPage까지 1씩 증가하는 숫자를 가진
-                List를 만들어서 반환
-            -->
-            <th:block th:each= "i : *{#numbers.sequence(startPage, endPage)}">
-                
-                <!-- 현재 보고있는 페이지 -->
-                <li th:if= "${i}==*{currentPage}">
-                    <a class="current" th:text="${i}">현재 페이지</a>
-                </li>
-
-                <!-- 보고있지 않은 페이지 -->                    
-                <li th:unless = "${i} == *{currentPage}">
-                    <a href="#" th:text="${i}">이동할 수 있는 페이지</a>
-                </li>
-                
-                
-            </th:block>
-
-            <!-- 다음 목록 시작 번호로 이동 -->
-            <li><a href="#">&gt;</a></li>
-
-            <!-- 끝 페이지로 이동 -->
-            <li><a href="#">&gt;&gt;</a></li>
-        </ul>
     </div>
-    </div>
+    
   </section>
-
-<script src="/js/admin/faq.js"></script>
+ 
+  <script src="/js/admin/faq.js"></script>
 </body>
 </html>
