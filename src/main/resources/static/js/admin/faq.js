@@ -213,6 +213,8 @@ allBtn.addEventListener("click", () => {
   const allChecked = Array.from(selectFaqs).every(faq => faq.checked = false); // 모든 체크박스가 선택된 상태인지 확인
 
   selectFaqs.forEach(faq => {
-    faq = !allChecked; 
+    faq.checked = allChecked; 
   });
 })
+
+// 선택한 내용 상태 변경

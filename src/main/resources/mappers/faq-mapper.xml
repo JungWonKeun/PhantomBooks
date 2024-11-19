@@ -39,20 +39,6 @@
 	ORDER BY FAQ_ID DESC
 </select>
 
-	<delete id="deleteMember">
-		DELETE 
-		FROM "MEMBER"
-		WHERE MEMBER_NO = #{memberNo}
-	</delete>
-
-
-	<select id="countInactiveMember" resultType="_int">
-	    SELECT
-	        COUNT(*)
-	    FROM "MEMBER"
-	    WHERE MONTHS_BETWEEN(CURRENT_DATE, LOGIN_DATE) >= 6
-	</select>
-	
 	
 	<insert id="insertFaq"
 			useGeneratedKeys="true">

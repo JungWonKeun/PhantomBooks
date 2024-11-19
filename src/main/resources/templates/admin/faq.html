@@ -130,7 +130,7 @@
                 th:object="${faq}">  
               
               <td>
-                <input type="checkbox" id="selectFaq" th:value="*{faqId}" >
+                <input type="checkbox" th:id="'faq'+${faqId}" th:value="*{faqId}" >
               </td>
 
               <td th:text="*{faqId}" th:name="*{faqId}">

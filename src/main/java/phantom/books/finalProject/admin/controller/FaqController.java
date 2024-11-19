@@ -60,7 +60,7 @@ public class FaqController {
 	public int updateFaq(
 			@RequestParam("faqId") int faqId) {
 		
-		parseInt 
+		
 				
 		
 		return service.updateFaq(faqId);
