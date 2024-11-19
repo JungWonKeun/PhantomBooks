@@ -13,16 +13,28 @@
 		</selectKey>
 		INSERT INTO QUERY
 		VALUES (
-			#{queryNo},
-			#{memberNo}, 
-			#{queryTitle}, 
-			#{queryContent},
-			SYSDATE,
-			SYSDATE,
-			#{queryImgNo},
-			NULL,
-			DEFAULT
+		#{queryNo},
+		#{memberNo},
+		#{queryTitle},
+		#{queryContent},
+		SYSDATE,
+		SYSDATE,
+		#{queryImgNo},
+		NULL,
+		DEFAULT
 		)
 	</insert>
+
+	<select id="getFaqList" resultType="FAQ">
+		SELECT FAQ_ID as faqId, TITLE
+		as title, CONTENT as content, FAQ_YN as faqYn
+		FROM FAQ
+		WHERE FAQ_YN =
+		'N'
+	</select>
+
+	<select id="getInquiries" resultType="Query">
+		SELECT * FROM QUERY
+	</select>
 
 </mapper>

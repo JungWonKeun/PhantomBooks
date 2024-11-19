@@ -1,7 +1,6 @@
 package phantom.books.finalProject.customer.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -15,25 +14,35 @@ import phantom.books.finalProject.query.dto.Query;
 @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
 
-    private final CustomerMapper customerMapper;
+	private final CustomerMapper customerMapper;
 
-    @Override
-    public List<FAQ> getFAQList() {
-        return customerMapper.selectFAQList();
-    }
+	@Override
+	public List<FAQ> getFAQList() {
+		return customerMapper.selectFAQList();
+	}
 
-    @Override
-    public List<FAQ> searchFAQ(String query) {
-        return customerMapper.searchFAQ(query);
-    }
+	@Override
+	public List<FAQ> searchFAQ(String query) {
+		return customerMapper.searchFAQ(query);
+	}
 
-    @Override
-    public List<Notice> getNoticeList() {
-        return customerMapper.selectNoticeList();
-    }
-    
-    @Override
-    public int submitQuery(Query query) {
-    	return customerMapper.submitQuery(query);
-    }
+	@Override
+	public List<Notice> getNoticeList() {
+		return customerMapper.selectNoticeList();
+	}
+
+	@Override
+	public int submitQuery(Query query) {
+		return customerMapper.submitQuery(query);
+	}
+
+	@Override
+	public List<FAQ> getFaqList() {
+		return customerMapper.getFaqList();
+	}
+
+	@Override
+	public List<Query> getInquiries() {
+		return customerMapper.getInquiries();
+	}
 }
