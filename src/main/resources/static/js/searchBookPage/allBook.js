@@ -281,7 +281,6 @@ function updateSelectedValues(modal, displayDiv) {
 // 페이지 이동을 위한 버튼 모두 얻어오기
 // 페이지 이동 버튼 처리
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("JavaScript Loaded!");
 
     // Pagination 클릭 이벤트 처리
     document.querySelectorAll(".pagination a").forEach((item) => {
@@ -290,7 +289,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("JavaScript Loaded!");
 
     // Pagination 클릭 이벤트 처리
     document.querySelectorAll(".pagination a").forEach((item) => {
@@ -299,7 +297,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("JavaScript Loaded!");
 
     document.querySelectorAll(".pagination a").forEach((item) => {
         item.addEventListener("click", handlePaginationClick);
@@ -307,7 +304,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("JavaScript Loaded!");
 
     document.querySelectorAll(".pagination a").forEach((item) => {
         item.addEventListener("click", handlePaginationClick);
@@ -350,145 +346,63 @@ function handlePaginationClick(event) {
     location.href = url.toString();
 }
 
-// DOMContentLoaded: 페이지 로드 후 실행
 document.addEventListener("DOMContentLoaded", () => {
-    // 검색 바 입력 값 유지
-    const searchInput = document.querySelector('input[name="searchTitle"]');
-    const savedSearchTitle = localStorage.getItem('searchTitle');
-    if (savedSearchTitle) {
-        searchInput.value = savedSearchTitle;
-    }
-
-    // 카테고리 체크박스 상태 유지
-    const savedCategories = JSON.parse(localStorage.getItem('categories') || "[]");
-    savedCategories.forEach(category => {
-        const checkbox = document.querySelector(`#checkboxCategory input[value="${category}"]`);
-        if (checkbox) checkbox.checked = true;
-    });
-
-    // Preference 체크박스 상태 유지
-    const savedPreferences = JSON.parse(localStorage.getItem('preferences') || "[]");
-    savedPreferences.forEach(preference => {
-        const checkbox = document.querySelector(`#checkboxPreference input[value="${preference}"]`);
-        if (checkbox) checkbox.checked = true;
-    });
-
-    // 선택된 항목 표시 영역
-    const selectedCategoryValuesDiv = document.getElementById("selectedCategoryValues");
-    const selectedPreferenceValuesDiv = document.getElementById("selectedPreferenceValues");
-
-    // 초기 상태 업데이트
-    updateSelectedValues();
-
     // 체크박스 변경 시 선택된 항목 업데이트
     document.querySelectorAll("#checkboxCategory input").forEach(checkbox => {
-        checkbox.addEventListener("change", updateSelectedValues);
+        checkbox.addEventListener("change", updateHiddenValues);
     });
+
     document.querySelectorAll("#checkboxPreference input").forEach(checkbox => {
-        checkbox.addEventListener("change", updateSelectedValues);
+        checkbox.addEventListener("change", updateHiddenValues);
     });
 
     // 검색 실행 시 값 저장
-    document.querySelector('form').addEventListener('submit', () => {
-        // 검색어 저장
-        const searchValue = searchInput.value;
-        localStorage.setItem('searchTitle', searchValue);
+    const searchForm = document.querySelector('form');
+    if (searchForm) {
+        searchForm.addEventListener('submit', (event) => {
+            event.preventDefault(); // 기본 폼 제출을 막기
 
-        // 선택된 카테고리 저장
-        const selectedCategories = Array.from(
-            document.querySelectorAll('#checkboxCategory input:checked')
-        ).map(checkbox => checkbox.value);
-        localStorage.setItem('categories', JSON.stringify(selectedCategories));
+            // 검색어 저장
+            const searchInput = document.querySelector('input[name="searchTitle"]');
+            const searchValue = searchInput.value;
+            localStorage.setItem('searchTitle', searchValue); // 검색어를 로컬 스토리지에 저장
 
-        // 선택된 Preference 저장
-        const selectedPreferences = Array.from(
-            document.querySelectorAll('#checkboxPreference input:checked')
-        ).map(checkbox => checkbox.value);
-        localStorage.setItem('preferences', JSON.stringify(selectedPreferences));
-    });
+            // 선택된 카테고리 저장 (히든 필드의 value 설정)
+            const selectedCategories = Array.from(
+                document.querySelectorAll('#checkboxCategory input:checked')
+            ).map(checkbox => parseInt(checkbox.value, 10)); // `parseInt`로 값 변환하여 넘김
+            document.getElementById('hiddenCategories').value = selectedCategories.join(","); // 카테고리 히든 필드에 값 저장
 
-    // 선택한 값을 업데이트하는 함수
-    function updateSelectedValues() {
-        // 카테고리 값 업데이트
-        const selectedCategories = Array.from(
-            document.querySelectorAll("#checkboxCategory input:checked")
-        ).map(checkbox => checkbox.parentElement.textContent.trim());
+            // 선택된 Preference 저장 (히든 필드의 value 설정)
+            const selectedPreferences = Array.from(
+                document.querySelectorAll('#checkboxPreference input:checked')
+            ).map(checkbox => parseInt(checkbox.value, 10)); // `parseInt`로 값 변환하여 넘김
+            document.getElementById('hiddenPreferences').value = selectedPreferences.join(","); // 프리퍼런스 히든 필드에 값 저장
 
-        if (selectedCategories.length > 0) {
-            selectedCategoryValuesDiv.innerHTML = "선택한 항목: " + selectedCategories.join(", ");
-        } else {
-            selectedCategoryValuesDiv.innerHTML = "선택한 항목: 없음";
-        }
+            // 콘솔로 값 확인
+            console.log("Search submitted with values:");
+            console.log("Search Title:", searchValue);
+            console.log("Categories:", selectedCategories);
+            console.log("Preferences:", selectedPreferences);
 
-        // 프리퍼런스 값 업데이트
-        const selectedPreferences = Array.from(
-            document.querySelectorAll("#checkboxPreference input:checked")
-        ).map(checkbox => checkbox.parentElement.textContent.trim());
-
-        if (selectedPreferences.length > 0) {
-            selectedPreferenceValuesDiv.innerHTML = "선택한 항목: " + selectedPreferences.join(", ");
-        } else {
-            selectedPreferenceValuesDiv.innerHTML = "선택한 항목: 없음";
-        }
+            // 폼을 수동으로 제출
+            searchForm.submit(); // 실제로 폼 제출
+        });
     }
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-    const updateSelectedValues = () => {
-        // 선택된 카테고리 표시
-        const selectedCategories = Array.from(
-            document.querySelectorAll("#checkboxCategory input:checked")
-        ).map(checkbox => checkbox.parentElement.textContent.trim());
-        const selectedCategoryValuesDiv = document.getElementById("selectedCategoryValues");
+// 히든 필드 업데이트 함수
+function updateHiddenValues() {
+    // 선택된 카테고리 저장 (히든 필드에 값 설정)
+    const selectedCategories = Array.from(
+        document.querySelectorAll('#checkboxCategory input:checked')
+    ).map(checkbox => parseInt(checkbox.value, 10)); // `parseInt`로 값 변환하여 넘김
+    document.getElementById('hiddenCategories').value = selectedCategories.join(",");
 
-        if (selectedCategories.length > 0) {
-            selectedCategoryValuesDiv.textContent = `선택한 항목: ${selectedCategories.join(", ")}`;
-        } else {
-            selectedCategoryValuesDiv.textContent = "선택한 항목: 없음";
-        }
-
-        // 선택된 프리퍼런스 표시
-        const selectedPreferences = Array.from(
-            document.querySelectorAll("#checkboxPreference input:checked")
-        ).map(checkbox => checkbox.parentElement.textContent.trim());
-        const selectedPreferenceValuesDiv = document.getElementById("selectedPreferenceValues");
-
-        if (selectedPreferences.length > 0) {
-            selectedPreferenceValuesDiv.textContent = `선택한 항목: ${selectedPreferences.join(", ")}`;
-        } else {
-            selectedPreferenceValuesDiv.textContent = "선택한 항목: 없음";
-        }
-    };
-
-    // 페이지 로드 후 초기화
-    updateSelectedValues();
-
-    // 체크박스 변경 이벤트에 업데이트 연결
-    document.querySelectorAll("#checkboxCategory input, #checkboxPreference input")
-        .forEach(checkbox => checkbox.addEventListener("change", updateSelectedValues));
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-    const searchForm = document.querySelector('form#searchForm');
-
-    searchForm.addEventListener('submit', () => {
-        const hiddenCategories = document.getElementById("hiddenCategories");
-        const hiddenPreferences = document.getElementById("hiddenPreferences");
-
-        const selectedCategories = Array.from(
-            document.querySelectorAll("#checkboxCategory input:checked")
-        ).map(checkbox => checkbox.value);
-
-        const selectedPreferences = Array.from(
-            document.querySelectorAll("#checkboxPreference input:checked")
-        ).map(checkbox => checkbox.value);
-
-        hiddenCategories.value = selectedCategories.join(",");
-        hiddenPreferences.value = selectedPreferences.join(",");
-
-        console.log("Submitting form with:");
-        console.log("Categories:", hiddenCategories.value);
-        console.log("Preferences:", hiddenPreferences.value);
-    });
-});
+    // 선택된 프리퍼런스 저장 (히든 필드에 값 설정)
+    const selectedPreferences = Array.from(
+        document.querySelectorAll('#checkboxPreference input:checked')
+    ).map(checkbox => parseInt(checkbox.value, 10)); // `parseInt`로 값 변환하여 넘김
+    document.getElementById('hiddenPreferences').value = selectedPreferences.join(",");
+}
 

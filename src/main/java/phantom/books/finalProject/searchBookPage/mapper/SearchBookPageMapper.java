@@ -33,13 +33,13 @@ public interface SearchBookPageMapper {
 
 	// 책 개수 조회
     int countBooks(@Param("searchTitle") String searchTitle, 
-                   @Param("categories") List<String> categories, 
-                   @Param("preferences") List<String> preferences);
+                   @Param("categories") int[] categories, 
+                   @Param("preferences") int[] preferences);
 
     // 책 목록 조회
     List<Book> searchBooks(@Param("searchTitle") String searchTitle, 
-                           @Param("categories") List<String> categories, 
-                           @Param("preferences") List<String> preferences, 
+                           @Param("categories") int[]  categories, 
+                           @Param("preferences") int[]  preferences, 
                            RowBounds bounds);
 
 

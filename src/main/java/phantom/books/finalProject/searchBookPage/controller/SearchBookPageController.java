@@ -30,35 +30,37 @@ public class SearchBookPageController {
 
 	private final SearchBookPageService service;
 	
+	
 	@GetMapping("/searchBooks")
 	public String searchBooks(
 	        @RequestParam(value = "searchTitle", required = false) String searchTitle,
-	        @RequestParam(value = "category", required = false, defaultValue = "") String category,
-	        @RequestParam(value = "preference", required = false, defaultValue = "") String preference,
+	        @RequestParam(value = "categories", required = false) int[] categories,  // int[]로 받기
+	        @RequestParam(value = "preferences", required = false) int[] preferences,  // int[]로 받기
 	        @RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
 	        Model model) {
 
-	    // String을 List로 변환
-	    List<String> categories = (category != null && !category.isEmpty())
-	            ? Arrays.asList(category.split(","))
-	            : new ArrayList<>();
-
-	    List<String> preferences = (preference != null && !preference.isEmpty())
-	            ? Arrays.asList(preference.split(","))
-	            : new ArrayList<>();
+	    // categories와 preferences는 int[]로 받았으므로, 바로 사용 가능
+	    // 원하는 작업을 처리합니다.
 
 	    log.debug("searchTitle: {}", searchTitle);
-	    log.debug("categories: {}", categories);
-	    log.debug("preferences: {}", preferences);
+	    log.debug("categories: {}", Arrays.toString(categories));  // int[]을 배열로 출력
+	    log.debug("preferences: {}", Arrays.toString(preferences));  // int[]을 배열로 출력
 
+	    // 서비스 호출
 	    Map<String, Object> map = service.searchBooks(searchTitle, categories, preferences, cp);
 
+	    // 모델에 데이터 추가
 	    model.addAttribute("bookList", map.get("bookList"));
 	    model.addAttribute("pagination", map.get("pagination"));
 	    model.addAttribute("totalCount", map.get("totalCount"));
 
 	    return "searchBookPage/searchBook";
 	}
+
+
+
+
+
 
 
 

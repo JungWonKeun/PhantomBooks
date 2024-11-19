@@ -32,7 +32,7 @@ public interface SearchBookPageService {
 
 
 	// 옵션이랑 쿼리 데이터를 이용한 검색
-	Map<String, Object> searchBooks(String searchTitle, List<String> categories, List<String> preferences, int cp);
+	Map<String, Object> searchBooks(String searchTitle, int[] categories, int[] preferences, int cp);
 	
 	 
 

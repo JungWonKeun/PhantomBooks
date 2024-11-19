@@ -76,30 +76,30 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 	}
 	
 	@Override
-    public Map<String, Object> searchBooks(String searchTitle, List<String> categories, List<String> preferences, int cp) {
-        // 전체 책 개수 조회
-        int totalCount = mapper.countBooks(searchTitle, categories, preferences);
+	public Map<String, Object> searchBooks(String searchTitle, int[] categories, int[] preferences, int cp) {
+	    // 전체 책 개수 조회
+	    int totalCount = mapper.countBooks(searchTitle, categories, preferences);
 
-        // 페이지네이션 계산
-        Pagination pagination = new Pagination(cp, totalCount, 10, 5);
+	    // 페이지네이션 계산
+	    Pagination pagination = new Pagination(cp, totalCount, 10, 5);
 
-        // RowBounds를 활용한 페이징 처리
-        int limit = pagination.getLimit();
-        int offset = (cp - 1) * limit;
+	    // RowBounds를 활용한 페이징 처리
+	    int limit = pagination.getLimit();
+	    int offset = (cp - 1) * limit;
 
-        RowBounds bounds = new RowBounds(offset, limit);
+	    RowBounds bounds = new RowBounds(offset, limit);
 
-        // 책 목록 조회
-        List<Book> bookList = mapper.searchBooks(searchTitle, categories, preferences, bounds);
+	    // 책 목록 조회
+	    List<Book> bookList = mapper.searchBooks(searchTitle, categories, preferences, bounds);
 
-        // 결과를 담을 Map 생성
-        Map<String, Object> result = new HashMap<>();
-        result.put("pagination", pagination);
-        result.put("totalCount", totalCount);
-        result.put("bookList", bookList);
+	    // 결과를 담을 Map 생성
+	    Map<String, Object> result = new HashMap<>();
+	    result.put("pagination", pagination);
+	    result.put("totalCount", totalCount);
+	    result.put("bookList", bookList);
 
-        return result;
-    }
+	    return result;
+	}
 
 
 

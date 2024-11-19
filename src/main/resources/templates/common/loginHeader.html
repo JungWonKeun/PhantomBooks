@@ -21,6 +21,8 @@
              th:value="${param.searchTitle ?: ''}">
                 <input type="text" name="searchTitle" placeholder="검색어를 입력하세요" />
                 <button type="submit">Search</button>
+                <input type="hidden" name="categories" id="hiddenCategories">
+                <input type="hidden" name="preferences" id="hiddenPreferences">
             </form>
         </div>
         
