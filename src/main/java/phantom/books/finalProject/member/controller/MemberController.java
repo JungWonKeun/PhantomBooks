@@ -126,7 +126,7 @@ public class MemberController {
 
 		if (result > 0) {
 	    path = "/?showLoginModal=true";
-	    message = inputMember.getName() + "님의 가입을 환영합니다";
+	    message = inputMember.getName() + "님의 가입을 환영합니다😜";
 	} else {
 	    path = "signUp";
 	    message = "회원 가입 실패...";
