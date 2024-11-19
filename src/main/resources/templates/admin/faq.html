@@ -111,27 +111,90 @@
             <th class="title">제목</th>
             <th class="content">내용</th>
             <th class="status">노출여부</th>
+            <th class="button">상태 변경</th>
           </tr>
         </thead>
 
         <tbody class="faqContent"> 
-          <tr>
-            <td>
-              <input type="checkbox">
-            </td>
-            <td>1</td>
-            <td>어떻게 새로운 1:1 문의를 등록하나요?</td>
-            <td>1:1 문의를 등록하려면 고객센터 페이지의 "1:1 문의하기" 버튼을 클릭하세요. 등록 양식을 작성한 후 "등록" 버튼을 누르면 문의가 접수됩니다. 접수된 문의는 마이페이지에서 확인 가능합니다.</td>
-            <td>N</td>
-          </tr>
+          <th:block th:if= "${#list.isEmpty(faqList)}">
+            <tr>
+              <th colspan="5">FAQ로 등록된 자료가 없습니다.</th>
+            </tr>
+          </th:block>
+
+          <th:block th:unless="${#list.isEmpty(faqList)}">
+            <tr th:each= "faq:${faqList}"
+                th:object="${faq}">  
+              
+              <td>
+                <input type="checkbox" id="selectFaq">
+              </td>
+
+              <td th:text="*{faqId}">
+                FAQ 번호
+              </td>
+              <td th:text="*{title}">
+                어떻게 새로운 1:1 문의를 등록하나요?
+              </td>
+              <td th:text="*{content}">
+                1:1 문의를 등록하려면 고객센터 페이지의 "1:1 문의하기" 버튼을 클릭하세요. 등록 양식을 작성한 후 "등록" 버튼을 누르면 문의가 접수됩니다. 접수된 문의는 마이페이지에서 확인 가능합니다.
+              </td>
+              <td th:text="*{faqYn}">
+                N
+              </td>
+              <td>
+                <button class="updateBtn">노출 상태 변경</button>
+              </td>
+            </tr>
+          </th:block>
         </tbody>
       </table>
-      <div class="pagination-area" >
-        <ul class="pagination">
-        
-          
-        </ul>
+
+      <div class="btn-area">
+        <!-- 로그인 상태일 때만 글쓰기 버튼 노출 -->
+        <button th:if= "${session.loginMember}"
+        id="insertBtn">글쓰기</button>                     
       </div>
+
+      <div class="pagination-area" th:unless= "${#lists.isEmpty(boardList)}">
+
+        <ul class="pagination" th:object="${pagination}">
+        
+            <!-- 첫 페이지로 이동 -->
+            <li><a href="#">&lt;&lt;</a></li>
+
+            <!-- 이전 목록 마지막 번호로 이동 -->
+            <li><a href="#">&lt;</a></li>
+
+            <!-- 특정 페이지로 이동 -->
+            
+            <!-- 
+                #numbers.sequence(startPage, endPage)
+                -> startPage부터 endPage까지 1씩 증가하는 숫자를 가진
+                List를 만들어서 반환
+            -->
+            <th:block th:each= "i : *{#numbers.sequence(startPage, endPage)}">
+                
+                <!-- 현재 보고있는 페이지 -->
+                <li th:if= "${i}==*{currentPage}">
+                    <a class="current" th:text="${i}">현재 페이지</a>
+                </li>
+
+                <!-- 보고있지 않은 페이지 -->                    
+                <li th:unless = "${i} == *{currentPage}">
+                    <a href="#" th:text="${i}">이동할 수 있는 페이지</a>
+                </li>
+                
+                
+            </th:block>
+
+            <!-- 다음 목록 시작 번호로 이동 -->
+            <li><a href="#">&gt;</a></li>
+
+            <!-- 끝 페이지로 이동 -->
+            <li><a href="#">&gt;&gt;</a></li>
+        </ul>
+    </div>
     </div>
   </section>
 

@@ -7,6 +7,18 @@ document.querySelectorAll('.menu').forEach(menu => {
   });
 });
 
-
+// 내용 작성 영역
 const faqContent = document.querySelector(".faqContent");
 
+/* 글쓰기 버튼 클릭 시 */
+
+const insertBtn = document.querySelector("#insertBtn");
+
+insertBtn?.addEventListener("click", () => {
+
+  
+  
+  
+ 
+
+});
