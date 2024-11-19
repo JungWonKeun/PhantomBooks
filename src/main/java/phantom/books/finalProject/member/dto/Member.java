@@ -30,5 +30,10 @@ public class Member {
 	private String    signupDate;				// 가입일
 	private String    loginDate;				// 최근 접속일
 	private String    memberDelFl;			// 삭제여부
-	private int       ahthority;        // 회원 권한
+	private int       authority;        // 회원 권한
+	private String    categoryYn;				// 회원 이메일
+	
+	// 관리자 정보
+	private String    adminName;				// 관리자 이름
+	private String    adminEmail;				// 관리자 이메일
 }

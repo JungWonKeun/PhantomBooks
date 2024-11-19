@@ -7,7 +7,7 @@ import phantom.books.finalProject.member.dto.Member;
 @Mapper
 public interface MemberMapper {
 
-	/** memberId 일치하는 회원 정보 조회
+	/** memberId가 일치하는 회원 정보 조회
 	 * @param memberId
 	 * @return loginMember 또는 null
 	 */
@@ -33,6 +33,14 @@ public interface MemberMapper {
 	 * @return
 	 */
 	int signUp(Member inputMember);
+
+	
+	
+	/** memberId가 일치하는 관리자 정보 조회 
+	 * @param memberId
+	 * @return
+	 */
+	Member adminLogin(int memberNo);
 	
 	
 }

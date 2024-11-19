@@ -28,6 +28,4 @@ public interface MemberService {
 	int signUp(Member inputMember);
 
 
-
-
 }

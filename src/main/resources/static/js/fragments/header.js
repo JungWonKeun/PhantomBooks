@@ -36,6 +36,10 @@ document.querySelector("#modalLogin form").addEventListener("submit", function (
       alert("로그인 성공!");
       const modalElement = document.getElementById("modalLogin");
       const modal = bootstrap.Modal.getInstance(modalElement);
+      if (data.authority === 2) {
+        window.location.href = "/admin";
+        return;
+      }
       modal.hide();
       // 페이지 새로고침
       window.location.reload(); // 로그인 상태에 따른 조건부 렌더링 반영
