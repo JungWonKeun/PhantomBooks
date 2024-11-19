@@ -24,12 +24,13 @@
     </delete>
 
     <delete id="deleteSelectedCartItems" parameterType="map">
-        DELETE FROM CART
-        WHERE MEMBER_NO = #{memberNo}
-          AND BOOK_NO IN 
-          <foreach item="bookNo" collection="bookNoList" open="(" separator="," close=")">
-            #{bookNo}
-          </foreach>
-    </delete>
+	    DELETE FROM CART
+	    WHERE MEMBER_NO = #{memberNo}
+	      AND BOOK_NO IN 
+	      <foreach item="bookNo" collection="bookNoList" open="(" separator="," close=")">
+	        #{bookNo}
+	      </foreach>
+	</delete>
+
 
 </mapper>

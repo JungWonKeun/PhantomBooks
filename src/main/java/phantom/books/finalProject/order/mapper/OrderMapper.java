@@ -5,10 +5,12 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import phantom.books.finalProject.order.dto.AddressDto;
 import phantom.books.finalProject.order.dto.OrderDto;
 
 @Mapper
 public interface OrderMapper {
+	
     OrderDto findOrderByOrderId(String orderId);
 
     List<OrderDto> getOrderItemsByIds(
@@ -20,4 +22,8 @@ public interface OrderMapper {
     OrderDto findOrderItemByBookNoAndQuantity(
             @Param("bookNo") int bookNo,
             @Param("quantity") int quantity);
+
+    
+	// 기본 배송지 조회
+    AddressDto getDefaultAddress(@Param("memberNo") int memberNo);
 }

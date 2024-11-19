@@ -20,4 +20,6 @@ public interface CartMapper {
 	int deleteSelectedCartItems(Map<String, Object> params);
 
 	
+
+	
 }

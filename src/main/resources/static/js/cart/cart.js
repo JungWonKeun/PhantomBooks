@@ -4,8 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const totalPriceElement = document.getElementById('totalPrice');
   const totalPaymentElement = document.getElementById('totalPayment');
   const orderButton = document.getElementById('orderButton');
-
-
+  const deleteButtons = document.querySelectorAll('.delete-btn');
 
   // 전체 선택 버튼
   const selectAllCheckbox = document.getElementById('selectAllCheckbox');
@@ -31,7 +30,92 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 
-  // 총 가격 및 총 상품 수 계산
+  
+
+  // 삭제 버튼 기능
+  deleteButtons.forEach((button) => {
+    button.addEventListener('click', async () => {
+      const confirmDelete = confirm('장바구니에서 삭제하시겠습니까?');
+      if (!confirmDelete) return;
+
+      const bookNo = button.getAttribute('data-id');
+
+      try {
+        // DELETE 요청 전송
+        const response = await fetch(`/cart/delete/${bookNo}`, { method: 'DELETE' });
+
+        if (response.ok) {
+          // 삭제 성공 시 해당 행 삭제
+          button.closest('tr').remove();
+          calculateTotals(); // 총 가격 업데이트
+        } else {
+          alert('삭제에 실패했습니다.');
+        }
+      } catch (error) {
+        console.error('삭제 중 오류 발생:', error);
+        alert('삭제 처리 중 문제가 발생했습니다.');
+      }
+    });
+  });
+
+   // 선택된 항목 전체 삭제 버튼
+   const deleteAllButton = document.getElementById('deleteAllButton');
+
+   deleteAllButton.addEventListener('click', async () => {
+    const selectedItems = [];
+    
+    // 선택된 항목의 ID 수집
+    document.querySelectorAll('.cartTable tbody input[type="checkbox"]:checked').forEach((checkbox) => {
+      const bookNo = checkbox.closest('tr').querySelector('.delete-btn').getAttribute('data-id');
+      if (bookNo) {
+        selectedItems.push(parseInt(bookNo, 10)); // 숫자로 변환
+      }
+    });
+
+    if (selectedItems.length === 0) {
+      alert('삭제할 항목을 선택하세요.');
+      return;
+    }
+
+    const confirmDelete = confirm('선택된 항목을 삭제하시겠습니까?');
+    if (!confirmDelete) return;
+
+    try {
+      // POST 요청 전송
+      const response = await fetch('/cart/deleteSelected', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(selectedItems),
+      });
+
+      if (response.ok) {
+        // JSON 응답 파싱
+        const result = await response.json();
+        if (result.deletedCount > 0) {
+          alert(`${result.deletedCount}개의 항목이 삭제되었습니다.`);
+          selectedItems.forEach((bookNo) => {
+            const row = document.querySelector(`.cartTable tbody tr .delete-btn[data-id="${bookNo}"]`).closest('tr');
+            if (row) row.remove();
+          });
+          calculateTotals(); // 총 가격 업데이트
+        } else {
+          alert('삭제된 항목이 없습니다.');
+        }
+      } else {
+        // 오류 메시지 처리
+        const errorMsg = await response.text();
+        console.error('서버 응답 오류:', errorMsg);
+        alert(`삭제 요청 실패: ${errorMsg}`);
+      }
+    } catch (error) {
+      console.error('삭제 중 오류 발생:', error);
+      alert('삭제 처리 중 문제가 발생했습니다.');
+    }
+  });
+
+  
+
+   // 총 가격 및 총 상품 수 계산
   function calculateTotals() {
     let totalPrice = 0;
     const deliveryFee = 3500;
@@ -63,80 +147,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   calculateTotals(); 
-
-  // 삭제 버튼 기능
-  document.querySelectorAll('.delete-btn').forEach((button) => {
-    button.addEventListener('click', async () => {
-
-      const confirmDelete = confirm('장바구니에서 삭제하시겠습니까?');
-
-      if (!confirmDelete) {
-        return;
-      }
-
-      const bookNo = button.getAttribute('data-id');
-
-      try {
-        const response = await fetch(`/cart/delete/${bookNo}`, { method: 'DELETE' });
-        if (response.ok) {
-          button.closest('tr').remove();
-          calculateTotals();
-        } else {
-          alert('삭제에 실패했습니다.');
-        }
-      } catch (error) {
-        console.error('삭제 중 오류 발생:', error);
-        alert('삭제 중 오류가 발생했습니다.');
-      }
-    });
-  });
-
-  const deleteAllButton = document.getElementById('deleteAllButton');
-
-  deleteAllButton.addEventListener('click', async () => {
-    const selectedItems = [];
-    document.querySelectorAll('.cartTable tbody input[type="checkbox"]:checked').forEach((checkbox) => {
-        const bookNo = checkbox.closest('tr').querySelector('.delete-btn').getAttribute('data-id');
-        if (bookNo) {
-            selectedItems.push(parseInt(bookNo)); 
-        }
-    });
-
-    if (selectedItems.length === 0) {
-        alert('삭제할 항목을 선택하세요.');
-        return;
-    }
-
-    const confirmDelete = confirm('선택된 항목을 삭제하시겠습니까?');
-
-    if (!confirmDelete) {
-        return;
-    }
-
-    try {
-        const response = await fetch('/cart/deleteSelected', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(selectedItems),
-        });
-
-        if (response.ok) {
-          const result = await response.json();
-          alert(`${result.deletedCount}개의 항목이 삭제되었습니다.`);
-            selectedItems.forEach((bookNo) => {
-                document.querySelector(`.cartTable tbody tr .delete-btn[data-id="${bookNo}"]`).closest('tr').remove();
-            });
-            calculateTotals(); 
-        } else {
-            const errorMsg = await response.text();
-            console.error(`Server responded with error: ${errorMsg}`);
-            alert('삭제에 실패했습니다.');
-        }
-    } catch (error) {
-        console.error('삭제 중 오류 발생:', error);
-        alert('삭제 처리 중 문제가 발생했습니다.');
-    }
-});
 
 
   // 가격에 ',' 표시

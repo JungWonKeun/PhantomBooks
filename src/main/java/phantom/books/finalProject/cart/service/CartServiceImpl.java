@@ -35,7 +35,7 @@ public class CartServiceImpl implements CartService {
     }
     
     @Override
-    public void deleteSelectedCartItems(int memberNo, List<Integer> selectedItems) {
+    public int deleteSelectedCartItems(int memberNo, List<Integer> selectedItems) {
         if (selectedItems == null || selectedItems.isEmpty()) {
             throw new IllegalArgumentException("삭제할 항목이 없습니다.");
         }
@@ -44,10 +44,7 @@ public class CartServiceImpl implements CartService {
         params.put("memberNo", memberNo);
         params.put("bookNoList", selectedItems);
 
-        int rowsDeleted = mapper.deleteSelectedCartItems(params);
-        if (rowsDeleted == 0) {
-            throw new IllegalStateException("삭제된 항목이 없습니다.");
-        }
+        return mapper.deleteSelectedCartItems(params);
     }
 
 }

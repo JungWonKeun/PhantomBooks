@@ -1,5 +1,7 @@
 package phantom.books.finalProject.order.service;
 
-public interface AfterOrderService {
+import phantom.books.finalProject.order.dto.OrderDto;
 
+public interface AfterOrderService {
+    OrderDto findOrderByOrderId(String orderId);
 }
