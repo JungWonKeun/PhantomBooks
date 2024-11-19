@@ -64,3 +64,7 @@
 .submenu li a:hover {
   color: #007bff; /* 서브메뉴 항목에 마우스를 올렸을 때 색상 변경 */
 }
+
+.menu{
+  cursor: pointer;
+}

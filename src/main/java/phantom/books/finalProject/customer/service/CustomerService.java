@@ -13,4 +13,6 @@ public interface CustomerService {
     List<FAQ> searchFAQ(String query);
     List<Notice> getNoticeList();
 	int submitQuery(Query query);
+	List<FAQ> getFaqList();
+	List<Query> getInquiries();
 }

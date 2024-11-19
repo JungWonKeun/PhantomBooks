@@ -1,7 +1,6 @@
 package phantom.books.finalProject.customer.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -62,7 +61,8 @@ public class CustomerController {
 
 	/**
 	 * 공지사항 페이지로 이동
-	 * @return 
+	 * 
+	 * @return
 	 */
 	@GetMapping("/customer/notice")
 	public String getNoticeList() {
@@ -77,19 +77,19 @@ public class CustomerController {
 	 */
 	@GetMapping("/customer/query")
 	public String customerQueryPage(Model model) {
-		// query.html 템플릿을 반환
 		return "customer/query";
 	}
 
-	/** 1:1 문의 제출 처리
+	/**
+	 * 1:1 문의 제출 처리
+	 * 
 	 * @param query
 	 * @param loginMember
 	 * @return
 	 */
 	@PostMapping("/customer/query/submit")
 	@ResponseBody
-	public int submitQuery(
-		@RequestBody Query query, @SessionAttribute("loginMember") Member loginMember) {
+	public int submitQuery(@RequestBody Query query, @SessionAttribute("loginMember") Member loginMember) {
 
 		query.setMemberNo(loginMember.getMemberNo());
 
@@ -98,24 +98,39 @@ public class CustomerController {
 
 		return result;
 	}
-	
+
+	// FAQ 데이터를 HTML 페이지로 전달하는 메서드
+	@GetMapping("/customer/qna")
+	public String faq(Model model) {
+		List<FAQ> faqList = customerService.getFaqList();
+		model.addAttribute("faqList", faqList);
+		return "customer/qna";
+	}
+
+	// FAQ 데이터를 JSON 형태로 반환하는 메서드
+	@GetMapping("/customer/qna/data")
+	@ResponseBody
+	public List<FAQ> getFaqList() {
+		return customerService.getFAQList();
+	}
+
 	/**
 	 * 1:1문의 내역 페이지로 이동
 	 * 
 	 * @param model - View에 데이터를 전달하기 위한 Model 객체
-	 * @return 고객지원 페이지 템플릿 경로("customer/support")
+	 * @return 1:1 문의 내역 페이지 템플릿 경로("customer/inquiry")
 	 */
 	@GetMapping("/customer/inquiry")
-	public String queryList (Model model) {
+	public String getInquiryList(Model model) {
+		List<Query> inquiries = customerService.getInquiries();
+		int inquiriesPerPage = 10;
+		int totalPages = (int) Math.ceil((double) inquiries.size() / inquiriesPerPage);
+
+		model.addAttribute("inquiryList", inquiries);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("currentPage", 1); // 기본적으로 1페이지를 설정
+
 		return "customer/inquiry";
 	}
-	
-	/** 자주묻는 질문 페이지로 이동
-	 * @param model - 데이터를 전달하기 위한 Model 객체
-	 * @return 자주묻는 질문 페이지 템플릿 경로("customer/faq")
-	 */
-	@GetMapping("/customer/qna")
-	public String faq (Model model) {
-		return "customer/qna";
-	}
+
 }
