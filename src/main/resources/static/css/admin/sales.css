@@ -150,7 +150,7 @@ html, body {
   margin-top: 20px;
 }
 
-.btn-container{
+.date-container{
   width: 1200px;
   height: 50px;
   margin-left: 40px;
@@ -160,7 +160,7 @@ html, body {
   align-items: center;
 }
 
-.btn-container > button{
+.date-container > button{
   width: 80px; 
   height: 35px; 
   border: 1px solid #a7a7a7; 
@@ -173,12 +173,12 @@ html, body {
   cursor: pointer;
 }
 
-.btn-container > button.active {
+.date-container > button.active {
   border: 1px solid black;
   color: black;
 }
 
-.btn-container > input{
+.date-container > input{
   width: 170px;
   height: 40px;
   border-radius: 5px;
@@ -250,7 +250,7 @@ html, body {
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.btn-container.hidden, .date.hidden {
+.date-container.hidden, .date.hidden {
   visibility: hidden; 
   pointer-events: none;
 }
@@ -331,87 +331,6 @@ html, body {
 }
 
 
-
-#listName{
-  font-size: 20px;
-  font-weight: 600;
-}
-
-
-/* 테이블 스타일 */
-.memberList{
-  margin-right: 100px;
-}
-
-
-.member-table {
-  width: 700px;
-  table-layout: fixed;
-  border-collapse: collapse;
-  margin-top: 20px;
-  background-color: #EFEFEF;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-
-
-.member-table th {
-  padding: 12px 15px;
-  text-align: center;
-  font-size: 14px;
-  text-transform: uppercase;
-  font-weight: 300; 
-  color: #fff; 
-  background-color: #EFEFEF;
-}
-
-.member-table th:nth-child(1),
-.member-table th:nth-child(2),
-.member-table th:nth-child(3),
-.member-table th:nth-child(4),
-.member-table th:nth-child(5) {
-  background-color: #205375;
-}
-
-.member-table td {
-  padding: 12px 15px;
-  text-align: center;
-  font-size: 14px;
-  color: rgb(29, 30, 57); 
-  background-color: #EFEFEF;
-}
-
-.member-table tr{
-  height: 40px;
-}
-
-.member-table tr:nth-child(even) td {
-  background-color: #ffffff;
-}
-
-
-
-.member-table tr:hover td {
-  background-color: #a3a2a2;
-}
-
-
-.member-table button {
-  background-color: #205375; 
-  color: #fff;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-  transition: background-color 0.3s ease;
-}
-
-.member-table button:hover {
-  background-color: rgb(29, 30, 57);
-}
 
 /* 페이지네이션 스타일 */
 .pagination-area {
@@ -606,21 +525,4 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 
 
-
-.sales{
-  font-size: 25px;
-  font-weight: bold;
-  display: flex;
-  gap: 155px;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  height: 100px;
-}
-
-.sales > div{
-  text-align: left;
-  width: 250px;
-  min-width: 250px;
-}
 
