@@ -44,6 +44,11 @@ public class MemberServiceImpl implements MemberService {
 			return null;
 		}
 		
+		if (loginMember.getAuthority() == 2) {
+			mapper.adminLogin(loginMember.getMemberNo());
+			return loginMember;
+		}
+		
 		// id와 비밀번호가 모두 같을 경우 loginDate를 현재 시간으로 수정
 		int updateCount = mapper.updateLoginDate(loginMember.getMemberNo());
 		if (updateCount == 0) {

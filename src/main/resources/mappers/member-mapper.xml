@@ -1,29 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="phantom.books.finalProject.member.mapper.MemberMapper">
+<mapper
+	namespace="phantom.books.finalProject.member.mapper.MemberMapper">
 
 
 	<!-- 로그인 -->
 	<select id="login" resultType="Member">
 		SELECT
-		MEMBER_NO,
-		MEMBER_ID,
-		MEMBER_PW,
-		ZIP,
-		ADDRESS,
-		DETAIL_ADDRESS,
-		ADD_ZIP,
-		ADD_ADDRESS,
-		ADD_DETAIL_ADDRESS,
-		TEL_NO,
-		TO_CHAR(BIRTH_DATE,
-		'YYYY"년" MM"월" DD"일"') BIRTH_DATE,
-		NAME,
-		RANK_NAME,
-		MEMBER_DEL_FL
-		FROM "MEMBER"
+			MEMBER_NO,
+			MEMBER_ID,
+			MEMBER_PW,
+			ZIP,
+			ADDRESS,
+			DETAIL_ADDRESS,
+			ADD_ZIP,
+			ADD_ADDRESS,
+			ADD_DETAIL_ADDRESS,
+			TEL_NO,
+			TO_CHAR(BIRTH_DATE,
+			'YYYY"년" MM"월" DD"일"')
+			BIRTH_DATE,
+			NAME,
+			RANK_NAME,
+			MEMBER_DEL_FL,
+			AUTHORITY,
+			CATEGORY_YN
+		FROM
+			"MEMBER"
 		WHERE MEMBER_ID = #{memberId}
 		AND MEMBER_DEL_FL = 'N'
+	</select>
+
+	<select id="adminLogin" resultType="Member">
+		SELECT
+			MEMBER_NO,						
+			ADMIN_NAME,
+			ADMIN_EMAIL,
+			AUTHORITY
+		FROM "ADMIN"
+		WHERE MEMBER_NO = #{memberNo}
 	</select>
 	
 	<!-- 회원 가입 -->
@@ -41,23 +56,23 @@
 			#{birthDate},
 			#{name},
 			DEFAULT, NULL, DEFAULT, DEFAULT, DEFAULT, DEFAULT
-			)
+		)
 	</insert>
-	
-	
+
+
 	<!-- 로그인 성공 시 loginDate 현재 시간으로 update -->
 	<update id="updateLoginDate">
 		UPDATE "MEMBER"
-   		SET LOGIN_DATE = SYSDATE
-    	WHERE MEMBER_NO = #{memberNo}
+		SET LOGIN_DATE = SYSDATE
+		WHERE MEMBER_NO = #{memberNo}
 	</update>
-	
-	<!-- 아이디 중복 검사  -->
+
+	<!-- 아이디 중복 검사 -->
 	<select id="idCheck" resultType="_int">
-		SELECT 	COUNT(*)
-		FROM 	"MEMBER"
-		WHERE 	MEMBER_ID = #{memberId}
-		AND 	MEMBER_DEL_FL = 'N'
+		SELECT COUNT(*)
+		FROM "MEMBER"
+		WHERE MEMBER_ID = #{memberId}
+		AND MEMBER_DEL_FL = 'N'
 	</select>
 
 
