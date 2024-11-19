@@ -118,13 +118,60 @@
 	</update>
 	
 <!-- 카테고리/옵션/쿼리 검색 -->
-<!-- 책 개수 조회 -->
+<select id="searchBooks" resultType="Book">
+    SELECT DISTINCT 
+        B.BOOK_NO AS bookNo, 
+        B.BOOK_TITLE AS bookTitle, 
+        B.BOOK_CONTENT AS bookContent, 
+        B.BOOK_COVER AS bookCover, 
+        B.BOOK_DATE AS bookDate, 
+        B.BOOK_WRITER AS bookWriter, 
+        B.COMPANY_NAME AS companyName, 
+        B.BOOK_TALT AS bookTalt, 
+        B.BOOK_PRICE AS bookPrice, 
+        B.BOOK_PAGE_COUNT AS bookPageCount, 
+        B.BOOK_YN AS bookYn 
+    FROM BOOK B
+    LEFT JOIN BOOK_PREFERENCE BP ON B.BOOK_NO = BP.BOOK_NO
+    LEFT JOIN PREFERENCE P ON BP.PREFERENCE_NO = P.PREFERENCE_NO
+    LEFT JOIN BOOK_CATEGORY BC ON B.BOOK_NO = BC.BOOK_NO
+    LEFT JOIN CATEGORY C ON BC.CATEGORY_NO = C.CATEGORY_NO
+    WHERE 1=1
+    <if test="categories != null and categories.length > 0">
+        AND BC.CATEGORY_NO IN 
+        <foreach item="category" collection="categories" open="(" separator="," close=")">
+            #{category}
+        </foreach>
+    </if>
+    <if test="preferences != null and preferences.length > 0">
+        AND BP.PREFERENCE_NO IN 
+        <foreach item="preference" collection="preferences" open="(" separator="," close=")">
+            #{preference}
+        </foreach>
+    </if>
+    <if test="searchTitle != null and searchTitle != ''">
+        AND B.BOOK_TITLE LIKE CONCAT('%', #{searchTitle}, '%')
+    </if>
+    ORDER BY B.BOOK_DATE DESC, B.BOOK_NO DESC
+</select>
+
+
+
+
+
+
+
+
+
+
 <!-- 책 개수 조회 -->
 <select id="countBooks" resultType="int">
     SELECT COUNT(DISTINCT B.BOOK_NO)
     FROM BOOK B
     LEFT JOIN BOOK_PREFERENCE BP ON B.BOOK_NO = BP.BOOK_NO
     LEFT JOIN PREFERENCE P ON BP.PREFERENCE_NO = P.PREFERENCE_NO
+    LEFT JOIN BOOK_CATEGORY BC ON B.BOOK_NO = BC.BOOK_NO
+    LEFT JOIN CATEGORY C ON BC.CATEGORY_NO = C.CATEGORY_NO
     WHERE 1=1
     <choose>
         <when test="searchTitle != null and searchTitle != ''">
@@ -132,64 +179,28 @@
         </when>
     </choose>
     <choose>
-        <when test="categories != null and categories.size() > 0">
-            AND B.CATEGORY_ID IN
-            <foreach item="category" collection="categories" open="(" separator="," close=")">
-                #{category}
+        <when test="preferences != null and preferences.length > 0">
+            AND BP.PREFERENCE_NO IN
+            <foreach item="preference" collection="preferences" open="(" separator="," close=")">
+                #{preference}
             </foreach>
         </when>
     </choose>
     <choose>
-        <when test="preferences != null and preferences.size() > 0">
-            AND P.PREFERENCE_ID IN
-            <foreach item="preference" collection="preferences" open="(" separator="," close=")">
-                #{preference}
+        <when test="categories != null and categories.length > 0">
+            AND BC.CATEGORY_NO IN
+            <foreach item="category" collection="categories" open="(" separator="," close=")">
+                #{category}
             </foreach>
         </when>
     </choose>
 </select>
 
-<!-- 책 목록 조회 -->
-<select id="searchBooks" resultType="Book">
-    SELECT DISTINCT
-        B.BOOK_NO AS bookNo,
-        B.BOOK_TITLE AS bookTitle,
-        B.BOOK_CONTENT AS bookContent,
-        B.BOOK_COVER AS bookCover,
-        B.BOOK_DATE AS bookDate,
-        B.BOOK_WRITER AS bookWriter,
-        B.COMPANY_NAME AS companyName,
-        B.BOOK_TALT AS bookTalt,
-        B.BOOK_PRICE AS bookPrice,
-        B.BOOK_PAGE_COUNT AS bookPageCount,
-        B.BOOK_YN AS bookYn
-    FROM BOOK B
-    LEFT JOIN BOOK_PREFERENCE BP ON B.BOOK_NO = BP.BOOK_NO
-    LEFT JOIN PREFERENCE P ON BP.PREFERENCE_NO = P.PREFERENCE_NO
-    WHERE 1=1
-    <choose>
-        <when test="searchTitle != null and searchTitle != ''">
-            AND LOWER(B.BOOK_TITLE) LIKE '%' || LOWER(#{searchTitle}) || '%'
-        </when>
-    </choose>
-    <choose>
-        <when test="categories != null and categories.size() > 0">
-            AND B.CATEGORY_NO IN
-            <foreach item="category" collection="categories" open="(" separator="," close=")">
-                #{category}
-            </foreach>
-        </when>
-    </choose>
-    <choose>
-        <when test="preferences != null and preferences.size() > 0">
-            AND P.PREFERENCE_NO IN
-            <foreach item="preference" collection="preferences" open="(" separator="," close=")">
-                #{preference}
-            </foreach>
-        </when>
-    </choose>
-    ORDER BY B.BOOK_DATE DESC, B.BOOK_NO DESC
-</select>
+
+
+
+
+
 
 
 

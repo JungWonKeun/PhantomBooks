@@ -11,20 +11,7 @@
 <body>
   <header th:replace="~{common/common}"></header>
   <main>
-    <div class="search-bar">
-      <form action="/searchBookPage/searchBooks" method="get" id="searchForm">
-        <!-- 검색어 입력 -->
-        <input type="text" name="searchTitle" placeholder="검색어를 입력하세요" th:value="${param.searchTitle ?: ''}" />
-        
-        <!-- 히든 필드 -->
-        <input type="hidden" name="categories" id="hiddenCategories">
-        <input type="hidden" name="preferences" id="hiddenPreferences">
-        
-        <!-- 검색 버튼 -->
-        <button type="submit">Search</button>
-    </form>
-    
-  </div>
+
     
     <!-- 선택한 값이 표시되는 영역 -->
     <div id="selectedCategoryValues" class="selectedCategoryValues">선택한 항목:</div>

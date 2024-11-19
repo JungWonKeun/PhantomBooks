@@ -1,34 +1,12 @@
-@import url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff');
 
-body {
-  font-family: 'NEXON Lv1 Gothic OTF', sans-serif;
+
+main {
   font-size: 16px;
   background-color: #f9f9f9;
   margin: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-header, footer {
-  width: 100%;
-  padding: 20px;
-  background-color: #ffffff;
-  border-bottom: 2px solid #ccc;
-  text-align: center;
-  box-sizing: border-box;
-}
-
-header {
-  margin-bottom: 20px;
-}
-
-footer {
-  margin-top: 20px;
-  border-top: 2px solid #ccc;
-}
-
-main {
   width: 100%;
   max-width: 1000px;
   padding: 20px;
