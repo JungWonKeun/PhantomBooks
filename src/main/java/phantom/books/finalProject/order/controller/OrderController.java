@@ -1,9 +1,12 @@
 package phantom.books.finalProject.order.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import phantom.books.finalProject.cart.dto.CartDto;
 import phantom.books.finalProject.member.dto.Member;
+import phantom.books.finalProject.order.dto.AddressDto;
 import phantom.books.finalProject.order.dto.OrderDto;
 import phantom.books.finalProject.order.service.OrderService;
 
@@ -27,51 +31,64 @@ import phantom.books.finalProject.order.service.OrderService;
 @Controller
 @RequestMapping("/order")
 public class OrderController {
-    private final OrderService service;
+    
+	private final OrderService service;
 
-    @GetMapping("")
-    public String orderPage(
-            @SessionAttribute(value = "selectedItems", required = false) List<CartDto> selectedItems,
-            @SessionAttribute(value = "loginMember", required = false) Member loginMember,
-            Model model) {
+	@GetMapping("")
+	public String orderPage(
+	        @SessionAttribute(value = "selectedItems", required = false) List<CartDto> selectedItems,
+	        @SessionAttribute(value = "loginMember", required = false) Member loginMember,
+	        Model model) {
 
-        if (loginMember == null) {
-            return "redirect:/";
+	    if (loginMember == null) {
+	        return "redirect:/";
+	    }
+
+	    if (selectedItems == null || selectedItems.isEmpty()) {
+	        model.addAttribute("errorMessage", "선택된 주문 항목이 없습니다.");
+	        return "error/error";
+	    }
+
+	    // 기본 배송지 DTO 가져오기
+	    AddressDto defaultAddress = service.getDefaultAddress(loginMember.getMemberNo());
+
+	    int totalPrice = selectedItems.stream()
+	            .mapToInt(item -> item.getBookPrice() * item.getCartCount())
+	            .sum();
+
+	    int deliveryFee = 3500;
+
+	    model.addAttribute("defaultAddress", defaultAddress);
+	    model.addAttribute("orderItems", selectedItems);
+	    model.addAttribute("totalPrice", totalPrice);
+	    model.addAttribute("deliveryFee", deliveryFee);
+
+	    return "order/order";
+	}
+
+	
+    
+    
+	@PostMapping("/save")
+    public ResponseEntity<String> saveOrder(@RequestBody OrderDto order) {
+        try {
+            service.saveOrder(order);
+            return ResponseEntity.ok("Order saved successfully");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Order save failed");
         }
-
-        if (selectedItems == null || selectedItems.isEmpty()) {
-            model.addAttribute("errorMessage", "선택된 주문 항목이 없습니다.");
-            return "error/error";
-        }
-
-        int totalPrice = selectedItems.stream()
-                .mapToInt(item -> item.getBookPrice() * item.getCartCount())
-                .sum();
-        
-        int deliveryFee = 3500;
-
-        model.addAttribute("orderItems", selectedItems);
-        model.addAttribute("totalPrice", totalPrice);
-        model.addAttribute("deliveryFee", deliveryFee);
-        return "order/order";
     }
-
     
-    
-    @GetMapping("/afterOrder")
+	@GetMapping("/afterOrder")
     public String afterOrder(@RequestParam("orderId") String orderId, Model model) {
-        OrderDto order = service.findOrderByOrderId(orderId);
-
+        OrderDto order = service.getOrderById(orderId);
         if (order == null) {
-            model.addAttribute("errorMessage", "주문 정보를 찾을 수 없습니다.");
-            return "error/error";
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found");
         }
-
         model.addAttribute("order", order);
-        return "order/afterOrder";
+        return "order/afterOrder"; // Thymeleaf 페이지로 이동
     }
-    
-    
 
     @PostMapping("/process")
     public String processOrder(
@@ -92,4 +109,9 @@ public class OrderController {
         model.addAttribute("orderItems", orderItems);
         return "order/order";
     }
+    
+    
+   
+
+    
 }

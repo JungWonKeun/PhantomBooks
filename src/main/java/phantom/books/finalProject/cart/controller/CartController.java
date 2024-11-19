@@ -1,6 +1,8 @@
 package phantom.books.finalProject.cart.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -88,17 +90,21 @@ public class CartController {
         }
     }
 
-    // 선택된 장바구니 아이템 삭제
+ // 선택된 장바구니 아이템 삭제
     @PostMapping("/deleteSelected")
-    public ResponseEntity<Void> deleteSelectedCartItems(
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> deleteSelectedCartItems(
         @RequestBody List<Integer> selectedItems,
         @SessionAttribute("loginMember") Member loginMember
     ) {
+        Map<String, Object> response = new HashMap<>();
         try {
-            service.deleteSelectedCartItems(loginMember.getMemberNo(), selectedItems);
-            return ResponseEntity.ok().build();
+            int deletedCount = service.deleteSelectedCartItems(loginMember.getMemberNo(), selectedItems);
+            response.put("deletedCount", deletedCount);
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            response.put("error", "삭제 처리 중 오류 발생");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
     

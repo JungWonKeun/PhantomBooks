@@ -14,6 +14,7 @@ public interface CartService {
 	boolean deleteCartItem(int memberNo, int bookNo);
 
 	// 선택해서 책을 장바구니에서 삭제
-	void deleteSelectedCartItems(int memberNo, List<Integer> selectedItems);
+	int deleteSelectedCartItems(int memberNo, List<Integer> selectedItems);
+
 
 }

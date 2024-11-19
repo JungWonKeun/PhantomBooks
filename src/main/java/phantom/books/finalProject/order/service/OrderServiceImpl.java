@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import phantom.books.finalProject.order.dto.AddressDto;
 import phantom.books.finalProject.order.dto.OrderDto;
 import phantom.books.finalProject.order.mapper.OrderMapper;
 
@@ -31,5 +32,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto getOrderItemByBookNoAndQuantity(int bookNo, int quantity) {
         return mapper.findOrderItemByBookNoAndQuantity(bookNo, quantity);
+    }
+
+    // 기본 배송지 조회
+    @Override
+    public AddressDto getDefaultAddress(int memberNo) {
+        return mapper.getDefaultAddress(memberNo);
     }
 }

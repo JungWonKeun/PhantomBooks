@@ -12,6 +12,17 @@
   font-weight: 100;
 }
 
+
+.addressForm{
+  width: 40%;
+  margin-top: 20px;
+}
+
+#additionalAddresses{
+  width: 40%;
+  margin-top: 20px;
+}
+
 .orderMain{
   margin-left: 18%;
 }
@@ -37,8 +48,4 @@
   width: 300px;
   min-width: 300px;
   margin: 10px;
-}
-
-.addressContainer{
-  width: 40%;
 }
