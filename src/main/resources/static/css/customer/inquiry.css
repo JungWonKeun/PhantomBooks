@@ -100,6 +100,31 @@ header {
 }
 
 .pagination a:hover {
-  background-color: #4CAF50;
+  background-color: #205375;
   color: white;
+}
+
+.pagination ul {
+  list-style: none; /* 기본 스타일에서 점을 없애줍니다 */
+  padding: 0;
+  margin: 0;
+  display: flex; /* 가로 정렬 */
+  justify-content: center; /* 가운데 정렬 */
+}
+
+.pagination ul li {
+  display: inline; /* 가로로 배치되도록 설정 */
+  margin: 0 5px; /* 각 페이지 링크 간 간격 조절 */
+}
+
+.pagination ul li a {
+  text-decoration: none; /* 링크 밑줄 제거 */
+  padding: 10px; /* 버튼 크기 조절 */
+  border: 1px solid #ccc; /* 버튼 테두리 추가 */
+  color: #333; /* 글자 색상 */
+}
+
+.pagination ul li a.active {
+  font-weight: bold; /* 현재 선택된 페이지의 링크 강조 */
+  color: #000;
 }

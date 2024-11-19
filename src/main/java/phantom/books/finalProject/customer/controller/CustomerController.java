@@ -1,10 +1,12 @@
 package phantom.books.finalProject.customer.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -121,16 +123,28 @@ public class CustomerController {
 	 * @return 1:1 문의 내역 페이지 템플릿 경로("customer/inquiry")
 	 */
 	@GetMapping("/customer/inquiry")
-	public String getInquiryList(Model model) {
-		List<Query> inquiries = customerService.getInquiries();
-		int inquiriesPerPage = 10;
-		int totalPages = (int) Math.ceil((double) inquiries.size() / inquiriesPerPage);
+	public Map<String, Object> getInquiryList(
+			@RequestParam(value = "cp", required = false, defaultValue = "1") Integer cp) {
 
-		model.addAttribute("inquiryList", inquiries);
-		model.addAttribute("totalPages", totalPages);
-		model.addAttribute("currentPage", 1); // 기본적으로 1페이지를 설정
+		if (cp == null) {
+			cp = 1; // 기본값으로 설정
+		}
 
-		return "customer/inquiry";
+		return customerService.getInquiryList(cp);
+	}
+
+	/**
+	 * 특정 문의 내역을 조회하여 상세 페이지로 이동
+	 * 
+	 * @param queryNo 조회할 문의의 고유 번호입니다. (PathVariable로 전달됨)
+	 * @param model   조회된 문의 데이터를 뷰에 전달하기 위해 사용됩니다.
+	 * @return 문의 상세 정보를 보여주는 뷰 이름 ("customer/inquiryDetail")
+	 */
+	@GetMapping("/customer/inquiry/{queryNo}")
+	public String getResultInquiry(@PathVariable("queryNo") int queryNo, Model model) {
+		Query inquiry = customerService.getResultInquiry(queryNo);
+		model.addAttribute("inquiry", inquiry);
+		return "customer/inquiryDetail";
 	}
 
 }
