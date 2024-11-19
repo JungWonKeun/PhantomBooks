@@ -40,7 +40,7 @@
 			#{telNo},
 			#{birthDate},
 			#{name},
-			DEFAULT, NULL, DEFAULT, DEFAULT, DEFAULT
+			DEFAULT, NULL, DEFAULT, DEFAULT, DEFAULT, DEFAULT
 			)
 	</insert>
 	
