@@ -19,7 +19,7 @@
 		#{queryContent},
 		SYSDATE,
 		SYSDATE,
-		#{queryImgNo},
+		#{querySubject},
 		NULL,
 		DEFAULT
 		)
@@ -37,4 +37,25 @@
 		SELECT * FROM QUERY
 	</select>
 
+	<select id="getResultInquiry" resultType="_int">
+		SELECT 
+			QUERY_NO,
+			QUERY_TITLE,
+			QUERY_CONTENT,
+			QUERY_WRITE_DATE
+		FROM
+			QUERY
+		
+	</select>
+	
+	<select id="countQueryList" resultType="_int">
+		SELECT COUNT(*)
+		FROM QUERY
+	</select>
+	
+	<select id="queryList" resultType="Query">
+		SELECT
+			*
+		FROM QUERY
+	</select>
 </mapper>

@@ -15,6 +15,7 @@ queryBtn.addEventListener("click", (e) => {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
+      querySubject: menu,
       queryTitle: title,
       queryContent: content
     })

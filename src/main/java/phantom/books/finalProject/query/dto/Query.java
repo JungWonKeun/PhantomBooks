@@ -22,6 +22,7 @@ public class Query {
 	private String queryImgNo;
 	private String reply;
 	private int	   status;
+	private String querySubject;
 	
 	private String memberId;
 	

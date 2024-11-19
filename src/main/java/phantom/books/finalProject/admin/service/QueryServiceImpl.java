@@ -41,7 +41,7 @@ public class QueryServiceImpl implements QueryService{
 			Map<String, Object> map = new HashMap<>();
 	    
 			map.put("queryList", queryList);
-	    map.put("pagination", pagination);
+			map.put("pagination", pagination);
 	    
 			
 			return map;

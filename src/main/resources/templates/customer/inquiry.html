@@ -24,13 +24,12 @@
                 </select>
 
                 <label for="startDate">시작일:</label>
-                <input type="date" id="startDate" value="2024-08-18">
+                <input type="date" id="startDate">
 
                 <label for="endDate">종료일:</label>
-                <input type="date" id="endDate" value="2024-11-18">
+                <input type="date" id="endDate">
 
                 <button id="searchButton">조회</button>
-                
             </div>
 
             <div class="inquiry-button-area">
@@ -62,31 +61,17 @@
                     </tr>
                 </thead>
                 <tbody id="inquiryTableBody">
-                    <!-- Thymeleaf를 사용하여 문의 내역을 불러옵니다. -->
-                    <tr th:each="inquiry, iterStat : ${inquiryList}">
-                        <td th:text="${iterStat.index + 1}">1</td>
-                        <td><a th:href="@{'/customer/inquiry/' + ${inquiry.no}}" th:text="${inquiry.queryTitle}">제목</a></td>
-                        <td th:text="${#dates.format(inquiry.queryUpdateDate, 'yyyy-MM-dd')}">2024-11-18</td>
-                        <td th:text="${inquiry.status}">처리 상태</td>
-                    </tr>
+                    <!-- 문의 내역이 JavaScript로 렌더링 됩니다. -->
                 </tbody>
             </table>
-            
+
             <!-- 문의 내역이 없을 때 메시지 -->
-            <div class="empty-message" id="emptyMessage" th:if="${#lists.isEmpty(inquiryList)}">
+            <div class="empty-message" id="emptyMessage" style="display: none;">
                 <i class="fa-solid fa-circle-exclamation"></i> 해당 기간에 작성된 문의 내역이 없습니다.
             </div>
 
             <!-- 페이지네이션 -->
-            <div class="pagination" id="paginationArea">
-                <!-- 페이지네이션 링크는 여기서 동적으로 생성 -->
-                <ul>
-                    <li th:each="i : ${#numbers.sequence(1, totalPages)}">
-                        <a th:href="@{'/customer/inquiry?page=' + ${i}}" th:text="${i}"
-                            th:classappend="${i == currentPage} ? 'active' : ''"></a>
-                    </li>
-                </ul>
-            </div>
+            <div class="pagination" id="paginationArea"></div>
         </section>
     </main>
 
