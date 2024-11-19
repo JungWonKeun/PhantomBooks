@@ -133,9 +133,19 @@ html, body {
   height: 400px;
 }
 
-.list{
+.title{
+  margin-top: -100px;
+  font-size: 30px;
+  font-weight: 100;
+}
+
+/* 테이블 */
+.list {
   width: 1500px;
   height: 400px;
+  overflow-y: auto; /* 세로 스크롤 활성화 */
+  overflow-x: hidden; /* 가로 스크롤 비활성화 */
+  padding: 0;
 }
 
 .list > table{
@@ -143,3 +153,127 @@ html, body {
   height: 380px;
 }
 
+
+
+
+.bookList {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin-top: 20px;
+  background-color: #EFEFEF;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  table-layout: fixed;;
+  
+}
+
+
+.bookList th {
+  position: sticky; 
+  top: 0;
+  z-index: 10;
+  background-color: #EFEFEF;
+  color: #fff; 
+  text-align: center;
+  font-size: 14px;
+  font-weight: 300; 
+  text-transform: uppercase;
+  height: 25px;
+}
+
+.bookList th:nth-child(1),
+.bookList th:nth-child(2),
+.bookList th:nth-child(3),
+.bookList th:nth-child(4),
+.bookList th:nth-child(5),
+.bookList th:nth-child(6),
+.bookList th:nth-child(7),
+.bookList th:nth-child(8)
+ {
+  background-color: #205375;
+}
+
+
+.bookList td {
+  height: 30px;
+  padding: 12px 15px;
+  text-align: center;
+  font-size: 14px;
+  color: rgb(29, 30, 57); 
+  background-color: #EFEFEF;
+}
+
+.bookList th:nth-child(1){
+  width: 150px;
+}
+
+.bookList tr:nth-child(even) td {
+  background-color: #ffffff;
+}
+
+
+
+.bookList tr:hover td {
+  background-color: #a3a2a2;
+}
+
+
+.bookList button {
+  background-color: #205375; 
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.3s ease;
+}
+
+.bookList button:hover {
+  background-color: rgb(29, 30, 57);
+}
+
+/* 페이지네이션 스타일 */
+.pagination-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px; 
+  padding: 10px 0;
+  background-color: #EFEFEF;
+}
+
+.pagination {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px; 
+}
+
+.pagination a {
+  display: block;
+  padding: 8px 12px;
+  text-decoration: none;
+  background-color: #205375;
+  color: #fff; 
+  border-radius: 4px; 
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.pagination a:hover {
+  background-color: rgb(29, 30, 57); 
+  cursor: pointer; 
+}
+
+.pagination a.current {
+  background-color: #205375;
+  font-weight: bold; 
+  cursor: pointer; 
+}

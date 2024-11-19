@@ -27,32 +27,32 @@ const listUp = (cp, sort, text) => {
     bookList.forEach(book => {
       const tr = document.createElement("tr");
 
-      const th1 = document.createElement("th");
-      th1.append(book.bookNo);
+      const td1 = document.createElement("td");
+      td1.append(book.bookNo);
 
-      const th2 = document.createElement("th");
-      th2.append(book.bookTitle);
+      const td2 = document.createElement("td");
+      td2.append(book.bookTitle);
 
-      const th3 = document.createElement("th");
-      th3.append(book.booWriter);
+      const td3 = document.createElement("td");
+      td3.append(book.booWriter);
 
-      const th4 = document.createElement("th");
-      th4.append(book.companyName);
+      const td4 = document.createElement("td");
+      td4.append(book.companyName);
 
-      const th5 = document.createElement("th");
-      th5.append(book.bookCount / book.basicCount);
+      const td5 = document.createElement("td");
+      td5.append(book.bookCount / book.basicCount);
 
-      const th6 = document.createElement("th");
-      th6.append(book.insertDate);
+      const td6 = document.createElement("td");
+      td6.append(book.insertDate);
 
-      const th7 = document.createElement("th");
-      th7.append(book.bookYn);
+      const td7 = document.createElement("td");
+      td7.append(book.bookYn);
 
-      const th8 = document.createElement("th");
+      const td8 = document.createElement("td");
       const deleteBtn = document.createElement("button");
       deleteBtn.innerText = "등록여부 수정";
 
-      th8.append(deleteBtn);
+      td8.append(deleteBtn);
 
       deleteBtn.addEventListener("click", ()=> {
         const alarm = confirm(book.bookTitle + "를 등록하시겠습니까?");
@@ -78,7 +78,7 @@ const listUp = (cp, sort, text) => {
           alert("등록이 취소되었습니다.");
         }
       })
-      tr.append(th1, th2, th3, th4, th5, th6, th7, th8);
+      tr.append(td1, td2, td3, td4, td5, td6, td7, td8);
 
       list.append(tr);
     })
