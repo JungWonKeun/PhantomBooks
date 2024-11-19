@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="phantom.books.finalProject.myPage.mapper.MyPageMapper">
+
+	<select id="getCategories" resultType="Category">
+		SELECT 
+			CATEGORY_NO 	AS categoryNo,
+			CATEGORY_NAME 	AS categoryName
+		FROM "CATEGORY"
+		ORDER BY categoryNo
+	</select>
+
+	<select id="getPreference" resultType="Preference">
+		SELECT 
+			PREFERENCE_NO 	AS preferenceNo,
+			PREFERENCE_NAME	AS preferenceName
+		FROM "PREFERENCE"
+		ORDER BY preferenceName
+	</select>
+
+
+</mapper>

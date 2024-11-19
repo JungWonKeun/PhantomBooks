@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <link rel="stylesheet" href="/css/myPage/info.css">
+</head>
+
+<body>
+  <header th:replace="~{common/common}"></header>
+
+  <main>
+    <section class="content-box">
+      <div class="sideBar">
+        <div class="text-end mb-3">
+          <i id="openBtn" class="fa-solid fa-arrow-down-short-wide btn btn-primary"></i>
+          <i id="closeBtn" class="fa-solid fa-arrow-up-short-wide btn btn-danger" style="display: none;"></i>
+        </div>
+        <h3 class="menu">
+          <i class="fa-solid fa-users">&nbsp;&nbsp;내 정보</i>
+          <ul class="submenu">
+            <li><a href="/myPage/info">&nbsp;&nbsp;&nbsp;-&nbsp;내 정보 보기</a></li>
+            <li><a href="/myPage/preference">&nbsp;&nbsp;&nbsp;-&nbsp;내 취향 보기</a></li>
+          </ul>
+        </h3>
+
+        <h3 class="menu">
+          <i class="fa-solid fa-arrow-trend-up">&nbsp;&nbsp;구매 및 배송</i>
+          <ul class="submenu">
+            <li><a href="">&nbsp;&nbsp;&nbsp;-&nbsp;구매 내역 조회</a></li>
+            <li><a href="">&nbsp;&nbsp;&nbsp;-&nbsp;내 취향대로 검색</a></li>
+          </ul>
+        </h3>
+
+        <h3 class="menu">
+          <i class="fa-solid fa-warehouse">&nbsp;&nbsp;내 활동 내역</i>
+          <ul class="submenu">
+            <li><a href="">&nbsp;&nbsp;&nbsp;-&nbsp;내가 쓴 문의</a></li>
+            <li><a href="">&nbsp;&nbsp;&nbsp;-&nbsp;내가 쓴 리뷰</a></li>
+          </ul>
+        </h3>
+      </div>
+    </section>
+
+    <div class="content">
+      <div class="title">
+        <div class="sort-dropdown">
+          <select id="sortSelect" class="dropbtn">
+            <option value="signUp" selected>가입 회원현황</option>
+            <option value="delete">탈퇴 회원</option>
+            <option value="unlogin">로그인 6개월 이상</option>
+          </select>
+        </div>
+        <div class="btn-container">
+          <button class="weeks">1주일</button>
+          <button class="month">1개월</button>
+          <button class="sixMonth">6개월</button>
+          <button class="dateSelect">기간 설정</button>
+          <input type="date" class="date hidden">
+        </div>
+      </div>
+    </div>
+
+
+  </main>
+
+  <footer th:replace="~{common/footer :: footer}"></footer>
+  <script src="/js/myPage/info.js"></script>
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <script src="https://kit.fontawesome.com/5eb8a8a2db.js" crossorigin="anonymous"></script>
+</body>
+
+</html>
