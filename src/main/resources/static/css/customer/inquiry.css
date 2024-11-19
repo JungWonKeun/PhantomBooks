@@ -37,7 +37,8 @@ header {
   align-self: center;
 }
 
-#searchButton, #inquiryButton {
+#searchButton,
+#inquiryButton {
   padding: 10px 20px;
   background-color: #007BFF;
   color: white;
@@ -59,7 +60,8 @@ header {
   border-bottom: 3px solid transparent;
 }
 
-.tab:hover, .tab.active {
+.tab:hover,
+.tab.active {
   border-bottom: 3px solid #4CAF50;
 }
 
@@ -68,7 +70,8 @@ header {
   border-collapse: collapse;
 }
 
-.inquiry-list th, .inquiry-list td {
+.inquiry-list th,
+.inquiry-list td {
   border: 1px solid #e0e0e0;
   padding: 15px;
   text-align: center;
