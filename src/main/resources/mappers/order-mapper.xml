@@ -26,6 +26,7 @@
             b.book_no AS bookNo,
             b.book_title AS bookTitle,
             b.book_price AS bookPrice,
+            b.book_cover AS bookCover,
             #{quantity} AS quantity,
             (b.book_price * #{quantity}) AS totalPrice
         FROM book b
@@ -38,6 +39,7 @@
             b.book_no AS bookNo,
             b.book_title AS bookTitle,
             b.book_price AS bookPrice,
+            b.book_cover AS bookCover,
             c.cart_count AS quantity
         FROM cart c
         JOIN book b ON c.book_no = b.book_no

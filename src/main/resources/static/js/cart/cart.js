@@ -47,6 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const totalPayment = totalPrice + (totalPrice > 0 ? deliveryFee : 0);
+    
     // 총 상품 가격 및 주문 수량 업데이트
     totalPriceElement.innerText = `${totalPrice.toLocaleString()} 원`;
     totalPaymentElement.innerText = `${totalPayment.toLocaleString()} 원`;

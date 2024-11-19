@@ -31,7 +31,9 @@ public class OrderDto {
     // 책 정보 리스트
     private List<Book> books;
     
+    
     private int bookNo;        
     private int bookCount;    
+    private String bookCover;
     private int bookPrice; 
 }
