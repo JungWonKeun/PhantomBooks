@@ -3,32 +3,5 @@
 
 <mapper namespace="phantom.books.finalProject.order.mapper.AfterOrderMapper">
 
-    <!-- 주문 기본 정보 조회 -->
-    <select id="selectOrderByOrderId" parameterType="string" resultType="OrderDto">
-        SELECT 
-            o.ORDER_NO AS orderNo,
-            o.MEMBER_NO AS memberNo,
-            o.AUTH_NO AS authNo,
-            o.ORDER_DATE AS orderDate,
-            o.ORDER_COUNT AS orderCount,
-            o.TOTAL_PRICE AS totalPrice,
-            o.DELIVERY_ADDRESS AS deliveryAddress,
-            o.RECEIVER AS receiver
-        FROM ORDERS o
-        WHERE o.ORDER_NO = #{orderId}
-    </select>
-
-    <!-- 주문된 책 정보 조회 -->
-    <select id="selectBooksByOrderId" parameterType="string" resultType="OrderBookDto">
-        SELECT 
-            ob.BOOK_NO AS bookNo,
-            b.BOOK_TITLE AS bookTitle,
-            b.BOOK_COVER AS bookCover,
-            b.BOOK_PRICE AS bookPrice,
-            ob.BOOK_COUNT AS bookCount
-        FROM ORDER_BOOK ob
-        JOIN BOOK b ON ob.BOOK_NO = b.BOOK_NO
-        WHERE ob.ORDER_NO = #{orderId}
-    </select>
 
 </mapper>

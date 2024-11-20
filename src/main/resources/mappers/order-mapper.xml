@@ -2,81 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="phantom.books.finalProject.order.mapper.OrderMapper">
 
-    <resultMap id="OrderResultMap" type="OrderDto">
-        <id property="orderNo" column="order_no" />
-        <result property="memberNo" column="member_no" />
-        <result property="authNo" column="auth_no" />
-        <result property="orderDate" column="order_date" />
-        <result property="orderCount" column="order_count" />
-        <result property="totalPrice" column="total_price" />
-        <result property="deliveryAddress" column="delivery_address" />
-        <result property="receiver" column="receiver" />
-    </resultMap>
-
-    <!-- 주문 ID로 주문 정보 조회 -->
-    <select id="findOrderByOrderId" parameterType="string" resultMap="OrderResultMap">
-        SELECT * 
-        FROM ORDER 
-        WHERE ORDER_NO = #{orderId}
-    </select>
-
-    <!-- 주문 항목 조회 -->
-    <select id="findOrderItemByBookNoAndQuantity" parameterType="map" resultType="OrderDto">
-        SELECT 
-            b.BOOK_NO,
-            b.BOOK_TITLE,
-            b.BOOK_PRICE,
-            b.BOOK_COVER,
-            #{quantity} AS quantity,
-            (b.BOOK_PRICE * #{quantity}) AS totalPrice
-        FROM BOOK b
-        WHERE b.BOOK_NO = #{bookNo}
-    </select>
-
-    <!-- 선택된 아이템으로 주문 항목 조회 -->
-    <select id="getOrderItemsByIds" parameterType="map" resultMap="OrderResultMap">
-        SELECT 
-            b.BOOK_NO,
-            b.BOOK_TITLE AS bookTitle,
-            b.BOOK_PRICE AS bookPrice,
-            b.BOOK_COVER AS bookCover,
-            c.CART_COUNT AS quantity
-        FROM CART c
-        JOIN BOOK b ON c.BOOK_NO = b.BOOK_NO
-        WHERE c.MEMBER_NO = #{memberNo}
-          AND b.BOOK_NO IN 
-          <foreach item="id" collection="selectedItems" open="(" separator="," close=")">
-              #{id}
-          </foreach>
-    </select>
-
-    <!-- 주문 저장 -->
-    <insert id="saveOrder" parameterType="OrderDto">
-        INSERT INTO orders (
-	        ORDER_NO, MEMBER_NO, ORDER_DATE, ORDER_COUNT, TOTAL_PRICE, DELIVERY_ADDRESS, RECEIVER
-        ) VALUES (
-            #{orderNo}, #{memberNo}, NOW(), #{orderCount}, #{totalPrice}, #{deliveryAddress}, #{receiver}
-        )
-    </insert>
-    
-    <!-- 기본 배송지 조회 -->
+	
+	<!-- 기본 배송지 조회 -->
 	<select id="getDefaultAddress" parameterType="int" resultType="AddressDto">
 	    SELECT 
 	        ZIP AS zip,
 	        ADDRESS AS address,
-	        DETAIL_ADDRESS AS detailAddress
+	        DETAIL_ADDRESS AS detailAddress,
+	        NAME AS receiver,
+	        TEL_NO AS tel
 	    FROM MEMBER
 	    WHERE MEMBER_NO = #{memberNo}
 	</select>
 
+
+	<insert id="insertOrder" parameterType="OrderDto">
+	    INSERT INTO "ORDER" (ORDER_NO, MEMBER_NO, ORDER_DATE, ORDER_COUNT, TOTAL_PRICE, DELIVERY_FEE, PAYMENT_STATUS, USER_ZIP, USER_ADDRESS, USER_DETAIL_ADDRESS, USER_TEL_NO, USER_NAME)
+	    
+	    VALUES (#{orderNo}, #{memberNo}, DEFAULT, #{orderCount}, #{totalPrice}, DEFAULT, DEFAULT, #{userZip}, #{userAddress}, #{userDetailAddress}, #{userTelNo}, #{userName})
+	</insert>
+
 	
-	<!-- 추가 배송지 조회 -->
-	<!-- <select id="findAdditionalAddress" parameterType="int" resultType="map">
-	    SELECT 
-	        ADD_ZIP AS addZip,
-	        ADD_ADDRESS AS addAddress,
-	        ADD_DETAIL_ADDRESS AS addDetailAddress
-	    FROM MEMBER
-	    WHERE MEMBER_NO = #{memberNo}
-	</select> -->
+
+  
+
+ 
 </mapper>
