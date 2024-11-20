@@ -128,3 +128,7 @@ header {
   font-weight: bold; /* 현재 선택된 페이지의 링크 강조 */
   color: #000;
 }
+
+#queryName {
+  cursor: pointer;
+}

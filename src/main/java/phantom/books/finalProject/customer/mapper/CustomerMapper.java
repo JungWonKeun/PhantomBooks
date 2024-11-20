@@ -1,6 +1,7 @@
 package phantom.books.finalProject.customer.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -13,10 +14,6 @@ import phantom.books.finalProject.query.dto.Query;
 @Mapper
 public interface CustomerMapper {
 	
-    List<FAQ> selectFAQList();
-    
-    List<FAQ> searchFAQ(@Param("query") String query);
-    
     List<Notice> selectNoticeList();
     
 	int submitQuery(Query query);
@@ -30,7 +27,15 @@ public interface CustomerMapper {
 	Query getResultInquiry(int queryNo);
 	
 	
-	int countQueryList(int cp);
+	int countQueryList(@Param("cp") int cp, 
+					@Param("memberNo") int memberNo);
+	
+	List<Query> queryList(
+					@Param("cp") int cp, 
+					@Param("memberNo") int memberNo,
+					RowBounds bounds);
 
-	List<Query> queryList(int cp, RowBounds bounds);
+	Map<String, Object> getInquiries(
+			@Param("cp") int cp,
+			@Param("memberNo") int memberNo);
 }

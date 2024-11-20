@@ -37,30 +37,7 @@ public class CustomerController {
 	public String customerSupportPage(Model model) {
 		return "customer/support";
 	}
-
-	/**
-	 * 전체 FAQ 리스트를 JSON 형태로 반환하는 메서드
-	 * 
-	 * @return 활성화된 FAQ 리스트
-	 */
-	@GetMapping("/customer/faq")
-	@ResponseBody
-	public List<FAQ> getFAQList() {
-		return customerService.getFAQList();
-	}
-
-	/**
-	 * 특정 키워드가 포함된 FAQ 리스트를 검색하여 JSON 형태로 반환하는 메서드
-	 * 
-	 * @param query - 검색할 키워드
-	 * @return 검색된 FAQ 리스트
-	 */
-	@GetMapping("/customer/faq/search")
-	@ResponseBody
-	public List<FAQ> searchFAQ(@RequestParam("query") String query) {
-		return customerService.searchFAQ(query);
-	}
-
+	
 	/**
 	 * 공지사항 페이지로 이동
 	 * 
@@ -109,12 +86,6 @@ public class CustomerController {
 		return "customer/qna";
 	}
 
-	// FAQ 데이터를 JSON 형태로 반환하는 메서드
-	@GetMapping("/customer/qna/data")
-	@ResponseBody
-	public List<FAQ> getFaqList() {
-		return customerService.getFAQList();
-	}
 
 	/**
 	 * 1:1문의 내역 페이지로 이동
@@ -123,15 +94,26 @@ public class CustomerController {
 	 * @return 1:1 문의 내역 페이지 템플릿 경로("customer/inquiry")
 	 */
 	@GetMapping("/customer/inquiry")
-	public Map<String, Object> getInquiryList(
-			@RequestParam(value = "cp", required = false, defaultValue = "1") Integer cp) {
+	public String getInquiryList(
+	        @RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
+	        @RequestParam(value = "status", required = false, defaultValue = "NO") String status, 
+	        @RequestParam(value = "startDate", required = false, defaultValue = "7day") String startDate,
+	        @RequestParam(value = "endDate", required = false, defaultValue = "currentDate") String endDate,
+	        @SessionAttribute("loginMember") Member loginMember,
+	        Model model) {
 
-		if (cp == null) {
-			cp = 1; // 기본값으로 설정
-		}
+	    int memberNo = loginMember.getMemberNo();
 
-		return customerService.getInquiryList(cp);
+	    // 사용자별 문의 내역 조회
+	    Map<String, Object> map = customerService.getInquiryListByMember(cp, memberNo);
+	    
+	    model.addAttribute("inquiryList", map.get("queryList"));
+	    model.addAttribute("pagination", map.get("pagination"));
+	    
+	    return "customer/inquiry";
 	}
+
+
 
 	/**
 	 * 특정 문의 내역을 조회하여 상세 페이지로 이동
@@ -140,11 +122,17 @@ public class CustomerController {
 	 * @param model   조회된 문의 데이터를 뷰에 전달하기 위해 사용됩니다.
 	 * @return 문의 상세 정보를 보여주는 뷰 이름 ("customer/inquiryDetail")
 	 */
-	@GetMapping("/customer/inquiry/{queryNo}")
+	@GetMapping("/customer/inquiryDetail/{queryNo}")
 	public String getResultInquiry(@PathVariable("queryNo") int queryNo, Model model) {
+	    
 		Query inquiry = customerService.getResultInquiry(queryNo);
-		model.addAttribute("inquiry", inquiry);
-		return "customer/inquiryDetail";
+		
+	    model.addAttribute("inquiry", inquiry);
+	    
+	    return "customer/inquiryDetail";
 	}
+
+
+	
 
 }

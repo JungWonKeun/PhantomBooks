@@ -37,7 +37,7 @@
 		SELECT * FROM QUERY
 	</select>
 
-	<select id="getResultInquiry" resultType="_int">
+	<select id="getResultInquiry" resultType="Query">
 		SELECT 
 			QUERY_NO,
 			QUERY_TITLE,
@@ -45,17 +45,20 @@
 			QUERY_WRITE_DATE
 		FROM
 			QUERY
+		WHERE
+			QUERY_NO = #{queryNo}
 		
 	</select>
 	
 	<select id="countQueryList" resultType="_int">
 		SELECT COUNT(*)
 		FROM QUERY
+		WHERE MEMBER_NO = #{memberNo}
 	</select>
 	
 	<select id="queryList" resultType="Query">
-		SELECT
-			*
+		SELECT *			
 		FROM QUERY
+		WHERE MEMBER_NO = #{memberNo}
 	</select>
 </mapper>
