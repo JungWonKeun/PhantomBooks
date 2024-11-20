@@ -1,86 +1,30 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const inquiryTableBody = document.getElementById('inquiryTableBody');
-  const emptyMessage = document.getElementById('emptyMessage');
-  const paginationArea = document.getElementById('paginationArea');
-  const inquiriesPerPage = 10;
-  let currentPage = 1;
-  let inquiries = [];
-  const searchButton = document.querySelector("#searchButton");
+document.addEventListener("DOMContentLoaded", () => {
+  const inquiryTableBody = document.getElementById("inquiryTableBody");
+  const emptyMessage = document.getElementById("emptyMessage");
+  const searchButton = document.getElementById("searchButton");
+  const inquiryButton = document.getElementById("inquiryButton");
+  const tabs = document.querySelectorAll(".inquiry-tabs .tab");
+  const queryName = document.querySelector("#queryName");
+  let currentStatus = "all"; // 현재 선택된 상태
+  let currentStartDate = ""; // 조회 시작일
+  let currentEndDate = ""; // 조회 종료일
 
-  // 조회 기간 선택 이벤트 리스너
-  document.getElementById('durationSelect').addEventListener('change', function () {
-    const duration = parseInt(this.value);
-    const endDate = new Date(); // 현재 날짜 기준
-    const startDate = new Date();
-
-    // 기간을 현재 날짜 기준으로 설정
-    startDate.setMonth(endDate.getMonth() - duration);
-
-    // input date 형식으로 맞춰서 값 변경
-    document.getElementById('startDate').value = startDate.toISOString().split('T')[0];
-    document.getElementById('endDate').value = endDate.toISOString().split('T')[0];
-  });
-
-  // 검색 버튼 클릭 이벤트 리스너
-  if (searchButton) {
-    searchButton.addEventListener("click", () => {
-      fetchInquiries();
-    });
-  }
-
-  // 서버에서 문의 내역을 가져오는 함수
-function fetchInquiries() {
-  const startDate = document.getElementById('startDate').value;
-  const endDate = document.getElementById('endDate').value;
-
-  // 서버에 데이터를 요청하는 fetch 호출
-  fetch(`/api/customer/inquiry?startDate=${startDate}&endDate=${endDate}`)
-  .then(response => response.json())
-  .then(data => {
-      console.log(data); // 데이터 확인
-
-      // 데이터의 queryList가 존재하는지, 배열인지 확인
-      if (!data.queryList) {
-          console.error("queryList 데이터가 존재하지 않습니다. 빈 배열로 설정합니다.");
-          inquiries = [];  // 빈 배열 할당
-      } else if (!Array.isArray(data.queryList)) {
-          console.error("queryList 데이터가 배열 형태가 아닙니다.");
-          inquiries = [];  // 안전하게 빈 배열로 초기화
-      } else {
-          // 정상적인 배열일 때만 데이터를 할당
-          inquiries = data.queryList;
-      }
-
-      // 문의 내역 렌더링 및 페이지네이션 갱신
-      renderInquiries(inquiries);
-      renderPagination(inquiries.length);
-  })
-  .catch(error => {
-      console.error('문의 내역을 가져오는 중 오류 발생:', error);
-      inquiries = [];  // 오류 발생 시에도 빈 배열로 설정하여 이후 함수에서 오류 방지
-      renderInquiries(inquiries);
-      renderPagination(0);
-  });
-}
-
-
-  // 문의 내역을 테이블에 렌더링하는 함수
+  // 문의 내역 렌더링 함수
   function renderInquiries(data) {
-    inquiryTableBody.innerHTML = '';
-    const startIndex = (currentPage - 1) * inquiriesPerPage;
-    const endIndex = Math.min(startIndex + inquiriesPerPage, data.length);
-    const currentInquiries = data.slice(startIndex, endIndex);
+    inquiryTableBody.innerHTML = ""; // 기존 데이터 초기화
 
-    if (currentInquiries.length === 0) {
-      emptyMessage.style.display = 'block';
+    if (data.length === 0) {
+      emptyMessage.style.display = "block";
+      emptyMessage.textContent = "해당 조건에 조회된 문의 내역이 없습니다.";
     } else {
-      emptyMessage.style.display = 'none';
-      currentInquiries.forEach((inquiry, index) => {
-        const row = document.createElement('tr');
+      emptyMessage.style.display = "none";
+
+      data.forEach((inquiry, index) => {
+        const row = document.createElement("tr");
         row.innerHTML = `
-          <td>${startIndex + index + 1}</td>
-          <td><a href="/customer/inquiry/${inquiry.queryNo}">${inquiry.queryTitle}</a></td>
-          <td>${inquiry.queryWriteDate}</td>
+          <td>${inquiry.queryNo}</td>
+          <td><a href="/customer/inquiry/${inquiry.queryNo}">${inquiry.title}</a></td>
+          <td>${inquiry.writeDate}</td>
           <td>${getInquiryStatus(inquiry.status)}</td>
         `;
         inquiryTableBody.appendChild(row);
@@ -88,71 +32,128 @@ function fetchInquiries() {
     }
   }
 
-  // 문의 상태를 읽기 쉬운 문자열로 반환하는 함수
-  function getInquiryStatus(status) {
-    switch (status) {
-      case 'RECEIVED':
-        return '접수 완료';
-      case 'ADMIN_CHECK':
-        return '관리자 확인';
-      case 'COMPLETED':
-        return '답변 완료';
-      default:
-        return '알 수 없음';
-    }
-  }
+  const pageNoList = document.querySelectorAll(".pagination a");
 
-  // 페이지네이션 링크를 렌더링하는 함수
-  function renderPagination(totalItems) {
-    paginationArea.innerHTML = '';
-    const totalPages = Math.ceil(totalItems / inquiriesPerPage);
+  // 페이지 이동 버튼이 클릭 되었을 때
+  pageNoList?.forEach((item, index) => {
 
-    for (let i = 1; i <= totalPages; i++) {
-      const pageLink = document.createElement('a');
-      pageLink.textContent = i;
-      pageLink.href = '#';
-      pageLink.dataset.page = i;
+    // 페이지 이동 버튼 클릭 되었을 때
+    item.addEventListener("click", e => {
+      e.preventDefault();
 
-      if (i === currentPage) {
-        pageLink.classList.add('active');
+      // 만약 클릭된 a 태그에 "current" 클래스가 있을 경우
+      // == 현재 페이지 숫자를 클릭한 경우
+      if (item.classList.contains("current")) {
+        return;
       }
 
-      pageLink.addEventListener('click', (event) => {
-        event.preventDefault();
-        currentPage = i;
+      // const -> let으로 변경
+      let pathname = location.pathname; // 현재 게시판 조회 요청 주소
 
-        // 모든 페이지 링크에서 'active' 제거 후 현재 페이지에만 추가
-        document.querySelectorAll('.pagination a').forEach(link => link.classList.remove('active'));
-        pageLink.classList.add('active');
 
-        renderInquiries(inquiries);
-      });
 
-      paginationArea.appendChild(pageLink);
-    }
-  }
+      // 클릭된 버튼이 <<, <, >, >> 인 경우
+      // console.log(item.innerText);
+      switch (item.innerText) {
+        case '<<': // 1페이지로 이동
+          pathname += "?cp=1";
+          break;
 
-  // 탭별로 필터링하는 함수
-  window.filterTab = function (tab) {
-    currentPage = 1;
+        case '<': // 이전 페이지
+          pathname += "?cp=" + pagination.prevPage;
+          break;
 
-    if (tab === 'all') {
-      renderInquiries(inquiries); // 전체 데이터를 그대로 렌더링
-      renderPagination(inquiries.length);
-    } else {
-      const status = tab === 'received' ? 'RECEIVED' : (tab === 'admin-check' ? 'ADMIN_CHECK' : 'COMPLETED');
+        case '>': // 다음 페이지
+          pathname += "?cp=" + pagination.nextPage;
+          break;
 
-      if (Array.isArray(inquiries)) {
-        // 필터링된 데이터를 별도의 변수로 유지합니다.
-        const filteredInquiries = inquiries.filter(inquiry => inquiry.status === status);
-        renderInquiries(filteredInquiries);
-        renderPagination(filteredInquiries.length);
-      } else {
-        console.error('inquiries가 배열이 아닙니다.');
+        case '>>':
+          pathname += "?cp=" + pagination.maxPage;
+          break;
+
+        default:  // 클릭한 숫자 페이지로 이동
+          pathname += "?cp=" + item.innerText;
       }
-    }
+
+      // const params = new URLSearchParams(location.search);
+
+      const key = document.querySelector("#sort-dropdown").value;
+      const query = document.querySelector(".tab").value;
+
+
+      if (key != null) { // 검색인 경우
+
+        pathname += `?cp=${cp}&status=${status}&startDate=${startDate}&endDate=${endDate}`;
+
+      }
+      // 페이지 이동
+      location.href = pathname;
+    });
+  });
+  // 탭 클릭 이벤트
+  window.filterTab = function (status) {
+    currentStatus = status;
+
+    // 탭 활성화 처리
+    tabs.forEach((tab) => tab.classList.remove("active"));
+    const activeTab = document.querySelector(`.tab[onclick="filterTab('${status}')"]`);
+    if (activeTab) activeTab.classList.add("active");
+
+    // 데이터 요청
+    fetchInquiries(currentStatus, currentStartDate, currentEndDate);
   };
 
-  // 초기 데이터 가져오기
-  fetchInquiries();
+  // 조회 버튼 클릭 이벤트
+  if (searchButton) {
+    searchButton.addEventListener("click", () => {
+      console.log("조회 버튼 클릭");
+      currentStartDate = document.getElementById("startDate").value;
+      currentEndDate = document.getElementById("endDate").value;
+
+      console.log(`조회 기간: ${currentStartDate} ~ ${currentEndDate}`);
+      fetchInquiries(currentStatus, currentStartDate, currentEndDate);
+    });
+  } else {
+    console.error("검색 버튼을 찾을 수 없습니다.");
+  }
+
+  // 1:1 문의 버튼 클릭 이벤트
+  if (inquiryButton) {
+    inquiryButton.addEventListener("click", () => {
+      console.log("1:1문의버튼 클릭!");
+      location.href = "/customer/query";
+    });
+  } else {
+    console.error("1:1 문의 버튼을 찾을 수 없습니다.");
+  }
+
+  // 초기 로드: 전체 상태로 데이터 조회
+  const defaultStartDate = new Date();
+  const defaultEndDate = new Date();
+  defaultStartDate.setMonth(defaultEndDate.getMonth() - 1); // 기본 조회: 1개월 전
+  document.getElementById("startDate").value = defaultStartDate.toISOString().split("T")[0];
+  document.getElementById("endDate").value = defaultEndDate.toISOString().split("T")[0];
+
+  currentStartDate = defaultStartDate.toISOString().split("T")[0];
+  currentEndDate = defaultEndDate.toISOString().split("T")[0];
+
 });
+
+const queryNames = document.querySelectorAll(".queryName");
+if (queryNames) {
+  queryNames.forEach((queryName) => {
+    queryName.addEventListener("click", () => {
+      const queryNo = queryName.dataset.queryNo;
+      if (queryNo) {
+        location.href = `/customer/inquiryDetail/${queryNo}`;
+      } else {
+        console.log("queryNo 값이 없습니다");
+      }
+    });
+  });
+} else {
+  console.error("queryName 요소를 찾을 수 없습니다.");
+}
+
+
+

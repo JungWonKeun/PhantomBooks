@@ -8,15 +8,11 @@ import phantom.books.finalProject.customer.dto.Notice;
 import phantom.books.finalProject.query.dto.Query;
 
 public interface CustomerService {
-	List<FAQ> getFAQList();
-
-	List<FAQ> searchFAQ(String query);
 
 	List<Notice> getNoticeList();
 
 	int submitQuery(Query query);
 
-	List<FAQ> getFaqList();
 
 //	List<Query> getInquiries();
 
@@ -24,6 +20,8 @@ public interface CustomerService {
 
 	Query getResultInquiry(int queryNo);
 
-	// 문의 리스트 조회
-	Map<String, Object> getInquiryList(int cp);
+	Map<String, Object> getInquiryListByMember(int cp, int memberNo);
+
+	List<FAQ> getFaqList();
+
 }

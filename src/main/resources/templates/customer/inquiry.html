@@ -15,8 +15,9 @@
         <!-- 검색 섹션 -->
         <section class="inquiry-search">
             <div class="filter-area">
-                <label for="durationSelect">조회 기간:</label>
-                <select id="durationSelect">
+                <label for="sort-dropdown">조회 기간:</label>
+                <select id="sort-dropdown">
+                    <option value="7">7일</option>
                     <option value="1">1개월</option>
                     <option value="3">3개월</option>
                     <option value="6">6개월</option>
@@ -61,7 +62,26 @@
                     </tr>
                 </thead>
                 <tbody id="inquiryTableBody">
-                    <!-- 문의 내역이 JavaScript로 렌더링 됩니다. -->
+                    <th:block th:if="${#lists.isEmpty(inquiryList)}">
+                        <tr>
+                            <td colspan="4">1:1 문의 내역이 없습니다.</td>
+                        </tr>
+                    </th:block>
+
+                    <th:block th:unless="${#lists.isEmpty(inquiryList)}">
+                        <tr th:each="inquiry:${inquiryList}" th:object="${inquiry}">
+                            <td th:text="*{queryNo}">번호</td>
+                            <td th:text="*{queryTitle}"
+                                class="queryName"
+                                th:data-query-no="*{queryNo}">
+                                <span>제목</span>
+                            </td>
+                            <td th:text="*{queryWriteDate}">작성일</td>
+                            <td th:if= "${inquiry.status== 0}">접수완료</td>
+                            <td th:if= "${inquiry.status== 1}">관리자 확인</td>
+                            <td th:if= "${inquiry.status== 2}">답변완료</td>
+                        </tr>
+                    </th:block>
                 </tbody>
             </table>
 
@@ -71,11 +91,54 @@
             </div>
 
             <!-- 페이지네이션 -->
-            <div class="pagination" id="paginationArea"></div>
+            <div class="pagination-area" th:unless= "${#lists.isEmpty(inquiryList)}">
+        
+                <ul class="pagination" th:object="${pagination}">
+                  
+                  <!-- 첫 페이지로 이동 -->
+                  <li><a href="#">&lt;&lt;</a></li>
+                  
+                  <!-- 이전 목록 마지막 번호로 이동 -->
+                  <li><a href="#">&lt;</a></li>
+                  
+                  <!-- 특정 페이지로 이동 -->
+                  
+                  <!-- 
+                    #numbers.sequence(startPage, endPage)
+                    -> startPage부터 endPage까지 1씩 증가하는 숫자를 가진
+                    List를 만들어서 반환
+                  -->
+                  <th:block th:each= "i : *{#numbers.sequence(startPage, endPage)}">
+                    
+                    <!-- 현재 보고있는 페이지 -->
+                    <li th:if= "${i}==*{currentPage}">
+                      <a class="current" th:text="${i}">현재 페이지</a>
+                    </li>
+                    
+                    <!-- 보고있지 않은 페이지 -->                    
+                    <li th:unless = "${i} == *{currentPage}">
+                      <a href="#" th:text="${i}">이동할 수 있는 페이지</a>
+                    </li>
+                    
+                    
+                  </th:block>
+                  
+                  <!-- 다음 목록 시작 번호로 이동 -->
+                  <li><a href="#">&gt;</a></li>
+                  
+                  <!-- 끝 페이지로 이동 -->
+                  <li><a href="#">&gt;&gt;</a></li>
+                </ul>
+              </div>
         </section>
     </main>
 
     <footer th:replace="~{common/footer :: footer}"></footer>
+
+    <script th:inline="javascript">
+        const queryNo = /*[[${queryNo}]]*/ "문의 번호";
+    </script>
+
     <script src="/js/customer/inquiry.js"></script>
 </body>
 

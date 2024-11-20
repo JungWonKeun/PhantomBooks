@@ -12,27 +12,21 @@
   <main>
     <th:block th:replace="~{common/common}"></th:block>
 
-    <section class="board-detail" th:object="${board}">
+    <section class="board-detail" th:object="${inquiry}">
       <!-- 제목 -->
-      <h1 class="board-title" th:text="*{boardTitle}">게시글 제목</h1>
+      <h1 class="board-title" th:text="*{queryTitle}">게시글 제목</h1>
 
-      <!-- 프로필 + 닉네임 + 작성일 + 조회수 -->
       <div class="board-header">
         <div class="board-info">
           <p>
             <span>작성일</span>
-            <th:block th:text="*{boardWriteDate}"></th:block>
+            <th:block th:text="*{queryWriteDate}"></th:block>
           </p>
 
           <!-- 수정한 게시글인 경우 -->
-          <p th:if="*{boardUpdateDate}">
+          <p th:if="*{queryUpdateDate}">
             <span>마지막 수정일</span>
-            <th:block th:text="*{boardUpdateDate}"></th:block>
-          </p>
-
-          <p>
-            <span>조회수</span>
-            <th:block th:text="*{readCount}"></th:block>
+            <th:block th:text="*{queryUpdateDate}"></th:block>
           </p>
         </div>
       </div>
