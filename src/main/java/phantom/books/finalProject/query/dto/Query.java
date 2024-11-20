@@ -19,7 +19,6 @@ public class Query {
 	private String queryContent;
 	private String queryWriteDate;
 	private String queryUpdateDate;
-	private String queryImgNo;
 	private String reply;
 	private int	   status;
 	private String querySubject;

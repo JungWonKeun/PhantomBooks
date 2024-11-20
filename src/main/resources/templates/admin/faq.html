@@ -37,8 +37,7 @@
       
       <!-- 관리자 담당 업무 -->
       <div class="adminName">
-        <div th:each= "faq:${faqList}"
-             th:text="${faq.faqId}">
+        <div th:text="${session.loginMember.name}">
              name
         </div>
       </div>
@@ -130,7 +129,10 @@
                 th:object="${faq}">  
               
               <td>
-                <input type="checkbox" th:id="'faq'+${faqId}" th:value="*{faqId}" >
+                <input type="checkbox"
+                       th:id="'faq'+${faqId}"
+                       th:value="*{faqId}" 
+                       id="selectFaq" >
               </td>
 
               <td th:text="*{faqId}" th:name="*{faqId}">
