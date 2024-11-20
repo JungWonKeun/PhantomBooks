@@ -32,11 +32,33 @@ const listUp = (cp, sort, title) => {
 
       // 체크박스
       const th1 = document.createElement("th");
-      const input = document.createElement("input");
-      input.type = "checkbox";
-      input.value = review.bookNo
+      const button = document.createElement("button");
+      button.innerText = "리뷰 삭제";
 
-      th1.append(input);
+      // 선택 삭제
+      button.addEventListener("click", () => {
+        const alarm =confirm("리뷰를 삭제하시겠습니까?");
+
+        if(!alarm) return;
+
+        fetch("/admin/review?reviewNo="+review.reviewNo, {method:"DELETE"})
+        .then(response => {
+          if(response.ok) return response.json();
+          throw new Error("삭제 요청 실패");})
+        .then(result => {
+          if (result > 0) {
+            alert("삭제 되었습니다.");
+            listUp(1, sortSelect.value);
+            location.reload();  // 페이지 새로 고침
+          }
+        })
+        .catch(error => {
+          console.error(error);
+          alert("삭제 중 오류가 발생했습니다.");
+        });
+      })
+
+      th1.append(button);
 
       // 책 번호 작성
       const td2 = document.createElement("td");
@@ -95,11 +117,14 @@ const listUp = (cp, sort, title) => {
       td4.classList.add("updateDate");
       td10.innerHTML = review.reviewWriteDate;
       
-      tr.append(th1, td2, td3, td4, td5, td6, td7, td8, td9, td10);
+      tr.append(td2, td3, td4, td5, td6, td7, td8, td9, td10, th1);
       reviewContent.append(tr);
-
+      
     })
-  
+
+
+
+
 
   // 페이지네이션 출력
   const pg = document.querySelector('.pagination');
@@ -130,8 +155,6 @@ const listUp = (cp, sort, title) => {
 
   // 페이지네이션 클릭 이벤트 추가
   paginationAddEvent();    
-  allSelectEvent();
-
   })
 }
 
@@ -152,58 +175,6 @@ const paginationAddEvent = () => {
   });
 }
 
-// 상단 버튼
-const all = document.querySelector("#all");
-const allDelete = document.querySelector("#allDelete");
-const selectDelete = document.querySelector("#selectDelete");
-
-const checkbox = document.querySelectorAll("input");
-const checkboxValues = [];
-
-
-/* 클릭 이벤트 */
-
-// 전체 선택 버튼 클릭 시
-const allSelectEvent = () => {
-  all.addEventListener("click", () => {
-  
-    const allChecked = Array.from(checkbox).every(input => input.checked);
-    
-    checkbox.forEach(input => {
-      input.checked = !allChecked;
-    })
-    if(all.textContent == "전체 선택"){
-      all.innerHTML = "전체 선택 해제";
-    }else{
-      all.innerHTML = "전체 선택";
-    }
-  })
-}
-
-
-// 선택 삭제
-allDelete.addEventListener("click", () => {
-  const alarm = confirm("선택한 리뷰를 삭제하시겠습니까?");
-
-  if(!alarm) return;
-
-  checkbox.forEach(checkbox => {
-    checkboxValues.push(checkbox.value);
-  })
-
-  console.log(checkboxValues);
-  
-
-  fetch("/admin/review?reviewNo="+checkboxValues, {method:"DELETE"})
-  .then(response => {if(response.ok) return response.json();})
-  .then(result => {
-    if(result>0) alert("삭제 되었습니다."); 
-    listUp(1,sortSelect.value);
-    location.reload();
-  })
-})
-
-
 
 /**
  * sort 이벤트
@@ -222,5 +193,4 @@ sortSelect.addEventListener('change', () => {
  */
 document.addEventListener("DOMContentLoaded", ()=>{
   listUp(1, sortSelect.value);
-  allSelectEvent();
 })

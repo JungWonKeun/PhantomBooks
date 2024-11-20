@@ -15,6 +15,7 @@ import lombok.ToString;
 @Builder
 public class Review {
 
+	private int reviewNo; // 리뷰 번호
 	private int bookNo; // 책 번호
 	private int memberNo; // 회원 번호
 	private double reviewScore; // 리뷰 점수 (0 ~ 5, 0.5 단위)

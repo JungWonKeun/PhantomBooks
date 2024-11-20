@@ -55,7 +55,7 @@ function ifChecked(action) {
           headers: {
               "Content-Type": "application/json"
           },
-          body: JSON.stringify({ bookNo: selectedBookNo })
+          body: map
       })
       .then(response => {
           if (response.ok) {
