@@ -6,14 +6,12 @@ import phantom.books.finalProject.order.dto.AddressDto;
 import phantom.books.finalProject.order.dto.OrderDto;
 
 public interface OrderService {
-    OrderDto findOrderByOrderId(String orderId);
 
-    List<OrderDto> getOrderItemsByIds(int memberNo, List<Integer> selectedItems);
-
-    void saveOrder(OrderDto orderDto);
-
-    OrderDto getOrderItemByBookNoAndQuantity(int bookNo, int quantity);
-
-    // 기본 배송지 조회    
+    // 기본 배송지 주소 불러오기
     AddressDto getDefaultAddress(int memberNo);
+
+    // 주문 정보 저장하기
+	void saveOrder(OrderDto orderDto);
+
+   
 }
