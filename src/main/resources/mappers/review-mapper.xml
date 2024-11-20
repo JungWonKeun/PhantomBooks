@@ -1,107 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="phantom.books.finalProject.admin.mapper.AdminMapper">
+<mapper namespace="phantom.books.finalProject.admin.mapper.ReviewMapper">
 
-	<select id="countMember" resultType="_int">
-		SELECT
-		 COUNT(*)
-		FROM "MEMBER"
+	<select id="countReview" resultType="_int">
+	 	SELECT 
+	 		COUNT(REVIEW_TITLE)
+	 	FROM "REVIEW"
+	 	LEFT JOIN "BOOK" USING (BOOK_NO)
+	 	
+	 	<choose>
+	 		<when test="sort == 'all'">
+	 			ORDER BY REVIEW_WRITE_DATE DESC
+	 		</when>
+	 		<when test="sort == 'gradeDown'">
+	 			ORDER BY REVIEW_SCORE DESC
+	 		</when>
+	 		<when test="sort == 'gradeUp'">
+	 			ORDER BY REVIEW_SCORE ASC
+	 		</when>
+	 		<when test="sort == 'title'">
+	 			WHERE BOOK_TITLE = #{title}
+	 		</when>
+	 		<when test="sort == 'photo'">
+	 			WHERE REVIEW_IMG_NO != NULL
+	 		</when>
+	 	</choose>
 	</select>
 	
-	<select id="countDelFl" resultType="_int">
-		SELECT
-		 COUNT(*)
-		FROM "MEMBER"
-		WHERE MEMBER_DEL_FL = 'Y'
-	</select>
-
-	<select id="countMemberList" resultType="_int">
-		SELECT
-		 COUNT(*)
-		FROM "MEMBER"
-		<choose>
-			<when test="sort == 'signUp' and term == 'year'">
-				WHERE SIGNUP_DATE >= CURRENT_DATE - INTERVAL '1' YEAR
-			</when>
-			<when test="term == 'weeks' and sort == 'signUp'">
-				WHERE SIGNUP_DATE >= CURRENT_DATE - INTERVAL '7' DAY
-			</when>
-			<when test="term == 'month' and sort == 'signUp'">
-				WHERE SIGNUP_DATE >= CURRENT_DATE - INTERVAL '1' MONTH
-			</when>
-			<when test="term == '6month' and sort == 'signUp'">
-				WHERE SIGNUP_DATE >= CURRENT_DATE - INTERVAL '6' MONTH
-			</when>
-			<when test= "sort == 'signUp' and term != null and term != ''">
-				WHERE SIGNUP_DATE > #{term}
-			</when>
-			<when test="sort == 'delete'">
-				WHERE MEMBER_DEL_FL = 'Y'
-			</when>
-			<when test="sort == 'unlogin'">
-				WHERE MONTHS_BETWEEN(CURRENT_DATE, LOGIN_DATE) >= 6
-			</when>
-		</choose>
-	</select>
-	
-<select id="memberList" resultType="Member">
-	SELECT
-		MEMBER_NO,
-	 	MEMBER_ID,
-		MEMBER_PW,
-		ZIP,
-		ADDRESS,
-		DETAIL_ADDRESS,
-		ADD_ZIP,
-		ADD_ADDRESS,
-		ADD_DETAIL_ADDRESS,
-		TEL_NO,
-		TO_CHAR(BIRTH_DATE, 'YYYY"년" MM"월" DD"일"') BIRTH_DATE,
-		NAME,
-		RANK_NAME,
-		TO_CHAR(SIGNUP_DATE,'YYYY"년" MM"월" DD"일"') SIGNUP_DATE,
-		TO_CHAR(LOGIN_DATE,'YYYY"년" MM"월" DD"일"') LOGIN_DATE,
-		AUTHORITY
-	FROM "MEMBER"
-	<choose>
-			<when test="sort == 'signUp' and term == 'year'">
-				WHERE SIGNUP_DATE >= CURRENT_DATE - INTERVAL '1' YEAR
-			</when>
-			<when test="term == 'weeks' and sort == 'signUp'">
-				WHERE SIGNUP_DATE >= CURRENT_DATE - INTERVAL '7' DAY
-			</when>
-			<when test="term == 'month' and sort == 'signUp'">
-				WHERE SIGNUP_DATE >= CURRENT_DATE - INTERVAL '1' MONTH
-			</when>
-			<when test="term == '6month' and sort == 'signUp'">
-				WHERE SIGNUP_DATE >= CURRENT_DATE - INTERVAL '6' MONTH
-			</when>
-			<when test= "sort == 'signUp' and term != null and term != ''">
-				WHERE SIGNUP_DATE > #{term}
-			</when>
-		<when test="sort == 'delete'">
-			WHERE MEMBER_DEL_FL = 'Y'
-		</when>
-		<when test="sort == 'unlogin'">
-			WHERE MONTHS_BETWEEN(CURRENT_DATE, LOGIN_DATE) >= 6
-		</when>
-	</choose> 
-	ORDER BY SIGNUP_DATE DESC, MEMBER_NO DESC
-</select>
-
-	<delete id="deleteMember">
-		DELETE 
-		FROM "MEMBER"
-		WHERE MEMBER_NO = #{memberNo}
-	</delete>
-
-
-	<!-- 6개월 이상 로그인 안 한 회원 조회 -->
-	<select id="countInactiveMember" resultType="_int">
-	    SELECT
-	        COUNT(*)
-	    FROM "MEMBER"
-	    WHERE MONTHS_BETWEEN(CURRENT_DATE, LOGIN_DATE) >= 6
+		<select id="reviewList" resultType="Review">
+	 	SELECT 
+	 			BOOK_NO,
+				MEMBER_NO,
+				REVIEW_SCORE,
+				REVIEW_TITLE,
+				REVIEW_CONTENT,
+				REVIEW_WRITE_DATE,
+				REVIEW_UPDATE_DATE,
+				REVIEW_IMG_NO,
+				BOOK_TITLE,
+				BOOK_COVER
+	 	FROM "REVIEW"
+	 	LEFT JOIN "BOOK" USING (BOOK_NO)
+	 	<choose>
+	 		<when test="sort == 'all'">
+	 			ORDER BY REVIEW_WRITE_DATE DESC
+	 		</when>
+	 		<when test="sort == 'gradeDown'">
+	 			ORDER BY REVIEW_SCORE DESC
+	 		</when>
+	 		<when test="sort == 'gradeUp'">
+	 			ORDER BY REVIEW_SCORE ASC
+	 		</when>
+	 		<when test="sort == 'title'">
+	 			WHERE BOOK_TITLE = #{title}
+	 			ORDER BY REVIEW_WRITE_DATE DESC
+	 		</when>
+	 		<when test="sort == 'photo'">
+	 			WHERE REVIEW_IMG_NO != NULL
+	 			ORDER BY REVIEW_WRITE_DATE DESC
+	 		</when>
+	 	</choose>
 	</select>
 
 

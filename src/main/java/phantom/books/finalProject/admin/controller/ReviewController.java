@@ -5,6 +5,7 @@ import java.util.Map;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,10 @@ public class ReviewController {
 	
 	@GetMapping("reviewList")
 	@ResponseBody
-	public Map<String, Object> reviewList(int cp, String sort) {
-		return service.reviewList(cp, sort);
+	public Map<String, Object> reviewList(
+			@RequestParam("cp") int cp,
+			@RequestParam("sort") String sort,
+			@RequestParam(value = "title", required = false) String title) {
+		return service.reviewList(cp, sort, title);
 	}
 }
