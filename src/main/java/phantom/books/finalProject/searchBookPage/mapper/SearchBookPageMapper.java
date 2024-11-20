@@ -44,7 +44,7 @@ public interface SearchBookPageMapper {
                            RowBounds bounds);
 
 //    리뷰 조회
-	Review getReviewByBookNo(int bookNo);
+    List<Review> getReviewsByBookNo(int bookNo);
 
 
 

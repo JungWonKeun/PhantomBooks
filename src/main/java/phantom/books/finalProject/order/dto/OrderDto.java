@@ -1,5 +1,6 @@
 package phantom.books.finalProject.order.dto;
 
+import java.util.Date;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -16,17 +17,19 @@ import lombok.ToString;
 @ToString
 @Builder
 public class OrderDto {
-    private int orderNo; // 주문 번호
-    private int memberNo; // 회원 번호
-    private int authNo; // 인증 번호
-    private String orderDate; // 주문 날짜
-    private int orderCount; // 주문한 책 수량
-    private int totalPrice; // 총 결제 금액
-    
-    // 배송 정보
-    private String deliveryAddress; 
-    private String receiver;
+	
+	private int orderNo;
+	private int memberNo;
+	private Date orderDate;
+	private int orderCount;
+	private int totalPrice;
+	private int deliveryFee;
+	private String paymentStatus;
+	private String userZip;
+	private String userAddress;
+	private String userDetailAddress;
+	private String userTelNo;
+	private String userName;
 
-    // 주문된 책 정보 리스트
-    private List<OrderBookDto> books;
+   
 }

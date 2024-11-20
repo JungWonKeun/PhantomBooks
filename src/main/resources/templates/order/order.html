@@ -18,167 +18,167 @@
   <main class="orderMain">
 
     
-    <form method="POST">
+    <form> 
+      <div>
+        <label for="userName">수령인 이름:</label>
+        <input type="text" id="userName" name="userName" required>
+      </div>
+
+      <div>
+        <label for="userTelNo">전화번호:</label>
+        <input type="tel" id="userTelNo" name="userTelNo" required pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-1234-5678">
+      </div>
+
       <!-- 기본 배송지 -->
       <div class="addressForm">
         <input type="checkbox" id="defaultAddressCheck" checked="on">
         <h4>기본 배송지</h4>
+
         <div class="form-floating mb-2">
-          <input type="text" class="form-control" id="zip" name="zip" readonly th:value="${defaultAddress?.zip}">
+          <input type="text" class="form-control" id="userZip" name="zip" readonly th:value="${defaultAddress?.zip}">
           <label for="zip">우편번호</label>
         </div>
+
         <div class="form-floating mb-2">
-          <input type="text" class="form-control" id="address" name="address" readonly th:value="${defaultAddress?.address}">
+          <input type="text" class="form-control" id="userAddress" name="address" readonly th:value="${defaultAddress?.address}">
           <label for="address">주소</label>
         </div>
+
         <div class="form-floating mb-2">
-          <input type="text" class="form-control" id="detailAddress" name="detailAddress" readonly th:value="${defaultAddress?.detailAddress}">
+          <input type="text" class="form-control" id="userDetailAddress" name="detailAddress" readonly th:value="${defaultAddress?.detailAddress}">
           <label for="detailAddress">상세 주소</label>
         </div>
+
       </div>
     </form>
     
     <button type="button" id="addAddressBtn" class="btn btn-primary mt-3">배송지 추가</button>
+    <div id="additionalAddresses">
+    
+      <h4>주문 상품 목록</h4>
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>상품명</th>
+            <th>수량</th>
+            <th>가격</th>
+          </tr>
+        </thead>
 
-    <div id="additionalAddresses"></div>
+        <tbody>
+          <tr th:each="item : ${orderItems}">
+            <td>
+              <img th:src="${item.bookCover != null ? item.bookCover : '/images/bookCover/default.jpg'}" alt="책이미징"
+                class="book-cover">
+            </td>
+            <td th:text="${item.bookTitle}">상품명</td>
+            <td th:text="${item.cartCount}">수량</td>
+            <td>
+              <span class="book-price" data-price="${item.bookPrice * item.cartCount}"
+                th:text="${item.bookPrice * item.cartCount}">
+              </span>
+            </td>
+            <td>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <h3>
+        <span class="delivery-fee" data-fee="${deliveryFee}" th:text="${deliveryFee}"></span>
+      </h3>
 
-    <hr>
+      <h3>총 결제 금액:
+        <span id="totalPrice" th:text="${totalPrice + deliveryFee}"></span> <span> 원</span>
+      </h3>
 
+      <button class="paymentButton" id="paymentButton">결제하기</button>
+    </div>
 
+    <div th:replace="~{common/footer :: footer}"></div> 
 
+    <script th:inline="javascript">
 
-    <h4>주문 상품 목록</h4>
-    <table>
-      <thead>
-        <tr>
-          <th></th>
-          <th>상품명</th>
-          <th>수량</th>
-          <th>가격</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr th:each="item : ${orderItems}">
-          <td>
-            <img th:src="${item.bookCover != null ? item.bookCover : '/images/bookCover/default.jpg'}" alt="책이미징"
-              class="book-cover">
-          </td>
-          <td th:text="${item.bookTitle}">상품명</td>
-          <td th:text="${item.cartCount}">수량</td>
-          <td>
-            <span class="book-price" data-price="${item.bookPrice * item.cartCount}"
-              th:text="${item.bookPrice * item.cartCount}">
-            </span>
-          </td>
-          <td>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <h3>
-      <span class="delivery-fee" data-fee="${deliveryFee}" th:text="${deliveryFee}"></span>
-    </h3>
+      function generateTimestampId() {
 
-
-    <h3>총 결제 금액:
-      <span id="totalPriceElement" th:text="${totalPrice + deliveryFee} + ' 원'"></span>
-    </h3>
-
-    <button onclick="requestPay()">결제하기</button>
-  </main>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-
-  const memberId = /*[[${session.loginMember?.memberId}]]*/ 'defaultUser';
-
-  // 현재 시간을 기반으로 고유 ID 생성 함수
-  function generateTimestampId() {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0'); 
-    const day = String(now.getDate()).padStart(2, '0');
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    const seconds = String(now.getSeconds()).padStart(2, '0');
-    return `${year}${month}${day}${hours}${minutes}${seconds}`;
-  }
-
-  // 결제 요청
-  function requestPay() {
-    // 총 결제 금액 추출
-    const totalAmountText = document.getElementById('totalPriceElement').innerText;
-    const totalAmount = parseInt(totalAmountText.replace(/[^\d]/g, ''), 10);
-
-    // 현재 시간 기반 paymentId 생성
-    const paymentId = `${memberId}-${generateTimestampId()}`;
-
-    PortOne.requestPayment({
-      
-channelKey: "channel-key-ebe7daa6-4fe4-41bd-b17d-3495264399b5",
-      storeId: "store-e4038486-8d83-41a5-acf1-844a009e0d94",
-      paymentId: paymentId, // 생성된 paymentId 사용
-      orderName: "테스트 결제",
-      // 테스트 결제 시
-      totalAmount: 10,
-
-      // 실제 결제 시
-      // totalAmount: totalAmount, 
-      currency: "KRW",
-      payMethod: "CARD",
-      card: {},
-      onSuccess: function (response) {
-        console.log('결제 성공:', response);
-        // 결제 성공 후 서버에 정보 저장 요청
-        fetch('/order/save', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            paymentId: paymentId,
-            totalAmount: totalAmount,
-            orderName: "테스트 결제",
-            response: response
-          })
-        })
-        .then((res) => {
-          if (res.ok) {
-            // 서버 저장 성공 시 페이지 이동
-            window.location.href = '/order/afterOrder?orderId=' + paymentId;
-          } else {
-            throw new Error('서버 저장 실패');
-          }
-        })
-        .catch((err) => {
-          console.error('결제 정보 저장 실패:', err);
-          alert('결제는 성공했지만 주문 정보 저장에 실패했습니다.');
-        });
-      },
-      onFailure: function (error) {
-        console.error('결제 실패:', error);
-        alert('결제에 실패했습니다. 다시 시도해주세요.');
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        return `${year}${month}${day}${hours}${minutes}${seconds}`;
       }
-    });
-  }
+    
+      function requestPay() {
 
-  // 결제 버튼 이벤트
-  const payButton = document.querySelector('button[onclick="requestPay()"]');
-  if (payButton) {
-    payButton.addEventListener('click', (event) => {
-      event.preventDefault(); 
-      requestPay();
-    });
-  }
-});
-  </script>
+        const memberId = /*[[${session.loginMember?.memberId}]]*/ 'defaultUser';
+        const channelKey = /*[[${channelKey}]]*/ 'default-channel-key';
+        const storeId = /*[[${storeId}]]*/ 'default-store-id';
+    
+        const totalAmountText = document.getElementById('totalPriceElement').innerText;
+        const totalAmount = parseInt(totalAmountText.replace(/[^\d]/g, ''), 10);
+    
+        if (!totalAmount || isNaN(totalAmount)) {
+          alert('결제 금액을 확인해주세요.');
+          return;
+        }
+    
+        const paymentId = `${memberId}-${generateTimestampId()}`;
+    
+        PortOne.requestPayment({
+          storeId: storeId,
+          paymentId: paymentId,
+          orderName: "테스트 결제",
+          
+          // 테스트
+          totalAmount: 10,
 
+          // 실제
+          // totalAmount: totalAmount;
+          
+          currency: "KRW",
+          channelKey: channelKey,
+          payMethod: "CARD",
+          onSuccess: function (response) {
+            console.log('결제 성공:', response);
+            // 결제 성공 후 서버에 저장 요청
+            fetch('/order/save', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                paymentId: paymentId,
+                // totalAmount: totalAmount,
+
+                totalAmount: 10,
+                orderName: "책 주문 결제",
+                response: response
+              })
+            })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log('결제 정보 저장 성공:', data);
+              window.location.href = '/afterOrder?orderId=' + data.orderNo;
+            })
+            .catch((err) => {
+              console.error('결제 정보 저장 실패:', err);
+              alert('결제는 성공했지만 주문 정보 저장에 실패했습니다.');
+            });
+          },
+         
+        });
+      }
+    </script>
   <script src="/js/order/order.js"></script>
 
   <!-- 다음 주소 API -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-  <div th:replace="~{common/footer :: footer}"></div>
+  
+</main>
 </body>
 
 </html>
