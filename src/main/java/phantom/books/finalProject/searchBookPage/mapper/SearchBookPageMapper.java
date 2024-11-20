@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 import phantom.books.finalProject.searchBookPage.dto.Book;
+import phantom.books.finalProject.searchBookPage.dto.Review;
 
 @Mapper
 public interface SearchBookPageMapper {
@@ -41,6 +42,9 @@ public interface SearchBookPageMapper {
                            @Param("categories") int[]  categories, 
                            @Param("preferences") int[]  preferences, 
                            RowBounds bounds);
+
+//    리뷰 조회
+	Review getReviewByBookNo(int bookNo);
 
 
 

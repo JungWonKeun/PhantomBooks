@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import phantom.books.finalProject.pagination.Pagination;
 import phantom.books.finalProject.searchBookPage.dto.Book;
+import phantom.books.finalProject.searchBookPage.dto.Review;
 import phantom.books.finalProject.searchBookPage.mapper.SearchBookPageMapper;
 
 @Service
@@ -102,5 +103,10 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 	}
 
 
+	@Override
+	public Review getReviewByBookNo(int bookNo) {
+		
+		return mapper.getReviewByBookNo(bookNo);
+	}
 
 }

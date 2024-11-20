@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import phantom.books.finalProject.member.dto.Member;
 import phantom.books.finalProject.searchBookPage.dto.Book;
+import phantom.books.finalProject.searchBookPage.dto.Review;
 import phantom.books.finalProject.searchBookPage.service.SearchBookPageService;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -101,6 +102,13 @@ public class SearchBookPageController {
 		Book book = service.bookDetail(bookNo);
 
 		model.addAttribute("book", book);
+		
+		 Review review = service.getReviewByBookNo(bookNo); // 리뷰를 가져오는 서비스 호출
+		    if (review != null) {
+		        model.addAttribute("review", review);
+		    } else {
+		        model.addAttribute("review", new Review()); // 비어 있는 리뷰 객체를 전달
+		    }
 		return "searchBookPage/bookDetail";
 	}
 

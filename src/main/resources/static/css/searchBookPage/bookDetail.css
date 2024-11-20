@@ -119,3 +119,135 @@ body {
   color: #333;
   font-size: 16px;
 }
+
+/* 리뷰 관련된 css */
+
+.review-section {
+  margin: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.review-leaf {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.review-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  width: 100%;
+  max-width: 800px;
+}
+
+.review-img {
+  margin-top: 10px;
+}
+
+.review-img-thumb {
+  width: 120px;
+  height: 120px;
+  border-radius: 5px;
+  object-fit: cover;
+  margin-bottom: 5px;
+}
+
+.review-img label {
+  cursor: pointer;
+  font-size: 14px;
+  color: #007bff;
+}
+
+.review-main {
+  flex: 3;
+}
+
+.review-title-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.review-title-input {
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  padding: 5px;
+  width: 60%;
+}
+
+.review-meta-inline {
+  display: flex;
+  gap: 10px;
+  font-size: 14px;
+  color: #777;
+  align-items: center;
+}
+
+.review-score {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+  direction: ltr; /* 별점 방향 왼쪽에서 오른쪽으로 */
+}
+
+.review-score label {
+  cursor: pointer;
+  font-size: 24px; /* 별 크기 */
+  color: lightgray; /* 기본 별 색상 */
+}
+
+.review-score input[type="radio"] {
+  display: none; /* 기본 라디오 버튼 숨기기 */
+}
+
+.review-score input[type="radio"]:checked + .star,
+.review-score label:hover ~ label .star,
+.review-score label:hover .star {
+  color: gold; /* 선택된 별 또는 마우스를 올렸을 때 금색 */
+}
+
+.review-content-textarea {
+  width: 100%;
+  height: 100px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: none;
+}
+
+.review-actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.review-edit-button,
+.review-delete-button {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.review-edit-button:hover {
+  background-color: #0056b3;
+}
+
+.review-delete-button {
+  background-color: #dc3545;
+}
+
+.review-delete-button:hover {
+  background-color: #c82333;
+}
+</style>
