@@ -94,7 +94,8 @@
         <option value="all">최신순</option>
         <option value="gradeDown">평점 높은 순</option>
         <option value="gradeUp">평점 낮은 순</option>
-        <option value="title">책 제목별</option>
+        <option value="title" hidden>책 제목별</option>
+        <!-- 책 제목 검색 만들어야해요~!!! -->
         <option value="photo">포토 리뷰</option>
       </select>
       <button id="all">전체 선택</button> <!-- 클릭시 "전체 선택 해제"로 변경 -->
@@ -107,15 +108,15 @@
             <th>
               <input type="checkbox" hidden>
             </th>
-            <th class="queryNo">책 번호</th>
+            <th class="bookNo">책 번호</th>
             <th class="title">책 제목</th>
             <th class="score">구매자 평점</th>
             <th class="image">사진</th>
+            <th class="reviewTitle">리뷰 제목</th>
             <th class="content">리뷰 내용</th>
             <th class="name">작성자</th>
             <th class="writeDate">작성 일자</th>
             <th class="updateDate">리뷰 수정 일자</th>
-            <th class="reviewNo">리뷰 글 번호</th>
           </tr>
         </thead>
 

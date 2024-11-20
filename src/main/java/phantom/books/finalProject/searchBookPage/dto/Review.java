@@ -24,4 +24,9 @@ public class Review {
 	private String reviewUpdateDate; // 리뷰 수정일자
 	private String reviewImgNo; // 첨부 이미지 파일명
 	private String memberId; // 회원 아이디
+	
+	
+	// 관리자 페이지에서 이용 예정
+	private String bookTitle;
+	private String bookCover;
 }
