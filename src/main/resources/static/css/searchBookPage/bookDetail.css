@@ -121,7 +121,7 @@ body {
 }
 
 /* 리뷰 관련된 css */
-
+/* 공통 리뷰 섹션 스타일 */
 .review-section {
   margin: 20px;
   padding: 20px;
@@ -130,12 +130,14 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* 리뷰 섹션의 기본 레이아웃 */
 .review-leaf {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
+/* 리뷰 컨테이너 스타일 */
 .review-container {
   display: flex;
   align-items: flex-start;
@@ -144,6 +146,7 @@ body {
   max-width: 800px;
 }
 
+/* 리뷰 이미지 스타일 */
 .review-img {
   margin-top: 10px;
 }
@@ -156,16 +159,19 @@ body {
   margin-bottom: 5px;
 }
 
+/* 리뷰 이미지 라벨 스타일 */
 .review-img label {
   cursor: pointer;
   font-size: 14px;
   color: #007bff;
 }
 
+/* 리뷰 메인 컨텐츠 스타일 */
 .review-main {
   flex: 3;
 }
 
+/* 리뷰 제목 라인 스타일 */
 .review-title-line {
   display: flex;
   justify-content: space-between;
@@ -173,6 +179,7 @@ body {
   margin-bottom: 10px;
 }
 
+/* 리뷰 제목 입력 필드 스타일 */
 .review-title-input {
   font-size: 18px;
   font-weight: bold;
@@ -182,6 +189,7 @@ body {
   width: 60%;
 }
 
+/* 리뷰 메타 정보 스타일 (작성일, 작성자 등) */
 .review-meta-inline {
   display: flex;
   gap: 10px;
@@ -190,29 +198,7 @@ body {
   align-items: center;
 }
 
-.review-score {
-  display: flex;
-  align-items: center;
-  margin: 10px 0;
-  direction: ltr; /* 별점 방향 왼쪽에서 오른쪽으로 */
-}
-
-.review-score label {
-  cursor: pointer;
-  font-size: 24px; /* 별 크기 */
-  color: lightgray; /* 기본 별 색상 */
-}
-
-.review-score input[type="radio"] {
-  display: none; /* 기본 라디오 버튼 숨기기 */
-}
-
-.review-score input[type="radio"]:checked + .star,
-.review-score label:hover ~ label .star,
-.review-score label:hover .star {
-  color: gold; /* 선택된 별 또는 마우스를 올렸을 때 금색 */
-}
-
+/* 리뷰 내용 텍스트 영역 스타일 */
 .review-content-textarea {
   width: 100%;
   height: 100px;
@@ -223,6 +209,7 @@ body {
   resize: none;
 }
 
+/* 리뷰 액션 버튼 스타일 (수정, 삭제 버튼 등) */
 .review-actions {
   margin-top: 10px;
   display: flex;
@@ -239,15 +226,56 @@ body {
   cursor: pointer;
 }
 
-.review-edit-button:hover {
-  background-color: #0056b3;
+/* -------------------------------------------리뷰 별점 css 부분------------------------------------------------- */
+/* 전체 레이아웃 스타일 */
+.wrap {
+  height: auto;
+  min-height: 20px;
+  display: flex;
+  justify-content: left;
+  align-items: left;
+  flex-direction: column;
+  gap: 32px;
 }
 
-.review-delete-button {
-  background-color: #dc3545;
+h1 {
+  font-size: 40px;
+  font-weight: 600;
 }
 
-.review-delete-button:hover {
-  background-color: #c82333;
+.rating {
+  float: none;
+  width: 200px;
+  display: flex;
 }
-</style>
+.rating__input {
+  display: none;
+}
+.rating__label {
+  width: 20px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.rating__label .star-icon {
+  width: 20px;
+  height: 40px;
+  display: block;
+  position: relative;
+  left: 0;
+  background-image: url("https://velog.velcdn.com/images/jellykelly/post/9957327f-f358-4c25-9989-5bb3dd5755d6/image.svg");
+  background-repeat: no-repeat;
+  background-size: 40px;
+}
+.rating__label .star-icon.filled {
+  background-image: url(" https://velog.velcdn.com/images/jellykelly/post/10caf033-b0ef-4d58-804b-6e33395e4ea5/image.svg");
+}
+.rating__label--full .star-icon {
+  background-position: right;
+}
+.rating__label--half .star-icon {
+  background-position: left;
+}
+.rating.readonly .star-icon {
+  opacity: 0.7;
+  cursor: default;
+}

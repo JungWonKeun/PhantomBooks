@@ -36,7 +36,8 @@ public interface SearchBookPageService {
 	Map<String, Object> searchBooks(String searchTitle, int[] categories, int[] preferences, int cp);
 
 	// 리뷰 조회
-	Review getReviewByBookNo(int bookNo);
+	List<Review> getReviewsByBookNo(int bookNo);
+
 	
 	 
 

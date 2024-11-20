@@ -104,9 +104,8 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 
 
 	@Override
-	public Review getReviewByBookNo(int bookNo) {
-		
-		return mapper.getReviewByBookNo(bookNo);
+	public List<Review> getReviewsByBookNo(int bookNo) {
+		return mapper.getReviewsByBookNo(bookNo);
 	}
 
 }

@@ -16,6 +16,7 @@
       <div class="book-detail-header">
         <div class="book-detail-header-info">
           <div class="book-detail-header-name" th:text="${book.bookTitle}">책이름</div>
+          <div class="book-rating-avg">평점 4.5</div>
         </div>
         <div class="book-detail-header-meta">
           <div class="book-detail-header-writer">지은이 :
@@ -68,109 +69,140 @@
   </main>
 
   <section class="review-section">
+
     <div>
-        <!-- 책 제목 -->
-        <span th:text="${book.bookTitle}">책 제목</span> 리뷰
+      <!-- 책 제목 -->
+      <span th:text="${book.bookTitle}">책 제목</span> 리뷰
     </div>
-    <div class="review-leaf">
-        <div class="review-container">
+
+    <!-- 리뷰 반복 출력 -->
+    <div class="wrap">
+      <div th:each="review : ${reviews}">
+        <!-- 리뷰 별점 -->
+        <div class="rating"> 
+          <!-- 0.5 점 -->
+          <label class="rating__label rating__label--half" th:for="|starhalf-${review.reviewNo}|">
+            <input type="radio" th:id="|starhalf-${review.reviewNo}|" class="rating__input" th:name="|rating-${review.reviewNo}|"
+              value="0.5" th:checked="${review.reviewScore == 0.5}" disabled>
+            <span class="star-icon"></span>
+          </label>
+
+          <!-- 1 점 -->
+          <label class="rating__label rating__label--full" th:for="|star1-${review.reviewNo}|">
+            <input type="radio" th:id="|star1-${review.reviewNo}|" class="rating__input" th:name="|rating-${review.reviewNo}|"
+              value="1" th:checked="${review.reviewScore == 1}" disabled>
+            <span class="star-icon"></span>
+          </label>
+
+          <!-- 1.5 점 -->
+          <label class="rating__label rating__label--half" th:for="|star1half-${review.reviewNo}|">
+            <input type="radio" th:id="|star1half-${review.reviewNo}|" class="rating__input" th:name="|rating-${review.reviewNo}|"
+              value="1.5" th:checked="${review.reviewScore == 1.5}" disabled>
+            <span class="star-icon"></span>
+          </label>
+
+          <!-- 2 점 -->
+          <label class="rating__label rating__label--full" th:for="|star2-${review.reviewNo}|">
+            <input type="radio" th:id="|star2-${review.reviewNo}|" class="rating__input" th:name="|rating-${review.reviewNo}|"
+              value="2" th:checked="${review.reviewScore == 2}" disabled>
+            <span class="star-icon"></span>
+          </label>
+
+          <!-- 2.5 점 -->
+          <label class="rating__label rating__label--half" th:for="|star2half-${review.reviewNo}|">
+            <input type="radio" th:id="|star2half-${review.reviewNo}|" class="rating__input" th:name="|rating-${review.reviewNo}|"
+              value="2.5" th:checked="${review.reviewScore == 2.5}" disabled>
+            <span class="star-icon"></span>
+          </label>
+
+          <!-- 3 점 -->
+          <label class="rating__label rating__label--full" th:for="|star3-${review.reviewNo}|">
+            <input type="radio" th:id="|star3-${review.reviewNo}|" class="rating__input" th:name="|rating-${review.reviewNo}|"
+              value="3" th:checked="${review.reviewScore == 3}" disabled>
+            <span class="star-icon"></span>
+          </label>
+
+          <!-- 3.5 점 -->
+          <label class="rating__label rating__label--half" th:for="|star3half-${review.reviewNo}|">
+            <input type="radio" th:id="|star3half-${review.reviewNo}|" class="rating__input" th:name="|rating-${review.reviewNo}|"
+              value="3.5" th:checked="${review.reviewScore == 3.5}" disabled>
+            <span class="star-icon"></span>
+          </label>
+
+          <!-- 4 점 -->
+          <label class="rating__label rating__label--full" th:for="|star4-${review.reviewNo}|">
+            <input type="radio" th:id="|star4-${review.reviewNo}|" class="rating__input" th:name="|rating-${review.reviewNo}|"
+              value="4" th:checked="${review.reviewScore == 4}" disabled>
+            <span class="star-icon"></span>
+          </label>
+
+          <!-- 4.5 점 -->
+          <label class="rating__label rating__label--half" th:for="|star4half-${review.reviewNo}|">
+            <input type="radio" th:id="|star4half-${review.reviewNo}|" class="rating__input" th:name="|rating-${review.reviewNo}|"
+              value="4.5" th:checked="${review.reviewScore == 4.5}" disabled>
+            <span class="star-icon"></span>
+          </label>
+
+          <!-- 5 점 -->
+          <label class="rating__label rating__label--full" th:for="|star5-${review.reviewNo}|">
+            <input type="radio" th:id="|star5-${review.reviewNo}|" class="rating__input" th:name="|rating-${review.reviewNo}|"
+              value="5" th:checked="${review.reviewScore == 5}" disabled>
+            <span class="star-icon"></span>
+          </label>
+        </div>
+
+        <!-- 리뷰 본문 -->
+        <div class="review-leaf">
+          <div class="review-container">
             <!-- 리뷰 본문 (3/4 비율) -->
             <div class="review-main" style="flex: 3;">
-                <div class="review-title-line">
-                    <!-- 리뷰 제목 -->
-                    <input type="text" th:value="${review.reviewTitle}" class="review-title-input" readonly>
+              <div class="review-title-line">
+                <!-- 리뷰 제목 -->
+                <input type="text" th:value="${review.reviewTitle}" class="review-title-input" readonly>
 
-                    <!-- 작성일 및 작성자 정보 -->
-                    <div class="review-meta-inline">
-                        <div>
-                            <p>작성일: <span th:text="${review.reviewWriteDate}">2024-11-20</span></p>
-                        </div>
-                        <div>
-                            <p>작성자: <span th:text="${review.memberId}">홍길동</span></p>
-                        </div>
-                    </div>
+                <!-- 작성일 및 작성자 정보 -->
+                <div class="review-meta-inline">
+                  <div>
+                    <p>작성일: <span th:text="${review.reviewWriteDate}">2024-11-20</span></p>
+                  </div>
+                  <div>
+                    <p>작성자: <span th:text="${review.memberId}">홍길동</span></p>
+                  </div>
                 </div>
+              </div>
 
-                <!-- 리뷰 별점 (왼쪽에서 오른쪽으로 별점 이동) -->
-                <div class="review-score">
-                    <label for="star1">
-                        <input type="radio" id="star1" name="rating" value="0.5"
-                               th:checked="${review.reviewScore == 0.5}">
-                        <span class="star">&#9733;</span>
-                    </label>
-                    <label for="star2">
-                        <input type="radio" id="star2" name="rating" value="1"
-                               th:checked="${review.reviewScore == 1}">
-                        <span class="star">&#9733;</span>
-                    </label>
-                    <label for="star3">
-                        <input type="radio" id="star3" name="rating" value="1.5"
-                               th:checked="${review.reviewScore == 1.5}">
-                        <span class="star">&#9733;</span>
-                    </label>
-                    <label for="star4">
-                        <input type="radio" id="star4" name="rating" value="2"
-                               th:checked="${review.reviewScore == 2}">
-                        <span class="star">&#9733;</span>
-                    </label>
-                    <label for="star5">
-                        <input type="radio" id="star5" name="rating" value="2.5"
-                               th:checked="${review.reviewScore == 2.5}">
-                        <span class="star">&#9733;</span>
-                    </label>
-                    <label for="star6">
-                        <input type="radio" id="star6" name="rating" value="3"
-                               th:checked="${review.reviewScore == 3}">
-                        <span class="star">&#9733;</span>
-                    </label>
-                    <label for="star7">
-                        <input type="radio" id="star7" name="rating" value="3.5"
-                               th:checked="${review.reviewScore == 3.5}">
-                        <span class="star">&#9733;</span>
-                    </label>
-                    <label for="star8">
-                        <input type="radio" id="star8" name="rating" value="4"
-                               th:checked="${review.reviewScore == 4}">
-                        <span class="star">&#9733;</span>
-                    </label>
-                    <label for="star9">
-                        <input type="radio" id="star9" name="rating" value="4.5"
-                               th:checked="${review.reviewScore == 4.5}">
-                        <span class="star">&#9733;</span>
-                    </label>
-                    <label for="star10">
-                        <input type="radio" id="star10" name="rating" value="5"
-                               th:checked="${review.reviewScore == 5}">
-                        <span class="star">&#9733;</span>
-                    </label>
-                </div>
+              <!-- 리뷰 이미지 -->
+              <div class="review-img">
+                <img  alt="리뷰 이미지" class="review-img-thumb">
+                <!-- 이미지 수정 레이블 (로그인 사용자 본인만 수정 가능하도록 수정 필요) -->
+                <label for="imageInput">이미지 수정
+                  <input type="file" name="profileImg" id="imageInput" accept="image/*">
+                </label>
+              </div>
 
-                <!-- 리뷰 이미지 -->
-                <div class="review-img">
-                    <img th:src="@{/images/review-placeholder.png}" alt="리뷰 이미지" class="review-img-thumb">
-                    <label for="imageInput">이미지 수정
-                        <input type="file" name="profileImg" id="imageInput" accept="image/*">
-                    </label>
-                </div>
+              <!-- 리뷰 내용 -->
+              <div class="review-content">
+                <textarea name="content" id="content" class="review-content-textarea" th:text="${review.reviewContent}"
+                  readonly>리뷰 내용 작성 내용입니다.</textarea>
+              </div>
 
-                <!-- 리뷰 내용 -->
-                <div class="review-content">
-                    <textarea name="content" id="content" class="review-content-textarea"
-                              th:text="${review.reviewContent}">리뷰 내용 작성 내용입니다.</textarea>
-                </div>
-
-                <!-- 수정 및 삭제 버튼 -->
-                <div class="review-actions">
-                    <button type="button" class="review-edit-button" th:onclick="'editReview(' + ${review.reviewNo} + ')'">수정</button>
-                    <button type="button" class="review-delete-button" th:onclick="'deleteReview(' + ${review.reviewNo} + ')'">삭제</button>
-                </div>
+              <!-- 수정 및 삭제 버튼 (로그인 사용자 본인만 보이도록 설정 필요) -->
+              <div class="review-actions" th:if="${memberId != null and memberId == review.memberId}">
+                <button type="button">수정</button>
+                <button type="button">삭제</button>
             </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-</section>
+  </section>
+
 
 
   <script src="/js/searchBookPage/allBook.js"></script>
+  <script src="/js/searchBookPage/detailBook.js"></script>
+  <script src="https://kit.fontawesome.com/5eb8a8a2db.js" crossorigin="anonymous"></script>
 </body>
 
 </html>

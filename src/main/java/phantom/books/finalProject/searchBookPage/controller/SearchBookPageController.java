@@ -1,6 +1,5 @@
 package phantom.books.finalProject.searchBookPage.controller;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import phantom.books.finalProject.member.dto.Member;
@@ -98,20 +98,29 @@ public class SearchBookPageController {
 
 // 상세조회
 	@GetMapping("/bookDetail/{bookNo}")
-	public String bookDetail(Model model, @PathVariable("bookNo") int bookNo) {
-		Book book = service.bookDetail(bookNo);
+	public String bookDetail(Model model,
+	                         @PathVariable("bookNo") int bookNo,
+	                         @SessionAttribute(value = "loginMember", required = false) Member loginMember                       
+	                         ) {
 
-		model.addAttribute("book", book);
-		
-		 Review review = service.getReviewByBookNo(bookNo); // 리뷰를 가져오는 서비스 호출
-		    if (review != null) {
-		        model.addAttribute("review", review);
-		    } else {
-		        model.addAttribute("review", new Review()); // 비어 있는 리뷰 객체를 전달
-		    }
-		return "searchBookPage/bookDetail";
+	    // 로그인된 사용자가 있는 경우, 세션에 memberId 설정
+	    if (loginMember != null) {
+	        model.addAttribute("memberId", loginMember.getMemberId());
+	    }
+
+	    // 책 정보 가져오기
+	    Book book = service.bookDetail(bookNo);
+	    model.addAttribute("book", book);
+
+	    // 리뷰 정보 가져오기
+	    List<Review> reviews = service.getReviewsByBookNo(bookNo);
+	    model.addAttribute("reviews", reviews);
+
+	    return "searchBookPage/bookDetail";
 	}
 
+
+	
 	// 선택한 책을 장바구니에 담기
 	@ResponseBody
 	@PutMapping("/addCart")
