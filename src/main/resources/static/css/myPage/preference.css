@@ -32,6 +32,10 @@
   position: relative;
 }
 
+.menu.active {
+  color: #007bff; /* 활성화된 상태의 색상 */
+}
+
 .menu:hover {
   color: #007bff;
 }
@@ -75,3 +79,31 @@
   min-width: 0; 
   max-width: 100%;
 }
+
+.sticky-card {
+  position: sticky;
+  top: 20px; /* 페이지 상단에서 20px 정도 아래에 고정되도록 설정 */
+  z-index: 100; /* 다른 요소 위에 렌더링되도록 설정 */
+  background: white; /* 배경색을 흰색으로 설정하여 고정될 때 겹치는 요소와 구분 */
+  padding: 1rem; /* 여백 추가로 고정될 때 자연스럽게 보이도록 */
+}
+
+
+.btn-container {
+  height: 50px;
+  width: 400px;
+  display: flex;
+  flex-wrap: nowrap;
+  position: fixed; /* 화면에 고정하여 스크롤 시에도 위치 고정 */
+  right: 290px; /* 화면 오른쪽 끝에서 290px 떨어진 위치 */
+  top: 270px; /* 화면 하단에서 220px 떨어진 위치 */
+  z-index: 3000; /* 다른 요소 위에 나타나도록 설정 */
+}
+
+.selected::after {
+  content: '\f00c'; /* 폰트어썸 아이콘 체크 표시 (fa-check) */
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900; /* 폰트어썸에서 굵은 아이콘을 사용 */
+  margin-left: 8px; /* 체크 아이콘과 버튼 텍스트 사이의 여백 */
+}
+
