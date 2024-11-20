@@ -44,6 +44,7 @@ public class MemberServiceImpl implements MemberService {
 			return null;
 		}
 		
+		// DB에서 조회된 회원의 authority가 2인 경우 (관리자)
 		if (loginMember.getAuthority() == 2) {
 			mapper.adminLogin(loginMember.getMemberNo());
 			return loginMember;
