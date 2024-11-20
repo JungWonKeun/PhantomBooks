@@ -12,7 +12,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 public class AddressDto {
-    private String zip;
-    private String address;
-    private String detailAddress;
+	  private String zip;           
+	  private String address;      
+	  private String detailAddress; 
+	  private String receiver;     
+	  private String tel;  
 }
