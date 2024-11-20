@@ -20,4 +20,7 @@ public interface ReviewMapper {
 	List<Review> reviewList(
 			@Param("cp") int cp, @Param("sort") String sort, @Param("title") String title ,RowBounds bounds);
 
+	// 리뷰 선택 삭제
+	int deleteReview(int reviewNo);
+
 }

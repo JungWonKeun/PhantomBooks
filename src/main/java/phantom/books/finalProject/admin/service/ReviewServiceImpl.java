@@ -46,4 +46,10 @@ public class ReviewServiceImpl implements ReviewService{
 		
 		return map;
 	}
+	
+	// 리뷰 선택 삭제
+	@Override
+	public int deleteReview(int reviewNo) {
+		return mapper.deleteReview(reviewNo);
+	}
 }

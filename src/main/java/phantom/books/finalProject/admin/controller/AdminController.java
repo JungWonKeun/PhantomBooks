@@ -69,6 +69,11 @@ public class AdminController {
 	public String review() {
 		return "admin/review";
 	}
+	
+	@GetMapping("notice")
+	public String notice() {
+		return "admin/notice";
+	}
 
 
 

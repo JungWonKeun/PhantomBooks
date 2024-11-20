@@ -82,7 +82,8 @@
         <ul class="submenu">
           <li><a href="/admin/query">&nbsp;&nbsp;&nbsp;-&nbsp;문의 관리</a></li>
           <li><a href="/admin/review">&nbsp;&nbsp;&nbsp;-&nbsp;리뷰 관리</a></li>
-          <li><a href="/admin/review">&nbsp;&nbsp;&nbsp;-&nbsp;FAQ 관리</a></li>
+          <li><a href="/admin/faq">&nbsp;&nbsp;&nbsp;-&nbsp;FAQ 관리</a></li>
+          <li><a href="/admin/notice">&nbsp;&nbsp;&nbsp;-&nbsp;공지사항 관리</a></li>
         </ul>
       </h3>
     </div>
@@ -98,16 +99,10 @@
         <!-- 책 제목 검색 만들어야해요~!!! -->
         <option value="photo">포토 리뷰</option>
       </select>
-      <button id="all">전체 선택</button> <!-- 클릭시 "전체 선택 해제"로 변경 -->
-      <button id="selectDelete">선택 삭제</button>
-      <button id="allDelete">전체 삭제</button>
     
       <table class="review-box">
         <thead class="review">
           <tr>
-            <th>
-              <input type="checkbox" hidden>
-            </th>
             <th class="bookNo">책 번호</th>
             <th class="title">책 제목</th>
             <th class="score">구매자 평점</th>
@@ -117,14 +112,14 @@
             <th class="name">작성자</th>
             <th class="writeDate">작성 일자</th>
             <th class="updateDate">리뷰 수정 일자</th>
+            <th>
+              리뷰 삭제 버튼
+            </th>
           </tr>
         </thead>
 
         <tbody class="reviewContent"> 
           <tr>
-            <th>
-              <input type="checkbox">
-            </th>
             <td>2024111809230</td>
             <td>자바란 무엇인가?</td>
             <td>3점</td>
@@ -134,6 +129,9 @@
             <td>2024년 11월 18일 00:00</td>
             <td>2024년 11월 18일 09:00</td>
             <td>1</td>
+            <th>
+              <button>리뷰 삭제</button>
+            </th>
             
           </tr>
         </tbody>
