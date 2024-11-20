@@ -92,18 +92,20 @@
       <h2>리뷰관리</h2>
       <select class="sortSelect">
         <option value="all">최신순</option>
-        <option value="ok">평점 높은 순</option>
-        <option value="ok">평점 낮은 순</option>
-        <option value="no">포토 리뷰</option>
+        <option value="gradeDown">평점 높은 순</option>
+        <option value="gradeUp">평점 낮은 순</option>
+        <option value="title">책 제목별</option>
+        <option value="photo">포토 리뷰</option>
       </select>
-      <button>전체 삭제</button>
-      <button>선택 삭제</button>
+      <button id="all">전체 선택</button> <!-- 클릭시 "전체 선택 해제"로 변경 -->
+      <button id="selectDelete">선택 삭제</button>
+      <button id="allDelete">전체 삭제</button>
     
       <table class="review-box">
         <thead class="review">
           <tr>
             <th>
-              <input type="checkbox">
+              <input type="checkbox" hidden>
             </th>
             <th class="queryNo">책 번호</th>
             <th class="title">책 제목</th>

@@ -199,17 +199,21 @@ const allBtn = document.querySelector("#all");
 const selectUpdateBtn = document.querySelector("#selectUpdate");
 const selectDeleteBtn = document.querySelector("#selectDelete");
 
-allSelectBtn.addEventListener("click", () => {
+allSelectBtn.addEventListener("change", () => {
+
   // 전체 선택 버튼이 클릭되면 체크박스들의 상태를 반전
   const allChecked = Array.from(selectFaqs).every(faq => faq.checked); // 모든 체크박스가 선택된 상태인지 확인
 
   selectFaqs.forEach(faq => {
-    faq.checked = !allChecked; // 모든 체크박스가 선택되었으면 해제하고, 그렇지 않으면 모두 선택
+    faq.checked = allChecked; // 모든 체크박스가 선택되었으면 해제하고, 그렇지 않으면 모두 선택
   });
 });
 
 // 전체 선택 해제
 allBtn.addEventListener("click", () => {
+
+  allSelectBtn.checked = false;
+
   const allChecked = Array.from(selectFaqs).every(faq => faq.checked = false); // 모든 체크박스가 선택된 상태인지 확인
 
   selectFaqs.forEach(faq => {
@@ -218,3 +222,7 @@ allBtn.addEventListener("click", () => {
 })
 
 // 선택한 내용 상태 변경
+selectUpdateBtn.addEventListener("click", () => {
+  
+
+})
