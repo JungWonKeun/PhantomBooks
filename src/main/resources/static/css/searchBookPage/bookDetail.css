@@ -248,14 +248,18 @@ h1 {
   width: 200px;
   display: flex;
 }
+
 .rating__input {
   display: none;
 }
+
 .rating__label {
   width: 20px;
   overflow: hidden;
-  cursor: pointer;
+  /* hover 효과 제거 */
+  cursor: default;
 }
+
 .rating__label .star-icon {
   width: 20px;
   height: 40px;
@@ -266,16 +270,134 @@ h1 {
   background-repeat: no-repeat;
   background-size: 40px;
 }
+
 .rating__label .star-icon.filled {
   background-image: url(" https://velog.velcdn.com/images/jellykelly/post/10caf033-b0ef-4d58-804b-6e33395e4ea5/image.svg");
 }
+
 .rating__label--full .star-icon {
   background-position: right;
 }
+
 .rating__label--half .star-icon {
   background-position: left;
 }
+
 .rating.readonly .star-icon {
   opacity: 0.7;
-  cursor: default;
+  cursor: default; /* hover 효과와 클릭 가능성 제거 */
 }
+
+/* 리뷰 불러오기 /별점/  */
+
+/* 리뷰 작성 부분 /별점/ */
+
+/* 공통 스타일 */
+.wrap {
+  height: auto;
+  min-height: 20px;
+  display: flex;
+  justify-content: left;
+  align-items: left;
+  flex-direction: column;
+  gap: 32px;
+}
+
+h1 {
+  font-size: 40px;
+  font-weight: 600;
+}
+
+/* 기존 읽기용 별점 스타일 */
+.rating {
+  float: none;
+  width: 200px;
+  display: flex;
+}
+
+.rating__input {
+  display: none;
+}
+
+.rating__label {
+  width: 20px;
+  overflow: hidden;
+  cursor: default; /* hover 효과 제거 */
+}
+
+.rating__label .star-icon {
+  width: 20px;
+  height: 40px;
+  display: block;
+  position: relative;
+  left: 0;
+  background-image: url("https://velog.velcdn.com/images/jellykelly/post/9957327f-f358-4c25-9989-5bb3dd5755d6/image.svg");
+  background-repeat: no-repeat;
+  background-size: 40px;
+}
+
+.rating__label .star-icon.filled {
+  background-image: url("https://velog.velcdn.com/images/jellykelly/post/10caf033-b0ef-4d58-804b-6e33395e4ea5/image.svg");
+}
+
+.rating__label--full .star-icon {
+  background-position: right;
+}
+
+.rating__label--half .star-icon {
+  background-position: left;
+}
+
+.rating.readonly .star-icon {
+  opacity: 0.7;
+  cursor: default; /* hover 효과와 클릭 가능성 제거 */
+}
+
+/* 작성용 별점 스타일 */
+.write_rating {
+  float: none;
+  width: 200px;
+  display: flex;
+}
+
+.write_rating__input {
+  display: none;
+}
+
+.write_rating__label {
+  width: 20px;
+  overflow: hidden;
+  cursor: pointer; /* 클릭 가능 */
+}
+
+.write_rating__label .write_star_icon {
+  width: 20px;
+  height: 40px;
+  display: block;
+  position: relative;
+  left: 0;
+  background-image: url("https://velog.velcdn.com/images/jellykelly/post/9957327f-f358-4c25-9989-5bb3dd5755d6/image.svg");
+  background-repeat: no-repeat;
+  background-size: 40px;
+}
+
+.write_rating__label .write_star_icon.filled {
+  background-image: url("https://velog.velcdn.com/images/jellykelly/post/10caf033-b0ef-4d58-804b-6e33395e4ea5/image.svg");
+}
+
+.write_rating__label--full .write_star_icon {
+  background-position: right;
+}
+
+.write_rating__label--half .write_star_icon {
+  background-position: left;
+}
+
+.write_rating:hover .write_star_icon {
+  opacity: 1; /* Hover 시 opacity */
+  transition: opacity 0.2s ease; /* 부드러운 전환 */
+}
+
+
+/* 리뷰 작성 부분 /별점/ */
+

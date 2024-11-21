@@ -31,4 +31,12 @@ public class Review {
 	private String bookTitle;
 	private String bookCover;
 
+	
+	// 리뷰 파일 
+	private int fileNo;
+	private String fileOriginalName;
+	private String fileRename;
+	private String filePath;
+	private String updateDate;
+		
 }

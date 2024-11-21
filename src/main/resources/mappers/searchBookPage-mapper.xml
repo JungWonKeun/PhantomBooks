@@ -189,6 +189,30 @@
 		WHERE BOOK_NO = #{bookNo}
 	</select>
 
+<insert id="insertReview" parameterType="Review">
+    INSERT INTO REVIEW (
+        REVIEW_NO,
+        BOOK_NO,
+        MEMBER_NO,
+        REVIEW_SCORE,
+        REVIEW_TITLE,
+        REVIEW_CONTENT,
+        REVIEW_WRITE_DATE,
+        REVIEW_UPDATE_DATE,
+        REVIEW_IMG_NO
+    ) VALUES (
+        SEQ_REVIEW_NO.NEXTVAL,
+        #{bookNo},
+        #{memberNo},
+        #{reviewScore},
+        #{reviewTitle},
+        #{reviewContent},
+        SYSDATE,
+        NULL,
+        #{reviewImgNo}
+    )
+</insert>
+
 
 
 

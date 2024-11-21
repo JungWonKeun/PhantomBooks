@@ -1,5 +1,10 @@
 package phantom.books.finalProject.searchBookPage.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -8,12 +13,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import phantom.books.finalProject.member.dto.Member;
@@ -124,7 +133,8 @@ public class SearchBookPageController {
 	// 선택한 책을 장바구니에 담기
 	@ResponseBody
 	@PutMapping("/addCart")
-	public String addCart(@RequestBody Map<String, List<Integer>> paramMap, @SessionAttribute("loginMember") Member loginMember) {
+	public String addCart(@RequestBody Map<String, List<Integer>> paramMap,
+			@SessionAttribute("loginMember") Member loginMember) {
 
 		int memberNo = loginMember.getMemberNo();
 		
@@ -151,9 +161,11 @@ public class SearchBookPageController {
 		return "redirect:/searchBookPage/searchBooks";
 	}
 	
+	// 검색페이지에서 
 	@ResponseBody
 	@PutMapping("/singleCart")
-	public String singleCart(@SessionAttribute("loginMember") Member loginMember, @RequestBody Map<String, Object> requestData) {
+	public String singleCart(@SessionAttribute("loginMember") Member loginMember, 
+			@RequestBody Map<String, Object> requestData) {
 	    int memberNo = loginMember.getMemberNo();
 	    int bookNo = (int) requestData.get("bookNo");
 
@@ -167,9 +179,11 @@ public class SearchBookPageController {
 	    return message;
 	}
 
+	// 상세조회에서 장바구니 추가
 	@ResponseBody
 	@PutMapping("/detailCart")
-	public String detailCart(@SessionAttribute("loginMember") Member loginMember, @RequestBody Map<String, Object> requestData) {
+	public String detailCart(@SessionAttribute("loginMember") Member loginMember,
+			@RequestBody Map<String, Object> requestData) {
 	    int memberNo = loginMember.getMemberNo();
 	    int bookNo = (int) requestData.get("bookNo");
 
@@ -182,7 +196,35 @@ public class SearchBookPageController {
 
 	    return message;
 	}
+	
+	
+	@ResponseBody
+	@PostMapping("/writeReview/{bookNo}")
+	public boolean writeReview(
+	    @PathVariable("bookNo") int bookNo, // URL 경로에서 bookNo 가져오기
+	    @SessionAttribute("loginMember") Member loginMember, // 로그인한 사용자 정보
+	    @RequestParam("rating") double score,
+	    @RequestParam("title") String title,
+	    @RequestParam("content") String content,
+	    @RequestParam(value = "reviewImage", required = false) MultipartFile file,
+	    RedirectAttributes ra
+	) {
+        // 서비스 호출
+        return service.writeReview(bookNo, title, content, score, loginMember.getMemberNo(), file);
+
+	}
+
+
+	
+	
+	
+	
+	}
+
+
+
+
 
 	
 
-}
+
