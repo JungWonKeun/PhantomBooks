@@ -25,4 +25,6 @@ public class OrderBookDto {
     private String address;
     private String detailAddress;
     private int totalPrice;
+    
+    
 }

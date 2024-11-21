@@ -6,11 +6,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import phantom.books.finalProject.order.dto.AddressDto;
 import phantom.books.finalProject.order.dto.OrderBookDto;
 import phantom.books.finalProject.order.dto.OrderDto;
 import phantom.books.finalProject.order.mapper.OrderMapper;
 
+@Slf4j
 @Transactional
 @Service
 @RequiredArgsConstructor
@@ -26,11 +28,23 @@ public class OrderServiceImpl implements OrderService {
 
     // 주문 정보 저장하기
     @Override
-    public void saveOrder(OrderDto orderDto) {
-        orderDto.setDeliveryFee(3500);
-        orderDto.setPaymentStatus("PENDING");
-        mapper.insertOrder(orderDto);
+    public int saveOrder(OrderDto orderDto) {
+    	
+    	
+        log.debug("OrderDto before insert: {}", orderDto);
+        try {
+            mapper.insertOrder(orderDto);
+            log.debug("OrderDto after insert: {}", orderDto);
+        } catch (Exception e) {
+            log.error("Error inserting order: {}", e.getMessage(), e);
+            throw e;
+        }
+        return orderDto.getOrderNo();
     }
+    
+    
+
+
 
     
 }

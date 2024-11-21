@@ -1,51 +1,247 @@
+/* 전역 스타일 */
 @font-face {
   font-family: 'Pretendard-Regular';
   src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
   font-style: normal;
 }
 
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Pretendard-Regular';
-  font-weight: 100;
+  font-family: 'Pretendard-Regular', Arial, sans-serif;
 }
 
+body {
+  background-color: #f4f6f8;
+  color: #333;
+  line-height: 1.6;
+}
 
-.addressForm{
-  width: 40%;
+h4 {
+  color: #007bff;
+}
+
+/* 메인 컨테이너 */
+.orderMain {
+  margin: 0 auto;
+  max-width: 800px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 폼 스타일 */
+form > div {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #444;
+}
+
+input[type="text"],
+input[type="tel"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+input[type="text"]:focus,
+input[type="tel"]:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* 기본 배송지 스타일 */
+.addressForm {
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #f9f9f9;
   margin-top: 20px;
 }
 
-#additionalAddresses{
-  width: 40%;
+.addressForm input{
+  background-color: #dddcdc;
+  color: #bdbdbd;
+}
+
+.addressForm h4 {
+  margin-bottom: 15px;
+}
+
+/* 추가 배송지 스타일 */
+#additionalAddresses {
   margin-top: 20px;
 }
 
-.orderMain{
-  margin-left: 18%;
+.additional-address-form {
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #ffffff;
 }
 
-.orderMainContainer {
+.additional-address-form h4 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.findAddressBtn {
+  margin-top: 10px;
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.findAddressBtn:hover {
+  background-color: #0056b3;
+}
+
+.validateButton {
+  margin-top: 10px;
+  padding: 10px 15px;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.validateButton:hover {
+  background-color: #218838;
+}
+
+.defaultAddressCheck {
+  margin-right: 10px;
+}
+
+
+.addressForm .row,
+.additional-address-form .row {
   display: flex;
-  justify-content: space-between;
-  margin: 20px;
+  align-items: center;
+  gap: 10px;
+}
+
+.defaultAddressCheck {
+  margin: 0;
+  transform: scale(1.2);
+}
+
+h4 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #007bff;
 }
 
 
-.orderlistSection {
-  flex: 1;
-  border: 1px solid gray;
-  padding: 10px;
-  margin: 0, 0, 0px, 0px;
-  min-width: 300px;
+/* 버튼 스타일 */
+#addAddressBtn {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: 1px solid #007bff;
+  background-color: #007bff;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-.orderBtnSection {
-  border: 1px solid black;
+#addAddressBtn:hover {
+  background-color: #0056b3;
+}
+
+/* 상품 목록 스타일 */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+thead th {
+  background-color: #007bff;
+  color: white;
+  text-align: left;
   padding: 10px;
-  width: 300px;
-  min-width: 300px;
-  margin: 10px;
+  font-size: 1rem;
+}
+
+tbody td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  font-size: 0.9rem;
+}
+
+tbody img {
+  max-width: 50px;
+  border-radius: 5px;
+}
+
+h3 {
+  margin-top: 20px;
+  font-size: 1.2rem;
+  color: #444;
+}
+
+.delivery-fee {
+  color: #ff6347; 
+}
+
+#totalPrice {
+  font-weight: bold;
+  color: #28a745; 
+}
+
+/* 결제 버튼 */
+#paymentButton {
+  margin-top: 20px;
+  width: 100%;
+  padding: 15px;
+  font-size: 1.1rem;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#paymentButton:hover {
+  background-color: #218838;
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+  .orderMain {
+    margin: 10px;
+    padding: 15px;
+  }
+
+  .addressForm,
+  #additionalAddresses {
+    width: 100%;
+  }
+
+  table {
+    font-size: 0.8rem;
+  }
+
+  #addAddressBtn {
+    font-size: 0.9rem;
+  }
 }

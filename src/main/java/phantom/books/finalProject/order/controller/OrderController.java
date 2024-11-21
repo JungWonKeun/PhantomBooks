@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
@@ -22,6 +23,7 @@ import phantom.books.finalProject.common.config.PortOneConfig;
 import phantom.books.finalProject.member.dto.Member;
 import phantom.books.finalProject.order.dto.AddressDto;
 import phantom.books.finalProject.order.dto.OrderDto;
+import phantom.books.finalProject.order.service.AfterOrderService;
 import phantom.books.finalProject.order.service.OrderService;
 
 @Slf4j
@@ -31,6 +33,7 @@ import phantom.books.finalProject.order.service.OrderService;
 @RequestMapping("/order")
 public class OrderController {
 
+	
     private final OrderService service;
 
     @Value("${portone.channelKey}")
@@ -45,6 +48,7 @@ public class OrderController {
             @SessionAttribute(value = "selectedItems", required = false) List<CartDto> selectedItems,
             @SessionAttribute(value = "loginMember", required = false) Member loginMember,
             Model model) {
+
 
         if (loginMember == null) {
             return "redirect:/";
@@ -71,21 +75,54 @@ public class OrderController {
         model.addAttribute("totalPrice", totalPrice);
         model.addAttribute("deliveryFee", deliveryFee);
 
+        
         return "order/order";
     }
 
-    @PostMapping("submit")
-    public ResponseEntity<String> submitOrder(@RequestBody OrderDto orderDto,
-    		@SessionAttribute(value = "loginMember", required = false) Member loginMember) {
-        try {
-			orderDto.setMemberNo(loginMember.getMemberNo());
-            service.saveOrder(orderDto);
-            
-            return new ResponseEntity<>("주문 성공", HttpStatus.OK);
-        } catch (Exception e) {
-        	e.printStackTrace();
-            return new ResponseEntity<>("주문 실패", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+//    @PostMapping("submit")
+//    @ResponseBody
+//    public ResponseEntity<Map<String, Object>> submitOrder(
+//        @RequestBody OrderDto orderDto,
+//        @SessionAttribute(value = "loginMember", required = false) Member loginMember
+//    ) {
+//        log.info("Request received at /order/submit");
+//        log.info("Received OrderDto: {}", orderDto);
+//
+//        if (orderDto == null) {
+//            log.error("OrderDto is null");
+//            return new ResponseEntity<>(Map.of("message", "Invalid Order Data"), HttpStatus.BAD_REQUEST);
+//        }
+//
+//        try {
+//            if (loginMember == null) {
+//                log.error("User is not logged in");
+//                throw new IllegalStateException("로그인이 필요합니다.");
+//            }
+//
+//            orderDto.setMemberNo(loginMember.getMemberNo());
+//            int orderNo = service.saveOrder(orderDto);
+//
+//            log.info("Order saved successfully with orderNo: {}", orderNo);
+//            return new ResponseEntity<>(Map.of("message", "주문 성공", "orderNo", orderNo), HttpStatus.OK);
+//        } catch (Exception e) {
+//            log.error("Error processing order", e);
+//            return new ResponseEntity<>(Map.of("message", "주문 실패"), HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
+    
+    @PostMapping("/order/submit")
+    @ResponseBody
+    public ResponseEntity<String> testSubmit(@RequestBody Map<String, Object> requestData) {
+        System.out.println("Request received: " + requestData);
+        return ResponseEntity.ok("Data received successfully");
     }
+
+
+
+
+
+
+
+
 }
 

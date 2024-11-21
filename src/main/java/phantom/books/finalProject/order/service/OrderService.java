@@ -11,7 +11,7 @@ public interface OrderService {
     AddressDto getDefaultAddress(int memberNo);
 
     // 주문 정보 저장하기
-	void saveOrder(OrderDto orderDto);
+	int saveOrder(OrderDto orderDto);
 
    
 }

@@ -2,6 +2,38 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="phantom.books.finalProject.order.mapper.AfterOrderMapper">
+    
+    <resultMap id="orderResultMap" type="OrderDto">
+        <id property="orderNo" column="order_no"/>
+        <result property="memberNo" column="member_no"/>
+        <result property="orderDate" column="order_date"/>
+        <result property="orderCount" column="order_count"/>
+        <result property="totalPrice" column="total_price"/>
+        <result property="deliveryFee" column="delivery_fee"/>
+        <result property="paymentStatus" column="payment_status"/>
+        <result property="userZip" column="user_zip"/>
+        <result property="userAddress" column="user_address"/>
+        <result property="userDetailAddress" column="user_detail_address"/>
+        <result property="userTelNo" column="user_tel_no"/>
+        <result property="userName" column="user_name"/>
+    </resultMap>
 
+    <select id="selectOrderDetails" resultMap="orderResultMap">
+        SELECT 
+            o.order_no,
+            o.member_no,
+            o.order_date,
+            o.order_count,
+            o.total_price,
+            o.delivery_fee,
+            o.payment_status,
+            o.user_zip,
+            o.user_address,
+            o.user_detail_address,
+            o.user_tel_no,
+            o.user_name
+        FROM "ORDER" o
+        WHERE o.order_no = #{orderNo}
+    </select>
 
 </mapper>
