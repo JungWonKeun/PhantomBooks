@@ -15,6 +15,6 @@ public interface OrderMapper {
     AddressDto getDefaultAddress(@Param("memberNo") int memberNo);
 
     
-    void insertOrder(OrderDto order);
+    int insertOrder(OrderDto order);
 
 }

@@ -1,40 +1,84 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>주문 완료</title>
+    <link rel="stylesheet" href="/css/order/afterOrder.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body>
-<main>
-    <h1>주문이 완료되었습니다!</h1>
+    <header th:replace="~{common/common}"></header>
+    <main class="orderMain">
+        <h1>주문이 완료되었습니다!</h1>
 
-    <h2>배송지 정보</h2>
-    <p>우편번호: <span th:text="${order.deliveryAddress.zip}"></span></p>
-    <p>주소: <span th:text="${order.deliveryAddress.address}"></span></p>
-    <p>상세 주소: <span th:text="${order.deliveryAddress.detailAddress}"></span></p>
-    <p>수령인: <span th:text="${order.deliveryAddress.receiver}"></span></p>
-    <p>전화번호: <span th:text="${order.deliveryAddress.tel}"></span></p>
+        <section>
+            <h3>주문 정보</h3>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>상품명</th>
+                        <th>수량</th>
+                        <th>가격</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="item : ${orderItems}">
+                        <td th:text="${item.bookTitle}">상품명</td>
+                        <td th:text="${item.cartCount}">수량</td>
+                        <td th:text="${item.bookPrice * item.cartCount}">가격</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
 
-    <h2>주문 상품 목록</h2>
-    <table>
-        <thead>
-        <tr>
-            <th>상품명</th>
-            <th>수량</th>
-            <th>가격</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="item : ${order.books}">
-            <td th:text="${item.bookTitle}"></td>
-            <td th:text="${item.bookCount}"></td>
-            <td th:text="${item.bookPrice} + ' 원'"></td>
-        </tr>
-        </tbody>
-    </table>
+        <section>
+            <h3>배송 정보</h3>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th>수령인 이름</th>
+                        <td th:text="${order.userName}">홍길동</td>
+                    </tr>
+                    <tr>
+                        <th>전화번호</th>
+                        <td th:text="${order.userTelNo}">010-1234-5678</td>
+                    </tr>
+                    <tr>
+                        <th>배송지</th>
+                        <td>
+                            <p th:text="${order.userAddress}">서울특별시 중구</p>
+                            <p th:text="${order.userDetailAddress}">1층</p>
+                            <p th:text="${order.userZip}">04524</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
 
-    <h3>총 결제 금액: <span th:text="${order.totalPrice} + ' 원'"></span></h3>
-</main>
+        <section>
+            <h3>결제 정보</h3>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th>총 상품 금액</th>
+                        <td th:text="${totalItemPrice}">50000</td>
+                    </tr>
+                    <tr>
+                        <th>배송비</th>
+                        <td th:text="${order.deliveryFee}">3500</td>
+                    </tr>
+                    <tr>
+                        <th>총 결제 금액</th>
+                        <td th:text="${order.totalPrice}">53500</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+    <footer th:replace="~{common/footer :: footer}"></footer>
 </body>
+
 </html>
