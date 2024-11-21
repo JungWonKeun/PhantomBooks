@@ -42,10 +42,66 @@ const listUp = (cp) => {
       const th4 = document.createElement("th");
       th4.innerHTML = admin.adminEmail;
 
+
       const th5 = document.createElement("th");
-      const button = document.createElement("button");
-      button.innerHTML = "계정 삭제";
-      button.addEventListener("click", () =>{
+      const button1 = document.createElement("button");
+      button1.innerHTML = "계정 정보 수정";
+      button1.addEventListener("click", () =>{
+        const alarm = confirm(admin.memberId + "계정정보를 변경을 희망하십니까?");
+
+        if(alarm){
+
+          const input1 = document.createElement("input");
+          input1.placeholder = "담당업무를 기입하세요";
+          th3.innerHTML = "";
+          th3.append(input1);
+          const input2 = document.createElement("input");
+          input2.placeholder = "담당자 이메일을 입력하세요";
+          th4.innerHTML = "";
+          th4.append(input2);
+
+          button1.style.display = "none";
+
+          const button = document.createElement("button");
+          button.innerHTML = "수정하기";
+
+           th5.append(button);
+
+          button.addEventListener("click", () => {
+          
+          const adminName = input1.value.trim();
+          const adminEmail = input2.value.trim();
+
+          
+          fetch("/admin/adminManager?memberNo=" + admin.memberNo, {
+            method : "PUT",
+            headers : {"Content-Type" : "application/json"},
+            body : JSON.stringify({
+              adminName : adminName,
+              adminEmail : adminEmail
+            })
+           })
+          .then(response => {
+            if(response.ok) return response.text();
+            throw new Error("수정 실패");
+          })
+          .then(result => {
+            if(result > 0) {
+              alert("정보 수정이 완료되었습니다.");
+              location.reload();
+            }
+          })
+          .catch(err => console.error(err));
+          })
+        }
+      })
+
+      th5.append(button1);
+
+      const th6 = document.createElement("th");
+      const button2 = document.createElement("button");
+      button2.innerHTML = "계정 삭제";
+      button2.addEventListener("click", () =>{
         const alarm = confirm(admin.memberId + "계정을 삭제하시겠습니까?");
 
         if(alarm){
@@ -64,14 +120,12 @@ const listUp = (cp) => {
         }
       })
 
-      th5.append(button);
+      th6.append(button2);
       
-      tr.append(th1, th2, th3, th4, th5);
+      tr.append(th1, th2, th3, th4, th5, th6);
       adminContent.append(tr);
       
     })
-
-
 
 
     // 페이지네이션 출력
@@ -103,8 +157,6 @@ const listUp = (cp) => {
 
     // 페이지네이션 클릭 이벤트 추가
     paginationAddEvent();   
-
-
 
 
   })

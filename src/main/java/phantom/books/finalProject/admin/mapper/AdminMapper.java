@@ -41,6 +41,11 @@ public interface AdminMapper {
 
   // 리스트 조회
 	String adminList(int memberId);
+
+	// 계정 정보 수정
+	int updateAdmin(@Param("memberNo") int memberNo,
+									@Param("adminName") String adminName,
+									@Param("adminEmail") String adminEmail);
 	
 	
 
