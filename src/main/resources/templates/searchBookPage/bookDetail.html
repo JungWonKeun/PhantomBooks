@@ -79,74 +79,74 @@
     <div class="wrap">
       <div th:each="review : ${reviews}">
         <!-- 리뷰 별점 -->
-        <div class="rating"> 
+        <div class="rating">
           <!-- 0.5 점 -->
           <label class="rating__label rating__label--half" th:for="|starhalf-${review.reviewNo}|">
-            <input type="radio" th:id="|starhalf-${review.reviewNo}|" class="rating__input" th:name="|rating-${review.reviewNo}|"
-              value="0.5" th:checked="${review.reviewScore == 0.5}" disabled>
+            <input type="radio" th:id="|starhalf-${review.reviewNo}|" class="rating__input"
+              th:name="|rating-${review.reviewNo}|" value="0.5" th:checked="${review.reviewScore == 0.5}" disabled>
             <span class="star-icon"></span>
           </label>
 
           <!-- 1 점 -->
           <label class="rating__label rating__label--full" th:for="|star1-${review.reviewNo}|">
-            <input type="radio" th:id="|star1-${review.reviewNo}|" class="rating__input" th:name="|rating-${review.reviewNo}|"
-              value="1" th:checked="${review.reviewScore == 1}" disabled>
+            <input type="radio" th:id="|star1-${review.reviewNo}|" class="rating__input"
+              th:name="|rating-${review.reviewNo}|" value="1" th:checked="${review.reviewScore == 1}" disabled>
             <span class="star-icon"></span>
           </label>
 
           <!-- 1.5 점 -->
           <label class="rating__label rating__label--half" th:for="|star1half-${review.reviewNo}|">
-            <input type="radio" th:id="|star1half-${review.reviewNo}|" class="rating__input" th:name="|rating-${review.reviewNo}|"
-              value="1.5" th:checked="${review.reviewScore == 1.5}" disabled>
+            <input type="radio" th:id="|star1half-${review.reviewNo}|" class="rating__input"
+              th:name="|rating-${review.reviewNo}|" value="1.5" th:checked="${review.reviewScore == 1.5}" disabled>
             <span class="star-icon"></span>
           </label>
 
           <!-- 2 점 -->
           <label class="rating__label rating__label--full" th:for="|star2-${review.reviewNo}|">
-            <input type="radio" th:id="|star2-${review.reviewNo}|" class="rating__input" th:name="|rating-${review.reviewNo}|"
-              value="2" th:checked="${review.reviewScore == 2}" disabled>
+            <input type="radio" th:id="|star2-${review.reviewNo}|" class="rating__input"
+              th:name="|rating-${review.reviewNo}|" value="2" th:checked="${review.reviewScore == 2}" disabled>
             <span class="star-icon"></span>
           </label>
 
           <!-- 2.5 점 -->
           <label class="rating__label rating__label--half" th:for="|star2half-${review.reviewNo}|">
-            <input type="radio" th:id="|star2half-${review.reviewNo}|" class="rating__input" th:name="|rating-${review.reviewNo}|"
-              value="2.5" th:checked="${review.reviewScore == 2.5}" disabled>
+            <input type="radio" th:id="|star2half-${review.reviewNo}|" class="rating__input"
+              th:name="|rating-${review.reviewNo}|" value="2.5" th:checked="${review.reviewScore == 2.5}" disabled>
             <span class="star-icon"></span>
           </label>
 
           <!-- 3 점 -->
           <label class="rating__label rating__label--full" th:for="|star3-${review.reviewNo}|">
-            <input type="radio" th:id="|star3-${review.reviewNo}|" class="rating__input" th:name="|rating-${review.reviewNo}|"
-              value="3" th:checked="${review.reviewScore == 3}" disabled>
+            <input type="radio" th:id="|star3-${review.reviewNo}|" class="rating__input"
+              th:name="|rating-${review.reviewNo}|" value="3" th:checked="${review.reviewScore == 3}" disabled>
             <span class="star-icon"></span>
           </label>
 
           <!-- 3.5 점 -->
           <label class="rating__label rating__label--half" th:for="|star3half-${review.reviewNo}|">
-            <input type="radio" th:id="|star3half-${review.reviewNo}|" class="rating__input" th:name="|rating-${review.reviewNo}|"
-              value="3.5" th:checked="${review.reviewScore == 3.5}" disabled>
+            <input type="radio" th:id="|star3half-${review.reviewNo}|" class="rating__input"
+              th:name="|rating-${review.reviewNo}|" value="3.5" th:checked="${review.reviewScore == 3.5}" disabled>
             <span class="star-icon"></span>
           </label>
 
           <!-- 4 점 -->
           <label class="rating__label rating__label--full" th:for="|star4-${review.reviewNo}|">
-            <input type="radio" th:id="|star4-${review.reviewNo}|" class="rating__input" th:name="|rating-${review.reviewNo}|"
-              value="4" th:checked="${review.reviewScore == 4}" disabled>
+            <input type="radio" th:id="|star4-${review.reviewNo}|" class="rating__input"
+              th:name="|rating-${review.reviewNo}|" value="4" th:checked="${review.reviewScore == 4}" disabled>
             <span class="star-icon"></span>
           </label>
 
           <!-- 4.5 점 -->
           <label class="rating__label rating__label--half" th:for="|star4half-${review.reviewNo}|">
-            <input type="radio" th:id="|star4half-${review.reviewNo}|" class="rating__input" th:name="|rating-${review.reviewNo}|"
-              value="4.5" th:checked="${review.reviewScore == 4.5}" disabled>
+            <input type="radio" th:id="|star4half-${review.reviewNo}|" class="rating__input"
+              th:name="|rating-${review.reviewNo}|" value="4.5" th:checked="${review.reviewScore == 4.5}" disabled>
             <span class="star-icon"></span>
           </label>
 
           <!-- 5 점 -->
           <label class="rating__label rating__label--full" th:for="|star5-${review.reviewNo}|">
-            <input type="radio" th:id="|star5-${review.reviewNo}|" class="rating__input" th:name="|rating-${review.reviewNo}|"
-              value="5" th:checked="${review.reviewScore == 5}" disabled>
+            <input type="radio" th:id="|star5-${review.reviewNo}|" class="rating__input"
+              th:name="|rating-${review.reviewNo}|" value="5" th:checked="${review.reviewScore == 5}" disabled>
             <span class="star-icon"></span>
           </label>
         </div>
@@ -173,7 +173,7 @@
 
               <!-- 리뷰 이미지 -->
               <div class="review-img">
-                <img  alt="리뷰 이미지" class="review-img-thumb">
+                <img alt="리뷰 이미지" class="review-img-thumb">
                 <!-- 이미지 수정 레이블 (로그인 사용자 본인만 수정 가능하도록 수정 필요) -->
                 <label for="imageInput">이미지 수정
                   <input type="file" name="profileImg" id="imageInput" accept="image/*">
@@ -188,9 +188,9 @@
 
               <!-- 수정 및 삭제 버튼 (로그인 사용자 본인만 보이도록 설정 필요) -->
               <div class="review-actions" th:if="${memberId != null and memberId == review.memberId}">
-                <button type="button">수정</button>
-                <button type="button">삭제</button>
-            </div>
+                <button type="button" id="updateReview">수정</button>
+                <button type="button" id="deleteReview" th:onclick="deleteReview(${review.reviewNo})">삭제</button>
+              </div>
             </div>
           </div>
         </div>
@@ -198,6 +198,96 @@
     </div>
   </section>
 
+  <section class="review-write-section">
+    <form id="writeReviewForm" method="post" action="/searchBookPage/writeReview" enctype="multipart/form-data">
+      <input type="hidden" name="bookNo" th:value="${book.bookNo}">
+      <label class="rwbLabel">
+        <button class="review-write-button" type="submit">리뷰 작성</button>
+      </label>
+    
+      <div class="write-review-border">
+        <div class="write-review-container">
+          <div class="write-review-rating">
+            <div class="write-wrap">
+              <h1>별점 입력</h1>
+              <div class="write_rating">
+                <!-- 별점 라디오 버튼 (이미 name 속성 있음) -->
+                <label class="write_rating__label write_rating__label--half" for="write_starhalf">
+                  <input type="radio" id="write_starhalf" class="write_rating__input" name="rating" value="0.5">
+                  <span class="write_star_icon"></span>
+                </label>
+                <label class="write_rating__label write_rating__label--full" for="write_star1">
+                  <input type="radio" id="write_star1" class="write_rating__input" name="rating" value="1">
+                  <span class="write_star_icon"></span>
+                </label>
+                <label class="write_rating__label write_rating__label--half" for="write_star1half">
+                  <input type="radio" id="write_star1half" class="write_rating__input" name="rating" value="1.5">
+                  <span class="write_star_icon"></span>
+                </label>
+                <label class="write_rating__label write_rating__label--full" for="write_star2">
+                  <input type="radio" id="write_star2" class="write_rating__input" name="rating" value="2">
+                  <span class="write_star_icon"></span>
+                </label>
+                <label class="write_rating__label write_rating__label--half" for="write_star2half">
+                  <input type="radio" id="write_star2half" class="write_rating__input" name="rating" value="2.5">
+                  <span class="write_star_icon"></span>
+                </label>
+                <label class="write_rating__label write_rating__label--full" for="write_star3">
+                  <input type="radio" id="write_star3" class="write_rating__input" name="rating" value="3">
+                  <span class="write_star_icon"></span>
+                </label>
+                <label class="write_rating__label write_rating__label--half" for="write_star3half">
+                  <input type="radio" id="write_star3half" class="write_rating__input" name="rating" value="3.5">
+                  <span class="write_star_icon"></span>
+                </label>
+                <label class="write_rating__label write_rating__label--full" for="write_star4">
+                  <input type="radio" id="write_star4" class="write_rating__input" name="rating" value="4">
+                  <span class="write_star_icon"></span>
+                </label>
+                <label class="write_rating__label write_rating__label--half" for="write_star4half">
+                  <input type="radio" id="write_star4half" class="write_rating__input" name="rating" value="4.5">
+                  <span class="write_star_icon"></span>
+                </label>
+                <label class="write_rating__label write_rating__label--full" for="write_star5">
+                  <input type="radio" id="write_star5" class="write_rating__input" name="rating" value="5">
+                  <span class="write_star_icon"></span>
+                </label>
+              </div>
+    
+              <!-- 이미지 업로드 -->
+              <div class="write-review-image-container">
+                <img alt="리뷰 이미지" class="write-review-img-thumb">
+                <label for="imageInput">이미지 수정
+                  <input type="file" name="reviewImage" id="imageInput" accept="image/*">
+                </label>
+              </div>
+    
+              <!-- 제목 입력 -->
+              <div class="write-review-title-container">
+                <input type="text" class="write-review-title-input" name="title" placeholder="제목을 작성해 주세요">
+              </div>
+    
+              <!-- 내용 입력 -->
+              <div class="write-review-content-container">
+                <textarea class="write-review-content-textarea" name="content" placeholder="리뷰 내용을 작성해 주세요"></textarea>
+              </div>
+    
+              <!-- 제출 버튼 -->
+              <div class="write-review-submit-container">
+                <label class="write-review-submit-button">
+                  <button type="submit" id="submitReview">제출</button>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    
+    <div th:if= "${message}" >
+      message = /*[[${message}]]*/ "리다이렉트 된 메세지";
+    </div>
+  </section>
 
 
   <script src="/js/searchBookPage/allBook.js"></script>

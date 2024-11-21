@@ -3,6 +3,7 @@ package phantom.books.finalProject.searchBookPage.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.multipart.MultipartFile;
 
 import phantom.books.finalProject.searchBookPage.dto.Book;
 import phantom.books.finalProject.searchBookPage.dto.Review;
@@ -37,6 +38,11 @@ public interface SearchBookPageService {
 
 	// 리뷰 조회
 	List<Review> getReviewsByBookNo(int bookNo);
+
+
+	// 리뷰 작성
+	boolean writeReview(int bookNo, String title, String content, double score, int memberNo, MultipartFile file);
+
 
 	
 	 

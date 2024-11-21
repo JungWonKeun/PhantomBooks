@@ -46,6 +46,10 @@ public interface SearchBookPageMapper {
 //    리뷰 조회
     List<Review> getReviewsByBookNo(int bookNo);
 
+    // 리뷰 작성
+        int insertReview(Review review);
+
+
 
 
 	

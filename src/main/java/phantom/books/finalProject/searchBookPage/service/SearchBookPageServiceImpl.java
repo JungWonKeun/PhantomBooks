@@ -1,11 +1,16 @@
 package phantom.books.finalProject.searchBookPage.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 import phantom.books.finalProject.pagination.Pagination;
@@ -15,6 +20,7 @@ import phantom.books.finalProject.searchBookPage.mapper.SearchBookPageMapper;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class SearchBookPageServiceImpl implements SearchBookPageService {
 
 	private final SearchBookPageMapper mapper;
@@ -108,4 +114,46 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 		return mapper.getReviewsByBookNo(bookNo);
 	}
 
-}
+	 @Override
+	    public boolean writeReview(int bookNo, String title, String content, double score, int memberNo, MultipartFile file)  {
+	        String filePath = null;
+
+	        // 파일 저장 처리
+	        if (file != null && !file.isEmpty()) {
+	            String uploadDir = "C:/images/reviewimg";
+	            File directory = new File(uploadDir);
+	            if (!directory.exists() && !directory.mkdirs()) {
+	                throw new RuntimeException("디렉토리 생성 실패");
+	            }
+
+	            // 고유 파일 이름 생성
+	            String originalFilename = file.getOriginalFilename();
+	            String newFilename = UUID.randomUUID().toString() + "_" + originalFilename;
+	            filePath = uploadDir + "/" + newFilename;
+
+	            // 파일 저장
+	            try {
+					file.transferTo(new File(filePath));
+				} catch (IllegalStateException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+	        }
+
+	        // 리뷰 생성
+	        Review review = Review.builder()
+	                .bookNo(bookNo)
+	                .memberNo(memberNo)
+	                .reviewTitle(title)
+	                .reviewContent(content)
+	                .reviewScore(score)
+	                .reviewImgNo(filePath)
+	                .build();
+
+	        return mapper.insertReview(review) > 0;
+	    }
+	}
+
+	
+
