@@ -6,6 +6,7 @@
 		SELECT
 		 COUNT(*)
 		FROM "MEMBER"
+		WHERE MEMBER_ID NOT LIKE 'admin%'
 	</select>
 	
 	<select id="countDelFl" resultType="_int">
@@ -13,33 +14,35 @@
 		 COUNT(*)
 		FROM "MEMBER"
 		WHERE MEMBER_DEL_FL = 'Y'
+			AND MEMBER_ID NOT LIKE 'admin%'
 	</select>
 
 	<select id="countMemberList" resultType="_int">
 		SELECT
 		 COUNT(*)
 		FROM "MEMBER"
+		WHERE MEMBER_ID NOT LIKE 'admin%'
 		<choose>
 			<when test="sort == 'signUp' and term == 'year'">
-				WHERE SIGNUP_DATE >= CURRENT_DATE - INTERVAL '1' YEAR
+				AND SIGNUP_DATE >= CURRENT_DATE - INTERVAL '1' YEAR
 			</when>
 			<when test="term == 'weeks' and sort == 'signUp'">
-				WHERE SIGNUP_DATE >= CURRENT_DATE - INTERVAL '7' DAY
+				AND SIGNUP_DATE >= CURRENT_DATE - INTERVAL '7' DAY
 			</when>
 			<when test="term == 'month' and sort == 'signUp'">
-				WHERE SIGNUP_DATE >= CURRENT_DATE - INTERVAL '1' MONTH
+				AND SIGNUP_DATE >= CURRENT_DATE - INTERVAL '1' MONTH
 			</when>
 			<when test="term == '6month' and sort == 'signUp'">
-				WHERE SIGNUP_DATE >= CURRENT_DATE - INTERVAL '6' MONTH
+				AND SIGNUP_DATE >= CURRENT_DATE - INTERVAL '6' MONTH
 			</when>
 			<when test= "sort == 'signUp' and term != null and term != ''">
-				WHERE SIGNUP_DATE > #{term}
+				AND SIGNUP_DATE > #{term}
 			</when>
 			<when test="sort == 'delete'">
-				WHERE MEMBER_DEL_FL = 'Y'
+				AND MEMBER_DEL_FL = 'Y'
 			</when>
 			<when test="sort == 'unlogin'">
-				WHERE MONTHS_BETWEEN(CURRENT_DATE, LOGIN_DATE) >= 6
+				AND MONTHS_BETWEEN(CURRENT_DATE, LOGIN_DATE) >= 6
 			</when>
 		</choose>
 	</select>
@@ -63,27 +66,28 @@
 		TO_CHAR(LOGIN_DATE,'YYYY"년" MM"월" DD"일"') LOGIN_DATE,
 		AUTHORITY
 	FROM "MEMBER"
+	WHERE MEMBER_ID NOT LIKE 'admin%'
 	<choose>
 			<when test="sort == 'signUp' and term == 'year'">
-				WHERE SIGNUP_DATE >= CURRENT_DATE - INTERVAL '1' YEAR
+				AND SIGNUP_DATE >= CURRENT_DATE - INTERVAL '1' YEAR
 			</when>
 			<when test="term == 'weeks' and sort == 'signUp'">
-				WHERE SIGNUP_DATE >= CURRENT_DATE - INTERVAL '7' DAY
+				AND SIGNUP_DATE >= CURRENT_DATE - INTERVAL '7' DAY
 			</when>
 			<when test="term == 'month' and sort == 'signUp'">
-				WHERE SIGNUP_DATE >= CURRENT_DATE - INTERVAL '1' MONTH
+				AND SIGNUP_DATE >= CURRENT_DATE - INTERVAL '1' MONTH
 			</when>
 			<when test="term == '6month' and sort == 'signUp'">
-				WHERE SIGNUP_DATE >= CURRENT_DATE - INTERVAL '6' MONTH
+				AND SIGNUP_DATE >= CURRENT_DATE - INTERVAL '6' MONTH
 			</when>
 			<when test= "sort == 'signUp' and term != null and term != ''">
-				WHERE SIGNUP_DATE > #{term}
+				AND SIGNUP_DATE > #{term}
 			</when>
 		<when test="sort == 'delete'">
-			WHERE MEMBER_DEL_FL = 'Y'
+			AND MEMBER_DEL_FL = 'Y'
 		</when>
 		<when test="sort == 'unlogin'">
-			WHERE MONTHS_BETWEEN(CURRENT_DATE, LOGIN_DATE) >= 6
+			AND MONTHS_BETWEEN(CURRENT_DATE, LOGIN_DATE) >= 6
 		</when>
 	</choose> 
 	ORDER BY SIGNUP_DATE DESC, MEMBER_NO DESC
@@ -104,5 +108,44 @@
 	    WHERE MONTHS_BETWEEN(CURRENT_DATE, LOGIN_DATE) >= 6
 	</select>
 
+	<select id="selectAdmin">
+		SELECT COUNT(*)
+		FROM "MEMBER"
+		WHERE MEMBER_ID LIKE 'admin%'
+	</select>
+	
+	<insert id="insertMember"
+				useGeneratedKeys="true">
 
+		<selectKey order="BEFORE" resultType="_int"
+			keyProperty="memberNo">
+			SELECT SEQ_MEMBER_NO.NEXTVAL FROM DUAL
+		</selectKey>
+		
+		INSERT INTO "MEMBER" 
+		(MEMBER_NO, MEMBER_ID, MEMBER_PW, AUTHORITY)
+		VALUES(
+		#{memberNo},
+		'admin'||#{memberId},
+		#{encPw},
+		'2')
+	</insert>
+	
+	<insert id="insertAdmin">
+		INSERT INTO "ADMIN"
+		VALUES(
+		(SELECT MEMBER_NO
+		 FROM "MEMBER"
+		 WHERE MEMBER_ID = 'admin'||#{memberId}),
+		 '2',
+		 '수정하세요',
+		 '수정하세요'
+		)
+	</insert>
+	
+	<select id="adminList">
+		SELECT MEMBER_ID
+		FROM "MEMBER"
+		WHERE MEMBER_ID = 'admin'||#{memberId}
+	</select>
 </mapper>

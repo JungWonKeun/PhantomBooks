@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>관리자 문의 관리 페이지</title>
+
+  <script src="https://kit.fontawesome.com/5eb8a8a2db.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/css/admin/adminFaq.css">
+</head>
+<body>
+  <section class="header">
+    <div class="logo">
+      <a href="/admin">
+          <img src="/images/고스트 코딩왕.png" alt="Logo">
+      </a>
+    </div>
+  
+   
+    <div class="function">
+      <!-- 알림 영역 -->
+      <div class="notification-container">
+       
+         <!-- 알림 버튼 -->
+        <button class="notification-btn" id="my-element">
+          <i class="fa-regular fa-bell">.</i>
+          <!-- 알림 개수 표시 -->
+          <div class="notification-count-area"></div>
+        </button>
+        
+        <!-- 알림 목록 -->
+        <ul class="notification-list">
+          
+        </ul>
+        
+      </div>
+      
+      <!-- 관리자 담당 업무 -->
+      <div class="adminName"
+           th:unless = "${#lists.isEmpty(faqList)}" 
+           th:object="${loginMember}">
+        <div th:text="*{adminName}">
+          이름이 왜안나올까?
+        </div>
+      </div>
+  
+      <!-- 채팅방 입장 아이콘 -->
+      <div class="chatting">
+        채팅방
+      </div>
+    </div>
+
+  </section>
+
+
+  <section class="content-box">
+    <div class="sideBar">
+      <h3 class="menu">
+        <i class="fa-solid fa-users"></i>&nbsp;&nbsp;사용자 관련 관리
+        <ul class="submenu">
+          <li><a href="/admin/myPage">&nbsp;&nbsp;&nbsp;-&nbsp;내정보 변경</a></li>
+          <li><a href="/admin">&nbsp;&nbsp;&nbsp;-&nbsp;회원 관리</a></li>
+          <li><a href="/admin/signUp">&nbsp;&nbsp;&nbsp;-&nbsp;관리자 계정 생성</a></li>
+        </ul>
+      </h3>
+    
+      <h3 class="menu">
+        <i class="fa-solid fa-arrow-trend-up"></i>&nbsp;&nbsp;매출 및 일정 관리
+        <ul class="submenu">
+          <li><a href="/admin/sales">&nbsp;&nbsp;&nbsp;-&nbsp;매출 관리</a></li>
+          <li><a href="/admin/schedule">&nbsp;&nbsp;&nbsp;-&nbsp;일정 관리</a></li>
+        </ul>
+      </h3>
+      
+      <h3 class="menu">
+        <i class="fa-solid fa-warehouse"></i>&nbsp;&nbsp;도서 관리
+        <ul class="submenu">
+          <li><a href="/admin/manager">&nbsp;&nbsp;&nbsp;-&nbsp;재고 관리</a></li>
+          <li><a href="/admin/request">&nbsp;&nbsp;&nbsp;-&nbsp;발주 요청</a></li>
+          <li><a href="/admin/newBook">&nbsp;&nbsp;&nbsp;-&nbsp;새 책 등록</a></li>
+        </ul>
+      </h3>
+      <h3 class="menu">
+        <i class="fa-solid fa-question"></i>&nbsp;&nbsp;고객 지원
+        <ul class="submenu">
+          <li><a href="/admin/query">&nbsp;&nbsp;&nbsp;-&nbsp;문의 관리</a></li>
+          <li><a href="/admin/review">&nbsp;&nbsp;&nbsp;-&nbsp;리뷰 관리</a></li>
+          <li><a href="/admin/faq">&nbsp;&nbsp;&nbsp;-&nbsp;FAQ 관리</a></li>
+          <li><a href="/admin/notice">&nbsp;&nbsp;&nbsp;-&nbsp;공지사항 관리</a></li>
+        </ul>
+      </h3>
+    </div>
+  
+  
+    <div class="content">
+      <h2>FAQ 관리</h2>
+      <select name="key" class="sortSelect">
+        <option value="all">전체보기</option>
+        <option value="Y">노출</option>
+        <option value="N">비노출</option>
+      </select>
+      <button id="all">전체 선택 해제</button>
+      <button id="selectUpdate">선택한 내용 상태 변경</button>
+      <button id="selectDelete">선택한 내용 삭제</button>
+
+
+    
+      <table class="faq-box">
+        <thead class="faq">
+          <tr>
+            <th class="checkbox">
+              <input type="checkbox" id="allSelectBtn"></input> 
+            </th>
+            <th class="faqNo">글 번호</th>
+            <th class="title">제목</th>
+            <th class="content">내용</th>
+            <th class="status">노출여부</th>
+            <th class="button">상태 변경</th>
+          </tr>
+        </thead>
+
+        <tbody class="faqContent"> 
+          <th:block th:if= "${#lists.isEmpty(faqList)}">
+            <tr>
+              <th colspan="5">FAQ로 등록된 자료가 없습니다.</th>
+            </tr>
+          </th:block>
+
+          <th:block th:unless="${#lists.isEmpty(faqList)}">
+            <tr th:each= "faq:${faqList}"
+                th:object="${faq}">  
+              
+              <td>
+                <input type="checkbox"
+                       th:id="'faq'+${faqId}"
+                       th:value="*{faqId}" 
+                       id="selectFaq" >
+              </td>
+
+              <td th:text="*{faqId}" th:name="*{faqId}">
+                FAQ 번호
+              </td>
+              <td th:text="*{title}">
+                어떻게 새로운 1:1 문의를 등록하나요?
+              </td>
+              <td th:text="*{content}">
+                1:1 문의를 등록하려면 고객센터 페이지의 "1:1 문의하기" 버튼을 클릭하세요. 등록 양식을 작성한 후 "등록" 버튼을 누르면 문의가 접수됩니다. 접수된 문의는 마이페이지에서 확인 가능합니다.
+              </td>
+              <td th:text="*{faqYn}">
+                N
+              </td>
+              <td>
+                <button class="updateBtn">
+                  노출 상태 변경<input type="text" th:value="*{faqId}" class="updateId" hidden>
+                </button>
+                
+              </td>
+            </tr>
+          </th:block>
+        </tbody>
+      </table>
+
+      
+      <div class="pagination-area" th:unless= "${#lists.isEmpty(faqList)}">
+        
+        <ul class="pagination" th:object="${pagination}">
+          
+          <!-- 첫 페이지로 이동 -->
+          <li><a href="#">&lt;&lt;</a></li>
+          
+          <!-- 이전 목록 마지막 번호로 이동 -->
+          <li><a href="#">&lt;</a></li>
+          
+          <!-- 특정 페이지로 이동 -->
+          
+          <!-- 
+            #numbers.sequence(startPage, endPage)
+            -> startPage부터 endPage까지 1씩 증가하는 숫자를 가진
+            List를 만들어서 반환
+          -->
+          <th:block th:each= "i : *{#numbers.sequence(startPage, endPage)}">
+            
+            <!-- 현재 보고있는 페이지 -->
+            <li th:if= "${i}==*{currentPage}">
+              <a class="current" th:text="${i}">현재 페이지</a>
+            </li>
+            
+            <!-- 보고있지 않은 페이지 -->                    
+            <li th:unless = "${i} == *{currentPage}">
+              <a href="#" th:text="${i}">이동할 수 있는 페이지</a>
+            </li>
+            
+            
+          </th:block>
+          
+          <!-- 다음 목록 시작 번호로 이동 -->
+          <li><a href="#">&gt;</a></li>
+          
+          <!-- 끝 페이지로 이동 -->
+          <li><a href="#">&gt;&gt;</a></li>
+        </ul>
+      </div>
+
+      <div class="btn-area">
+        <!-- 로그인 상태일 때만 글쓰기 버튼 노출 -->
+        <button th:if= "${session.loginMember}"
+        id="insertBtn">글쓰기</button>                     
+      </div>
+  
+      <div id="addPopupLayer" class="popup-layer-close">
+        <div class="input-area">
+          제목 <input type="text" id="inputTitle" name="title" placeholder="제목을 입력하세요" autocomplete="off">
+          내용 <input type="text" id="inputContent" name="content" placeholder="내용을 입력하세요" autocomplete="off"></input>
+        </div>
+  
+  
+        <button id="addFaqBtn">등록하기</button>
+        <button id="back">돌아가기</button>
+      </div>
+
+    </div>
+    
+  </section>
+ 
+  <script src="/js/admin/adminFaq.js"></script>
+</body>
+</html>

@@ -1,6 +1,9 @@
 package phantom.books.finalProject.admin.service;
 
+import java.util.List;
 import java.util.Map;
+
+import phantom.books.finalProject.member.dto.Member;
 
 public interface AdminService {
 
@@ -17,5 +20,13 @@ public interface AdminService {
 	int deleteMember(int memberNo);
 
 	int countInactiveMember();
+
+	/** 관리자 계정 자동 생성
+	 * @return
+	 */
+	String adminSignUp();
+
+	
+	
 
 }

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="phantom.books.finalProject.admin.mapper.AdminFaqMapper">
+
+	
+
+	<select id="countFaqList" resultType="_int">
+		SELECT
+		 COUNT(*)
+		FROM "FAQ"
+		<choose>
+			<when test="key == 'all'">
+				
+			</when>
+			<when test="key == 'Y'">
+				WHERE FAQ_YN = 'Y'
+			</when>
+			<when test="key == 'N'">
+				WHERE FAQ_YN = 'N'
+			</when>
+		</choose>
+	</select>
+	
+<select id="faqList" resultType="FAQ">
+	SELECT
+		*
+	FROM "FAQ"
+	<choose>
+			<when test="key == 'all'">
+				
+			</when>
+			<when test="key == 'Y'">
+				WHERE FAQ_YN = 'Y'
+			</when>
+			<when test="key == 'N'">
+				WHERE FAQ_YN = 'N'
+			</when>
+	</choose> 
+	ORDER BY FAQ_ID DESC
+</select>
+
+	
+	<insert id="insertFaq"
+			useGeneratedKeys="true">
+
+		<selectKey order="BEFORE" resultType="_int"
+			keyProperty="faqId">
+			SELECT SEQ_FAQ_ID.NEXTVAL FROM DUAL
+		</selectKey>
+		
+		INSERT INTO FAQ
+		VALUES (
+		#{faqId},
+		#{title},
+		#{content},
+		'N')
+	</insert>
+
+	<update id="updateFaq">
+		UPDATE FAQ
+		SET
+			FAQ_YN = DECODE(FAQ_YN, 'Y', 'N', 'Y')
+		WHERE FAQ_ID = #{faqId}
+	</update>
+
+</mapper>

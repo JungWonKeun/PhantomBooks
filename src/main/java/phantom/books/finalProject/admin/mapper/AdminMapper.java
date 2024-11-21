@@ -29,6 +29,18 @@ public interface AdminMapper {
 	// 6개월 이상 로그인 안 한 회원 수 조회
     int countInactiveMember();
 
+  // admin계정 조회
+  int selectAdmin();
+
+
+  // Member Table 관리자 계정 자동생성
+  int insertMember(@Param("memberId") int memberId,
+  								@Param("encPw") String encPw);
+  
+  int insertAdmin(int memberId);
+
+  // 리스트 조회
+	String adminList(int memberId);
 	
 	
 
