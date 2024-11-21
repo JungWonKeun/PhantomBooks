@@ -1,8 +1,10 @@
 package phantom.books.finalProject.admin.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,13 +13,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import phantom.books.finalProject.admin.service.AdminService;
+import phantom.books.finalProject.member.dto.Member;
 
 @Controller
 @RequestMapping("admin")
 @RequiredArgsConstructor
+@Slf4j
 public class AdminController {
 	
 	private final AdminService service;
@@ -27,7 +35,7 @@ public class AdminController {
 	 */
 	@GetMapping("")
 	public String admin() {
-		return "admin/main";
+		return "admin/adminMain";
 	}
 	
 	/** 관리자 일정 관리 페이지 forward
@@ -35,7 +43,7 @@ public class AdminController {
 	 */
 	@GetMapping("schedule")
 	public String schedule() {
-		return "admin/schedule";
+		return "admin/adminSchedule";
 	}
 	
 	/** 관리자 매출 관리 페이지 forward
@@ -43,7 +51,7 @@ public class AdminController {
 	 */
 	@GetMapping("sales")
 	public String sales() {
-		return "admin/sales";
+		return "admin/adminSales";
 	}
 	
 	/** 관리자 재고 관리 페이지 forward
@@ -51,7 +59,7 @@ public class AdminController {
 	 */
 	@GetMapping("manager")
 	public String manager() {
-		return "admin/manager";
+		return "admin/adminManager";
 	}
 	
 	/** 관리자 문의 관리 페이지 forward
@@ -59,7 +67,7 @@ public class AdminController {
 	 */
 	@GetMapping("query")
 	public String query() {
-		return "admin/query";
+		return "admin/adminQuery";
 	}
 	
 	/** 관리자 리뷰 관리 페이지 forward
@@ -67,15 +75,16 @@ public class AdminController {
 	 */
 	@GetMapping("review")
 	public String review() {
-		return "admin/review";
+		return "admin/adminReview";
 	}
 	
-	@GetMapping("notice")
-	public String notice() {
-		return "admin/notice";
+	
+	// 관리자 관리페이지
+	@GetMapping("adminManager")
+	public String adminManager() {
+		
+		return "admin/adminPage";	
 	}
-
-
 
 	
 //----------------------------------------------------------------------------------------------------------------------------
@@ -101,6 +110,19 @@ public class AdminController {
 		return service.deleteMember(memberNo);
 	}
 	
+	/** 계정 추가 버튼 클릭 시
+	 * @param loginMember 
+	 * @return
+	 */
+	@GetMapping("signUp")
+	@ResponseBody
+	public String signUp() {
+		
+		String memberId = service.adminSignUp();
+		
+		log.debug("memberId : {}", memberId);
+		
+		return service.adminSignUp();
+	}
 
-	
 }

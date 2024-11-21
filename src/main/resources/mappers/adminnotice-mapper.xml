@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="phantom.books.finalProject.admin.mapper.AdminNoticeMapper">
+
+	<select id="countNotice" resultType="_int">
+		SELECT COUNT(*)
+		FROM NOTICE
+		<choose>
+			<when test="key == 'all'">
+				
+			</when>
+			<when test="key == 'no'">
+				WHERE STATUS = 0
+			</when>
+			<when test="key == 'ok'">
+				WHERE STATUS = 1
+			</when>
+		</choose>
+	</select>
+
+	<select id="noticeList" resultType="_int">
+		SELECT 
+			*
+		FROM NOTICE
+		<choose>
+			<when test="key == 'all'">
+				
+			</when>
+			<when test="key == 'no'">
+				WHERE STATUS = 0
+			</when>
+			<when test="key == 'ok'">
+				WHERE STATUS = 1
+			</when>
+		</choose>
+	</select>
+
+</mapper>

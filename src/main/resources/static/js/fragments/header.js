@@ -36,7 +36,7 @@ document.querySelector("#modalLogin form").addEventListener("submit", function (
       alert("로그인 성공!");
       const modalElement = document.getElementById("modalLogin");
       const modal = bootstrap.Modal.getInstance(modalElement);
-      if (data.authority === 2) {
+      if (data.authority != 1) {
         window.location.href = "/admin";
         return;
       }

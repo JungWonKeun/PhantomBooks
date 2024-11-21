@@ -5,18 +5,23 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import phantom.books.finalProject.admin.mapper.AdminMapper;
 import phantom.books.finalProject.member.dto.Member;
 import phantom.books.finalProject.pagination.Pagination;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AdminServiceImpl implements AdminService{
 	
 	private final AdminMapper mapper;
+	private final BCryptPasswordEncoder encorder;
+	
 	
 	// 메인 페이지 회원 목록 조회
 	@Override
@@ -67,5 +72,31 @@ public class AdminServiceImpl implements AdminService{
     public int countInactiveMember() {
         return mapper.countInactiveMember();
     }
+	
+	// 관리자 계정 자동 생성
+	@Override
+	public String adminSignUp() {
+		
+		int selectAdmin = mapper.selectAdmin();
+		
+		int memberId = selectAdmin + 1; 
+		
+		log.debug("memberId : {}", memberId);
+		
+		String encPw = encorder.encode("pass01!");
+		
+		int insertMember = mapper.insertMember(memberId, encPw);
+		
+		if(insertMember == 0) {
+			return null;
+		}
+		
+		log.debug("insertAdmin : {}", insertMember);
+		int insertAdmin = mapper.insertAdmin(memberId);
+		
+		String adminList = mapper.adminList(memberId);
+		
+		return adminList;
+	}
 	
 }
