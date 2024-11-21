@@ -39,16 +39,6 @@ public class CustomerController {
 	}
 	
 	/**
-	 * 공지사항 페이지로 이동
-	 * 
-	 * @return
-	 */
-	@GetMapping("/customer/notice")
-	public String getNoticeList() {
-		return "customer/notice";
-	}
-
-	/**
 	 * 1:1 문의 페이지로 이동
 	 * 
 	 * @param model - View에 데이터를 전달하기 위한 Model 객체

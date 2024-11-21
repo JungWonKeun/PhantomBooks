@@ -20,7 +20,6 @@ public interface CustomerMapper {
 
 	List<FAQ> getFaqList();
 
-	List<Query> getInquiries();
 
 	String getresultInquiry(Query queryNo);
 

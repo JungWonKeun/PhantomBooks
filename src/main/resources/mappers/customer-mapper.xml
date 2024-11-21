@@ -33,10 +33,6 @@
 		'N'
 	</select>
 
-	<select id="getInquiries" resultType="Query">
-		SELECT * FROM QUERY
-	</select>
-
 	<select id="getResultInquiry" resultType="Query">
 		SELECT 
 			QUERY_NO,
@@ -48,17 +44,20 @@
 		WHERE
 			QUERY_NO = #{queryNo}
 		
+		
 	</select>
 	
 	<select id="countQueryList" resultType="_int">
 		SELECT COUNT(*)
 		FROM QUERY
 		WHERE MEMBER_NO = #{memberNo}
+		
 	</select>
 	
 	<select id="queryList" resultType="Query">
-		SELECT *			
+		SELECT *
 		FROM QUERY
 		WHERE MEMBER_NO = #{memberNo}
+		ORDER BY QUERY_NO DESC
 	</select>
 </mapper>
