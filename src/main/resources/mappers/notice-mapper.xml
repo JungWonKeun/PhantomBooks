@@ -22,4 +22,11 @@
 		FROM NOTICE
 		WHERE NOTICE_ID = #{noticeId}
 	</select>
+	
+	
+	<update id="updateReadCount" parameterType="int">
+		UPDATE NOTICE
+		SET "VIEW" = "VIEW" + 1
+		WHERE NOTICE_ID = #{noticeId}
+	</update>
 </mapper>

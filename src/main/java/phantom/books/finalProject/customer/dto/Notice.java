@@ -19,8 +19,8 @@ public class Notice {
     private int noticeId;       	// 공지사항 ID
     private String title;       	// 공지사항 제목
     private String content;     	// 공지사항 내용
-    private String createDate;      // 작성일
-    private String updateDate;      // 수정일
+    private String createDate;    // 작성일
+    private String updateDate;    // 수정일
     private int view;          		// 조회수
     private int status;         	// 상태 (1: 활성, 0: 비활성)
 }

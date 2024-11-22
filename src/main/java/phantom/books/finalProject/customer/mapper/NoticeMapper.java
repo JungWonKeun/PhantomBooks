@@ -16,5 +16,7 @@ public interface NoticeMapper {
 
 	Notice selectNotice(int noticeId);
 
+	int updateReadCount(int noticeId);
+
 	
 }
