@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,10 +23,18 @@ import phantom.books.finalProject.searchBookPage.mapper.SearchBookPageMapper;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@PropertySource("classpath:/config.properties")
 public class SearchBookPageServiceImpl implements SearchBookPageService {
 
 	private final SearchBookPageMapper mapper;
 
+	@Value("${phantomBooks.reviewImage.web-path}")
+	private String reviewImageWebPath; // Review 이미지 웹 경로
+	
+	@Value("${phantomBooks.reviewImage.folder-path}")
+	private String reviewImageFolderPath; // Review 이미지 서버 경로
+	
+	
 	/*
 	 * @Override public List<Book> allBook(int cp) {
 	 * 
@@ -118,20 +128,21 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 	 @Override
 	    public boolean writeReview(int bookNo, String title, String content, double score, int memberNo, MultipartFile file)  {
 	        String filePath = null;
+	        String webPath = null; 
 
 	        // 파일 저장 처리
+	      File folder = new File(reviewImageFolderPath);
+	      if (!folder.exists()) {
+	          folder.mkdirs();
+	      }
 	        if (file != null && !file.isEmpty()) {
-	            String uploadDir = "C:/images/reviewimg";
-	            File directory = new File(uploadDir);
-	            if (!directory.exists() && !directory.mkdirs()) {
-	                throw new RuntimeException("디렉토리 생성 실패");
-	            }
-
+	            String uploadDir = reviewImageFolderPath;
 	            // 고유 파일 이름 생성
 	            String originalFilename = file.getOriginalFilename();
 	            String newFilename = UUID.randomUUID().toString() + "_" + originalFilename;
-	            filePath = uploadDir + "/" + newFilename;
-
+	            filePath = uploadDir + newFilename;
+	            webPath = reviewImageWebPath + newFilename;
+	            
 	            // 파일 저장
 	            try {
 					file.transferTo(new File(filePath));
@@ -149,35 +160,41 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 	                .reviewTitle(title)
 	                .reviewContent(content)
 	                .reviewScore(score)
-	                .reviewImgNo(filePath)
+	                .reviewImgNo(webPath)
 	                .build();
 
 	        return mapper.insertReview(review) > 0;
 	    }
 	 
+	 // 리뷰 수정
 	 @Override
 	 public String updateReview(int reviewNo, String title, String content, double score, int memberNo, MultipartFile file) {
 	     String filePath = null;
-	     
-	     // 파일 처리
-	     if (file != null && !file.isEmpty()) {
-	         String uploadDir = "C:/images/reviewimg";
-	         File directory = new File(uploadDir);
-	         if (!directory.exists() && !directory.mkdirs()) {
-	             throw new RuntimeException("디렉토리 생성 실패");
-	         }
+	        String webPath = null; 
 
-	         String originalFilename = file.getOriginalFilename();
-	         String newFilename = UUID.randomUUID().toString() + "_" + originalFilename;
-	         filePath = uploadDir + "/" + newFilename;
+	        // 파일 저장 처리
+	      File folder = new File(reviewImageFolderPath);
+	      if (!folder.exists()) {
+	          folder.mkdirs();
+	      }
+	        if (file != null && !file.isEmpty()) {
+	            String uploadDir = reviewImageFolderPath;
+	            // 고유 파일 이름 생성
+	            String originalFilename = file.getOriginalFilename();
+	            String newFilename = UUID.randomUUID().toString() + "_" + originalFilename;
+	            filePath = uploadDir + newFilename;
+	            webPath = reviewImageWebPath + newFilename;
+	            
+	            // 파일 저장
+	            try {
+					file.transferTo(new File(filePath));
+				} catch (IllegalStateException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+	        }
 
-	         try {
-	             file.transferTo(new File(filePath));
-	         } catch (IOException e) {
-	             e.printStackTrace();
-	             return "파일 업로드 중 오류 발생";
-	         }
-	     }
 
 	     // Review 객체 생성
 	     Review review = Review.builder()
@@ -186,7 +203,7 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 	             .reviewTitle(title)
 	             .reviewContent(content)
 	             .reviewScore(score)
-	             .reviewImgNo(filePath) // 파일 경로를 저장
+	             .reviewImgNo(webPath) // 파일 경로를 저장
 	             .build();
 
 	     // 기존 리뷰 업데이트

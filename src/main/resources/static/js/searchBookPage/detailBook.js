@@ -260,7 +260,7 @@ function toggleEditMode(reviewNo, button) {
     const cancelButton = document.querySelector(`button[data-review-no="${reviewNo}"][id="deleteReview"]`);
     const rating = document.querySelector(`.rating[data-review-no="${reviewNo}"]`);
     const ratingInputs = rating?.querySelectorAll('input[type="radio"]');
-    const imageInput = document.querySelector(`#imageInput`);
+    const imageInput = document.querySelector(`#imageInput-${reviewNo}`);
 
     if (!titleInput || !contentTextarea || !cancelButton || !ratingInputs) {
         console.error(`리뷰 요소를 찾을 수 없습니다. 리뷰 번호: ${reviewNo}`);
@@ -297,10 +297,10 @@ function toggleEditMode(reviewNo, button) {
         }
 
         const formData = new FormData();
-        formData.append('reviewNo', reviewNo);
         formData.append('reviewTitle', updatedTitle);
         formData.append('reviewContent', updatedContent);
         formData.append('rating', updatedRating);
+
         if (updatedImage) {
             formData.append('image', updatedImage);
         }
@@ -324,6 +324,8 @@ function toggleEditMode(reviewNo, button) {
         
     }
 }
+
+
 
 function resetEditMode(titleInput, contentTextarea, rating, ratingInputs, imageInput, button, cancelButton) {
     console.log('수정 모드 종료.');

@@ -214,6 +214,7 @@ public class SearchBookPageController {
 
 	}
 
+	// 리뷰 수정
 	@ResponseBody
 	@PostMapping("/updateReview/{reviewNo}")
 	public String updateReview(
