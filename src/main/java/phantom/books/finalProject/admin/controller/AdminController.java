@@ -21,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import phantom.books.finalProject.admin.service.AdminService;
 import phantom.books.finalProject.member.dto.Member;
+import retrofit2.http.PUT;
 
 @Controller
 @RequestMapping("admin")
@@ -118,11 +119,25 @@ public class AdminController {
 	@ResponseBody
 	public String signUp() {
 		
-		String memberId = service.adminSignUp();
-		
-		log.debug("memberId : {}", memberId);
-		
 		return service.adminSignUp();
+	}
+	
+	/** 계정 정보 수정
+	 * @param memberNo
+	 * @param adminName
+	 * @param adminEmail
+	 * @return
+	 */
+	@PutMapping("adminManager")
+	@ResponseBody
+	public int updateAdmin(
+			@RequestParam("memberNo") int memberNo,
+			@RequestBody Member inputAdmin) {
+		
+		String adminName = inputAdmin.getAdminName();
+		String adminEmail = inputAdmin.getAdminEmail();
+		
+		return service.updateAdmin(memberNo, adminName, adminEmail);
 	}
 
 }

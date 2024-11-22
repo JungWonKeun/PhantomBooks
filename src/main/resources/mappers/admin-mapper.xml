@@ -148,4 +148,13 @@
 		FROM "MEMBER"
 		WHERE MEMBER_ID = 'admin'||#{memberId}
 	</select>
+	
+	<update id="updateAdmin">
+		UPDATE "ADMIN"
+		SET
+			ADMIN_NAME = #{adminName},
+			ADMIN_EMAIL = #{adminEmail}
+		WHERE MEMBER_NO = #{memberNo}
+	</update>
+	
 </mapper>

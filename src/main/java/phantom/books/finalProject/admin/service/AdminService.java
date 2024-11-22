@@ -26,6 +26,14 @@ public interface AdminService {
 	 */
 	String adminSignUp();
 
+	/** 계정 정보수정
+	 * @param memberNo
+	 * @param adminName
+	 * @param adminEmail
+	 * @return
+	 */
+	int updateAdmin(int memberNo, String adminName, String adminEmail);
+
 	
 	
 

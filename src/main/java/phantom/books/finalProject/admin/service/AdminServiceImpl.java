@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,7 @@ import phantom.books.finalProject.pagination.Pagination;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional
 public class AdminServiceImpl implements AdminService{
 	
 	private final AdminMapper mapper;
@@ -95,8 +97,13 @@ public class AdminServiceImpl implements AdminService{
 		int insertAdmin = mapper.insertAdmin(memberId);
 		
 		String adminList = mapper.adminList(memberId);
-		
+		log.debug("adminList : {}", adminList);
 		return adminList;
 	}
-	
+
+	// 계정정보 수정
+	@Override
+	public int updateAdmin(int memberNo, String adminName, String adminEmail) {
+		return mapper.updateAdmin(memberNo, adminName, adminEmail);
+	}
 }
