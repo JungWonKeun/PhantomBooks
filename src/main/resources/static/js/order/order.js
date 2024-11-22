@@ -8,6 +8,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const addAddressBtn = document.getElementById('addAddressBtn');
   const additionalAddressesContainer = document.getElementById('additionalAddresses');
+
+
+  document.getElementById('paymentButton').addEventListener('click', requestPay);
+
+
   let selectedAddress = {
     zip: zipInput.value,
     address: addressInput.value,
@@ -77,6 +82,8 @@ document.addEventListener('DOMContentLoaded', () => {
         address: newAddressInput.value,
         detailAddress: newDetailAddressInput.value,
       };
+
+      console.log('선택된 배송지:', selectedAddress);
 
       defaultAddressCheckbox.checked = false;
       newCheckbox.checked = true;
