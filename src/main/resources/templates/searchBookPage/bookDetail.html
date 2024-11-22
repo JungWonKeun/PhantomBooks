@@ -165,6 +165,15 @@
         <!-- 리뷰 본문 -->
         <div class="review-leaf">
           <div class="review-container">
+               <!-- 리뷰 이미지 -->
+               <div class="review-img">
+                <img alt="리뷰 이미지" class="review-img-thumb"
+                th:if="${review.reviewImgNo != null}" th:src="${review.reviewImgNo}">
+                <!-- 이미지 수정 레이블 (로그인 사용자 본인만 수정 가능하도록 수정 필요) -->
+                <label for="imageInput">이미지 수정
+                  <input type="file" name="profileImg" th:id="|imageInput-${review.reviewNo}|" accept="image/*">
+                </label>
+              </div>
             <!-- 리뷰 본문 (3/4 비율) -->
             <div class="review-main" style="flex: 3;">
               <div class="review-title-line">
@@ -181,15 +190,6 @@
                     <p>작성자: <span th:text="${review.memberId}">홍길동</span></p>
                   </div>
                 </div>
-              </div>
-
-              <!-- 리뷰 이미지 -->
-              <div class="review-img">
-                <img alt="리뷰 이미지" class="review-img-thumb">
-                <!-- 이미지 수정 레이블 (로그인 사용자 본인만 수정 가능하도록 수정 필요) -->
-                <label for="imageInput">이미지 수정
-                  <input type="file" name="profileImg" id="imageInput" accept="image/*">
-                </label>
               </div>
 
               <!-- 리뷰 내용 -->

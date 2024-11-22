@@ -62,6 +62,14 @@ public class FileConfig implements WebMvcConfigurer {
 	@Value("${my.board.resource-location}")
 	private String boardResourceLocation;
 	
+	// ----------------------------------------------------------
+	
+	@Value("${phantom.books.reviewImage.resource-handler}")
+	private String reviewImageesourceHandler;
+	
+	@Value("${phantom.books.reviewImage.resource-location}")
+	private String reviewImageResourceLocation;
+	
 	
 	/* MultipartResolver 설정 */
 	@Bean
@@ -119,6 +127,10 @@ public class FileConfig implements WebMvcConfigurer {
 		
         registry.addResourceHandler("/images/bookCover/**")
         .addResourceLocations("file:///C:/images/bookCover/");
+        
+        registry
+        .addResourceHandler(reviewImageesourceHandler)
+        .addResourceLocations(reviewImageResourceLocation);
 	}
 	
 	 
