@@ -105,7 +105,7 @@ const listUp = (cp) => {
         const alarm = confirm(admin.memberId + "계정을 삭제하시겠습니까?");
 
         if(alarm){
-          fetch("/admin/adminManager?memberId="+admin.memberId, {method : "DELETE"})
+          fetch("/admin/adminManager?memberNo="+admin.memberNo, {method : "DELETE"})
           .then(response => {
             if(response.ok) return response.text();
             throw new Error("삭제 실패");

@@ -17,4 +17,30 @@
 		LEFT JOIN "MEMBER" USING (MEMBER_NO)
 		ORDER BY MEMBER_NO DESC
 	</select>
+	
+	<select id="emailCheck" resultType="_int">
+		SELECT
+			COUNT(*)
+		FROM "ADMIN"
+		WHERE ADMIN_EMAIL = #{adminEamil}
+	</select>
+	
+	<update id="updatePw">
+		UPDATE "MEMBER"
+		SET
+			MEMBER_PW = #{memberPw}
+		WHERE MEMBER_NO = #{memberNo}
+	</update>
+	<update id="updateName">
+		UPDATE "ADMIN"
+		SET
+			ADMIN_NAME = #{adminName}
+		WHERE MEMBER_NO = #{memberNo}
+	</update>
+	<update id="updateEmail">
+		UPDATE "ADMIN"
+		SET
+			ADMIN_EMAIL = #{adminEmail}
+		WHERE MEMBER_NO = #{memberNo}
+	</update>
 </mapper>

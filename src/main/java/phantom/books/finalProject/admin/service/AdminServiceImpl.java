@@ -106,4 +106,18 @@ public class AdminServiceImpl implements AdminService{
 	public int updateAdmin(int memberNo, String adminName, String adminEmail) {
 		return mapper.updateAdmin(memberNo, adminName, adminEmail);
 	}
+	
+	// 계정 삭제
+	@Override
+	public int deleteAdmin(int memberNo) {
+		
+		int result = 0;
+		
+		result = mapper.deleteAdmin(memberNo);
+		
+		if(result > 0) {
+			result = mapper.deleteMember(memberNo);
+		}
+		return result;
+	}
 }

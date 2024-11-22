@@ -33,11 +33,29 @@
 
 	<select id="adminLogin" resultType="Member">
 		SELECT
-			MEMBER_NO,						
+			MEMBER_NO,
+			MEMBER_ID,
+			MEMBER_PW,
+			ZIP,
+			ADDRESS,
+			DETAIL_ADDRESS,
+			ADD_ZIP,
+			ADD_ADDRESS,
+			ADD_DETAIL_ADDRESS,
+			TEL_NO,
+			TO_CHAR(BIRTH_DATE,
+			'YYYY"년" MM"월" DD"일"')
+			BIRTH_DATE,
+			NAME,
+			RANK_NAME,
+			MEMBER_DEL_FL,
+			AUTHORITY,
+			CATEGORY_YN,
 			ADMIN_NAME,
-			ADMIN_EMAIL,
-			AUTHORITY
-		FROM "ADMIN"
+			ADMIN_EMAIL
+		FROM 
+			"MEMBER"
+		LEFT JOIN ADMIN USING(MEMBER_NO)
 		WHERE MEMBER_NO = #{memberNo}
 	</select>
 	
