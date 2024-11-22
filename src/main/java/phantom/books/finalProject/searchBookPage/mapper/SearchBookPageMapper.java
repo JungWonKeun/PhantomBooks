@@ -49,6 +49,9 @@ public interface SearchBookPageMapper {
     // 리뷰 작성
         int insertReview(Review review);
 
+        // 리뷰 수정
+		int updateReview(Review review);
+
 
 
 

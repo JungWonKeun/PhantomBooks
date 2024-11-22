@@ -283,10 +283,16 @@ h1 {
   background-position: left;
 }
 
-.rating.readonly .star-icon {
-  opacity: 0.7;
-  cursor: default; /* hover 효과와 클릭 가능성 제거 */
+.rating.readonly .rating__label {
+  cursor: default; /* 클릭 불가 */
+  pointer-events: none; /* 이벤트 비활성화 */
 }
+
+.rating.readonly .star-icon {
+  opacity: 0.5; /* 흐리게 처리 */
+}
+
+
 
 /* 리뷰 불러오기 /별점/  */
 

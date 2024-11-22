@@ -114,6 +114,7 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 		return mapper.getReviewsByBookNo(bookNo);
 	}
 
+	
 	 @Override
 	    public boolean writeReview(int bookNo, String title, String content, double score, int memberNo, MultipartFile file)  {
 	        String filePath = null;
@@ -153,6 +154,47 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 
 	        return mapper.insertReview(review) > 0;
 	    }
+	 
+	 @Override
+	 public String updateReview(int reviewNo, String title, String content, double score, int memberNo, MultipartFile file) {
+	     String filePath = null;
+	     
+	     // 파일 처리
+	     if (file != null && !file.isEmpty()) {
+	         String uploadDir = "C:/images/reviewimg";
+	         File directory = new File(uploadDir);
+	         if (!directory.exists() && !directory.mkdirs()) {
+	             throw new RuntimeException("디렉토리 생성 실패");
+	         }
+
+	         String originalFilename = file.getOriginalFilename();
+	         String newFilename = UUID.randomUUID().toString() + "_" + originalFilename;
+	         filePath = uploadDir + "/" + newFilename;
+
+	         try {
+	             file.transferTo(new File(filePath));
+	         } catch (IOException e) {
+	             e.printStackTrace();
+	             return "파일 업로드 중 오류 발생";
+	         }
+	     }
+
+	     // Review 객체 생성
+	     Review review = Review.builder()
+	             .reviewNo(reviewNo)
+	             .memberNo(memberNo)
+	             .reviewTitle(title)
+	             .reviewContent(content)
+	             .reviewScore(score)
+	             .reviewImgNo(filePath) // 파일 경로를 저장
+	             .build();
+
+	     // 기존 리뷰 업데이트
+	     int result = mapper.updateReview(review);
+	     return result > 0 ? "리뷰 업데이트 성공" : "리뷰 업데이트 실패";
+	 }
+
+	 
 	}
 
 	
