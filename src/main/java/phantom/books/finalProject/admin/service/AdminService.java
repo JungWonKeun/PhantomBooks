@@ -34,6 +34,9 @@ public interface AdminService {
 	 */
 	int updateAdmin(int memberNo, String adminName, String adminEmail);
 
+	// 계정 삭제
+	int deleteAdmin(int memberNo);
+
 	
 	
 

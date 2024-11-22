@@ -46,6 +46,9 @@ public interface AdminMapper {
 	int updateAdmin(@Param("memberNo") int memberNo,
 									@Param("adminName") String adminName,
 									@Param("adminEmail") String adminEmail);
+
+	// 계정 삭제
+	int deleteAdmin(int memberNo);
 	
 	
 

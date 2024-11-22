@@ -86,6 +86,11 @@ public class AdminController {
 		
 		return "admin/adminPage";	
 	}
+	
+	@GetMapping("myPage")
+	public String adminMyPage() {
+		return "admin/adminMyPage";
+	}
 
 	
 //----------------------------------------------------------------------------------------------------------------------------
@@ -138,6 +143,14 @@ public class AdminController {
 		String adminEmail = inputAdmin.getAdminEmail();
 		
 		return service.updateAdmin(memberNo, adminName, adminEmail);
+	}
+	
+	@DeleteMapping("adminManager")
+	@ResponseBody
+	public int deleteAdmin(
+			@RequestParam("memberNo") int memberNo) {
+		
+		return service.deleteAdmin(memberNo);
 	}
 
 }

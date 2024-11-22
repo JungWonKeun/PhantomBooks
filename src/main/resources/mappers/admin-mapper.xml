@@ -157,4 +157,10 @@
 		WHERE MEMBER_NO = #{memberNo}
 	</update>
 	
+	<delete id="deleteAdmin">
+		DELETE 
+		FROM "ADMIN"
+		WHERE MEMBER_NO = #{memberNo}
+	</delete>
+	
 </mapper>
