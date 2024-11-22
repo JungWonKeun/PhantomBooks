@@ -8,9 +8,9 @@
   <link rel="stylesheet" href="/css/order/order.css">
   <!-- 결제 -->
   <script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
-  <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+  
   <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-  <script src="/js/order/order.js" defer></script>
+  <!-- <script src="/js/order/order.js" defer></script> -->
   <!-- 주소 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -94,95 +94,236 @@
     
 
     <script th:inline="javascript">
+      document.addEventListener('DOMContentLoaded', () => {
+        const defaultAddressCheckbox = document.getElementById('defaultAddressCheck');
+        const zipInput = document.getElementById('userZip');
+        const addressInput = document.getElementById('userAddress');
+        const detailAddressInput = document.getElementById('userDetailAddress');
+        const userNameInput = document.getElementById('userName');
+        const userTelNoInput = document.getElementById('userTelNo');
+    
+        const addAddressBtn = document.getElementById('addAddressBtn');
+        const additionalAddressesContainer = document.getElementById('additionalAddresses');
+    
+    
+        let selectedAddress = {
+          zip: zipInput.value,
+          address: addressInput.value,
+          detailAddress: detailAddressInput.value,
+        };
+    
+        // 기본 배송지 선택 시 추가 배송지 해제
+        defaultAddressCheckbox.addEventListener('change', () => {
+          if (defaultAddressCheckbox.checked) {
+            const additionalCheckbox = document.querySelector('.additional-address-form .defaultAddressCheck');
+            if (additionalCheckbox) additionalCheckbox.checked = false;
+    
+            selectedAddress = {
+              zip: zipInput.value,
+              address: addressInput.value,
+              detailAddress: detailAddressInput.value,
+            };
+          }
+        });
+    
+        // 배송지 추가 버튼 클릭
+        addAddressBtn.addEventListener('click', () => {
+          const existingAddress = document.querySelector('.additional-address-form');
+          if (existingAddress) {
+            alert('추가 배송지는 한 개만 생성할 수 있습니다.');
+            return;
+          }
+    
+          const newAddressForm = createNewAddressForm();
+          additionalAddressesContainer.appendChild(newAddressForm);
+    
+          const newCheckbox = newAddressForm.querySelector('.defaultAddressCheck');
+          const validateButton = newAddressForm.querySelector('.validateButton');
+          const findAddressBtn = newAddressForm.querySelector('.findAddressBtn');
+    
+          newCheckbox.addEventListener('change', () => {
+            if (newCheckbox.checked) {
+              defaultAddressCheckbox.checked = false;
+              const newZipInput = newAddressForm.querySelector('.zip-input').value;
+              const newAddressInput = newAddressForm.querySelector('.address-input').value;
+              const newDetailAddressInput = newAddressForm.querySelector('.detail-address-input').value;
+    
+              selectedAddress = {
+                zip: newZipInput,
+                address: newAddressInput,
+                detailAddress: newDetailAddressInput,
+              };
+            }
+          });
+    
+          // validateButton 클릭 이벤트
+          validateButton.addEventListener('click', () => {
+            const newZipInput = newAddressForm.querySelector('.zip-input');
+            const newAddressInput = newAddressForm.querySelector('.address-input');
+            const newDetailAddressInput = newAddressForm.querySelector('.detail-address-input');
+    
+            if (!newZipInput.value || !newAddressInput.value || !newDetailAddressInput.value) {
+              alert('추가 배송지 정보를 모두 입력해주세요.');
+              return;
+            }
+    
+            console.log('추가된 배송지:', newZipInput.value, newAddressInput.value, newDetailAddressInput.value);
+    
+            alert('추가된 배송지가 기본 배송지로 선택되었습니다.');
+            selectedAddress = {
+              zip: newZipInput.value,
+              address: newAddressInput.value,
+              detailAddress: newDetailAddressInput.value,
+            };
+    
+            console.log('선택된 배송지:', selectedAddress);
+    
+            defaultAddressCheckbox.checked = false;
+            newCheckbox.checked = true;
+          });
+    
+          findAddressBtn.addEventListener('click', () => {
+            new daum.Postcode({
+              oncomplete: (data) => {
+                const newZipInput = newAddressForm.querySelector('.zip-input');
+                const newAddressInput = newAddressForm.querySelector('.address-input');
+                newZipInput.value = data.zonecode;
+                newAddressInput.value = data.roadAddress || data.jibunAddress;
+                newAddressForm.querySelector('.detail-address-input').focus();
+              },
+            }).open();
+          });
+        });
+    
+        // 새로운 배송지 폼 생성
+        function createNewAddressForm() {
+          const formElement = document.createElement('div');
+          formElement.classList.add('additional-address-form', 'mt-4');
+    
+          formElement.innerHTML = `
+            <div class="form-floating mb-2">
+              <input type="checkbox" class="defaultAddressCheck">
+              <h4>추가 배송지</h4>
+            </div>
+            <div class="form-floating mb-2">
+              <input type="text" class="form-control zip-input" placeholder="우편번호" readonly>
+              <label>우편번호</label>
+            </div>
+            <div class="form-floating mb-2">
+              <input type="text" class="form-control address-input" placeholder="주소" readonly>
+              <label>주소</label>
+            </div>
+            <div class="form-floating mb-2">
+              <input type="text" class="form-control detail-address-input" placeholder="상세 주소">
+              <label>상세 주소</label>
+            </div>
+            <button type="button" class="btn btn-secondary findAddressBtn">주소 검색</button>
+            <button type="button" class="btn btn-success validateButton">입력 확인</button>
+          `;
+    
+          return formElement;
+        }
+    
+        document.getElementById('paymentButton').addEventListener('click', () => {
+          if (!userNameInput.value || !userTelNoInput.value) {
+            alert('수령인 이름과 전화번호를 입력해주세요.');
+            return;
+          }
+    
+          if (!selectedAddress.zip || !selectedAddress.address || !selectedAddress.detailAddress) {
+            alert('배송지를 선택해주세요.');
+            return;
+          }
 
-      function requestPay() {
+          requestPay();
 
+        });
+      });
+    
+      const requestPay = async() => {
         const userName = document.getElementById('userName').value;
         const userTelNo = document.getElementById('userTelNo').value;
         const userZip = document.getElementById('userZip').value;
         const userAddress = document.getElementById('userAddress').value;
         const userDetailAddress = document.getElementById('userDetailAddress').value;
         const totalPrice = parseInt(document.getElementById('totalPrice').innerText, 10);
-
+    
         if (!userName || !userTelNo) {
           alert('수령인 이름과 전화번호를 입력해주세요.');
           return;
         }
-
+    
         if (!userZip || !userAddress || !userDetailAddress) {
           alert('배송지를 선택해주세요.');
           return;
         }
-
-
+    
         const memberNo = /*[[${session.loginMember?.memberNo}]]*/ 'defaultMemberNo';
         const storeId = /*[[${storeId}]]*/ 'default-store-id';
         const channelKey = /*[[${channelKey}]]*/ 'default-channel-key';
-        const redirectUrl = 'http://localhost/order/afterOrder';
+        const redirectUrl = "http://localhost/order/afterOrder?orderNo=${data.orderNo}";
         const paymentId = `${memberNo}-${Date.now()}`;
-        const orderNo= /*[[${orderNo}]]*/ 'defaultOrderNo';
-
+        const orderNo = /*[[${orderNo}]]*/ 'defaultOrderNo';
+    
         const orderData = {
-          memberNo: memberNo,  
-          totalPrice: totalPrice,
-          orderCount: 1, 
+          memberNo: memberNo,
+          totalAmount: totalPrice,
+          orderCount: 1,
           userZip: userZip,
           userAddress: userAddress,
           userDetailAddress: userDetailAddress,
           userTelNo: userTelNo,
           userName: userName,
         };
-
+    
         console.log("Order Data:", orderData);
+    
+        try {
+      const resp = await PortOne.requestPayment({
+        storeId: storeId,
+        paymentId: paymentId,
+        orderName: "테스트 결제",
+        totalAmount: 100,
+        currency: "KRW",
+        channelKey: channelKey,
+        payMethod: "CARD",
+        card: {},
+        redirectUrl: redirectUrl,
+      });
 
+      console.log(resp);
 
-        PortOne.requestPayment(
-          {
-            storeId: storeId,
-            channelKey: channelKey,
-            paymentId: paymentId,
-            orderName: '책 결제',
-            totalAmount: 10, // 테스트 금액
-            // 실제 결제 금액 설정: totalAmount,
-            currency: 'KRW',
-            payMethod: 'CARD',
-            buyerName: userName,
-            buyerTel: userTelNo,
-            redirectUrl: redirectUrl,
-          },
-          function (response) {
-            if (response.success) {
-              console.log('결제 성공');
-              alert('결제가 성공적으로 완료되었습니다.');
+      if (resp.code || resp.error_code) {
+        alert('결제 취소/실패');
+      } else {
+        alert("결제가 성공적으로 완료되었습니다!");
 
-              console.log("Fetch request body:", JSON.stringify(orderData));
-
-              fetch('/order/submit', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(orderData),
-            })
-                .then((response) => response.json())
-                .then((data) => {
-                    if (data.orderNo) {
-                        location.href = `/order/afterOrder?orderNo=${data.orderNo}`;
-                    } else {
-                        alert('주문에 실패했습니다. 관리자에게 문의하세요.');
-                    }
-                })
-                .catch((error) => {
-                    console.error('결제 요청 중 오류:', error);
-                    alert('주문 중 문제가 발생했습니다.');
-                });
-                
+        // 서버에 주문 데이터 전송
+        fetch('/order/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(orderData),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data && data.success) {
+              location.href = `/order/afterOrder?orderNo=${data.orderNo}`;
             } else {
-              alert('결제에 실패하였습니다. 다시 시도해주세요.');
+              alert(data?.message || '주문 처리 중 오류가 발생했습니다. 관리자에게 문의하세요.');
             }
-          }
-        );
+          })
+          .catch((error) => {
+            console.error('주문 데이터 전송 중 오류:', error);
+            alert('주문 처리에 실패했습니다. 네트워크 상태를 확인하고 다시 시도해주세요.');
+          });
       }
-
+    } catch (error) {
+      console.error('결제 요청 중 오류:', error);
+      alert('결제 처리 중 문제가 발생했습니다. 다시 시도해주세요.');
+    }
+  };
     </script>
+    
     
 
   </main>
