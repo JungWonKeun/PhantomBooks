@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import phantom.books.finalProject.customer.dto.Notice;
@@ -14,6 +15,7 @@ import phantom.books.finalProject.pagination.Pagination;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class NoticeServiceImpl implements NoticeService {
 
 	private final NoticeMapper mapper;
@@ -42,5 +44,9 @@ public class NoticeServiceImpl implements NoticeService {
 	@Override
 	public Notice selectNotice(int noticeId) {
 		return mapper.selectNotice(noticeId);
+	}
+	@Override
+	public int updateReadCount(int noticeId) {
+		return mapper.updateReadCount(noticeId);
 	}
 }
