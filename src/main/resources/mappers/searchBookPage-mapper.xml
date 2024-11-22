@@ -170,7 +170,7 @@
 		</choose>
 	</select>
 
-
+<!-- 리뷰조회  -->
 	<select id="getReviewsByBookNo" resultType="Review">
 		SELECT
 		REVIEW_NO,
@@ -189,6 +189,7 @@
 		WHERE BOOK_NO = #{bookNo}
 	</select>
 
+<!-- 리뷰 작성 -->
 <insert id="insertReview" parameterType="Review">
     INSERT INTO REVIEW (
         REVIEW_NO,
@@ -213,7 +214,16 @@
     )
 </insert>
 
-
+<update id="updateReview" parameterType="Review">
+    UPDATE REVIEW
+    SET 
+        REVIEW_TITLE = #{reviewTitle},
+        REVIEW_CONTENT = #{reviewContent},
+        REVIEW_SCORE = #{reviewScore},
+        REVIEW_UPDATE_DATE = SYSDATE,
+        REVIEW_IMG_NO = #{reviewImgNo}
+    WHERE REVIEW_NO = #{reviewNo}
+</update>
 
 
 

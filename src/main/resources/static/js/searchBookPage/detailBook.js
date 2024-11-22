@@ -1,3 +1,4 @@
+/* 불러오기용 JS 별점 */
 const rateWrap = document.querySelectorAll('.rating'),
         label = document.querySelectorAll('.rating .rating__label'),
         input = document.querySelectorAll('.rating .rating__input'),
@@ -12,14 +13,29 @@ rateWrap.forEach(wrap => {
     wrap.addEventListener('mouseenter', () => {
         stars = wrap.querySelectorAll('.star-icon');
 
-        
+        stars.forEach((starIcon, idx) => {
+            starIcon.addEventListener('mouseenter', () => {
+                initStars(); 
+                filledRate(idx, labelLength); 
+
+                for (let i = 0; i < stars.length; i++) {
+                    if (stars[i].classList.contains('filled')) {
+                        stars[i].style.opacity = opacityHover;
+                    }
+                }
+            });
+
+            starIcon.addEventListener('mouseleave', () => {
+                starIcon.style.opacity = '1';
+                checkedRate(); 
+            });
 
             wrap.addEventListener('mouseleave', () => {
                 starIcon.style.opacity = '1';
             });
         });
     });
-
+});
 
 function filledRate(index, length) {
     if (index <= length) {
@@ -63,7 +79,7 @@ function initStars() {
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------
-// 작성용 별점 처리시작 
+// 리뷰 작성 start
 const writeRateWrap = document.querySelectorAll('.write_rating'); // 작성용 별점 섹션
 let writeStars;
 
@@ -194,9 +210,9 @@ document.querySelector("#submitReview").addEventListener("click", (event) => {
         body: formData
     })
         .then((response) => {
-            if(response.ok) return response.text(); // JSON 응답 처리
+            if (response.ok) return response.text(); // JSON 응답 처리
             throw new Error("서버 오류 발생!");
-            
+
         })
         .then((data) => {
             if (data) {
@@ -210,14 +226,123 @@ document.querySelector("#submitReview").addEventListener("click", (event) => {
             console.error(err);
         });
 });
+/* 리뷰 작성 end */
+
+/*-------------------------------------- 리뷰 수정 ------------------------------------------- */
+document.addEventListener('DOMContentLoaded', () => {
+    const wrap = document.querySelector('.wrap');
+
+    if (!wrap) {
+        console.error("'.wrap' 요소를 찾을 수 없습니다. HTML 구조를 확인하세요.");
+        return;
+    }
+
+    wrap.addEventListener('click', (event) => {
+        const target = event.target;
+
+        if (target.id === 'updateReview') {
+            const reviewNo = target.getAttribute('data-review-no');
+            if (!reviewNo) {
+                console.error('리뷰 번호를 찾을 수 없습니다.');
+                return;
+            }
+            console.log(`수정 버튼 클릭됨. 리뷰 번호: ${reviewNo}`);
+            toggleEditMode(reviewNo, target);
+        }
+    });
+});
+
+function toggleEditMode(reviewNo, button) {
+    console.log(`toggleEditMode 실행. 리뷰 번호: ${reviewNo}`);
+    
+    const titleInput = document.querySelector(`input[data-review-no="${reviewNo}"]`);
+    const contentTextarea = document.querySelector(`textarea[data-review-no="${reviewNo}"]`);
+    const cancelButton = document.querySelector(`button[data-review-no="${reviewNo}"][id="deleteReview"]`);
+    const rating = document.querySelector(`.rating[data-review-no="${reviewNo}"]`);
+    const ratingInputs = rating?.querySelectorAll('input[type="radio"]');
+    const imageInput = document.querySelector(`#imageInput`);
+
+    if (!titleInput || !contentTextarea || !cancelButton || !ratingInputs) {
+        console.error(`리뷰 요소를 찾을 수 없습니다. 리뷰 번호: ${reviewNo}`);
+        return;
+    }
+
+    if (button.textContent === "수정") {
+        console.log(`수정 모드 활성화: 리뷰 번호 ${reviewNo}`);
+
+        titleInput.removeAttribute('readonly');
+        contentTextarea.removeAttribute('readonly');
+        rating.classList.remove('readonly'); // 수정 가능 상태
+        ratingInputs.forEach(input => input.removeAttribute('disabled'));
+        if (imageInput) imageInput.removeAttribute('disabled');
+
+        titleInput.style.border = "1px solid #ccc";
+        contentTextarea.style.border = "1px solid #ccc";
+
+        button.textContent = "저장";
+        cancelButton.textContent = "취소";
+
+        titleInput.focus();
+    } else if (button.textContent === "저장") {
+        console.log(`저장 요청: 리뷰 번호 ${reviewNo}`);
+
+        const updatedTitle = titleInput.value.trim();
+        const updatedContent = contentTextarea.value.trim();
+        const updatedRating = [...ratingInputs].find(input => input.checked)?.value;
+        const updatedImage = imageInput?.files[0];
+
+        if (!updatedTitle || !updatedContent || !updatedRating) {
+            alert("제목, 내용, 별점을 모두 입력해주세요.");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('reviewNo', reviewNo);
+        formData.append('reviewTitle', updatedTitle);
+        formData.append('reviewContent', updatedContent);
+        formData.append('rating', updatedRating);
+        if (updatedImage) {
+            formData.append('image', updatedImage);
+        }
+
+        fetch(`/searchBookPage/updateReview/${reviewNo}`, {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('리뷰가 수정되었습니다.');
+                    resetEditMode(titleInput, contentTextarea, rating, ratingInputs, imageInput, button, cancelButton);
+                } else {
+                    throw new Error('서버 응답 실패');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('리뷰 수정 중 문제가 발생했습니다. 다시 시도해주세요.');
+            });
+        
+    }
+}
+
+function resetEditMode(titleInput, contentTextarea, rating, ratingInputs, imageInput, button, cancelButton) {
+    console.log('수정 모드 종료.');
+
+    titleInput.setAttribute('readonly', true);
+    contentTextarea.setAttribute('readonly', true);
+    titleInput.style.border = "none";
+    contentTextarea.style.border = "none";
+
+    rating.classList.add('readonly'); // 읽기 전용 상태
+    ratingInputs.forEach(input => input.setAttribute('disabled', true));
+    if (imageInput) imageInput.setAttribute('disabled', true);
+
+    button.textContent = "수정";
+    cancelButton.textContent = "삭제";
+}
 
 
-  
-
-
-
-
-
+/*-------------------------------------- 리뷰 수정 end ------------------------------------------- */
 /* 수정전 별점 JS */
 /* 
 const rateWrap = document.querySelectorAll('.rating'),

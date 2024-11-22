@@ -197,7 +197,7 @@ public class SearchBookPageController {
 	    return message;
 	}
 	
-	
+	// 리뷰 작성
 	@ResponseBody
 	@PostMapping("/writeReview/{bookNo}")
 	public boolean writeReview(
@@ -214,7 +214,24 @@ public class SearchBookPageController {
 
 	}
 
-
+	@ResponseBody
+	@PostMapping("/updateReview/{reviewNo}")
+	public String updateReview(
+			@PathVariable("reviewNo") int reviewNo,
+			@SessionAttribute("loginMember") Member loginMember, // 로그인한 사용자 정보
+			@RequestParam("rating") double score,
+			@RequestParam("reviewTitle") String title,
+			@RequestParam("reviewContent") String content,
+			@RequestParam(value = "image", required = false) MultipartFile file,
+			RedirectAttributes ra) {
+		
+		
+		
+		return service.updateReview(reviewNo, title, content, score, loginMember.getMemberNo(), file);
+		
+	}
+	
+	
 	
 	
 	
