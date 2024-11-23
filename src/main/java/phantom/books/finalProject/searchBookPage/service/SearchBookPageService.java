@@ -40,13 +40,14 @@ public interface SearchBookPageService {
 	List<Review> getReviewsByBookNo(int bookNo);
 
 
-	// 리뷰 작성
-	boolean writeReview(int bookNo, String title, String content, double score, int memberNo, MultipartFile file);
-
-	// 리뷰 수정
-	String updateReview(int reviewNo, String title, String content, double score, int memberNo, MultipartFile file);
-
-
+	/*
+	 * // 리뷰 작성 boolean writeReview(int bookNo, String title, String content, double
+	 * score, int memberNo, MultipartFile file);
+	 * 
+	 * // 리뷰 수정 String updateReview(int reviewNo, String title, String content,
+	 * double score, int memberNo, MultipartFile file);
+	 * 
+	 */
 	
 	 
 

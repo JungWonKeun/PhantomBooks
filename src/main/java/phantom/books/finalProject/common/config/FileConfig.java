@@ -64,13 +64,14 @@ public class FileConfig implements WebMvcConfigurer {
 	
 	// ----------------------------------------------------------
 	
-	@Value("${phantom.books.reviewImage.resource-handler}")
-	private String reviewImageesourceHandler;
-	
-	@Value("${phantom.books.reviewImage.resource-location}")
-	private String reviewImageResourceLocation;
-	
-	
+	/*
+	 * @Value("${phantom.books.reviewImage.resource-handler}") private String
+	 * reviewImagesourceHandler;
+	 * 
+	 * @Value("${phantom.books.reviewImage.resource-location}") private String
+	 * reviewImageResourceLocation;
+	 * 
+	 */
 	/* MultipartResolver 설정 */
 	@Bean
 	public MultipartConfigElement configElement() {
@@ -125,12 +126,15 @@ public class FileConfig implements WebMvcConfigurer {
 		//  /images/board/ 로 시작하는 주소로 요청이 있을 경우
 		//  서버 컴퓨터에 C:/uploadFiles/board/ 폴더로 연결	
 		
-        registry.addResourceHandler("/images/bookCover/**")
+       registry.addResourceHandler("/images/bookCover/**")
         .addResourceLocations("file:///C:/images/bookCover/");
         
-        registry
-        .addResourceHandler(reviewImageesourceHandler)
-        .addResourceLocations(reviewImageResourceLocation);
+		
+		/*
+		 * registry .addResourceHandler(reviewImagesourceHandler)
+		 * .addResourceLocations(reviewImageResourceLocation);
+		 */
+		 
 	}
 	
 	 
