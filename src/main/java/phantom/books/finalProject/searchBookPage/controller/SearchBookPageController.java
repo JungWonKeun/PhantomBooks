@@ -197,43 +197,57 @@ public class SearchBookPageController {
 	    return message;
 	}
 	
-	// 리뷰 작성
-	@ResponseBody
-	@PostMapping("/writeReview/{bookNo}")
-	public boolean writeReview(
-	    @PathVariable("bookNo") int bookNo, // URL 경로에서 bookNo 가져오기
-	    @SessionAttribute("loginMember") Member loginMember, // 로그인한 사용자 정보
-	    @RequestParam("rating") double score,
-	    @RequestParam("title") String title,
-	    @RequestParam("content") String content,
-	    @RequestParam(value = "reviewImage", required = false) MultipartFile file,
-	    RedirectAttributes ra
-	) {
-        // 서비스 호출
-        return service.writeReview(bookNo, title, content, score, loginMember.getMemberNo(), file);
-
-	}
-
-	// 리뷰 수정
-	@ResponseBody
-	@PostMapping("/updateReview/{reviewNo}")
-	public String updateReview(
-			@PathVariable("reviewNo") int reviewNo,
-			@SessionAttribute("loginMember") Member loginMember, // 로그인한 사용자 정보
-			@RequestParam("rating") double score,
-			@RequestParam("reviewTitle") String title,
-			@RequestParam("reviewContent") String content,
-			@RequestParam(value = "image", required = false) MultipartFile file,
-			RedirectAttributes ra) {
-		
-		
-		
-		return service.updateReview(reviewNo, title, content, score, loginMember.getMemberNo(), file);
-		
-	}
-	
-	
-	
+	/*
+	 * // 리뷰 작성
+	 * 
+	 * @ResponseBody
+	 * 
+	 * @PostMapping("/writeReview/{bookNo}") public boolean writeReview(
+	 * 
+	 * @PathVariable("bookNo") int bookNo, // URL 경로에서 bookNo 가져오기
+	 * 
+	 * @SessionAttribute("loginMember") Member loginMember, // 로그인한 사용자 정보
+	 * 
+	 * @RequestParam("rating") double score,
+	 * 
+	 * @RequestParam("title") String title,
+	 * 
+	 * @RequestParam("content") String content,
+	 * 
+	 * @RequestParam(value = "reviewImage", required = false) MultipartFile file,
+	 * RedirectAttributes ra ) { // 서비스 호출 return service.writeReview(bookNo, title,
+	 * content, score, loginMember.getMemberNo(), file);
+	 * 
+	 * }
+	 * 
+	 * // 리뷰 수정
+	 * 
+	 * @ResponseBody
+	 * 
+	 * @PostMapping("/updateReview/{reviewNo}") public String updateReview(
+	 * 
+	 * @PathVariable("reviewNo") int reviewNo,
+	 * 
+	 * @SessionAttribute("loginMember") Member loginMember, // 로그인한 사용자 정보
+	 * 
+	 * @RequestParam("rating") double score,
+	 * 
+	 * @RequestParam("reviewTitle") String title,
+	 * 
+	 * @RequestParam("reviewContent") String content,
+	 * 
+	 * @RequestParam(value = "image", required = false) MultipartFile file,
+	 * RedirectAttributes ra) {
+	 * 
+	 * 
+	 * 
+	 * return service.updateReview(reviewNo, title, content, score,
+	 * loginMember.getMemberNo(), file);
+	 * 
+	 * }
+	 * 
+	 * 
+	 */
 	
 	
 	
