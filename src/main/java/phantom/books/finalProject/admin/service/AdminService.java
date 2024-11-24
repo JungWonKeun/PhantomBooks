@@ -11,7 +11,7 @@ public interface AdminService {
 	 * @param cp
 	 * @return
 	 */
-	Map<String, Object> memberList(int cp, String term, String sort);
+	Map<String, Object> memberList(int cp, String term, String sort, String date);
 
 	/** 회원 삭제
 	 * @param memberNo

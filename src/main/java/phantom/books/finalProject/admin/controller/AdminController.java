@@ -100,9 +100,10 @@ public class AdminController {
 	public Map<String, Object> memberList(
 	    @RequestParam("cp") int cp,
 	    @RequestParam("sort") String sort,
-	    @RequestParam(value = "term", required = false, defaultValue = "year") String term
+	    @RequestParam(value = "term", required = false, defaultValue = "year") String term,
+	    @RequestParam(value = "date", required = false) String date
 	) {
-	    return service.memberList(cp, term, sort);
+	    return service.memberList(cp, term, sort, date);
 	}
 	
 	/** 회원 삭제

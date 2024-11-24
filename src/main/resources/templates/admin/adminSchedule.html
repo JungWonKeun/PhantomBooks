@@ -56,6 +56,10 @@
           <ul class="submenu">
             <li><a href="/admin/myPage">&nbsp;&nbsp;&nbsp;-&nbsp;내정보 변경</a></li>
             <li><a href="/admin">&nbsp;&nbsp;&nbsp;-&nbsp;회원 관리</a></li>
+            <li>
+              <a href="/admin/adminManager" 
+                th:if= "${session.loginMember.name == '관리자' }">&nbsp;&nbsp;&nbsp;-&nbsp;관리자 계정 관리</a>
+            </li>
           </ul>
         </h3>
       
@@ -75,13 +79,13 @@
             <li><a href="/admin/newBook">&nbsp;&nbsp;&nbsp;-&nbsp;새 책 등록</a></li>
           </ul>
         </h3>
-      
         <h3 class="menu">
           <i class="fa-solid fa-question"></i>&nbsp;&nbsp;고객 지원
           <ul class="submenu">
             <li><a href="/admin/query">&nbsp;&nbsp;&nbsp;-&nbsp;문의 관리</a></li>
             <li><a href="/admin/review">&nbsp;&nbsp;&nbsp;-&nbsp;리뷰 관리</a></li>
             <li><a href="/admin/faq">&nbsp;&nbsp;&nbsp;-&nbsp;FAQ 관리</a></li>
+            <li><a href="/admin/notice">&nbsp;&nbsp;&nbsp;-&nbsp;공지사항 관리</a></li>
           </ul>
         </h3>
       </div>

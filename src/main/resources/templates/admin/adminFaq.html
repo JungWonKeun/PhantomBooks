@@ -60,7 +60,10 @@
         <ul class="submenu">
           <li><a href="/admin/myPage">&nbsp;&nbsp;&nbsp;-&nbsp;내정보 변경</a></li>
           <li><a href="/admin">&nbsp;&nbsp;&nbsp;-&nbsp;회원 관리</a></li>
-          <li><a href="/admin/signUp">&nbsp;&nbsp;&nbsp;-&nbsp;관리자 계정 생성</a></li>
+          <li>
+            <a href="/admin/adminManager" 
+              th:if= "${session.loginMember.name == '관리자' }">&nbsp;&nbsp;&nbsp;-&nbsp;관리자 계정 관리</a>
+          </li>
         </ul>
       </h3>
     

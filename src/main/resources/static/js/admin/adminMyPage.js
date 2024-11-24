@@ -158,7 +158,7 @@ adminEmail.addEventListener("input", e=>{
   }
   emailMessage.innerText = emailMessageObj.check;
   checkObj.adminEmail = true;
-
+})
 
 
 

@@ -53,44 +53,44 @@
 
   <section class="content-box">
     <div class="sideBar">
-      <h3 class="menu">
-        <i class="fa-solid fa-users"></i>&nbsp;&nbsp;사용자 관련 관리
-        <ul class="submenu">
-          <li><a href="/admin/myPage">&nbsp;&nbsp;&nbsp;-&nbsp;내정보 변경</a></li>
-          <li><a href="/admin">&nbsp;&nbsp;&nbsp;-&nbsp;회원 관리</a></li>
-          <li>
-            <a href="/admin/adminManager" 
-              th:if= "${session.loginMember.name == '관리자' }">&nbsp;&nbsp;&nbsp;-&nbsp;관리자 계정 정보확인</a>
-          </li>
-        </ul>
-      </h3>
-    
-      <h3 class="menu">
-        <i class="fa-solid fa-arrow-trend-up"></i>&nbsp;&nbsp;매출 및 일정 관리
-        <ul class="submenu">
-          <li><a href="/admin/sales">&nbsp;&nbsp;&nbsp;-&nbsp;매출 관리</a></li>
-          <li><a href="/admin/schedule">&nbsp;&nbsp;&nbsp;-&nbsp;일정 관리</a></li>
-        </ul>
-      </h3>
+        <h3 class="menu">
+          <i class="fa-solid fa-users"></i>&nbsp;&nbsp;사용자 관련 관리
+          <ul class="submenu">
+            <li><a href="/admin/myPage">&nbsp;&nbsp;&nbsp;-&nbsp;내정보 변경</a></li>
+            <li><a href="/admin">&nbsp;&nbsp;&nbsp;-&nbsp;회원 관리</a></li>
+            <li>
+              <a href="/admin/adminManager" 
+                th:if= "${session.loginMember.name == '관리자' }">&nbsp;&nbsp;&nbsp;-&nbsp;관리자 계정 관리</a>
+            </li>
+          </ul>
+        </h3>
       
-      <h3 class="menu">
-        <i class="fa-solid fa-warehouse"></i>&nbsp;&nbsp;도서 관리
-        <ul class="submenu">
-          <li><a href="/admin/manager">&nbsp;&nbsp;&nbsp;-&nbsp;재고 관리</a></li>
-          <li><a href="/admin/request">&nbsp;&nbsp;&nbsp;-&nbsp;발주 요청</a></li>
-          <li><a href="/admin/newBook">&nbsp;&nbsp;&nbsp;-&nbsp;새 책 등록</a></li>
-        </ul>
-      </h3>
-      <h3 class="menu">
-        <i class="fa-solid fa-question"></i>&nbsp;&nbsp;고객 지원
-        <ul class="submenu">
-          <li><a href="/admin/query">&nbsp;&nbsp;&nbsp;-&nbsp;문의 관리</a></li>
-          <li><a href="/admin/review">&nbsp;&nbsp;&nbsp;-&nbsp;리뷰 관리</a></li>
-          <li><a href="/admin/faq">&nbsp;&nbsp;&nbsp;-&nbsp;FAQ 관리</a></li>
-          <li><a href="/admin/notice">&nbsp;&nbsp;&nbsp;-&nbsp;공지사항 관리</a></li>
-        </ul>
-      </h3>
-    </div>
+        <h3 class="menu">
+          <i class="fa-solid fa-arrow-trend-up"></i>&nbsp;&nbsp;매출 및 일정 관리
+          <ul class="submenu">
+            <li><a href="/admin/sales">&nbsp;&nbsp;&nbsp;-&nbsp;매출 관리</a></li>
+            <li><a href="/admin/schedule">&nbsp;&nbsp;&nbsp;-&nbsp;일정 관리</a></li>
+          </ul>
+        </h3>
+        
+        <h3 class="menu">
+          <i class="fa-solid fa-warehouse"></i>&nbsp;&nbsp;도서 관리
+          <ul class="submenu">
+            <li><a href="/admin/manager">&nbsp;&nbsp;&nbsp;-&nbsp;재고 관리</a></li>
+            <li><a href="/admin/request">&nbsp;&nbsp;&nbsp;-&nbsp;발주 요청</a></li>
+            <li><a href="/admin/newBook">&nbsp;&nbsp;&nbsp;-&nbsp;새 책 등록</a></li>
+          </ul>
+        </h3>
+        <h3 class="menu">
+          <i class="fa-solid fa-question"></i>&nbsp;&nbsp;고객 지원
+          <ul class="submenu">
+            <li><a href="/admin/query">&nbsp;&nbsp;&nbsp;-&nbsp;문의 관리</a></li>
+            <li><a href="/admin/review">&nbsp;&nbsp;&nbsp;-&nbsp;리뷰 관리</a></li>
+            <li><a href="/admin/faq">&nbsp;&nbsp;&nbsp;-&nbsp;FAQ 관리</a></li>
+            <li><a href="/admin/notice">&nbsp;&nbsp;&nbsp;-&nbsp;공지사항 관리</a></li>
+          </ul>
+        </h3>
+      </div>
   
   
     <div class="content">
@@ -143,27 +143,6 @@
 
   const adminEmail = document.querySelector("#adminEmail");
   adminEmail.value = email;
-
-
-  const createAdmin = document.querySelector("#createAdmin");
-
-  createAdmin.addEventListener("click", () =>{
-
-    const alarm = confirm("계정을 추가 생성하시겠습니까?");
-
-    if(alarm){
-      fetch("/admin/signUp")
-      .then(response => {
-        if(response.ok) return response.text();
-        throw new Error("추가 실패");
-      })
-      .then(result => {
-        if(result == null) return alert(name + "님은 계정을 생성할 수 없습니다.");
-
-        alert(result +"로 계정을 생성하였습니다.");
-      })
-    }
-  })
 </script>
 </body>
 </html>
