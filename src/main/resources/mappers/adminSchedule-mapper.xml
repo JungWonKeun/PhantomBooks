@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="phantom.books.finalProject.admin.mapper.AdminScheduleMapper">
+
+	<!-- 일정 조회하기 -->
+    <select id="calendarList" resultType="Calendar">
+        SELECT
+            CALENDAR_NO,
+            TITLE AS TITLE,
+            TO_CHAR(START_DATE, 'YYYY-MM-DD"T"HH24:MI:SS') AS START_DATE,
+            TO_CHAR(END_DATE, 'YYYY-MM-DD"T"HH24:MI:SS') AS END_DATE,
+            ALL_DAY
+        FROM "CALENDAR"
+    </select>
+
+    <!-- 일정 저장하기 -->
+    <!-- 저장하고 생성된 no(key) 값을 return 시킨다 -->
+    <insert id="calendarSave" parameterType="Calendar" useGeneratedKeys="true" keyColumn="CALENDAR_NO" keyProperty="calendarNo" >
+        INSERT INTO "CALENDAR"(
+            CALENDAR_NO,
+            MEMBER_NO,
+            TITLE,
+            START_DATE,
+            END_DATE,
+            ALL_DAY
+        ) VALUES (
+            (SELECT NVL(MAX(CALENDAR_NO),  0) + 1 AS CALENDAR_NO  FROM CALENDAR),
+            #{memberNo},
+            #{title},
+            TO_DATE(#{startDate}, 'YYYY-MM-DD HH24:MI:SS'),
+            TO_DATE(#{endDate}, 'YYYY-MM-DD HH24:MI:SS'),
+            #{allDay}
+                 )
+    </insert>
+
+    <!-- 일정 삭제하기 -->
+    <delete id="calendarDelete">
+        DELETE FROM CALENDAR WHERE CALENDAR_NO = #{calendarNo}
+    </delete>
+
+
+    <!-- 일정 수정하기 -->
+    <update id="eventUpdate" parameterType="Calendar">
+        UPDATE CALENDAR SET
+                            CALENDAR_TITLE = #{title} ,
+                            START_DATE = TO_DATE(#{startDate}, 'YYYY-MM-DD"T"HH24:MI:SS') ,
+                            END_DATE = TO_DATE(#{endDate}, 'YYYY-MM-DD"T"HH24:MI:SS') ,
+                            ALL_DAY = #{allDay}
+        WHERE CALENDAR_NO = #{calendarNo}
+    </update>
+	
+	
+</mapper>

@@ -32,7 +32,6 @@ public interface AdminMapper {
   // admin계정 조회
   int selectAdmin();
 
-
   // Member Table 관리자 계정 자동생성
   int insertMember(@Param("memberId") int memberId,
   								@Param("encPw") String encPw);

@@ -13,6 +13,7 @@
   background-color: #EFEFEF;
   font-family: 'Pretendard-Regular';
   box-sizing: border-box;
+  /* border: 1px black solid; */
 }
 
 html, body {
@@ -176,4 +177,57 @@ body{
 .cal-btn[disabled] {
   border: 0;
   opacity: .5;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 20px;
+  width: 100%; 
+  min-height: 100vh;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+/* 일요일 날짜: 빨간색 */
+.fc-day-sun a {
+  color: red;
+}
+
+/* 토요일 날짜: 파란색 */
+.fc-day-sat a {
+  color: blue;
+}
+
+.fc-day-mon a{
+  color: gray;
+}
+
+.fc-day-tue a{
+  color: gray;
+}
+
+.fc-day-wed a {
+  color: gray;
+}
+.fc-day-thu a {
+  color: gray;
+}
+
+.fc-day-fri a {
+  color: gray;
+}
+
+.fc-button-primary {
+  color: red;
+}
+
+#calendar{
+  height: 550px;
+  width: 900px;
+}
+
+.fc-event-title {
+  color: black;
 }
