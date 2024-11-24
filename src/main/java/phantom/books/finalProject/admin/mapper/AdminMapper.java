@@ -18,20 +18,19 @@ public interface AdminMapper {
 	int countDelFl();
 	
 	// 메인페이지 페이지네이션
-	int countMemberList(@Param("term") String term, @Param("sort") String sort);
+	int countMemberList(@Param("cp") int cp, @Param("term") String term, @Param("sort") String sort, @Param("date") String date);
 
 	// 회원리스트
-	List<Member> memberList(@Param("term") String term, @Param("sort") String sort, RowBounds bounds);
+	List<Member> memberList(@Param("cp") int cp, @Param("term") String term, @Param("sort") String sort, @Param("date") String date, RowBounds bounds);
 
 	// 회원 삭제
 	int deleteMember(int memberNo);
 
 	// 6개월 이상 로그인 안 한 회원 수 조회
-    int countInactiveMember();
+  int countInactiveMember();
 
   // admin계정 조회
   int selectAdmin();
-
 
   // Member Table 관리자 계정 자동생성
   int insertMember(@Param("memberId") int memberId,

@@ -7,6 +7,29 @@ document.querySelectorAll('.menu').forEach(menu => {
   });
 });
 
+const createAdmin = document.querySelector("#createAdmin");
+
+createAdmin.addEventListener("click", () =>{
+
+  const alarm = confirm("계정을 추가 생성하시겠습니까?");
+
+  if(alarm){
+    fetch("/admin/signUp")
+    .then(response => {
+      if(response.ok) return response.text();
+      throw new Error("추가 실패");
+    })
+    .then(result => {
+      if(result != null){
+        alert(result +"로 계정을 생성하였습니다.");
+        listUp(1);
+      }
+
+      location.reload();
+    })
+  }
+})
+
 const listUp = (cp) => {
   fetch("/admin/adminManager/adminList?cp="+cp)
   .then(response => {
@@ -52,22 +75,37 @@ const listUp = (cp) => {
         if(alarm){
 
           const input1 = document.createElement("input");
-          input1.placeholder = "담당업무를 기입하세요";
-          th3.innerHTML = "";
-          th3.append(input1);
-          const input2 = document.createElement("input");
-          input2.placeholder = "담당자 이메일을 입력하세요";
-          th4.innerHTML = "";
-          th4.append(input2);
 
+          if(th3.value = ""){
+            input1.placeholder = "담당업무를 기입하세요";
+          }
+          
+          th3.innerHTML = "";
+          input1.value = admin.adminName;
+
+          th3.append(input1);
+
+          const input2 = document.createElement("input");
+
+          if(th4.value = ""){
+            input2.placeholder = "담당자 이메일을 입력하세요";
+          }
+
+          th4.innerHTML = "";
+          input2.value = admin.adminEmail;
+          th4.append(input2);
+          
           button1.style.display = "none";
 
-          const button = document.createElement("button");
-          button.innerHTML = "수정하기";
+          const btn1 = document.createElement("button");
+          const btn2 = document.createElement("button");
+          btn1.innerHTML = "수정";
+          btn2.innerHTML = "취소";
 
-           th5.append(button);
 
-          button.addEventListener("click", () => {
+          th5.append(btn1, btn2);
+
+          btn1.addEventListener("click", () => {
           
           const adminName = input1.value.trim();
           const adminEmail = input2.value.trim();
@@ -92,6 +130,10 @@ const listUp = (cp) => {
             }
           })
           .catch(err => console.error(err));
+          })
+
+          btn2.addEventListener("click", () => {
+            location.reload();
           })
         }
       })
@@ -175,7 +217,7 @@ const paginationAddEvent = () => {
       if(a.classList.contains('current')) return;
       
       const cp = e.target.dataset.page;
-      listUp(cp, sortSelect.value);
+      listUp(cp);
     });
   });
 }

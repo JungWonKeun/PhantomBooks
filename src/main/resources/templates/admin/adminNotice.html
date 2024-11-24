@@ -59,7 +59,10 @@
         <ul class="submenu">
           <li><a href="/admin/myPage">&nbsp;&nbsp;&nbsp;-&nbsp;내정보 변경</a></li>
           <li><a href="/admin">&nbsp;&nbsp;&nbsp;-&nbsp;회원 관리</a></li>
-          <li><a href="/admin/signUp">&nbsp;&nbsp;&nbsp;-&nbsp;관리자 계정 생성</a></li>
+          <li>
+            <a href="/admin/adminManager" 
+              th:if= "${session.loginMember.name == '관리자' }">&nbsp;&nbsp;&nbsp;-&nbsp;관리자 계정 관리</a>
+          </li>
         </ul>
       </h3>
     
@@ -104,6 +107,9 @@
       <table class="notice-box">
         <thead class="notice">
           <tr>
+            <th class="noticeId">
+              <input type="checkbox">
+            </th>
             <th class="noticeId">글 번호</th>
             <th class="title">제목</th>
             <th class="createDate">작성일자</th>
@@ -123,12 +129,10 @@
           <th:block th:unless="${#lists.isEmpty(noticeList)}">
             <tr th:each= "notice:${noticeList}"
                 th:object="${notice}">  
-              
-              <td>
-                
-              </td>
-
-              <td th:text="*{noticeId}" th:name="*{noticeId}">
+              <th>
+                <input type="checkbox">
+              </th>
+              <td th:text="*{noticeId}" >
                 FAQ 번호
               </td>
               <td th:text="*{title}">
@@ -147,7 +151,6 @@
                 <button class="changeBtn">
                   노출 상태 변경<input type="text" th:value="*{noticeId}" class="updateId" hidden>
                 </button>
-                
               </td>
             </tr>
           </th:block>

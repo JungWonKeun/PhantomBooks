@@ -10,8 +10,8 @@ document.querySelectorAll('.menu').forEach(menu => {
 });
 
 
-const listUp = (cp, sort, term) => {
-  fetch("/admin/memberList?cp="+cp + "&sort="+sort + "&term=" +term)
+const listUp = (cp, sort, term, date) => {
+  fetch("/admin/memberList?cp="+cp + "&sort="+sort + "&term=" +term +"&date=" + date)
   .then(response => {
     if(response.ok) return response.json();
     throw new Error("조회 실패");
@@ -244,11 +244,10 @@ dateSelect.addEventListener("click", () => {
 
   date.addEventListener("input", ()=>{
 
-    const text = date.value.trim();
+    term = "dateSelect";
+    const date = date.value.trim();
     
-    term = text;
-  
-    listUp(1, sortSelect.value, term);
+    listUp(1, sortSelect.value, term, date);
   })
 });
 
@@ -305,11 +304,11 @@ const paginationAddEvent = () => {
       if(a.classList.contains('current')) return;
       
       const cp = e.target.dataset.page;
-      listUp(cp, sortSelect.value);
+      listUp(cp, sortSelect.value, term);
     });
   });
 }
 
 document.addEventListener("DOMContentLoaded",()=>{
-  listUp(1, sortSelect.value, term);
+  listUp(1, sortSelect.value, termSelect.value);
 })

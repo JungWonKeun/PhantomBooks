@@ -27,7 +27,7 @@ public class AdminServiceImpl implements AdminService{
 	
 	// 메인 페이지 회원 목록 조회
 	@Override
-	public Map<String, Object> memberList(int cp, String term, String sort) {
+	public Map<String, Object> memberList(int cp, String term, String sort, String date) {
 		
 		// 전체 회원 수 조회
 		int countMember = mapper.countMember();
@@ -35,11 +35,12 @@ public class AdminServiceImpl implements AdminService{
 		// 탈퇴한 회원 수 조회
 		int countDelFl = mapper.countDelFl();
 		
-		// sort 조건 만족하는 회원 수 조회
-		int countMemberList = mapper.countMemberList(term, sort);
-		
 		// 6개월 이상 로그인 안 한 회원 수 조회
 		int countInactiveMember = mapper.countInactiveMember();
+
+		// sort 조건 만족하는 회원 수 조회
+		int countMemberList = mapper.countMemberList(cp, term, sort, date);
+		log.debug("조회된 값 : {}", countMemberList);
 		
 		Pagination pagination = new Pagination(cp, countMemberList, 10, 5);
 		
@@ -48,7 +49,9 @@ public class AdminServiceImpl implements AdminService{
 		
 		RowBounds bounds = new RowBounds(offset, limit);
 		
-		List<Member> memberList = mapper.memberList(term, sort, bounds);
+		List<Member> memberList = mapper.memberList(cp, term, sort, date, bounds);
+		log.debug("조회된 값 : {}", memberList);
+		
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("countMember", countMember);

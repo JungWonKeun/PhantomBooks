@@ -18,10 +18,15 @@
 		</choose>
 	</select>
 
-	<select id="noticeList" resultType="_int">
+	<select id="noticeList" resultType="Notice">
 		SELECT 
-			*
+			NOTICE_ID,
+			TITLE,
+			CONTENT,
+			TO_CHAR(CREATE_DATE,'YYYY-MM-DD')AS CREATE_DATE,
+			"VIEW"
 		FROM NOTICE
+		
 		<choose>
 			<when test="key == 'all'">
 				
@@ -33,6 +38,7 @@
 				WHERE STATUS = 1
 			</when>
 		</choose>
+		ORDER BY NOTICE_ID DESC
 	</select>
 
 </mapper>

@@ -38,7 +38,7 @@
       <!-- 관리자 담당 업무 -->
       <div class="adminName">
         <div th:if= "${session.loginMember}"
-             th:text="${session.loginMember.name}">
+             th:text="${session.loginMember.adminName}">
           담당
         </div>
       </div>
@@ -59,12 +59,8 @@
             <li><a href="/admin/myPage">&nbsp;&nbsp;&nbsp;-&nbsp;내정보 변경</a></li>
             <li><a href="/admin">&nbsp;&nbsp;&nbsp;-&nbsp;회원 관리</a></li>
             <li>
-              <a id="createAdmin"
-                th:if= "${session.loginMember.name == '관리자' }">&nbsp;&nbsp;&nbsp;-&nbsp;관리자 계정 생성</a>
-            </li>
-            <li>
               <a href="/admin/adminManager" 
-                th:if= "${session.loginMember.name == '관리자' }">&nbsp;&nbsp;&nbsp;-&nbsp;관리자 계정 정보확인</a>
+                th:if= "${session.loginMember.name == '관리자' }">&nbsp;&nbsp;&nbsp;-&nbsp;관리자 계정 관리</a>
             </li>
           </ul>
         </h3>
@@ -132,6 +128,8 @@
               </div>
               <div class="graph-section">
                 <a href="#">그래프 그릴거예여</a>
+
+               
               </div>
             </div>
       
@@ -193,30 +191,5 @@
 
 
   <script src="/js/admin/adminMain.js"></script>
-
-  <script th:inline="javaScript">
-    const name = /*[[${session.loginMember.name}]]*/ "세션에 담긴 로그인한 관리자 이름";
-    
-    const createAdmin = document.querySelector("#createAdmin");
-
-    createAdmin.addEventListener("click", () =>{
-
-      const alarm = confirm("계정을 추가 생성하시겠습니까?");
-
-      if(alarm){
-        fetch("/admin/signUp")
-        .then(response => {
-          if(response.ok) return response.text();
-          throw new Error("추가 실패");
-        })
-        .then(result => {
-          if(result == null) alert(name + "님은 계정을 생성할 수 없습니다.");
-
-          alert(result +"로 계정을 생성하였습니다.");
-        })
-      }
-    })
-  </script>
-
 </body>
 </html>
