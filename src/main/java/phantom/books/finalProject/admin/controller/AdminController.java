@@ -91,6 +91,11 @@ public class AdminController {
 	public String adminMyPage() {
 		return "admin/adminMyPage";
 	}
+	
+	@GetMapping("request")
+	public String request() {
+		return "admin/adminRequest";
+	}
 
 	
 //----------------------------------------------------------------------------------------------------------------------------

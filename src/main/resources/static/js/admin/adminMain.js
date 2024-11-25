@@ -118,7 +118,7 @@ const listUp = (cp, sort, term, date) => {
 
       // 아이디 클릭 시 사용자 정보 보이기
       td2.addEventListener("click", () => {
-        const popup = document.querySelector(".pop-up")
+        const popup = document.querySelector(".pop-up");
       })
 
       const td3 = document.createElement("td");
@@ -277,7 +277,7 @@ sortSelect.addEventListener('change', () => {
     termSelect.classList.add('hidden');
   }
 
-  listUp(1, selectedSort, term)
+  listUp(1, selectedSort, term.value, date.value)
     .then(() => {
       const salesTitle = document.querySelector('.sales-title');
       const salesCount = document.querySelector('.sales-count');

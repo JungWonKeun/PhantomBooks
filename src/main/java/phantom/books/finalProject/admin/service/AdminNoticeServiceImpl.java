@@ -43,4 +43,22 @@ public class AdminNoticeServiceImpl implements AdminNoticeService{
 		
 		return map;
 	}
+	
+	// 공지사항 작성
+	@Override
+	public int insertNotice(Notice notice) {
+		return mapper.insertNotice(notice);
+	}
+	
+	// 공지사항 수정
+	@Override
+	public int updateNotice(Notice notice) {
+		return mapper.updateNotice(notice);
+	}
+	
+	// 공지사항 삭제
+	@Override
+	public int deleteNotice(int noticeId) {
+		return mapper.deleteNotice(noticeId);
+	}
 }

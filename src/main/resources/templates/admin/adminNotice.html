@@ -130,7 +130,7 @@
             <tr th:each= "notice:${noticeList}"
                 th:object="${notice}">  
               <th>
-                <input type="checkbox">
+                <input type="checkbox" th:value="*{noticeId}">
               </th>
               <td th:text="*{noticeId}" >
                 FAQ 번호
@@ -200,12 +200,9 @@
 
       <div class="btn-area">
         <!-- 로그인 상태일 때만 글쓰기 버튼 노출 -->
-        <button th:if= "${session.loginMember}"
-                id="updateBtn">공지사항 수정</button>                     
-        <button th:if= "${session.loginMember}"
-                id="insertBtn">새 공지사항 작성</button>                     
-        <button th:if= "${session.loginMember}"
-                id="deleteBtn">공지사항 삭제</button>                     
+        <button id="insertBtn">새 공지사항 작성</button>                     
+        <button id="updateBtn">공지사항 수정</button>                     
+        <button id="deleteBtn">공지사항 삭제</button>                     
       </div>
   
       <div id="addPopupLayer" class="popup-layer-close">
@@ -215,7 +212,7 @@
         </div>
   
   
-        <button id="addFaqBtn">등록하기</button>
+        <button id="addNoticeBtn">등록하기</button>
         <button id="back">돌아가기</button>
       </div>
 
