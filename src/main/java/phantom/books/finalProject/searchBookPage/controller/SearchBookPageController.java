@@ -39,44 +39,31 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class SearchBookPageController {
 
 	private final SearchBookPageService service;
-	
-	
+
 	@GetMapping("/searchBooks")
-	public String searchBooks(
-	        @RequestParam(value = "searchTitle", required = false) String searchTitle,
-	        @RequestParam(value = "categories", required = false) int[] categories,  // int[]로 받기
-	        @RequestParam(value = "preferences", required = false) int[] preferences,  // int[]로 받기
-	        @RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
-	        Model model) {
+	public String searchBooks(@RequestParam(value = "searchTitle", required = false) String searchTitle,
+			@RequestParam(value = "categories", required = false) int[] categories, // int[]로 받기
+			@RequestParam(value = "preferences", required = false) int[] preferences, // int[]로 받기
+			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp, Model model) {
 
-	    // categories와 preferences는 int[]로 받았으므로, 바로 사용 가능
-	    // 원하는 작업을 처리합니다.
+		// categories와 preferences는 int[]로 받았으므로, 바로 사용 가능
+		// 원하는 작업을 처리합니다.
 
-	    log.debug("searchTitle: {}", searchTitle);
-	    log.debug("categories: {}", Arrays.toString(categories));  // int[]을 배열로 출력
-	    log.debug("preferences: {}", Arrays.toString(preferences));  // int[]을 배열로 출력
+		log.debug("searchTitle: {}", searchTitle);
+		log.debug("categories: {}", Arrays.toString(categories)); // int[]을 배열로 출력
+		log.debug("preferences: {}", Arrays.toString(preferences)); // int[]을 배열로 출력
 
-	    // 서비스 호출
-	    Map<String, Object> map = service.searchBooks(searchTitle, categories, preferences, cp);
+		// 서비스 호출
+		Map<String, Object> map = service.searchBooks(searchTitle, categories, preferences, cp);
 
-	    // 모델에 데이터 추가
-	    model.addAttribute("bookList", map.get("bookList"));
-	    model.addAttribute("pagination", map.get("pagination"));
-	    model.addAttribute("totalCount", map.get("totalCount"));
+		// 모델에 데이터 추가
+		model.addAttribute("bookList", map.get("bookList"));
+		model.addAttribute("pagination", map.get("pagination"));
+		model.addAttribute("totalCount", map.get("totalCount"));
 
-	    return "searchBookPage/searchBook";
+		return "searchBookPage/searchBook";
 	}
 
-
-
-
-
-
-
-
-
-
-	
 	/*
 	 * @GetMapping("/searchBooks") public String searchBooks(
 	 * 
@@ -89,7 +76,7 @@ public class SearchBookPageController {
 	 * 
 	 * return "searchBookPage/searchBook"; // 결과를 보여줄 Thymeleaf 템플릿 }
 	 */
-	
+
 	/*
 	 * @GetMapping("/searchBooks") public String searchBooks(
 	 * 
@@ -107,29 +94,25 @@ public class SearchBookPageController {
 
 // 상세조회
 	@GetMapping("/bookDetail/{bookNo}")
-	public String bookDetail(Model model,
-	                         @PathVariable("bookNo") int bookNo,
-	                         @SessionAttribute(value = "loginMember", required = false) Member loginMember                       
-	                         ) {
+	public String bookDetail(Model model, @PathVariable("bookNo") int bookNo,
+			@SessionAttribute(value = "loginMember", required = false) Member loginMember) {
 
-	    // 로그인된 사용자가 있는 경우, 세션에 memberId 설정
-	    if (loginMember != null) {
-	        model.addAttribute("memberId", loginMember.getMemberId());
-	    }
+		// 로그인된 사용자가 있는 경우, 세션에 memberId 설정
+		if (loginMember != null) {
+			model.addAttribute("memberId", loginMember.getMemberId());
+		}
 
-	    // 책 정보 가져오기
-	    Book book = service.bookDetail(bookNo);
-	    model.addAttribute("book", book);
+		// 책 정보 가져오기
+		Book book = service.bookDetail(bookNo);
+		model.addAttribute("book", book);
 
-	    // 리뷰 정보 가져오기
-	    List<Review> reviews = service.getReviewsByBookNo(bookNo);
-	    model.addAttribute("reviews", reviews);
+		// 리뷰 정보 가져오기
+		List<Review> reviews = service.getReviewsByBookNo(bookNo);
+		model.addAttribute("reviews", reviews);
 
-	    return "searchBookPage/bookDetail";
+		return "searchBookPage/bookDetail";
 	}
 
-
-	
 	// 선택한 책을 장바구니에 담기
 	@ResponseBody
 	@PutMapping("/addCart")
@@ -137,7 +120,7 @@ public class SearchBookPageController {
 			@SessionAttribute("loginMember") Member loginMember) {
 
 		int memberNo = loginMember.getMemberNo();
-		
+
 		log.debug("memberNo : {}", memberNo);
 		log.debug("paramMap: {}", paramMap);
 		List<Integer> bookNo = paramMap.get("bookNo");
@@ -146,37 +129,36 @@ public class SearchBookPageController {
 		 * log.debug("books.get(1): {}", books.get(1));
 		 */
 
-		
 		Map<String, Object> map = Map.of("bookNo", bookNo, "memberNo", memberNo);
-		
+
 //		  map.put("memberNo", (Integer)loginMember.getMemberNo());
 //		  log.debug("map: {}", map);
-		  int addCart = service.putCart(map);
-		 
-		  
-		  String message = null;
-		  
-		  if(addCart>0)message="추가 성공";
-		  
+		int addCart = service.putCart(map);
+
+		String message = null;
+
+		if (addCart > 0)
+			message = "추가 성공";
+
 		return "redirect:/searchBookPage/searchBooks";
 	}
-	
-	// 검색페이지에서 
+
+	// 검색페이지에서
 	@ResponseBody
 	@PutMapping("/singleCart")
-	public String singleCart(@SessionAttribute("loginMember") Member loginMember, 
+	public String singleCart(@SessionAttribute("loginMember") Member loginMember,
 			@RequestBody Map<String, Object> requestData) {
-	    int memberNo = loginMember.getMemberNo();
-	    int bookNo = (int) requestData.get("bookNo");
+		int memberNo = loginMember.getMemberNo();
+		int bookNo = (int) requestData.get("bookNo");
 
-	    log.debug("memberNo : {}", memberNo);
-	    log.debug("bookNo : {}", bookNo);
+		log.debug("memberNo : {}", memberNo);
+		log.debug("bookNo : {}", bookNo);
 
-	    int addCart = service.putSingleCart(memberNo, bookNo);
+		int addCart = service.putSingleCart(memberNo, bookNo);
 
-	    String message = addCart > 0 ? "추가 성공" : "추가 실패";
+		String message = addCart > 0 ? "추가 성공" : "추가 실패";
 
-	    return message;
+		return message;
 	}
 
 	// 상세조회에서 장바구니 추가
@@ -184,79 +166,53 @@ public class SearchBookPageController {
 	@PutMapping("/detailCart")
 	public String detailCart(@SessionAttribute("loginMember") Member loginMember,
 			@RequestBody Map<String, Object> requestData) {
-	    int memberNo = loginMember.getMemberNo();
-	    int bookNo = (int) requestData.get("bookNo");
+		int memberNo = loginMember.getMemberNo();
+		int bookNo = (int) requestData.get("bookNo");
 
-	    log.debug("memberNo : {}", memberNo);
-	    log.debug("bookNo : {}", bookNo);
+		log.debug("memberNo : {}", memberNo);
+		log.debug("bookNo : {}", bookNo);
 
-	    int addCart = service.detailCart(memberNo, bookNo);
+		int addCart = service.detailCart(memberNo, bookNo);
 
-	    String message = addCart > 0 ? "추가 성공" : "추가 실패";
+		String message = addCart > 0 ? "추가 성공" : "추가 실패";
 
-	    return message;
-	}
-	
-	/*
-	 * // 리뷰 작성
-	 * 
-	 * @ResponseBody
-	 * 
-	 * @PostMapping("/writeReview/{bookNo}") public boolean writeReview(
-	 * 
-	 * @PathVariable("bookNo") int bookNo, // URL 경로에서 bookNo 가져오기
-	 * 
-	 * @SessionAttribute("loginMember") Member loginMember, // 로그인한 사용자 정보
-	 * 
-	 * @RequestParam("rating") double score,
-	 * 
-	 * @RequestParam("title") String title,
-	 * 
-	 * @RequestParam("content") String content,
-	 * 
-	 * @RequestParam(value = "reviewImage", required = false) MultipartFile file,
-	 * RedirectAttributes ra ) { // 서비스 호출 return service.writeReview(bookNo, title,
-	 * content, score, loginMember.getMemberNo(), file);
-	 * 
-	 * }
-	 * 
-	 * // 리뷰 수정
-	 * 
-	 * @ResponseBody
-	 * 
-	 * @PostMapping("/updateReview/{reviewNo}") public String updateReview(
-	 * 
-	 * @PathVariable("reviewNo") int reviewNo,
-	 * 
-	 * @SessionAttribute("loginMember") Member loginMember, // 로그인한 사용자 정보
-	 * 
-	 * @RequestParam("rating") double score,
-	 * 
-	 * @RequestParam("reviewTitle") String title,
-	 * 
-	 * @RequestParam("reviewContent") String content,
-	 * 
-	 * @RequestParam(value = "image", required = false) MultipartFile file,
-	 * RedirectAttributes ra) {
-	 * 
-	 * 
-	 * 
-	 * return service.updateReview(reviewNo, title, content, score,
-	 * loginMember.getMemberNo(), file);
-	 * 
-	 * }
-	 * 
-	 * 
-	 */
-	
-	
-	
+		return message;
 	}
 
-
-
-
-
 	
+	  // 리뷰 작성
+	  
+	  @ResponseBody
+	  @PostMapping("/writeReview/{bookNo}") public boolean writeReview(
+	  @PathVariable("bookNo") int bookNo, // URL 경로에서 bookNo 가져오기
+	  @SessionAttribute("loginMember") Member loginMember, // 로그인한 사용자 정보
+	  @RequestParam("rating") double score,
+	  @RequestParam("title") String title,
+	  @RequestParam("content") String content,
+	  @RequestParam(value = "reviewImage", required = false) MultipartFile file,
+	  RedirectAttributes ra ) { // 서비스 호출
+	 return service.writeReview(bookNo, title,
+	  content, score, loginMember.getMemberNo(), file);
+	  
+	  }
+	 
+	  // 리뷰 수정
+	  @ResponseBody
+	  @PostMapping("/updateReview/{reviewNo}") public String updateReview(
+	  @PathVariable("reviewNo") int reviewNo,
+	  @SessionAttribute("loginMember") Member loginMember, // 로그인한 사용자 정보
+	  @RequestParam("rating") double score,
+	  @RequestParam("reviewTitle") String title,
+	  @RequestParam("reviewContent") String content,
+	  @RequestParam(value = "image", required = false) MultipartFile file,
+	  RedirectAttributes ra) {
+	  
+	  return service.updateReview(reviewNo, title, content, score,
+	  loginMember.getMemberNo(), file);
+	 
+	  }
+	  
+	  
+	 
 
-
+}
