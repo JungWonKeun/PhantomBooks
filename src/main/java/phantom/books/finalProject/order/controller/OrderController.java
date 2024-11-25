@@ -85,28 +85,22 @@ public class OrderController {
         @RequestBody OrderDto orderDto,
         @SessionAttribute(value = "loginMember", required = false) Member loginMember
     ) {
-        log.info("Request received at /order/submit");
-        log.info("Received OrderDto: {}", orderDto);
 
-        if (orderDto == null) {
-            log.error("OrderDto is null");
-            return new ResponseEntity<>(Map.of("message", "Invalid Order Data"), HttpStatus.BAD_REQUEST);
-        }
+       
 
         try {
             if (loginMember == null) {
-                log.error("User is not logged in");
                 throw new IllegalStateException("로그인이 필요합니다.");
             }
 
             orderDto.setMemberNo(loginMember.getMemberNo());
+            
             int orderNo = service.saveOrder(orderDto);
 
-            log.info("Order saved successfully with orderNo: {}", orderNo);
-            return new ResponseEntity<>(Map.of("message", "주문 성공", "orderNo", orderNo), HttpStatus.OK);
+            return ResponseEntity.ok(Map.of("success", true, "orderNo", orderNo));
         } catch (Exception e) {
-            log.error("Error processing order", e);
-            return new ResponseEntity<>(Map.of("message", "주문 실패"), HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                 .body(Map.of("success", false, "message", "주문 처리 중 오류가 발생했습니다."));
         }
     }
     

@@ -11,24 +11,31 @@
 
 <body>
     <header th:replace="~{common/common}"></header>
-    <main class="orderMain">
+    <main class="afterOrderMain">
         <h1>주문이 완료되었습니다!</h1>
 
         <section>
-            <h3>주문 정보</h3>
+            <h3>구매한 상품</h3>
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>상품명</th>
-                        <th>수량</th>
-                        <th>가격</th>
+                        <th>책 사진</th>
+                        <th>책 이름</th>
+                        <th>구매 개수</th>
+                        <th>상품 금액</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr th:each="item : ${orderItems}">
-                        <td th:text="${item.bookTitle}">상품명</td>
-                        <td th:text="${item.cartCount}">수량</td>
-                        <td th:text="${item.bookPrice * item.cartCount}">가격</td>
+                        <td>
+                            <img th:src="${item.bookCover != null ? item.bookCover : '/images/bookCover/default.jpg'}" 
+                                 alt="책 이미지" 
+                                 class="img-thumbnail" 
+                                 style="max-width: 100px;">
+                        </td>
+                        <td th:text="${item.bookTitle}">책 이름</td>
+                        <td th:text="${item.bookCount}">0</td>
+                        <td th:text="${item.bookPrice * item.bookCount}">0</td>
                     </tr>
                 </tbody>
             </table>

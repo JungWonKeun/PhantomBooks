@@ -67,17 +67,18 @@
         </tr>
       </thead>
       <tbody>
-        <tr th:each="item : ${orderItems}">
+        <tr th:each="item : ${orderItems}" th:attr="data-book-no=${item.bookNo}">
           <td>
             <img th:src="${item.bookCover != null ? item.bookCover : '/images/bookCover/default.jpg'}" alt="책이미지" class="book-cover">
           </td>
           <td th:text="${item.bookTitle}">상품명</td>
           <td th:text="${item.cartCount}">수량</td>
           <td>
-            <span class="book-price" data-price="${item.bookPrice * item.cartCount}" th:text="${item.bookPrice * item.cartCount}"></span>
+            <span class="book-price" th:attr="data-price=${item.bookPrice}" th:text="${item.bookPrice * item.cartCount}"></span>
           </td>
         </tr>
       </tbody>
+      
     </table>
 
     <h3>
@@ -261,62 +262,76 @@
         const memberNo = /*[[${session.loginMember?.memberNo}]]*/ 'defaultMemberNo';
         const storeId = /*[[${storeId}]]*/ 'default-store-id';
         const channelKey = /*[[${channelKey}]]*/ 'default-channel-key';
-        const redirectUrl = "http://localhost/order/afterOrder?orderNo=${data.orderNo}";
+        const redirectUrl = "http://localhost/order/afterOrder";
         const paymentId = `${memberNo}-${Date.now()}`;
         const orderNo = /*[[${orderNo}]]*/ 'defaultOrderNo';
     
+
+        // 주문 상품 정보 가져오기
+        const orderBooks = Array.from(document.querySelectorAll("tbody tr")).map(row => ({
+          bookNo: parseInt(row.getAttribute("data-book-no"), 10),
+          bookTitle: row.querySelector("td:nth-child(2)").innerText,
+          bookPrice: parseInt(row.querySelector(".book-price").getAttribute("data-price"), 10),
+          bookCount: parseInt(row.querySelector("td:nth-child(3)").innerText, 10)
+      }));
+
+      console.log("Order Books:", orderBooks);
+
+
         const orderData = {
           memberNo: memberNo,
-          totalAmount: totalPrice,
+          totalPrice: totalPrice,
           orderCount: 1,
           userZip: userZip,
           userAddress: userAddress,
           userDetailAddress: userDetailAddress,
           userTelNo: userTelNo,
           userName: userName,
+          orderBooks: orderBooks,
         };
     
+
         console.log("Order Data:", orderData);
     
         try {
-      const resp = await PortOne.requestPayment({
-        storeId: storeId,
-        paymentId: paymentId,
-        orderName: "테스트 결제",
-        totalAmount: 100,
-        currency: "KRW",
-        channelKey: channelKey,
-        payMethod: "CARD",
-        card: {},
-        redirectUrl: redirectUrl,
-      });
-
-      console.log(resp);
-
-      if (resp.code || resp.error_code) {
-        alert('결제 취소/실패');
-      } else {
-        alert("결제가 성공적으로 완료되었습니다!");
-
-        // 서버에 주문 데이터 전송
-        fetch('/order/submit', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(orderData),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            if (data && data.success) {
-              location.href = `/order/afterOrder?orderNo=${data.orderNo}`;
-            } else {
-              alert(data?.message || '주문 처리 중 오류가 발생했습니다. 관리자에게 문의하세요.');
-            }
-          })
-          .catch((error) => {
-            console.error('주문 데이터 전송 중 오류:', error);
-            alert('주문 처리에 실패했습니다. 네트워크 상태를 확인하고 다시 시도해주세요.');
+          const resp = await PortOne.requestPayment({
+            storeId: storeId,
+            paymentId: paymentId,
+            orderName: "테스트 결제",
+            totalAmount: 100,
+            currency: "KRW",
+            channelKey: channelKey,
+            payMethod: "CARD",
+            card: {},
+            redirectUrl: redirectUrl,
           });
-      }
+
+          console.log(resp);
+
+          if (resp.code || resp.error_code) {
+            alert('결제 취소/실패');
+          } else {
+            alert("결제가 성공적으로 완료되었습니다!");
+
+            // 서버에 주문 데이터 전송
+            fetch('/order/submit', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(orderData),
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                if (data.success) {
+                  location.href = `/order/afterOrder?orderNo=${data.orderNo}`;
+                } else {
+                  alert(data?.message || '주문 처리 중 오류가 발생했습니다. 관리자에게 문의하세요.');
+                }
+              })
+              .catch((error) => {
+                console.error('주문 데이터 전송 중 오류:', error);
+                alert('주문 처리에 실패했습니다. 네트워크 상태를 확인하고 다시 시도해주세요.');
+              });
+          }
     } catch (error) {
       console.error('결제 요청 중 오류:', error);
       alert('결제 처리 중 문제가 발생했습니다. 다시 시도해주세요.');

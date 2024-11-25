@@ -33,7 +33,7 @@ public class OrderDto {
 	private String userTelNo;
 	private String userName;
 
-	 private List<OrderBookDto> orderItems;
+	 private List<OrderBookDto> orderBooks;
 	 
 	
 }
