@@ -14,17 +14,18 @@ import lombok.ToString;
 @ToString
 @Builder
 public class OrderBookDto {
-    private int bookNo;      
-    private String bookTitle; 
-    private String bookCover;
-    private int bookPrice;    
-    private int bookCount;   
-    
-    private String orderId;
-    private String zip;
-    private String address;
-    private String detailAddress;
-    private int totalPrice;
-    
-    
+
+    private int bookNo;       // 책 번호
+    private String bookTitle; // 책 제목
+    private String bookCover; // 책 표지
+    private int bookPrice;    // 책 가격
+    private int bookCount;    // 책 재고
+    private int orderCount;   // 주문 수량
+
+    private String orderId;   // 주문 ID
+    private String zip;       // 배송 우편번호
+    private String address;   // 배송 주소
+    private String detailAddress; // 배송 상세 주소
+    private int totalPrice;   // 책의 총 가격
 }
+

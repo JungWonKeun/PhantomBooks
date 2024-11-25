@@ -1,0 +1,115 @@
+/* 주문 완료 페이지 스타일 */
+.afterOrderMain {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.afterOrderMain h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 30px;
+  font-weight: bold;
+}
+
+.afterOrderMain section {
+  margin-bottom: 40px;
+}
+
+.afterOrderMain h3 {
+  font-size: 1.5rem;
+  color: #555;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 5px;
+}
+
+.afterOrderMain table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+.afterOrderMain table thead {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.afterOrderMain table th,
+.afterOrderMain table td {
+  text-align: center;
+  padding: 15px;
+  border: 1px solid #ddd;
+}
+
+.afterOrderMain table th {
+  font-weight: bold;
+}
+
+.afterOrderMain table td img {
+  max-width: 80px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.afterOrderMain table td {
+  font-size: 1rem;
+  color: #333;
+}
+
+.afterOrderMain table tbody tr:nth-child(even) {
+  background-color: #f5f5f5;
+}
+
+.afterOrderMain table tbody tr:nth-child(odd) {
+  background-color: #fff;
+}
+
+.afterOrderMain table tbody tr:hover {
+  background-color: #f0f8ff;
+  transition: background-color 0.3s;
+}
+
+/* 버튼 스타일 */
+.afterOrderMain .btn {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s;
+}
+
+.afterOrderMain .btn:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .afterOrderMain {
+      padding: 15px;
+  }
+
+  .afterOrderMain h1 {
+      font-size: 2rem;
+  }
+
+  .afterOrderMain h3 {
+      font-size: 1.3rem;
+  }
+
+  .afterOrderMain table th, .afterOrderMain table td {
+      font-size: 0.9rem;
+      padding: 10px;
+  }
+}

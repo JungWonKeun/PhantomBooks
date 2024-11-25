@@ -16,30 +16,33 @@
 	</select>
 
 
-	<insert id="insertOrder" parameterType="OrderDto" useGeneratedKeys="true">
-
-    
-    INSERT INTO "ORDER" (
-        ORDER_NO, MEMBER_NO, ORDER_DATE, ORDER_COUNT, TOTAL_PRICE, DELIVERY_FEE, PAYMENT_STATUS, USER_ZIP, USER_ADDRESS, USER_DETAIL_ADDRESS, USER_TEL_NO, USER_NAME
-    )
-    VALUES (
-        SEQ_ORDER_NO.NEXTVAL,
-        #{memberNo}, 
-        CURRENT_DATE, 
-        #{orderCount}, 
-        #{totalPrice}, 
-        DEFAULT, 
-        DEFAULT, 
-        #{userZip}, 
-        #{userAddress}, 
-        #{userDetailAddress}, 
-        #{userTelNo}, 
-        #{userName}
-    )
-</insert>
+	<insert id="insertOrder" parameterType="OrderDto" useGeneratedKeys="true" keyProperty="orderNo" keyColumn="ORDER_NO">
+	    INSERT INTO "ORDER" (
+	        ORDER_NO, MEMBER_NO, ORDER_DATE, ORDER_COUNT, TOTAL_PRICE, DELIVERY_FEE, PAYMENT_STATUS, USER_ZIP, USER_ADDRESS, USER_DETAIL_ADDRESS, USER_TEL_NO, USER_NAME
+	    )
+	    VALUES (
+	        SEQ_ORDER_NO.NEXTVAL,
+	        #{memberNo}, 
+	        CURRENT_DATE, 
+	        #{orderCount}, 
+	        #{totalPrice}, 
+	        DEFAULT, 
+	        DEFAULT, 
+	        #{userZip}, 
+	        #{userAddress}, 
+	        #{userDetailAddress}, 
+	        #{userTelNo}, 
+	        #{userName}
+	    )
+	</insert>
 
 
 
+	<update id="updateBookStock" parameterType="map">
+	    UPDATE BOOK_MANAGER
+	    SET CURRENT_COUNT = CURRENT_COUNT - #{bookCount}
+	    WHERE BOOK_NO = #{bookNo}
+	</update>
 
 	
 

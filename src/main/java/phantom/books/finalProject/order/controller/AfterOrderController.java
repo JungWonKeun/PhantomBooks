@@ -27,9 +27,8 @@ public class AfterOrderController {
 
 	    // 모델에 데이터 추가
 	    model.addAttribute("order", order);
-	    model.addAttribute("orderItems", order.getOrderItems());
-	    model.addAttribute("totalItemPrice", order.getTotalPrice() - order.getDeliveryFee());
-
+	    model.addAttribute("orderItems", order.getOrderBooks());
+	    model.addAttribute("totalPrice", order.getTotalPrice());
 	    return "order/afterOrder";
 	}
 
