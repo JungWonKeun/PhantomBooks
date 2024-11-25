@@ -41,4 +41,29 @@
 		ORDER BY NOTICE_ID DESC
 	</select>
 
+	<insert id="insertNotice" parameterType="Notice" useGeneratedKeys="true" keyColumn="NOTICE_ID" keyProperty="noticeId" >
+	INSERT INTO NOTICE
+	VALUES(
+		(SELECT NVL(MAX(NOTICE_ID),  0) + 1 AS NOTICE_ID  FROM NOTICE),
+		#{title},
+		#{content},
+		DEFAULT,
+		DEFAULT,
+		DEFAULT,
+		DEFAULT
+	)
+	</insert>
+	
+	<update id="updateNotice" parameterType="Notice">
+		UPDATE NOTICE
+		SET 
+		 TITLE = #{title},
+		 CONTENT = #{content}
+		WHERE NOTICE_ID = #{noticeId}
+	</update>
+
+	<update id="deleteNotice" >
+		DELETE FROM NOTICE
+		WHERE NOTICE_ID = #{noticeId}
+	</update>
 </mapper>

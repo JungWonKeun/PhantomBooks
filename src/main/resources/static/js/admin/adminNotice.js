@@ -7,7 +7,167 @@ document.querySelectorAll('.menu').forEach(menu => {
   });
 });
 
+const updateBtn = document.querySelector("#updateBtn");
+const insertBtn = document.querySelector("#insertBtn");
+const deleteBtn = document.querySelector("#deleteBtn");
 
+// 팝업 / 내용
+const addPopupLayer = document.querySelector("#addPopupLayer");
+const inputArea = document.querySelector(".input-area");
+const title = document.querySelector("#inputTitle");
+const content = document.querySelector("#inputContent");
+
+insertBtn?.addEventListener("click", () => {
+
+  // 팝업 나타나게 하기
+  addPopupLayer.classList.remove("popup-layer-close");
+  title.focus();
+  const addNoticeBtn = document.querySelector("#addNoticeBtn");
+  const back = document.querySelector("#back");
+  
+  // 등록하기 버튼 클릭 시
+  addNoticeBtn.addEventListener("click", () => {
+    
+    // 1. 내용 검사
+    if(title.value == ""){
+      alert("제목을 작성해주세요");
+      return;
+    }
+
+    if(content.value == ""){
+      alert("내용을 작성해주세요");
+      return;
+    }
+
+    fetch("/admin/notice", {
+      method : "PUT",
+      headers : {"Content-Type" : "application/json"},
+      body : JSON.stringify({
+        title : title.value.trim(),
+        content : content.value.trim()
+      })
+    })
+    .then(response => {
+      if(response.ok) return response.json();
+      throw new Error("추가 실패");
+    })
+    .then(result => {
+      if(result > 0){
+        alert("새로운 공지사항을 등록하였습니다.");
+
+        // 작성한 내용 없애기
+        title.value = "";
+        content.value = "";
+
+        // 팝업 숨기기
+        addPopupLayer.classList.add("popup-layer-close");
+
+        location.reload();
+      }
+    })
+  })
+
+  // 돌아가기 버튼
+  back.addEventListener("click", () => {
+    
+    // 작성한 내용 없애기
+    title.value = '';
+    content.value = "";
+
+    // 팝업 숨기기
+    addPopupLayer.classList.add("popup-layer-close");
+  })
+
+});
+
+
+updateBtn.addEventListener("click", () => {
+  
+  // checked 된 noticeId
+  const noticeId = document.querySelector("input:checked").value;
+
+  // 팝업 나타나게 하기
+  addPopupLayer.classList.remove("popup-layer-close");
+  title.focus();
+  const addNoticeBtn = document.querySelector("#addNoticeBtn");
+  const back = document.querySelector("#back");
+  
+  // 등록하기 버튼 클릭 시
+  addNoticeBtn.innerHTML = "수정하기";
+  addNoticeBtn.addEventListener("click", () => {
+    
+    // 1. 내용 검사
+    if(title.value == ""){
+      alert("제목을 작성해주세요");
+      return;
+    }
+
+    if(content.value == ""){
+      alert("내용을 작성해주세요");
+      return;
+    }
+
+    fetch("/admin/notice?noticeId="+noticeId, {
+      method : "POST",
+      headers : {"Content-Type" : "application/json"},
+      body : JSON.stringify({
+        title : title.value.trim(),
+        content : content.value.trim()
+      })
+    })
+    .then(response => {
+      if(response.ok) return response.json();
+      throw new Error("추가 실패");
+    })
+    .then(result => {
+      if(result > 0){
+        alert("공지사항을 수정하였습니다.");
+
+        // 작성한 내용 없애기
+        title.value = "";
+        content.value = "";
+
+        // 팝업 숨기기
+        addPopupLayer.classList.add("popup-layer-close");
+
+        location.reload();
+      }
+    })
+  })
+  
+  // 돌아가기 버튼
+  back.addEventListener("click", () => {
+    
+    // 작성한 내용 없애기
+    title.value = '';
+    content.value = "";
+
+    // 팝업 숨기기
+    addPopupLayer.classList.add("popup-layer-close");
+  })
+})
+
+deleteBtn.addEventListener("click", () => {
+  // checked 된 noticeId
+  const noticeId = document.querySelector("input:checked").value;
+
+  const alarm = confirm(`${noticeId}번의 공지사항을 삭제하시겠습니까?`);
+
+  if(alarm){
+    fetch("/admin/notice?noticeId="+noticeId, {method : "DELETE"})
+    .then(response => {
+      if(response.ok) return response.text();
+      throw new Error("삭제 실패");
+    })
+    .then(result =>{
+      if(result > 0){
+        alert("공지사항을 삭제하였습니다.");
+        location.reload();
+      }
+    })
+  }
+  
+})
 
 const pageNoList = document.querySelectorAll(".pagination a");
 

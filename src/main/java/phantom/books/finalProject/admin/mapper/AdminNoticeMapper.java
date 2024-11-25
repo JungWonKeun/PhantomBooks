@@ -18,4 +18,13 @@ public interface AdminNoticeMapper {
 	// 리스트 조회
 	List<Notice> noticeList(@Param("cp") int cp,@Param("key") String key, RowBounds bounds);
 
+	// 공지사항 작성
+	int insertNotice(Notice notice);
+
+	// 공지사항 수정
+	int updateNotice(Notice notice);
+
+	// 공지사항 삭제
+	int deleteNotice(int noticeId);
+
 }

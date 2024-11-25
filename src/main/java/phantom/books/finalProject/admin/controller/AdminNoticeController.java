@@ -5,9 +5,14 @@ import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import lombok.RequiredArgsConstructor;
@@ -43,5 +48,33 @@ public class AdminNoticeController {
 		log.debug("공지사항 리스트 : {}", noticeList.get(0));
 		
 		return "admin/adminNotice";
+	}
+	
+	// 공지사항 작성
+	@PutMapping("")
+	@ResponseBody
+	public int insertNotice(
+			@RequestBody Notice notice) {
+		return service.insertNotice(notice);
+	}
+	
+	// 공지사항 수정
+	@PostMapping("")
+	@ResponseBody
+	public int updateNotice(
+			@RequestParam("noticeId") int noticeId,
+			@RequestBody Notice notice) {
+		notice.setNoticeId(noticeId);
+		
+		return service.updateNotice(notice);
+	}
+
+	// 공지사항 삭제
+	@DeleteMapping("")
+	@ResponseBody
+	public int deleteNotice(
+			@RequestParam("noticeId") int noticeId) {
+		
+		return service.deleteNotice(noticeId);
 	}
 }
