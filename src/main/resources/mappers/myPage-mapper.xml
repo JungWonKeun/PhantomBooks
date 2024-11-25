@@ -3,21 +3,63 @@
 <mapper
 	namespace="phantom.books.finalProject.myPage.mapper.MyPageMapper">
 
+
+
 	<select id="getCategories" resultType="Category">
-		SELECT 
-			CATEGORY_NO 	AS categoryNo,
-			CATEGORY_NAME 	AS categoryName
+		SELECT
+		CATEGORY_NO AS
+		categoryNo,
+		CATEGORY_NAME AS categoryName
 		FROM "CATEGORY"
-		ORDER BY categoryNo
+		ORDER BY
+		categoryNo
 	</select>
 
 	<select id="getPreference" resultType="Preference">
-		SELECT 
-			PREFERENCE_NO 	AS preferenceNo,
-			PREFERENCE_NAME	AS preferenceName
+		SELECT
+		PREFERENCE_NO AS
+		preferenceNo,
+		PREFERENCE_NAME AS preferenceName
 		FROM "PREFERENCE"
-		ORDER BY preferenceName
+		ORDER
+		BY preferenceNo
 	</select>
+
+	<!-- 기존 저장된 선호 카테고리 삭제 -->
+	<delete id="deleteCategoryByMemberNo" parameterType="_int">
+		DELETE FROM MEMBER_CATEGORY 
+		WHERE MEMBER_NO = #{memberNo}
+	</delete>
+	
+	<!-- 선호 카테고리 저장 -->
+	<insert id="insertCategory">
+		INSERT INTO MEMBER_CATEGORY (MEMBER_NO, CATEGORY_NO) VALUES (#{memberNo}, #{categoryNo})
+	</insert>
+
+	<!-- 기존 저장된 선호 취향 삭제 -->
+	<delete id="deletePreferenceByMemberNo" parameterType="_int">
+		DELETE FROM MEMBER_PREFERENCE
+		WHERE MEMBER_NO = #{memberNo}
+	</delete>
+		
+	<!-- 선호 취향 저장 -->	
+	<insert id="insertPreference">
+		INSERT INTO MEMBER_PREFERENCE (MEMBER_NO, PREFERENCE_NO) VALUES (#{memberNo}, #{preferenceNo})
+	</insert>
+
+	<select id="getCategoryByMemberId">
+		SELECT *
+		FROM "MEMBER_CATEGORY"
+		WHERE MEMBER_NO = #{memberNo}
+	</select>
+
+	<select id="getPreferenceByMemberId">
+		SELECT *
+		FROM "MEMBER_PREFERENCE"
+		WHERE MEMBER_NO = #{memberNo}
+	</select>
+
+
 
 
 </mapper>

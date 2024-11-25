@@ -32,6 +32,37 @@ public class MyPageServiceImpl implements MyPageService {
 	public List<Preference> getPreference() {
 		return mapper.getPreference();
 	}
+	
+	
+	@Override
+	public void saveCategory(int memberNo, List<Integer> categoryNo) {
+		mapper.deleteCategoryByMemberNo(memberNo);
+		
+    for (int category : categoryNo) {
+        mapper.insertCategory(memberNo, category);
+    }
+	}
+
+	@Override
+	public void savePreference(int memberNo, List<Integer> preferenceNo) {
+	  mapper.deletePreferenceByMemberNo(memberNo);
+	  
+	  for (int preference : preferenceNo) {
+	      mapper.insertPreference(memberNo, preference);
+	  }
+	}
+
+	
+	@Override
+	public List<Category> getCategoryByMemberId(int memberNo) {
+		return mapper.getCategoryByMemberId(memberNo);
+	}
+	
+	@Override
+	public List<Preference> getPreferenceByMemberId(int memberNo) {
+		return mapper.getPreferenceByMemberId(memberNo);
+	}
+	
 
 
 }
