@@ -20,8 +20,9 @@ public interface CustomerService {
 
 	Query getResultInquiry(int queryNo);
 
-	Map<String, Object> getInquiryListByMember(int cp, int memberNo);
 
 	List<FAQ> getFaqList();
+
+	Map<String, Object> getInquiryListByMember(int cp, int memberNo, String status, String startDate, String endDate);
 
 }

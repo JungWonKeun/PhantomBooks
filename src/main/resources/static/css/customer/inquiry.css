@@ -129,6 +129,6 @@ header {
   color: #000;
 }
 
-#queryName {
+.queryName {
   cursor: pointer;
 }
