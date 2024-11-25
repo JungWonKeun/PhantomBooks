@@ -32,9 +32,8 @@ public interface CustomerMapper {
 	List<Query> queryList(
 					@Param("cp") int cp, 
 					@Param("memberNo") int memberNo,
-					RowBounds bounds);
-
-	Map<String, Object> getInquiries(
-			@Param("cp") int cp,
-			@Param("memberNo") int memberNo);
+					RowBounds bounds,
+					@Param("status") String status, 
+					@Param("startDate") String startDate,
+					@Param("endDate") String endDate);
 }

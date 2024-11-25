@@ -44,7 +44,7 @@ queryBtn.addEventListener("click", (e) => {
         alert("문의 등록이 완료되었습니다.");
         myForm.reset();
         quill.root.innerHTML = ""; // 에디터 내용 초기화
-        location.href = "/support";
+        location.href = "/customer/inquiry";
       } else {
         alert("문의를 다시 등록 해주세요.");
       }

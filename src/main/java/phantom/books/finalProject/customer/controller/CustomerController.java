@@ -86,7 +86,7 @@ public class CustomerController {
 	@GetMapping("/customer/inquiry")
 	public String getInquiryList(
 	        @RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
-	        @RequestParam(value = "status", required = false, defaultValue = "NO") String status, 
+	        @RequestParam(value = "status", required = false, defaultValue = "all") String status, 
 	        @RequestParam(value = "startDate", required = false, defaultValue = "7day") String startDate,
 	        @RequestParam(value = "endDate", required = false, defaultValue = "currentDate") String endDate,
 	        @SessionAttribute("loginMember") Member loginMember,
@@ -95,13 +95,36 @@ public class CustomerController {
 	    int memberNo = loginMember.getMemberNo();
 
 	    // 사용자별 문의 내역 조회
-	    Map<String, Object> map = customerService.getInquiryListByMember(cp, memberNo);
+	    Map<String, Object> map = customerService.getInquiryListByMember(cp, memberNo, status, startDate, endDate);
 	    
 	    model.addAttribute("inquiryList", map.get("queryList"));
 	    model.addAttribute("pagination", map.get("pagination"));
 	    
 	    return "customer/inquiry";
 	}
+	/**
+	 * 1:1문의 내역 페이지로 이동
+	 * 
+	 * @param model - View에 데이터를 전달하기 위한 Model 객체
+	 * @return 1:1 문의 내역 페이지 템플릿 경로("customer/inquiry")
+	 */
+	@GetMapping("/customer/inquiry/queryList")
+	@ResponseBody
+	public Map<String, Object> getquiryList(
+			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
+			@RequestParam(value = "status", required = false, defaultValue = "all") String status, 
+			@RequestParam(value = "startDate", required = false, defaultValue = "7day") String startDate,
+			@RequestParam(value = "endDate", required = false, defaultValue = "currentDate") String endDate,
+			@SessionAttribute("loginMember") Member loginMember,
+			Model model) {
+		
+		int memberNo = loginMember.getMemberNo();
+		
+		
+		return customerService.getInquiryListByMember(cp, memberNo, status, startDate, endDate);
+	}
+	
+	
 
 
 
