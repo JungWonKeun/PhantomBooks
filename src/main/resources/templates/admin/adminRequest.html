@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>재고관리</title>
 
-  <link rel="stylesheet" href="/css/admin/adminManager.css">
+  <link rel="stylesheet" href="/css/admin/adminRequest.css">
 </head>
 <body>
   <section class="header">
@@ -90,7 +90,7 @@
           </ul>
         </h3>
       </div>
-
+     
   
     <div class="content">
       <div class="title">
@@ -98,7 +98,7 @@
       </div>
   
       <div class="graph-box">
-        그래프 그리기(출판사별, 책종류별, 저자별, 가격별)
+        정렬 기준
         <label class="sort-dropdown">
           <select id="sortSelect" >
               <option value="all">전체</option>
@@ -109,6 +109,13 @@
         <div>
           <input type="text" id="searchText" class= "hidden">
         </div>
+        <label class="view-dropdown">
+          <select id="viewSelect" >
+              <option value="10">10개</option>
+              <option value="20">20개</option>
+              <option value="50">50개</option>
+          </select>
+        </label>
         <div class="list">
           <table class="bookList">
             <thead>
@@ -241,10 +248,32 @@
             </tbody>
           </table>
         </div>
+        <div class="pagination">페이지네이션</div>
 
       </div>
-      <div id="resultArea">
 
+      <div id="resultArea">
+        <table>
+          <thead>
+            <tr>
+              <th>책 표지 사진</th>
+              <th colspan="4">책 정보</th>
+            </tr>
+          </thead>
+          <tbody class="resultArea">
+            <tr>
+              <th rowspan="3">1</th>
+              <th colspan="4"></th>
+            </tr>
+            <tr>
+              <th colspan="4"></th>
+            </tr>
+            <tr>
+              <th colspan="4"></th>
+            </tr>
+          </tbody>
+
+        </table>
       </div>
      
 

@@ -9,9 +9,9 @@ document.querySelectorAll('.menu').forEach(menu => {
   });
 });
 
-const listUp = (cp, sort, text) => {
+const listUp = (cp, sort, view, text) => {
 
-  fetch("/admin/manager/bookList?cp="+cp +"&sort="+sort +"&text="+text)
+  fetch("/admin/manager/bookList?cp="+cp +"&sort="+sort + "&view=" + view + "&text="+text)
   .then(response => {
     if(response.ok) return response.json();
     throw new Error("조회 실패");
@@ -33,55 +33,59 @@ const listUp = (cp, sort, text) => {
       const td2 = document.createElement("td");
       td2.append(book.bookTitle);
 
+      td2.addEventListener("click", () => {
+        resultArea.innerHTML = "";
+
+        const tr1 = document.createElement("tr");
+        const tr2 = document.createElement("tr");
+        const tr3 = document.createElement("tr");
+        const th1 = document.createElement("th");
+        const th2 = document.createElement("th");
+        th1.rowSpan ="4";
+        th1.innerHTML = book.bookCover;
+        
+        th2.colSpan = "4";
+        th2.innerHTML = "책 제목 : " + book.bookTitle;
+
+        tr1.append(th1, th2);
+
+        const th3 = document.createElement("th");
+        th3.colSpan = "4";
+        th3.innerHTML = "출판사 : " + book.companyName;
+
+        tr2.append(th3);
+
+        const th4 = document.createElement("th");
+        th4.colSpan = "4";
+        th4.innerHTML = "책 저자 : " + book.bookWriter;
+
+        tr3.append(th4);
+
+        resultArea.append(tr1, tr2, tr3);
+      })
+
       const td3 = document.createElement("td");
-      td3.append(book.booWriter);
+      td3.append(book.bookWriter);
 
       const td4 = document.createElement("td");
       td4.append(book.companyName);
 
-      const td5 = document.createElement("td");
-      td5.append(book.bookCount);
-
-      const td6 = document.createElement("td");
-      td6.append(book.insertDate);
-
-      const td7 = document.createElement("td");
-      td7.append(book.bookYn);
-
-      const td8 = document.createElement("td");
-      const deleteBtn = document.createElement("button");
-      deleteBtn.innerText = "등록여부 수정";
-
-      td8.append(deleteBtn);
-
-      deleteBtn.addEventListener("click", ()=> {
-        const alarm = confirm(book.bookTitle + "를 등록하시겠습니까?");
-
-        if(alarm){
-          fetch("/admin/manager/insert", {
-            method : "PUT",
-            headers : {"Content-Type" : "application/json"},
-            body : book.bookNo
-          })
-          .then(response => {
-            if(response.ok) return response.json();
-            throw new Error("등록 실패");
-          })
-          .then(result => {
-            if(result > 0 ) {
-              alert("등록 완료 하였습니다.");
-              listUp(cp, sortSelect.value, text);
-            }
-          })
-          .catch(err => console.error(err));
-        }else{
-          alert("등록이 취소되었습니다.");
-        }
-      })
-      tr.append(td1, td2, td3, td4, td5, td6);
-
+      tr.append(td1, td2, td3, td4);
       list.append(tr);
     })
+
+    const resultArea = document.querySelector(".resultArea");
+
+    resultArea.innerHTML = "";
+    const tr1 = document.createElement("tr");
+    const th1 = document.createElement("th");
+    th1.innerHTML = "발주 요청할 책을 선택해주세요";
+    th1.colSpan ="5";
+
+    tr1.append(th1);
+    resultArea.append(tr1);
+
+
     // 페이지네이션 출력
     const pg = document.querySelector('.pagination');
     pg.innerHTML = '';
@@ -123,11 +127,18 @@ const resultArea = document.querySelector("#resultArea");
 
 let text = '';
 
+viewSelect.addEventListener("change", ()=>{
+  console.log(viewSelect.value);
+  
+  listUp(1, sortSelect.value, viewSelect.value, text);
+ 
+})
+
 searchText.hidden = true;
 
 sortSelect.addEventListener('change', () => {
   if(sortSelect.value == 'all'){
-    listUp(1, sortSelect.value);
+    listUp(1, sortSelect.value, viewSelect.value);
     searchText.hidden = true;
   }else{
     searchText.hidden = false;
@@ -138,7 +149,7 @@ sortSelect.addEventListener('change', () => {
 
       console.log(text);
 
-      listUp(1, sortSelect.value, text);
+      listUp(1, sortSelect.value, viewSelect.value, text);
     })
   }
 
@@ -201,7 +212,7 @@ const paginationAddEvent = () => {
       if(a.classList.contains('current')) return;
       
       const cp = e.target.dataset.page;
-      listUp(cp, sortSelect.value);
+      listUp(cp, sortSelect.value, viewSelect.value);
     });
   });
 }
@@ -210,6 +221,6 @@ const paginationAddEvent = () => {
  * 문서 시작시 실행하는 함수
  */
 document.addEventListener("DOMContentLoaded",()=>{
-  listUp(1, sortSelect.value, text);
+  listUp(1, sortSelect.value, viewSelect.value, text);
 })
 

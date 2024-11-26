@@ -30,7 +30,7 @@ public class Book {
 	    private String insertDate;      // 등록일자
 
 	    /* 책 관리 테이블 정보*/
-	    private int bookCount;          // 책 개수
+	    private int currentCount;				// 책 개수
 	    private int basicCount; 				// 기본 책 수량
 	    
 	    /*프리퍼런스*/

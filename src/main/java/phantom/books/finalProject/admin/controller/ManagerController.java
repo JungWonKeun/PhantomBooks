@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import phantom.books.finalProject.admin.service.ManagerService;
 import phantom.books.finalProject.searchBookPage.dto.Book;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("admin/manager")
+@Slf4j
 public class ManagerController {
 
 	private final ManagerService managerService;
@@ -28,9 +30,14 @@ public class ManagerController {
 	public Map<String, Object> manager(
 			@RequestParam("cp") int cp,
 			@RequestParam("sort") String sort,
+			@RequestParam("view") String view,
 			@RequestParam(value = "text", required = false) String text) {
 		
-		return managerService.manager(cp, sort, text);
+		int view1 = Integer.parseInt(view);
+		log.debug("view : {}", view);
+		log.debug("view1 : {}", view1);
+		
+		return managerService.manager(cp, sort, view1, text);
 	}
 	
 	@PutMapping("insert")
