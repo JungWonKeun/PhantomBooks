@@ -35,7 +35,7 @@
                         </td>
                         <td th:text="${item.bookTitle != null ? item.bookTitle : '제목 없음'}">책 이름</td>
                         <td th:text="${item.orderCount != null ? item.bookCount : 0}">0</td>
-                        <td th:text="${item.bookPrice != null && item.bookCount != null ? item.orderPrice  : 0}">0</td>
+                        <td th:text="${item.orderPrice != null && item.bookCount != null ? item.orderPrice  : 0}">0</td>
                     </tr>
                     
                 </tbody>
@@ -65,28 +65,29 @@
                 </tbody>
             </table>
         </section>
-
         <section>
             <h3>결제 정보</h3>
             <table class="table table-bordered">
                 <tbody>
                     <tr>
                         <th>총 상품 금액</th>
-                        <td th:text="${order.totalPrice}-${order.deliveryFee}">50000</td>
+                        <td id="totalPrice">0 원</td>
                     </tr>
                     <tr>
                         <th>배송비</th>
-                        <td th:text="${order.deliveryFee}">3500</td>
+                        <td>3,500 원</td>
                     </tr>
                     <tr>
                         <th>총 결제 금액</th>
-                        <td th:text="${order.totalPrice}">53500</td>
+                        <td id="totalPayment">0 원</td>
                     </tr>
+                    
                 </tbody>
             </table>
         </section>
     </main>
     <footer th:replace="~{common/footer :: footer}"></footer>
+    <script src="/js/order/afterOrder"></script>
 </body>
 
 </html>

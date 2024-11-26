@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>장바구니 페이지</title>
   <link rel="stylesheet" href="/css/cart/cart.css">
 </head>
+
 <body>
   <header th:replace="~{common/common}"></header>
   <main class="cartMain">
@@ -48,7 +50,8 @@
                 </div>
               </td>
               <td>
-                <img th:src="${item.bookCover != null ? item.bookCover : '/images/bookCover/default.jpg'}" alt="Book Cover" class="book-cover">
+                <img th:src="${item.bookCover != null ? item.bookCover : '/images/bookCover/default.jpg'}"
+                  alt="Book Cover" class="book-cover">
               </td>
               <td th:text="${item.bookTitle}"></td>
               <td class="book-price" th:data-price="${item.bookPrice}"></td>
@@ -79,7 +82,7 @@
               <td>배송비</td>
               <td id="deliveryFee">3,500 원</td>
             </tr>
-                
+
             <tr class="totalPaymentTable">
               <td>결제 예정 금액</td>
               <td id="totalPayment">0 원</td>
@@ -179,11 +182,11 @@
       </div>
     </section>
   </main>
-      
-            <div th:replace="~{common/footer :: footer}"></div>
 
-  <script src="/js/cart/cart.js"></script>
+  <div th:replace="~{common/footer :: footer}"></div>
+
+  <script src="/js/cart/cart.js" defer></script>
+
 </body>
+
 </html>
-
-

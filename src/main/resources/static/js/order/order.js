@@ -9,7 +9,7 @@
 //   const addAddressBtn = document.getElementById('addAddressBtn');
 //   const additionalAddressesContainer = document.getElementById('additionalAddresses');
 
-
+// 이걸 발견하셨다면 010-8795-9134로 연락주세요
 //   document.getElementById('paymentButton').addEventListener('click', requestPay);
 
 
