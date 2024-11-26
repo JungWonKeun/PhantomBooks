@@ -57,6 +57,7 @@ function ifChecked(action) {
         .then(response => {
             if (response.ok) {
                 // 성공 시 확인 창 띄우기
+                alert(selectedBookNo.length + "개의 책을 장바구니에 책을 추가하었습니다.");
                 let userResponse = confirm("장바구니로 이동하시겠습니까?");
                 if (userResponse) {
                     window.location.href = "/cart";  // 장바구니 페이지로 이동
