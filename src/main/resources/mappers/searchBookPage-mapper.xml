@@ -236,10 +236,9 @@
 </update>
 
 	<!-- 리뷰 삭제 -->
-	<delete id="deleteReview" parameterType="map">
+	<delete id="deleteReview">
 		DELETE FROM REVIEW
 		WHERE REVIEW_NO = #{reviewNo}
-		AND MEMBER_NO = #{memberNo}
 	</delete>
 
 

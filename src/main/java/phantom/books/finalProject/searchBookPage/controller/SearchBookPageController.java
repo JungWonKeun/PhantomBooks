@@ -12,6 +12,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -108,16 +109,12 @@ public class SearchBookPageController {
 	    Book book = service.bookDetail(bookNo);
 	    model.addAttribute("book", book);
 
-	    // 리뷰 정보 가져오기 및 페이지네이션
-	    int countReview = service.getReviewCount(bookNo);
-	    Pagination pagination = new Pagination(cp, countReview);
-
-	    // 리뷰 가져오기
-	    List<Review> reviews = service.getReviewsByBookNo(bookNo, cp);
-	    if (reviews == null) {
-	        reviews = new ArrayList<>(); // null 방어
-	    }
-
+	    // 리뷰/페이지네이션 가져오기
+	    Map<String, Object> map = service.getReviewsByBookNo(bookNo, cp);
+	    
+	    List<Review> reviews = (List<Review>)map.get("reviewList");
+	    Pagination pagination = (Pagination)map.get("pagination");
+	    
 	    model.addAttribute("reviews", reviews);
 	    model.addAttribute("pagination", pagination);
 	    model.addAttribute("currentPage", cp);
@@ -197,15 +194,16 @@ public class SearchBookPageController {
 	  // 리뷰 작성
 	  
 	  @ResponseBody
-	  @PostMapping("/writeReview/{bookNo}") public boolean writeReview(
-	  @PathVariable("bookNo") int bookNo, // URL 경로에서 bookNo 가져오기
-	  @SessionAttribute("loginMember") Member loginMember, // 로그인한 사용자 정보
-	  @RequestParam("rating") double score,
-	  @RequestParam("title") String title,
-	  @RequestParam("content") String content,
-	  @RequestParam(value = "reviewImage", required = false) MultipartFile file,
-	  RedirectAttributes ra ) { // 서비스 호출
-		  
+	  @PostMapping("/writeReview/{bookNo}")
+	  public boolean writeReview(
+		  @PathVariable("bookNo") int bookNo, // URL 경로에서 bookNo 가져오기
+		  @SessionAttribute("loginMember") Member loginMember, // 로그인한 사용자 정보
+		  @RequestParam("rating") double score,
+		  @RequestParam("title") String title,
+		  @RequestParam("content") String content,
+		  @RequestParam(value = "reviewImage", required = false) MultipartFile file,
+		  RedirectAttributes ra ) { // 서비스 호출
+			  
 	 return service.writeReview(bookNo, title,
 	  content, score, loginMember.getMemberNo(), file);
 	  
@@ -213,14 +211,15 @@ public class SearchBookPageController {
 	 
 	  // 리뷰 수정
 	  @ResponseBody
-	  @PostMapping("/updateReview/{reviewNo}") public String updateReview(
-	  @PathVariable("reviewNo") int reviewNo,
-	  @SessionAttribute("loginMember") Member loginMember, // 로그인한 사용자 정보
-	  @RequestParam("rating") double score,
-	  @RequestParam("reviewTitle") String title,
-	  @RequestParam("reviewContent") String content,
-	  @RequestParam(value = "image", required = false) MultipartFile file,
-	  RedirectAttributes ra) {
+	  @PostMapping("/updateReview/{reviewNo}") 
+	  public String updateReview(
+		  @PathVariable("reviewNo") int reviewNo,
+		  @SessionAttribute("loginMember") Member loginMember, // 로그인한 사용자 정보
+		  @RequestParam("rating") double score,
+		  @RequestParam("reviewTitle") String title,
+		  @RequestParam("reviewContent") String content,
+		  @RequestParam(value = "image", required = false) MultipartFile file,
+		  RedirectAttributes ra) {
 	  
 	  return service.updateReview(reviewNo, title, content, score,
 	  loginMember.getMemberNo(), file);
@@ -229,28 +228,14 @@ public class SearchBookPageController {
 	  
 	  // 리뷰 삭제 
 	  @ResponseBody
-	  @PostMapping("/deleteReview/{reviewNo}")
-	  public String deleteReview(
-	      @PathVariable("reviewNo") int reviewNo,
-	      @SessionAttribute(value = "loginMember", required = false) Member loginMember
+	  @DeleteMapping("/deleteReview")
+	  public int deleteReview(
+	      @RequestParam("reviewNo") int reviewNo
 	  ) {
-	      if (loginMember == null) {
-	          return "login_required"; // 로그인 필요
-	      }
+	      
+	    	  
+	      return service.deleteReview(reviewNo);
 
-	      try {
-	          int deleteCount = service.deleteReview(reviewNo, loginMember.getMemberNo());
-
-	          // 삭제된 행이 1개 이상이면 성공
-	          if (deleteCount > 0) {
-	              return "success";
-	          } else {
-	              return "not_found_or_unauthorized"; // 리뷰가 없거나 권한 없음
-	          }
-	      } catch (Exception e) {
-	          e.printStackTrace(); // 서버 로그 출력
-	          return "error"; // 예외 발생 시 처리
-	      }
 	  }
 
 

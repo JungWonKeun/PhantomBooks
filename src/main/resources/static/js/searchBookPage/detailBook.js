@@ -358,24 +358,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // 리뷰 삭제 요청 (POST 방식)
 function deleteReview(reviewNo) {
-    fetch(`/searchBookPage/deleteReview/${reviewNo}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ reviewNo: reviewNo }),
-    })
+    fetch(`/searchBookPage/deleteReview?reviewNo=${reviewNo}`, { method: 'DELETE' })
         .then((response) => {
-            if (response.ok) {
-                alert('리뷰가 삭제되었습니다.');
-                location.reload(); // 페이지 새로고침
-            } else {
-                throw new Error('리뷰 삭제에 실패했습니다.');
+            if (response.ok) return response.text();
+            
+            throw new Error('리뷰 삭제에 실패했습니다.');
+        })
+        .then(result => {
+            if (result  = 0) {
+                alert('리뷰 삭제 중 문제가 발생했습니다. 다시 시도해주세요.');
             }
+            alert('리뷰가 삭제되었습니다.');
+            location.reload();
         })
         .catch((error) => {
             console.error('삭제 중 오류 발생:', error);
-            alert('리뷰 삭제 중 문제가 발생했습니다. 다시 시도해주세요.');
         });
 }
 
@@ -383,23 +380,6 @@ function deleteReview(reviewNo) {
 /* -------------------------------------- 리뷰 삭제 end -------------------------------------------- */
 
 
-
-/* 이미지 미리보기  start */
-const imageInput = document.getElementById('imageInput');
-const preview = document.querySelector('.write-review-img-thumb');
-
-imageInput.addEventListener('change', (e) => {
-  const file = e.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = () => {
-      preview.src = reader.result;
-    };
-    reader.readAsDataURL(file);
-  }
-});
-
-/* 이미지 미리보기 end  */
 
 function resetEditMode(titleInput, contentTextarea, rating, ratingInputs, imageInput, button, cancelButton) {
     console.log('수정 모드 종료.');
@@ -417,9 +397,7 @@ function resetEditMode(titleInput, contentTextarea, rating, ratingInputs, imageI
     cancelButton.textContent = "삭제";
 }
 
-
 /*  리뷰 페이지 네이션 */
-
 document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".pagination a").forEach((item) => {
         item.addEventListener("click", handlePaginationClick);
@@ -442,12 +420,33 @@ function handlePaginationClick(event) {
     }
     location.href = url.toString();
 }
-
-
-
-
 /* 리뷰 페이지 네이션 */
 
+/* 리뷰 작성 버튼 */
+
+
+
+/* 리뷰 작성 버튼 */
+
+
+
+
+/* 리뷰 작성 이미지 미리보기  start */
+const imageInput = document.getElementById('write-imageInput');
+const preview = document.querySelector('.write-review-img-thumb');
+
+imageInput.addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      preview.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+/* 리뷰 작성 이미지 미리보기 end  */
 
 /*-------------------------------------- 리뷰 수정 end ------------------------------------------- */
 /* 수정전 별점 JS */

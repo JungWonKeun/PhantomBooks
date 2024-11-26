@@ -116,15 +116,13 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 		return result;
 	}
 
-	// 리뷰 조회
-	@Override
-	public int getReviewCount(int bookNo) {
-		return mapper.countReview(bookNo); // 특정 책에 대한 총 리뷰 개수 가져오기
-	}
 
 	// 리뷰 페이지 네이션
 	@Override
-	public List<Review> getReviewsByBookNo(int bookNo, int cp) {
+	public Map<String, Object> getReviewsByBookNo(int bookNo, int cp) {
+		
+		Map<String, Object> map = new HashMap<>();
+		
 		int countReview = mapper.countReview(bookNo);
 
 		// Pagination 객체 생성
@@ -135,10 +133,15 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 		int offset = (cp - 1) * limit;
 		RowBounds bounds = new RowBounds(offset, limit);
 
-		// 리뷰 리스트 조회
-		return mapper.getReviewsByBookNo(bookNo, bounds, countReview);
-	}
+		List<Review> reviewList = mapper.getReviewsByBookNo(bookNo, bounds, countReview);
 
+		map.put("reviewList", reviewList);
+		map.put("pagination", pagination);
+		
+		// 리뷰 리스트 조회
+		return map;
+	}
+	
 	@Override
 	public boolean writeReview(int bookNo, String title, String content, double score, int memberNo,
 			MultipartFile file) {
@@ -224,11 +227,13 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 		return result > 0 ? "리뷰 업데이트 성공" : "리뷰 업데이트 실패";
 	}
 
+
 	// 리뷰 삭제
 	@Override
-	public int deleteReview(int reviewNo, int memberNo) {
+	public int deleteReview(int reviewNo) {
 		
-		return mapper.deleteReview(reviewNo, memberNo);
+		return mapper.deleteReview(reviewNo);
 	}
 
+	
 }
