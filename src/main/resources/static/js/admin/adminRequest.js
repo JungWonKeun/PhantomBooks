@@ -22,6 +22,16 @@ const listUp = (cp, sort, view, text) => {
     const bookList = map.bookList;
     const pagination = map.pagination;
 
+    // 현재 날짜 받아오기
+    const now = new Date();
+
+    const year = now.getFullYear();
+    const month = now.getMonth();
+    const day = now.getDate();
+
+    const today = `${year}-${month}-${day}`;
+
+
     list.innerHTML = "";
 
     bookList.forEach(book => {
@@ -118,8 +128,11 @@ const listUp = (cp, sort, view, text) => {
 
         th11.append(book.currentCount);
         th12.append(book.basicCount);
-        th10.append( document.createElement("input") );
-        th13.append( document.createElement("input") );
+        const input1 = document.createElement("input");
+        th10.append( input1 );
+
+        const input2 = document.createElement("input");
+        th13.append( input2 );
 
         tr31.append(th310, th311, th312, th313);
         tr3.append( th11, th12, th10, th13);
@@ -143,13 +156,22 @@ const listUp = (cp, sort, view, text) => {
         button1.addEventListener("click", ()=>{
           const alarm = confirm(book.email + "으로 발주요청을 보내시겠습니까?");
 
+          const price = input1.value;
+          const count = input2.value;
+
           if(alarm){
             fetch("/admin/request", {
               method : "post",
               headers : {"Content-Type" : "application/json"},
               body : JSON.stringify({
                 email : book.email,
-                title : book.bookTitle
+                bookNo : book.bookNo,
+                bookTitle : book.bookTitle,
+                bookWriter : book.bookWriter,
+                bookPrice : price,
+                currentCount : count,
+                companyName : book.companyName,
+                insertDate : today 
               })
               })
             .then(response => {
@@ -157,12 +179,14 @@ const listUp = (cp, sort, view, text) => {
               throw new Error("전송 실패");
             })
             .then(result => {
-              if(result > 0){
-                alert("요청을 보냈습니다");
-                location.reload();
+              if(result == 0){
+                alert("발주 요청이 되지 않았습니다.");
+                return;
               }
-            })
 
+              alert("발주 요청이 되었습니다.");
+              location.reload();
+            })
           }
         })
 

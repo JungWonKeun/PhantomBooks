@@ -33,7 +33,6 @@ public class AdminRequestController {
 			@RequestBody Book book
 			) {
 		
-		
 		return service.requestEmail("request", book);
 	}
 	

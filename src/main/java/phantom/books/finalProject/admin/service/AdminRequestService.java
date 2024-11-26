@@ -6,5 +6,4 @@ public interface AdminRequestService {
 
 	// 이메일 발송
 	int requestEmail(String htmlName, Book book);
-
 }
