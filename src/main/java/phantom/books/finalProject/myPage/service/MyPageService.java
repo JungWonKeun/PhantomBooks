@@ -2,6 +2,7 @@ package phantom.books.finalProject.myPage.service;
 
 import java.util.List;
 
+import phantom.books.finalProject.member.dto.Member;
 import phantom.books.finalProject.myPage.dto.Category;
 import phantom.books.finalProject.myPage.dto.Preference;
 
@@ -25,6 +26,12 @@ public interface MyPageService {
 
 	// 로그인한 회원의 선호 취향 불러오기	
 	List<Preference> getPreferenceByMemberId(int memberNo);
+	
+	// 정보 조회/수정 페이지 비밀번호 체크
+	boolean checkPassword(int memberNo, String password);
+
+	// 정보 변경
+	Member changeInfo(Member inputMember);
 
 
 }

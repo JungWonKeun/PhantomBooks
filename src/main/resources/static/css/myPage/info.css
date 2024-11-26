@@ -35,6 +35,10 @@
   position: relative;
 }
 
+.menu.active {
+  color: #007bff; /* 활성화된 상태의 색상 */
+}
+
 .menu:hover {
   color: #007bff;
 }
@@ -77,4 +81,54 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   min-width: 0; 
   max-width: 100%;
+}
+
+.logo{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logoImg{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 180px;
+  height: auto;
+}
+
+.red {
+  font-weight: bold;
+  color: red;
+  margin-bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+/* 기본적으로 clear-btn 버튼 숨기기 */
+.clear-btn {
+  display: none;
+  position: absolute;
+  
+  top: 50%;
+  right: 35px;
+  transform: translateY(-50%);
+}
+
+
+
+/* 입력 필드의 오른쪽 여백을 늘려서 유효성 아이콘과 clear-btn이 겹치지 않도록 조정 */
+.form-control {
+  padding-right: 60px; /* 여유 있는 오른쪽 패딩 추가 */
+}
+
+
+div label {
+  margin-left: 3px; /* input 깨짐 방지 */
+}
+
+#submitBtn{
+  margin-bottom: 100px;
 }
