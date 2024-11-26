@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded",  () => {
 
 /* 장바구니 시작  */
 
-/* allBook에서 선택된 책 장바구니로 보내기  */
+/* 체크박스 장바구니로 보내기  */
 function ifChecked(action) {
     if (action === 'cart') {
         // 여기서만 실제로 addToCart 기능을 수행하도록 구현
@@ -286,28 +286,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-
-    // Pagination 클릭 이벤트 처리
-    document.querySelectorAll(".pagination a").forEach((item) => {
-        item.addEventListener("click", handlePaginationClick);
-    });
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-
-    document.querySelectorAll(".pagination a").forEach((item) => {
-        item.addEventListener("click", handlePaginationClick);
-    });
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-
-    document.querySelectorAll(".pagination a").forEach((item) => {
-        item.addEventListener("click", handlePaginationClick);
-    });
-});
-
 function handlePaginationClick(event) {
     event.preventDefault();
 
@@ -378,11 +356,11 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById('hiddenPreferences').value = selectedPreferences.join(","); // 프리퍼런스 히든 필드에 값 저장
 
             // 콘솔로 값 확인
-            console.log("Search submitted with values:");
+   /*          console.log("Search submitted with values:");
             console.log("Search Title:", searchValue);
             console.log("Categories:", selectedCategories);
             console.log("Preferences:", selectedPreferences);
-
+ */
             // 폼을 수동으로 제출
             searchForm.submit(); // 실제로 폼 제출
         });
