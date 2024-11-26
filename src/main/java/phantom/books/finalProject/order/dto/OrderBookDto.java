@@ -21,11 +21,15 @@ public class OrderBookDto {
     private int bookPrice;    // 책 가격
     private int bookCount;    // 책 재고
     private int orderCount;   // 주문 수량
-
-    private String orderId;   // 주문 ID
-    private String zip;       // 배송 우편번호
-    private String address;   // 배송 주소
-    private String detailAddress; // 배송 상세 주소
-    private int totalPrice;   // 책의 총 가격
+    
+    private int discountPrice;
+    private String refundYn;
+    private int orderPrice;      // 판매 금액 (bookPrice × bookCount)
+    private int memberNo; 
+    private int orderNo;   
+    private String zip;       
+    private String address;   
+    private String detailAddress; 
+    private int totalPrice;  
 }
 

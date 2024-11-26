@@ -58,6 +58,9 @@ public class OrderController {
             model.addAttribute("errorMessage", "선택된 주문 항목이 없습니다.");
             return "error/error";
         }
+        
+        
+        log.debug("Selected Items: {}", selectedItems);
 
         AddressDto defaultAddress = service.getDefaultAddress(loginMember.getMemberNo());
 

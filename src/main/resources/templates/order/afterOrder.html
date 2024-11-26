@@ -33,10 +33,11 @@
                                  class="img-thumbnail" 
                                  style="max-width: 100px;">
                         </td>
-                        <td th:text="${item.bookTitle}">책 이름</td>
-                        <td th:text="${item.bookCount}">0</td>
-                        <td th:text="${item.bookPrice * item.bookCount}">0</td>
+                        <td th:text="${item.bookTitle != null ? item.bookTitle : '제목 없음'}">책 이름</td>
+                        <td th:text="${item.orderCount != null ? item.bookCount : 0}">0</td>
+                        <td th:text="${item.bookPrice != null && item.bookCount != null ? item.orderPrice  : 0}">0</td>
                     </tr>
+                    
                 </tbody>
             </table>
         </section>
@@ -71,7 +72,7 @@
                 <tbody>
                     <tr>
                         <th>총 상품 금액</th>
-                        <td th:text="${totalItemPrice}">50000</td>
+                        <td th:text="${order.totalPrice}-${order.deliveryFee}">50000</td>
                     </tr>
                     <tr>
                         <th>배송비</th>

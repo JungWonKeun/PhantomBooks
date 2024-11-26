@@ -15,6 +15,23 @@
 	    WHERE MEMBER_NO = #{memberNo}
 	</select>
 
+	<select id="selectOrderBooks" parameterType="int" resultType="OrderBookDto">
+	    SELECT 
+	        ob.BOOK_NO AS bookNo,
+	        b.BOOK_TITLE AS bookTitle,
+	        b.BOOK_COVER AS bookCover,
+	        ob.BOOK_COUNT AS bookCount,
+	        ob.ORDER_PRICE AS orderPrice,
+	        ob.DISCOUNT_PRICE AS discountPrice,
+	        ob.REFUND_YN AS refundYn
+	    FROM 
+	        ORDER_LIST ob
+	    JOIN 
+	        BOOK b ON ob.BOOK_NO = b.BOOK_NO
+	    WHERE 
+	        ob.ORDER_NO = #{orderNo}
+	</select>
+	
 
 	<insert id="insertOrder" parameterType="OrderDto" useGeneratedKeys="true" keyProperty="orderNo" keyColumn="ORDER_NO">
 	    INSERT INTO "ORDER" (
@@ -33,6 +50,28 @@
 	        #{userDetailAddress}, 
 	        #{userTelNo}, 
 	        #{userName}
+	    )
+	</insert>
+
+
+	<insert id="insertOrderList" parameterType="OrderBookDto">
+	    INSERT INTO ORDER_LIST (
+	        ORDER_NO, 
+	        MEMBER_NO, 
+	        BOOK_NO, 
+	        BOOK_COUNT, 
+	        ORDER_PRICE, 
+	        DISCOUNT_PRICE, 
+	        REFUND_YN
+	    )
+	    VALUES (
+	        #{orderNo}, 
+	        #{memberNo}, 
+	        #{bookNo}, 
+	        #{bookCount}, 
+	        #{orderPrice}, 
+	        #{discountPrice}, 
+	        DEFAULT
 	    )
 	</insert>
 
