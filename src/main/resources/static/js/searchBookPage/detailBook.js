@@ -425,13 +425,10 @@ document.addEventListener("DOMContentLoaded", () => {
         item.addEventListener("click", handlePaginationClick);
     });
 });
-
 function handlePaginationClick(event) {
     event.preventDefault(); // 기본 링크 동작 방지
-
     const url = new URL(location.href); // 현재 URL 기반
     const cp = event.target.innerText.trim(); // 클릭한 페이지 번호
-
     if (!isNaN(cp)) {
         url.searchParams.set("cp", cp);
     } else if (cp === "<<") {
@@ -443,7 +440,6 @@ function handlePaginationClick(event) {
     } else if (cp === ">>") {
         url.searchParams.set("cp", pagination?.maxPage || "1");
     }
-
     location.href = url.toString();
 }
 
