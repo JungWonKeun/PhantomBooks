@@ -2,7 +2,9 @@ package phantom.books.finalProject.myPage.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import phantom.books.finalProject.myPage.dto.Category;
 import phantom.books.finalProject.myPage.dto.Preference;
@@ -19,4 +21,23 @@ public interface MyPageMapper {
 	 *
 	 */
 	List<Preference> getPreference();
+	
+
+  // 특정 회원의 기존 선호 카테고리 삭제
+  int deleteCategoryByMemberNo(int memberNo);
+  // 새로운 선호 카테고리 삽입
+  int insertCategory(@Param("memberNo") int memberNo, @Param("categoryNo") int categoryNo);
+
+  // 특정 회원의 기존 선호 취향 삭제
+  int deletePreferenceByMemberNo(int memberNo);
+  // 새로운 선호 취향 삽입
+	int insertPreference(@Param("memberNo") int memberNo, @Param("preferenceNo") int preferenceNo);
+
+
+	List<Category> getCategoryByMemberId(int memberNo);
+
+	List<Preference> getPreferenceByMemberId(int memberNo);
+
+
+
 }

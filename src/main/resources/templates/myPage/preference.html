@@ -7,6 +7,7 @@
   <title>Document</title>
 
   <link rel="stylesheet" href="/css/myPage/preference.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -19,7 +20,7 @@
   </svg>
   <div class="btn-container gap-1">
     <button id="allLoad" class="btn btn-secondary mt-3 col-5">전부 불러오기</button>
-    <button id="allsave" class="btn btn-primary mt-3 col-5">전부 저장하기</button>
+    <button id="allSave" class="btn btn-primary mt-3 col-5">전부 저장하기</button>
     <button id="allPlus" class="btn btn-success mt-3 col-5">전부 담기</button>
     <button id="allMinus" class="btn btn-danger mt-3 col-5">전부 빼기</button>
   </div>
@@ -28,11 +29,15 @@
     <section class="content-box">
       <div class="sideBar">
         <div class="text-end mb-3">
-          <i id="openBtn" class="fa-solid fa-arrow-down-short-wide btn btn-primary"></i>
-          <i id="closeBtn" class="fa-solid fa-arrow-up-short-wide btn btn-danger" style="display: none;"></i>
+          <button id="openBtn" class="btn btn-primary">
+            <i class="fa-solid fa-arrow-down-short-wide"></i>
+          </button>
+          <button id="closeBtn" class="btn btn-danger" style="display: none;">
+            <i class="fa-solid fa-arrow-up-short-wide"></i>
+          </button>
         </div>
         <h3 class="menu">
-          <i class="fa-solid fa-users">&nbsp;&nbsp;내 정보</i>
+          <i class="fa-solid fa-users"></i>&nbsp;&nbsp;내 정보
           <ul class="submenu">
             <li><a href="/myPage/info">&nbsp;&nbsp;&nbsp;-&nbsp;내 정보 보기</a></li>
             <li><a href="/myPage/preference">&nbsp;&nbsp;&nbsp;-&nbsp;내 취향 보기</a></li>
@@ -40,7 +45,7 @@
         </h3>
 
         <h3 class="menu">
-          <i class="fa-solid fa-arrow-trend-up">&nbsp;&nbsp;구매 및 배송</i>
+          <i class="fa-solid fa-arrow-trend-up"></i>&nbsp;&nbsp;구매 및 배송
           <ul class="submenu">
             <li><a href="">&nbsp;&nbsp;&nbsp;-&nbsp;구매 내역 조회</a></li>
             <li><a href="">&nbsp;&nbsp;&nbsp;-&nbsp;내 취향대로 검색</a></li>
@@ -48,7 +53,7 @@
         </h3>
 
         <h3 class="menu">
-          <i class="fa-solid fa-warehouse">&nbsp;&nbsp;내 활동 내역</i>
+          <i class="fa-solid fa-warehouse"></i>&nbsp;&nbsp;내 활동 내역
           <ul class="submenu">
             <li><a href="">&nbsp;&nbsp;&nbsp;-&nbsp;내가 쓴 문의</a></li>
             <li><a href="">&nbsp;&nbsp;&nbsp;-&nbsp;내가 쓴 리뷰</a></li>
@@ -67,7 +72,7 @@
                   <button id="saveCategory" class="btn btn-primary mt-3">저장하기</button>
                   <button id="loadCategory" class="btn btn-secondary mt-3">불러오기</button>
                   <button id="plusCategory" class="btn btn-success mt-3">전부 담기</button>
-                  <button id="mainusCategory" class="btn btn-danger mt-3">전부 빼기</button>
+                  <button id="minusCategory" class="btn btn-danger mt-3">전부 빼기</button>
                 </div>
               </div>
               <div class="card-body gap-1 py-5">
@@ -86,9 +91,13 @@
               </div>
               <div class="card-body py-1 d-flex flex-wrap justify-content-center">
                 <button
-                  class="btn btn-light h-100 p-3 mt-3 mb-3 me-3 offset-8 col-4 preference d-flex align-items-center justify-content-center"
-                  style="font-size: 20px; white-space: nowrap;" th:each="category : ${categoryList}"
-                  th:value="${category.categoryName}" th:text="${category.categoryName}">
+                  class="btn btn-light h-100 p-3 mt-1 mb-1 me-3 offset-8 col-4 preference d-flex align-items-center justify-content-center"
+                  style="font-size: 20px; white-space: nowrap;" th:each="category : ${categoryList}">
+                  <label class="checkbox-label d-flex align-items-center">
+                    <!-- 숨겨진 체크박스 -->
+                    <input type="checkbox" name="categoryNo" class="category-checkbox" th:value="${category.categoryNo}" style="display: none;">
+                    <span class="checkbox-text" th:text="${category.categoryName}"></span>
+                  </label>
                 </button>
               </div>
             </div>
@@ -106,7 +115,7 @@
                   <button id="savePreference" class="btn btn-primary mt-3">저장하기</button>
                   <button id="loadPreference" class="btn btn-secondary mt-3">불러오기</button>
                   <button id="plusPreference" class="btn btn-success mt-3">전부 담기</button>
-                  <button id="mainusPreference" class="btn btn-danger mt-3">전부 빼기</button>
+                  <button id="minusPreference" class="btn btn-danger mt-3">전부 빼기</button>
                 </div>
               </div>
               <div class="card-body gap-2 py-5">
@@ -125,9 +134,13 @@
               </div>
               <div class="card-body py-1 d-flex flex-wrap justify-content-center">
                 <button
-                class="btn btn-light h-100 p-3 mt-3 mb-3 me-3 offset-8 col-4 preference d-flex align-items-center justify-content-center"
-                style="font-size: 20px; white-space: nowrap;" th:each="preference : ${preferenceList}"
-                  th:value="${preference.preferenceName}" th:text="${preference.preferenceName}">
+                  class="btn btn-light h-100 p-3 mt-1 mb-1 me-3 offset-8 col-4 preference d-flex align-items-center justify-content-center"
+                  style="font-size: 20px; white-space: nowrap;" th:each="preference : ${preferenceList}">
+                  <label class="checkbox-label d-flex align-items-center">
+                    <!-- 숨겨진 체크박스 -->
+                    <input type="checkbox" name="preferenceNo" class="preference-checkbox" th:value="${preference.preferenceNo}" style="display: none;">
+                    <span class="checkbox-text" th:text="${preference.preferenceName}"></span>
+                  </label>
                 </button>
               </div>
             </div>
@@ -136,11 +149,12 @@
       </div>
     </section>
   </main>
-  <div style="height: 20px;"></div>
+  <div style="height: 20px;">
+  </div>
   <footer th:replace="~{common/footer :: footer}"></footer>
   <script src="/js/myPage/preference.js"></script>
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-  <script src="https://kit.fontawesome.com/5eb8a8a2db.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js" defer></script>
 </body>
 
 </html>

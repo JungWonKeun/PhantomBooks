@@ -1,28 +1,37 @@
-/* 사이드바 열고 닫기 */
-document.querySelectorAll('.menu').forEach(menu => {
-  menu.addEventListener('click', function () {
-    this.classList.toggle('active');
+document.addEventListener('DOMContentLoaded', function () {
+  const openBtn = document.getElementById("openBtn");
+  const closeBtn = document.getElementById("closeBtn");
+  const menus = document.querySelectorAll('.menu');
+
+  // 각 메뉴 클릭 시 active 상태 토글
+  menus.forEach(menu => {
+    menu.addEventListener('click', function () {
+      this.classList.toggle('active');
+    });
+  });
+
+  // 모두 열기 버튼 클릭
+  openBtn.addEventListener("click", () => {
+    openBtn.style.display = "none";
+    closeBtn.style.display = "inline-block";
+    menus.forEach(menu => {
+      menu.classList.add("active");
+    });
+  });
+
+  // 모두 닫기 버튼 클릭
+  closeBtn.addEventListener("click", () => {
+    openBtn.style.display = "inline-block";
+    closeBtn.style.display = "none";
+    menus.forEach(menu => {
+      menu.classList.remove("active");
+    });
   });
 });
 
-// 모두 열고 닫기 버튼
-document.getElementById("openBtn").addEventListener("click", () => {
-  document.getElementById("openBtn").style.display = "none";
-  document.getElementById("closeBtn").style.display = "inline-block";
-  document.querySelectorAll(".menu").forEach(menu => {
-    menu.classList.add("active");
-  });
-});
 
-document.getElementById("closeBtn").addEventListener("click", () => {
-  document.getElementById("openBtn").style.display = "inline-block";
-  document.getElementById("closeBtn").style.display = "none";
-  document.querySelectorAll(".menu").forEach(menu => {
-    menu.classList.remove("active");
-  });
-});
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   const btnContainer = document.querySelector('.btn-container'); // 버튼 컨테이너 선택
   const footer = document.querySelector('footer'); // 푸터 요소 선택
   const scrollOffset = 10; // 위치 변경할 스크롤 값
@@ -60,9 +69,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   const stickyCards = document.querySelectorAll('.sticky-card'); // 모든 .sticky-card 요소 선택
-  const offset = 400; // 원하는 고정 위치
+  const offset = 270; // 원하는 고정 위치
   const footer = document.querySelector('footer'); // 푸터 요소 선택
 
   function updateStickyCardPositions() {
@@ -103,6 +112,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
+  // DOM 요소 선택
   const categoryButtons = document.querySelectorAll('.category-container .preference');
   const preferenceButtons = document.querySelectorAll('.preference-container .preference');
   const categoryBadgeContainer = document.querySelector('.category-container .card-body');
@@ -110,66 +120,330 @@ document.addEventListener('DOMContentLoaded', function () {
   const categoryText = document.querySelector('.category-container .card-text');
   const preferenceText = document.querySelector('.preference-container .card-text');
 
-  // 카테고리 추가 함수
-  function toggleBadge(button, containerSelector, textElement) {
-    const badgeContainer = document.querySelector(containerSelector);
-    const badgeText = button.textContent.trim();
+  const plusCategoryButton = document.getElementById('plusCategory');
+  const minusCategoryButton = document.getElementById('minusCategory');
+  const plusPreferenceButton = document.getElementById('plusPreference');
+  const minusPreferenceButton = document.getElementById('minusPreference');
+  const allPlusButton = document.getElementById('allPlus');
+  const allMinusButton = document.getElementById('allMinus');
+  const loadCategoryButton = document.getElementById('loadCategory');
+  const loadPreferenceButton = document.getElementById('loadPreference');
 
-    // 배지가 이미 있는지 체크
-    const existingBadge = [...badgeContainer.querySelectorAll('.badge span:first-child')]
-      .find(span => span.textContent === badgeText);
+  const loadAllButton = document.getElementById('allLoad');
+
+  // 버튼 스타일 토글 함수
+  function toggleButtonStyle(button, isSelected) {
+    if (isSelected) {
+      button.classList.add('btn-primary', 'selected');
+      button.classList.remove('btn-light');
+    } else {
+      button.classList.remove('btn-primary', 'selected');
+      button.classList.add('btn-light');
+    }
+  }
+
+  // 설명 텍스트 가시성 업데이트
+  function updateTextVisibility(badgeContainer, textElement) {
+    const badgeCount = badgeContainer.querySelectorAll('.badge').length;
+    textElement.style.display = badgeCount > 0 ? 'none' : '';
+  }
+
+  // 배지 추가 및 제거
+  function toggleBadge(button, badgeContainer, textElement) {
+    const checkbox = button.querySelector('input[type="checkbox"]');
+    const badgeText = button.querySelector('.checkbox-text').textContent.trim();
+    const existingBadge = [...badgeContainer.querySelectorAll('.badge span:first-child')].find(
+      span => span.textContent === badgeText
+    );
+
 
     if (existingBadge) {
-      // 배지가 이미 있다면 제거
       existingBadge.closest('.badge').remove();
-      button.classList.remove('btn-primary'); // 'btn-primary' 클래스 제거
-      button.classList.add('btn-light'); // 'btn-light' 클래스 추가
-      button.classList.remove('selected'); // 체크 아이콘 클래스 제거
+      toggleButtonStyle(button, false);
+      if (checkbox) checkbox.checked = false;
     } else {
-      // 배지가 없다면 추가
       const badge = document.createElement('span');
-      badge.className = 'badge text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-pill';
+      badge.className = 'badge text-primary-emphasis bg-primary-subtle gap-1 border border-primary-subtle rounded-pill';
       badge.innerHTML = `
         <span style="font-size: 20px;">${badgeText}</span>
-        <span class="vr mx-2"></span>
-        <svg class="bi ms-1" width="14" height="14"><use xlink:href="#x-circle-fill" /></svg>
-      `;
-
-      // 배지를 컨테이너에 추가
+        <svg class="bi ms-1 remove-badge" width="20" height="20">
+          <use xlink:href="#x-circle-fill"></use>
+        </svg>`;
       badgeContainer.appendChild(badge);
-      button.classList.remove('btn-light'); // 'btn-light' 클래스 제거
-      button.classList.add('btn-primary'); // 'btn-primary' 클래스 추가
-      button.classList.add('selected'); // 체크 아이콘 클래스 추가
+      toggleButtonStyle(button, true);
+      if (checkbox) checkbox.checked = true;
     }
 
-    // 배지가 있는지 확인 후 설명 텍스트 숨기기
     updateTextVisibility(badgeContainer, textElement);
   }
 
-  // 배지의 상태에 따라 설명 텍스트의 가시성을 업데이트하는 함수
-  function updateTextVisibility(badgeContainer, textElement) {
-    if (badgeContainer.querySelectorAll('.badge').length > 0) {
-      textElement.style.display = 'none'; // 배지가 하나라도 있으면 설명 숨기기
-    } else {
-      textElement.style.display = ''; // 배지가 없으면 설명 다시 보이기
-    }
+
+  // 모두 담기
+  function selectAll(buttons, badgeContainer, textElement) {
+    buttons.forEach(button => {
+      const checkbox = button.querySelector('input[type="checkbox"]');
+      const badgeText = button.querySelector('.checkbox-text').textContent.trim();
+      const existingBadge = [...badgeContainer.querySelectorAll('.badge span:first-child')].find(
+        span => span.textContent === badgeText
+      );
+
+      if (!existingBadge) {
+        const badge = document.createElement('span');
+        badge.className = 'badge text-primary-emphasis bg-primary-subtle gap-1 border border-primary-subtle rounded-pill';
+        badge.innerHTML = `
+          <span style="font-size: 20px;">${badgeText}</span>
+          <svg class="bi ms-1 remove-badge" width="20" height="20">
+            <use xlink:href="#x-circle-fill"></use>
+          </svg>`;
+        badgeContainer.appendChild(badge);
+      }
+
+      toggleButtonStyle(button, true);
+      if (checkbox) checkbox.checked = true;
+    });
+
+    updateTextVisibility(badgeContainer, textElement);
   }
 
-  // 각 버튼에 클릭 이벤트 추가
+  // 모두 빼기
+  function clearAll(buttons, badgeContainer, textElement) {
+    badgeContainer.querySelectorAll('.badge').forEach(badge => badge.remove());
+    buttons.forEach(button => {
+      const checkbox = button.querySelector('input[type="checkbox"]');
+      toggleButtonStyle(button, false);
+      if (checkbox) checkbox.checked = false;
+    });
+    updateTextVisibility(badgeContainer, textElement);
+  }
+
+  // 데이터 동기화
+  function syncButtonsWithData(buttons, badgeContainer, textElement, selectedValues) {
+    buttons.forEach(button => {
+      const checkbox = button.querySelector('input[type="checkbox"]');
+      const buttonValue = Number(checkbox.value);
+
+      if (selectedValues.includes(buttonValue)) {
+        if (!button.classList.contains('btn-primary')) {
+          toggleBadge(button, badgeContainer, textElement);
+        }
+      } else {
+        if (button.classList.contains('btn-primary')) {
+          toggleBadge(button, badgeContainer, textElement);
+        }
+      }
+    });
+  }
+
+  // Load 카테고리 데이터
+  function loadCategory() {
+    return fetch('/myPage/loadCategory', { method: 'GET' })
+      .then(response => response.ok ? response.json() : Promise.reject('Failed to load categories'))
+      .then(data => {
+        const selectedCategories = data.map(item => Number(item.categoryNo));
+        syncButtonsWithData(categoryButtons, categoryBadgeContainer, categoryText, selectedCategories);
+        return '카테고리 로드 성공';
+      });
+  }
+
+  // Load 프리퍼런스 데이터
+  function loadPreference() {
+    return fetch('/myPage/loadPreference', { method: 'GET' })
+      .then(response => response.ok ? response.json() : Promise.reject('Failed to load preferences'))
+      .then(data => {
+        const selectedPreferences = data.map(item => Number(item.preferenceNo));
+        syncButtonsWithData(preferenceButtons, preferenceBadgeContainer, preferenceText, selectedPreferences);
+        return '선호 취향 로드 성공';
+      });
+  }
+
+  // 버튼 이벤트 리스너 등록
   categoryButtons.forEach(button => {
-    button.addEventListener('click', function () {
-      toggleBadge(button, '.category-container .card-body', categoryText);
+    button.addEventListener('click', () => {
+      toggleBadge(button, categoryBadgeContainer, categoryText);
     });
   });
 
   preferenceButtons.forEach(button => {
-    button.addEventListener('click', function () {
-      toggleBadge(button, '.preference-container .card-body', preferenceText);
+    button.addEventListener('click', () => {
+      toggleBadge(button, preferenceBadgeContainer, preferenceText);
     });
   });
 
-  // 초기 설명 텍스트 가시성 설정
+  plusCategoryButton.addEventListener('click', () =>
+    selectAll(categoryButtons, categoryBadgeContainer, categoryText)
+  );
+
+  minusCategoryButton.addEventListener('click', () =>
+    clearAll(categoryButtons, categoryBadgeContainer, categoryText)
+  );
+
+  plusPreferenceButton.addEventListener('click', () =>
+    selectAll(preferenceButtons, preferenceBadgeContainer, preferenceText)
+  );
+
+  minusPreferenceButton.addEventListener('click', () =>
+    clearAll(preferenceButtons, preferenceBadgeContainer, preferenceText)
+  );
+
+  allPlusButton.addEventListener('click', () => {
+    selectAll(categoryButtons, categoryBadgeContainer, categoryText);
+    selectAll(preferenceButtons, preferenceBadgeContainer, preferenceText);
+  });
+
+  allMinusButton.addEventListener('click', () => {
+    clearAll(categoryButtons, categoryBadgeContainer, categoryText);
+    clearAll(preferenceButtons, preferenceBadgeContainer, preferenceText);
+  });
+
+  loadAllButton.addEventListener('click', () => {
+    if (confirm('저장된 카테고리와 선호 취향을 불러오시겠습니까?')) {
+      Promise.all([loadCategory(), loadPreference()])
+        .catch(error => alert(error));
+    }
+  });
+
+  loadCategoryButton.addEventListener('click', () => {
+    if (confirm('저장된 카테고리를 불러오시겠습니까?')) {
+      loadCategory()
+        .catch(error => alert(error));
+    }
+  });
+
+  loadPreferenceButton.addEventListener('click', () => {
+    if (confirm('저장된 선호 취향을 불러오시겠습니까?')) {
+      loadPreference()
+        .catch(error => alert(error));
+    }
+  });
+
+  // 배지 제거 이벤트
+  document.addEventListener('click', event => {
+    const target = event.target.closest('.remove-badge');
+    if (target) {
+      const badge = target.closest('.badge');
+      const badgeText = badge.querySelector('span').textContent.trim();
+
+      let buttons, badgeContainer, textElement;
+
+      if (categoryBadgeContainer.contains(badge)) {
+        buttons = categoryButtons;
+        badgeContainer = categoryBadgeContainer;
+        textElement = categoryText;
+      } else if (preferenceBadgeContainer.contains(badge)) {
+        buttons = preferenceButtons;
+        badgeContainer = preferenceBadgeContainer;
+        textElement = preferenceText;
+      }
+
+      buttons.forEach(button => {
+        const checkbox = button.querySelector('input[type="checkbox"]');
+        const buttonText = button.querySelector('.checkbox-text').textContent.trim();
+
+        if (buttonText === badgeText) {
+          toggleButtonStyle(button, false);
+          if (checkbox) checkbox.checked = false;
+        }
+      });
+
+      badge.remove();
+      updateTextVisibility(badgeContainer, textElement);
+    }
+  });
+
+  // 초기 텍스트 가시성 업데이트
   updateTextVisibility(categoryBadgeContainer, categoryText);
   updateTextVisibility(preferenceBadgeContainer, preferenceText);
 });
 
+
+
+
+const saveCategoryButton = document.getElementById('saveCategory');
+const savePreferenceButton = document.getElementById('savePreference');
+const saveAllButton = document.getElementById('allSave');
+function saveCategory(showAlert = true) {
+  const checkedCategory = Array.from(document.querySelectorAll('.category-checkbox:checked')).map(input => input.value);
+
+  console.log("체크된 카테고리", checkedCategory);
+
+  return fetch('/myPage/saveCategory', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(checkedCategory),
+  })
+    .then(response => {
+      if (response.ok) return response.text();
+      throw new Error('Failed to save categories');
+    })
+    .then(result => {
+      if (showAlert) {
+        if (result === 'Success') alert('선호 카테고리가 성공적으로 저장되었습니다.');
+        else alert('카테고리 저장에 실패했습니다.');
+      }
+      return result; // 전체 저장 버튼에서 사용
+    })
+    .catch(err => {
+      console.error(err);
+      if (showAlert) alert('선호 카테고리 저장 중 오류가 발생했습니다.');
+      throw err;
+    });
+}
+
+function savePreference(showAlert = true) {
+  const checkedPreference = Array.from(document.querySelectorAll('.preference-checkbox:checked')).map(input => input.value);
+
+  console.log("체크된 프리퍼런스", checkedPreference);
+
+  return fetch('/myPage/savePreference', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(checkedPreference),
+  })
+    .then(response => {
+      if (response.ok) return response.text();
+      throw new Error('Failed to save preferences');
+    })
+    .then(result => {
+      if (showAlert) {
+        if (result === 'Success') alert('선호 취향이 성공적으로 저장되었습니다.');
+        else alert('선호 취향 저장에 실패했습니다.');
+      }
+      return result; // 전체 저장 버튼에서 사용
+    })
+    .catch(err => {
+      console.error(err);
+      if (showAlert) alert('선호 취향 저장 중 오류가 발생했습니다.');
+      throw err;
+    });
+}
+
+
+saveCategoryButton.addEventListener('click', () => {
+  if (confirm('선호 카테고리 저장하시겠습니까?') === false) return;
+  saveCategory();
+});
+
+savePreferenceButton.addEventListener('click', () => {
+  if (confirm('선호 취향 저장하시겠습니까?') === false) return;
+  savePreference();
+});
+
+saveAllButton.addEventListener('click', async () => {
+  if (confirm('전부 저장하시겠습니까?') === false) return;
+
+  try {
+    const [categoryResult, preferenceResult] = await Promise.all([
+      saveCategory(false), // 개별 알림 생략
+      savePreference(false) // 개별 알림 생략
+    ]);
+
+    if (categoryResult === 'Success' && preferenceResult === 'Success') {
+      alert('모든 저장이 성공적으로 완료되었습니다.');
+    } else {
+      alert('일부 저장이 실패했습니다.\n선호 카테고리 저장: ' + categoryResult + '\n선호 취향 저장: ' + preferenceResult);
+    }
+  } catch (err) {
+    console.error(err);
+    alert('저장 중 오류가 발생했습니다.');
+  }
+});

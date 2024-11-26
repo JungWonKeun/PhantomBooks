@@ -107,3 +107,24 @@
   margin-left: 8px; /* 체크 아이콘과 버튼 텍스트 사이의 여백 */
 }
 
+.badge {
+  margin: 5px; /* 배지 간격 */
+  vertical-align: middle; /* 텍스트와 아이콘을 가운데 정렬 */
+}
+
+.badge:hover {
+  background-color: #d0e7ff; /* 호버 시 배경색 변경 */
+}
+
+.badge svg {
+  cursor: pointer; /* 아이콘에 커서 변경 */
+  vertical-align: middle; /* 아이콘을 텍스트와 세로로 정렬 */
+}
+
+.card-body {
+  gap: 10px; /* 배지 간 간격 */
+}
+
+.checkbox-label {
+  pointer-events: none;
+}
