@@ -130,6 +130,7 @@ public class SearchBookPageController {
 	public String addCart(@RequestBody Map<String, List<Integer>> paramMap,
 			@SessionAttribute("loginMember") Member loginMember) {
 
+		
 		int memberNo = loginMember.getMemberNo();
 
 		log.debug("memberNo : {}", memberNo);
@@ -159,6 +160,7 @@ public class SearchBookPageController {
 	@PutMapping("/singleCart")
 	public String singleCart(@SessionAttribute("loginMember") Member loginMember,
 			@RequestBody Map<String, Object> requestData) {
+		
 		int memberNo = loginMember.getMemberNo();
 		int bookNo = (int) requestData.get("bookNo");
 

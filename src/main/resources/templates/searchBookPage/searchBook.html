@@ -133,12 +133,15 @@
 
         <div class="check-toGo">
           <label class="allCheck">
-            <button type="button" id="selectAllButton">전체선택</button>
+            <button type="button" id="selectAllButton"  
+            th:if="${session.loginMember != null}">전체선택</button>
           </label>
           <label class="check-bagButton">
-            <button type="button" onclick="ifChecked('cart')">장바구니</button></label>
+            <button type="button" onclick="ifChecked('cart')" 
+             th:if="${session.loginMember != null}">장바구니</button></label>
           <label class="check-wishListButton">
-            <button type="button" onclick="ifChecked('wishlist')">찜</button>
+            <button type="button" onclick="ifChecked('wishlist')"  
+            th:if="${session.loginMember != null}">찜</button>
           </label>
         </div>
       </div>
@@ -168,13 +171,16 @@
         <div class="book-item-actions">
             <!-- 장바구니 버튼 클릭 시 singleCartBtn(this) 호출 -->
             <label class="buttonBag">
-                <button type="button" onclick="singleCartBtn(this)">장바구니</button>
+                <button type="button" onclick="singleCartBtn(this)"  
+                th:if="${session.loginMember != null}">장바구니</button>
             </label>
             <label class="buttonWish">
-                <button id="addToWishList">찜</button>
+                <button id="addToWishList"
+                  th:if="${session.loginMember != null}">찜</button>
             </label>
             <label class="buttonBuy">
-                <button id="buyNow">바로구매</button>
+                <button id="buyNow"  
+                th:if="${session.loginMember != null}">바로구매</button>
             </label>
         </div>
     </div>

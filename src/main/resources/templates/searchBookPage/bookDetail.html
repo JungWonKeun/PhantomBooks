@@ -52,13 +52,13 @@
 
       <div class="book-detail-actions">
         <div class="book-detail-cart">
-          <label class="book-detail-button"><button onclick="detailCart(this)">장바구니</button></label>
+          <label class="book-detail-button"><button onclick="detailCart(this)"  th:if="${session.loginMember != null}">장바구니</button></label>
         </div>
         <div class="book-detail-wishlist">
-          <label class="book-detail-button"><button>찜</button></label>
+          <label class="book-detail-button"><button  th:if="${session.loginMember != null}">찜</button></label>
         </div>
         <div class="book-detail-buy">
-          <label class="book-detail-button"><button>바로 구매</button></label>
+          <label class="book-detail-button"><button  th:if="${session.loginMember != null}">바로 구매</button></label>
         </div>
       </div>
 
@@ -237,12 +237,10 @@
   <!-- 페이지 네이션  -->
 
   <!--  리뷰 작성 -->
-  <section class="review-write-section">
+  <section class="review-write-section"  th:if="${session.loginMember != null}" >
+   
     <form id="writeReviewForm" method="post" action="/searchBookPage/writeReview" enctype="multipart/form-data">
       <input type="hidden" name="bookNo" th:value="${book.bookNo}">
-      <label class="rwbLabel">
-        <button class="review-write-button" type="submit"><span class="review-write-text">리뷰 작성</span></button>
-      </label>
 
       <div class="write-review-border">
         <div class="write-review-container">

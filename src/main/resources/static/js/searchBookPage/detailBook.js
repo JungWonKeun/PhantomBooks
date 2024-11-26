@@ -422,11 +422,6 @@ function handlePaginationClick(event) {
 }
 /* 리뷰 페이지 네이션 */
 
-/* 리뷰 작성 버튼 */
-
-
-
-/* 리뷰 작성 버튼 */
 
 
 
