@@ -43,14 +43,32 @@ public interface SearchBookPageMapper {
                            @Param("preferences") int[]  preferences, 
                            RowBounds bounds);
 
-//    리뷰 조회
-    List<Review> getReviewsByBookNo(int bookNo);
-
+	// 리뷰 페이지 네이션용 리뷰 개수 조회
+	int countReview(int bookNo);
+   
+    // 책 번호에 따른 리뷰 가져오기 (RowBounds를 사용하여 페이지네이션 처리)
+    List<Review> getReviewsByBookNo(
+        @Param("bookNo") int bookNo,
+        RowBounds bounds,
+        @Param("countReview") int countReview
+    );
     // 리뷰 작성
         int insertReview(Review review);
 
         // 리뷰 수정
 		int updateReview(Review review);
+
+		// 더보기 용 리뷰 개수 조회
+		int countReviewsByBookNo(int bookNo);
+
+		// 리뷰 삭제
+		int deleteReview(@Param("reviewNo") int reviewNo,@Param("memberNo") int memberNo);
+
+	
+
+
+
+		
 
 
 

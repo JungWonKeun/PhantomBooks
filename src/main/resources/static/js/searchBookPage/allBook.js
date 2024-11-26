@@ -34,47 +34,44 @@ document.addEventListener("DOMContentLoaded",  () => {
 /* 장바구니 시작  */
 
 /* allBook에서 선택된 책 장바구니로 보내기  */
-
 function ifChecked(action) {
-  if (action === 'cart') {
-      // 여기서만 실제로 addToCart 기능을 수행하도록 구현
-      const selectedBookNo = [];
-      document.querySelectorAll('.book-checkbox:checked').forEach(checkbox => {
-          selectedBookNo.push(checkbox.value);  // value 값을 사용하여 수집
-      });
-
-      // 선택된 책이 없으면 경고 메시지 출력
-      if (selectedBookNo.length === 0) {
-          alert("책을 선택해 주세요.");
-          return;
-      }
-
-      // Fetch API를 사용하여 선택된 책을 서버로 전송
-      fetch("/searchBookPage/addCart", {
-          method: "PUT",
-          headers: {
-              "Content-Type": "application/json"
-          },
-          body: map
-      })
-      .then(response => {
-          if (response.ok) {
-              // 성공 시 확인 창 띄우기
-              let userResponse = confirm("장바구니로 이동하시겠습니까?");
-              if (userResponse) {
-                  window.location.href = "/cart";  // 장바구니 페이지로 이동
-              }
-              // "아니오"를 누르면 아무 작업도 하지 않음 (현재 페이지 유지)
-          } else {
-              // 오류 발생 시 경고 메시지 출력
-              throw new Error("장바구니 추가에 실패했습니다.");
-          }
-      })
-      .catch(error => {
-          alert(error.message);
-      });
+    if (action === 'cart') {
+        // 여기서만 실제로 addToCart 기능을 수행하도록 구현
+        const selectedBookNo = [];
+        document.querySelectorAll('.book-checkbox:checked').forEach(checkbox => {
+            selectedBookNo.push(checkbox.value);  // value 값을 사용하여 수집
+        });
+        // 선택된 책이 없으면 경고 메시지 출력
+        if (selectedBookNo.length === 0) {
+            alert("책을 선택해 주세요.");
+            return;
+        }
+        // Fetch API를 사용하여 선택된 책을 서버로 전송
+        fetch("/searchBookPage/addCart", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ bookNo: selectedBookNo })
+        })
+        .then(response => {
+            if (response.ok) {
+                // 성공 시 확인 창 띄우기
+                let userResponse = confirm("장바구니로 이동하시겠습니까?");
+                if (userResponse) {
+                    window.location.href = "/cart";  // 장바구니 페이지로 이동
+                }
+                // "아니오"를 누르면 아무 작업도 하지 않음 (현재 페이지 유지)
+            } else {
+                // 오류 발생 시 경고 메시지 출력
+                throw new Error("장바구니 추가에 실패했습니다.");
+            }
+        })
+        .catch(error => {
+            alert(error.message);
+        });
+    }
   }
-}
 /* 체크박스 장바구니 끝 */
 
 /* 조회 페이지 책 장바구니 */
