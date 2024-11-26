@@ -170,9 +170,37 @@
 		</choose>
 	</select>
 
-<!-- 리뷰조회  -->
+	<!-- 리뷰 갯수 조회 -->
+	<select id="countReview" resultType="int">
+		SELECT COUNT(*)
+		FROM REVIEW
+		WHERE BOOK_NO = #{bookNo}
+	</select>
+
+	<!-- 리뷰 조회 -->
 	<select id="getReviewsByBookNo" resultType="Review">
 		SELECT
+		REVIEW.REVIEW_NO,
+		REVIEW.BOOK_NO,
+		REVIEW.MEMBER_NO,
+		REVIEW.REVIEW_SCORE,
+		REVIEW.REVIEW_TITLE,
+		REVIEW.REVIEW_CONTENT,
+		REVIEW.REVIEW_WRITE_DATE,
+		REVIEW.REVIEW_UPDATE_DATE,
+		REVIEW.REVIEW_IMG_NO,
+		MEMBER.MEMBER_ID
+		FROM
+		REVIEW
+		LEFT JOIN MEMBER ON REVIEW.MEMBER_NO = MEMBER.MEMBER_NO
+		WHERE
+		REVIEW.BOOK_NO = #{bookNo}
+		ORDER BY REVIEW.REVIEW_WRITE_DATE DESC
+	</select>
+
+	<!-- 리뷰 작성 -->
+	<insert id="insertReview" parameterType="Review">
+		INSERT INTO REVIEW (
 		REVIEW_NO,
 		BOOK_NO,
 		MEMBER_NO,
@@ -181,40 +209,22 @@
 		REVIEW_CONTENT,
 		REVIEW_WRITE_DATE,
 		REVIEW_UPDATE_DATE,
-		REVIEW_IMG_NO,
-		MEMBER_ID
-		FROM "REVIEW"
-		LEFT JOIN "BOOK" USING (BOOK_NO)
-		LEFT JOIN "MEMBER" USING (MEMBER_NO)
-		WHERE BOOK_NO = #{bookNo}
-	</select>
+		REVIEW_IMG_NO
+		) VALUES (
+		SEQ_REVIEW_NO.NEXTVAL,
+		#{bookNo},
+		#{memberNo},
+		#{reviewScore},
+		#{reviewTitle},
+		#{reviewContent},
+		SYSDATE,
+		NULL,
+		#{reviewImgNo}
+		)
+	</insert>
 
-<!-- 리뷰 작성 -->
-<insert id="insertReview" parameterType="Review">
-    INSERT INTO REVIEW (
-        REVIEW_NO,
-        BOOK_NO,
-        MEMBER_NO,
-        REVIEW_SCORE,
-        REVIEW_TITLE,
-        REVIEW_CONTENT,
-        REVIEW_WRITE_DATE,
-        REVIEW_UPDATE_DATE,
-        REVIEW_IMG_NO
-    ) VALUES (
-        SEQ_REVIEW_NO.NEXTVAL,
-        #{bookNo},
-        #{memberNo},
-        #{reviewScore},
-        #{reviewTitle},
-        #{reviewContent},
-        SYSDATE,
-        NULL,
-        #{reviewImgNo}
-    )
-</insert>
-
-<update id="updateReview" parameterType="Review">
+	<!-- 리뷰 수정 -->
+	<update id="updateReview" parameterType="Review">
     UPDATE REVIEW
     SET 
         REVIEW_TITLE = #{reviewTitle},
@@ -224,6 +234,13 @@
         REVIEW_IMG_NO = #{reviewImgNo}
     WHERE REVIEW_NO = #{reviewNo}
 </update>
+
+	<!-- 리뷰 삭제 -->
+	<delete id="deleteReview" parameterType="map">
+		DELETE FROM REVIEW
+		WHERE REVIEW_NO = #{reviewNo}
+		AND MEMBER_NO = #{memberNo}
+	</delete>
 
 
 

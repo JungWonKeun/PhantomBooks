@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -21,11 +22,10 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import phantom.books.finalProject.member.dto.Member;
+import phantom.books.finalProject.pagination.Pagination;
 import phantom.books.finalProject.searchBookPage.dto.Book;
 import phantom.books.finalProject.searchBookPage.dto.Review;
 import phantom.books.finalProject.searchBookPage.service.SearchBookPageService;
@@ -94,24 +94,38 @@ public class SearchBookPageController {
 
 // 상세조회
 	@GetMapping("/bookDetail/{bookNo}")
-	public String bookDetail(Model model, @PathVariable("bookNo") int bookNo,
-			@SessionAttribute(value = "loginMember", required = false) Member loginMember) {
+	public String bookDetail(
+	        Model model,
+	        @PathVariable("bookNo") int bookNo,
+	        @SessionAttribute(value = "loginMember", required = false) Member loginMember,
+	        @RequestParam(value = "cp", required = false, defaultValue = "1") int cp
+	) {
+	    if (loginMember != null) {
+	        model.addAttribute("memberId", loginMember.getMemberId());
+	    }
 
-		// 로그인된 사용자가 있는 경우, 세션에 memberId 설정
-		if (loginMember != null) {
-			model.addAttribute("memberId", loginMember.getMemberId());
-		}
+	    // 책 정보 가져오기
+	    Book book = service.bookDetail(bookNo);
+	    model.addAttribute("book", book);
 
-		// 책 정보 가져오기
-		Book book = service.bookDetail(bookNo);
-		model.addAttribute("book", book);
+	    // 리뷰 정보 가져오기 및 페이지네이션
+	    int countReview = service.getReviewCount(bookNo);
+	    Pagination pagination = new Pagination(cp, countReview);
 
-		// 리뷰 정보 가져오기
-		List<Review> reviews = service.getReviewsByBookNo(bookNo);
-		model.addAttribute("reviews", reviews);
+	    // 리뷰 가져오기
+	    List<Review> reviews = service.getReviewsByBookNo(bookNo, cp);
+	    if (reviews == null) {
+	        reviews = new ArrayList<>(); // null 방어
+	    }
 
-		return "searchBookPage/bookDetail";
+	    model.addAttribute("reviews", reviews);
+	    model.addAttribute("pagination", pagination);
+	    model.addAttribute("currentPage", cp);
+
+	    return "searchBookPage/bookDetail";
 	}
+
+
 
 	// 선택한 책을 장바구니에 담기
 	@ResponseBody
@@ -143,7 +157,7 @@ public class SearchBookPageController {
 		return "redirect:/searchBookPage/searchBooks";
 	}
 
-	// 검색페이지에서
+	// 검색페이지에서 장바구니
 	@ResponseBody
 	@PutMapping("/singleCart")
 	public String singleCart(@SessionAttribute("loginMember") Member loginMember,
@@ -191,6 +205,7 @@ public class SearchBookPageController {
 	  @RequestParam("content") String content,
 	  @RequestParam(value = "reviewImage", required = false) MultipartFile file,
 	  RedirectAttributes ra ) { // 서비스 호출
+		  
 	 return service.writeReview(bookNo, title,
 	  content, score, loginMember.getMemberNo(), file);
 	  
@@ -212,7 +227,33 @@ public class SearchBookPageController {
 	 
 	  }
 	  
-	  
+	  // 리뷰 삭제 
+	  @ResponseBody
+	  @PostMapping("/deleteReview/{reviewNo}")
+	  public String deleteReview(
+	      @PathVariable("reviewNo") int reviewNo,
+	      @SessionAttribute(value = "loginMember", required = false) Member loginMember
+	  ) {
+	      if (loginMember == null) {
+	          return "login_required"; // 로그인 필요
+	      }
+
+	      try {
+	          int deleteCount = service.deleteReview(reviewNo, loginMember.getMemberNo());
+
+	          // 삭제된 행이 1개 이상이면 성공
+	          if (deleteCount > 0) {
+	              return "success";
+	          } else {
+	              return "not_found_or_unauthorized"; // 리뷰가 없거나 권한 없음
+	          }
+	      } catch (Exception e) {
+	          e.printStackTrace(); // 서버 로그 출력
+	          return "error"; // 예외 발생 시 처리
+	      }
+	  }
+
+
 	 
 
 }

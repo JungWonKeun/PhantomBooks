@@ -173,6 +173,7 @@ function prevAll(element) {
 // 리뷰 작성 및 제출
 const bookNo = document.querySelector(".book-detail.book-item").dataset.bookNo;
 
+// 리뷰 작성 버튼 클릭 이벤트
 document.querySelector("#submitReview").addEventListener("click", (event) => {
     event.preventDefault(); // 기본 제출 동작 방지
 
@@ -180,11 +181,13 @@ document.querySelector("#submitReview").addEventListener("click", (event) => {
     const form = document.querySelector("#writeReviewForm");
     const formData = new FormData(form);
 
-    // 2. 검증
+    // 2. bookNo 추가
+    formData.append("bookNo", bookNo);
+
+    // 3. 검증
     const rating = formData.get("rating");
     const title = formData.get("title").trim();
     const content = formData.get("content").trim();
-    const reviewImage = document.querySelector("input[name='reviewImage']").files[0];
 
     if (!rating) {
         alert("별점을 선택해주세요.");
@@ -199,47 +202,39 @@ document.querySelector("#submitReview").addEventListener("click", (event) => {
         return;
     }
 
-    // 이미지가 있는 경우에만 추가
-    if (reviewImage) {
-        formData.append("reviewImage", reviewImage);
-    }
-
-    // 3. 데이터 전송
+    // 4. 데이터 전송
     fetch(`/searchBookPage/writeReview/${bookNo}`, {
         method: "POST",
-        body: formData
+        body: formData,
     })
         .then((response) => {
-            if (response.ok) return response.text(); // JSON 응답 처리
+            if (response.ok) return response.text(); // 서버 응답 처리
             throw new Error("서버 오류 발생!");
-
         })
         .then((data) => {
             if (data) {
-                alert('리뷰 작성 성공!');
+                alert("리뷰 작성 성공!");
                 location.reload(); // 페이지 새로고침
             } else {
-                alert('리뷰 작성 실패!');
+                alert("리뷰 작성 실패!");
             }
         })
-        .catch(err => {
+        .catch((err) => {
             console.error(err);
         });
 });
+
 /* 리뷰 작성 end */
 
 /*-------------------------------------- 리뷰 수정 ------------------------------------------- */
 document.addEventListener('DOMContentLoaded', () => {
     const wrap = document.querySelector('.wrap');
-
     if (!wrap) {
         console.error("'.wrap' 요소를 찾을 수 없습니다. HTML 구조를 확인하세요.");
         return;
     }
-
     wrap.addEventListener('click', (event) => {
         const target = event.target;
-
         if (target.id === 'updateReview') {
             const reviewNo = target.getAttribute('data-review-no');
             if (!reviewNo) {
@@ -260,8 +255,7 @@ function toggleEditMode(reviewNo, button) {
     const cancelButton = document.querySelector(`button[data-review-no="${reviewNo}"][id="deleteReview"]`);
     const rating = document.querySelector(`.rating[data-review-no="${reviewNo}"]`);
     const ratingInputs = rating?.querySelectorAll('input[type="radio"]');
-    const imageInput = document.querySelector(`#imageInput-${reviewNo}`);
-
+    const imageInput = document.querySelector(`#imageInput-${reviewNo}`)
     if (!titleInput || !contentTextarea || !cancelButton || !ratingInputs) {
         console.error(`리뷰 요소를 찾을 수 없습니다. 리뷰 번호: ${reviewNo}`);
         return;
@@ -281,30 +275,25 @@ function toggleEditMode(reviewNo, button) {
 
         button.textContent = "저장";
         cancelButton.textContent = "취소";
-
         titleInput.focus();
     } else if (button.textContent === "저장") {
         console.log(`저장 요청: 리뷰 번호 ${reviewNo}`);
-
         const updatedTitle = titleInput.value.trim();
         const updatedContent = contentTextarea.value.trim();
         const updatedRating = [...ratingInputs].find(input => input.checked)?.value;
         const updatedImage = imageInput?.files[0];
-
         if (!updatedTitle || !updatedContent || !updatedRating) {
             alert("제목, 내용, 별점을 모두 입력해주세요.");
             return;
         }
-
         const formData = new FormData();
+        formData.append('reviewNo', reviewNo);
         formData.append('reviewTitle', updatedTitle);
         formData.append('reviewContent', updatedContent);
         formData.append('rating', updatedRating);
-
         if (updatedImage) {
             formData.append('image', updatedImage);
         }
-
         fetch(`/searchBookPage/updateReview/${reviewNo}`, {
             method: 'POST',
             body: formData
@@ -324,8 +313,93 @@ function toggleEditMode(reviewNo, button) {
         
     }
 }
+function resetEditMode(titleInput, contentTextarea, rating, ratingInputs, imageInput, button, cancelButton) {
+    console.log('수정 모드 종료.');
+    titleInput.setAttribute('readonly', true);
+    contentTextarea.setAttribute('readonly', true);
+    titleInput.style.border = "none";
+    contentTextarea.style.border = "none";
+    rating.classList.add('readonly'); // 읽기 전용 상태
+    ratingInputs.forEach(input => input.setAttribute('disabled', true));
+    if (imageInput) imageInput.setAttribute('disabled', true);
+    button.textContent = "수정";
+    cancelButton.textContent = "삭제";
+}
 
 
+/*-------------------------------------- 리뷰 수정 end------------------------------------------- */
+
+/* -------------------------------------- 리뷰 삭제 -------------------------------------------- */
+document.addEventListener('DOMContentLoaded', () => {
+    const wrap = document.querySelector('.wrap'); // 리뷰 컨테이너
+
+    if (!wrap) {
+        console.error("리뷰 컨테이너가 존재하지 않습니다.");
+        return;
+    }
+
+    wrap.addEventListener('click', (event) => {
+        const target = event.target;
+
+        if (target.id === 'deleteReview') {
+            const reviewNo = target.getAttribute('data-review-no');
+            if (!reviewNo) {
+                console.error('리뷰 번호가 존재하지 않습니다.');
+                return;
+            }
+
+            // 삭제 확인 알림
+            if (confirm('정말 이 리뷰를 삭제하시겠습니까?')) {
+                deleteReview(reviewNo);
+            }
+        }
+    });
+});
+
+// 리뷰 삭제 요청 (POST 방식)
+function deleteReview(reviewNo) {
+    fetch(`/searchBookPage/deleteReview/${reviewNo}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ reviewNo: reviewNo }),
+    })
+        .then((response) => {
+            if (response.ok) {
+                alert('리뷰가 삭제되었습니다.');
+                location.reload(); // 페이지 새로고침
+            } else {
+                throw new Error('리뷰 삭제에 실패했습니다.');
+            }
+        })
+        .catch((error) => {
+            console.error('삭제 중 오류 발생:', error);
+            alert('리뷰 삭제 중 문제가 발생했습니다. 다시 시도해주세요.');
+        });
+}
+
+
+/* -------------------------------------- 리뷰 삭제 end -------------------------------------------- */
+
+
+
+/* 이미지 미리보기  start */
+const imageInput = document.getElementById('imageInput');
+const preview = document.querySelector('.write-review-img-thumb');
+
+imageInput.addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      preview.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+/* 이미지 미리보기 end  */
 
 function resetEditMode(titleInput, contentTextarea, rating, ratingInputs, imageInput, button, cancelButton) {
     console.log('수정 모드 종료.');
@@ -342,6 +416,41 @@ function resetEditMode(titleInput, contentTextarea, rating, ratingInputs, imageI
     button.textContent = "수정";
     cancelButton.textContent = "삭제";
 }
+
+
+/*  리뷰 페이지 네이션 */
+
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".pagination a").forEach((item) => {
+        item.addEventListener("click", handlePaginationClick);
+    });
+});
+
+function handlePaginationClick(event) {
+    event.preventDefault(); // 기본 링크 동작 방지
+
+    const url = new URL(location.href); // 현재 URL 기반
+    const cp = event.target.innerText.trim(); // 클릭한 페이지 번호
+
+    if (!isNaN(cp)) {
+        url.searchParams.set("cp", cp);
+    } else if (cp === "<<") {
+        url.searchParams.set("cp", "1");
+    } else if (cp === "<") {
+        url.searchParams.set("cp", pagination?.prevPage || "1");
+    } else if (cp === ">") {
+        url.searchParams.set("cp", pagination?.nextPage || "1");
+    } else if (cp === ">>") {
+        url.searchParams.set("cp", pagination?.maxPage || "1");
+    }
+
+    location.href = url.toString();
+}
+
+
+
+
+/* 리뷰 페이지 네이션 */
 
 
 /*-------------------------------------- 리뷰 수정 end ------------------------------------------- */
@@ -430,10 +539,3 @@ function initStars() {
  */
 
 
-/*
-    삭제 버튼 클릭 시
-const delBtn = document.querySelector('.deleteReview').addEventListener('click', () => {
-    if (confirm("삭제하시겠습니까?")) {
-
-    })
- */
