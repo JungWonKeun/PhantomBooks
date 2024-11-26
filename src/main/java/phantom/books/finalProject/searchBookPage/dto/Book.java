@@ -23,7 +23,7 @@ public class Book {
 	    private String bookWriter;      // 지은이
 	    private String companyName;     // 출판사
 	    private String bookTalt;        // 옮긴이
-	    private int bookPrice;          // 가격
+	    private String bookPrice;       // 가격
 	    private int bookPageCount;      // 페이지 수
 	    private char bookYn;            // 책 여부
 	    private String bookDate;        // 출간일

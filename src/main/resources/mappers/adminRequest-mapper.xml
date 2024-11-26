@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="phantom.books.finalProject.admin.mapper.AdminRequestMapper">
+
+	<insert id="insertRequestList" 
+			parameterType="Book" 
+			useGeneratedKeys="true">
+		
+    INSERT INTO BOOK_REQUEST
+    VALUES (
+        (SELECT NVL(COUNT(REQUEST_NO), 0) + 1 AS REQUEST_NO FROM BOOK_REQUEST),
+        #{bookNo},
+        #{currentCount},
+        #{bookPrice},
+        DEFAULT
+    )
+	</insert>
+	
+	
+</mapper>
