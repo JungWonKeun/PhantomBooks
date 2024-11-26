@@ -20,10 +20,10 @@ public class ManagerServiceImpl implements ManagerService {
 	
 	// 관리자 재고 관리 페이지 리스트
 	@Override
-	public Map<String, Object> manager(int cp, String sort, String text) {
+	public Map<String, Object> manager(int cp, String sort, int view1, String text) {
 
 		int countBookList = mapper.countBookList(sort, text);
-		Pagination pagination = new Pagination(cp, countBookList, 10, 5);
+		Pagination pagination = new Pagination(cp, countBookList, view1, 5);
 		
 		int limit = pagination.getLimit();
 		int offset = (cp-1) * limit;
