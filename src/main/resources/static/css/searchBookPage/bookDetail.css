@@ -462,4 +462,59 @@ h1 {
 }
 
 
-/* 페이지 네이션 css */
+/* 페이지 네이션 css 끝 */
+
+/* 리뷰 작성부분 css */
+.write-review-image-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #ccc; /* 경계선 스타일 */
+  border-radius: 10px; /* 모서리 둥글게 */
+  padding: 10px; /* 안쪽 여백 */
+  width: 300px; /* 컨테이너 너비 */
+  height: 200px; /* 컨테이너 높이 */
+  background-color: #f9f9f9; /* 배경색 */
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+  position: relative; /* 라벨 위치를 위해 필요 */
+}
+
+.write-review-image-container:hover {
+  background-color: #e9e9e9; /* 호버 시 배경색 */
+  border-color: #aaa; /* 호버 시 경계선 색상 */
+}
+
+.write-review-img-thumb {
+  width: 100%; /* 이미지 너비 */
+  height: 100%; /* 이미지 높이 */
+  object-fit: contain; /* 이미지 비율 유지 및 내용 맞춤 */
+  border-radius: 10px; /* 컨테이너와 동일하게 */
+  display: block;
+  margin: 0 auto; /* 가운데 정렬 */
+  background-color: #fff; /* 이미지 없을 때 기본 배경 */
+}
+
+.write-review-image-container label {
+  position: absolute;
+  bottom: 10px; /* 컨테이너 하단에서 약간 띄움 */
+  background-color: rgba(0, 0, 0, 0.7); /* 반투명 검은 배경 */
+  color: white; /* 텍스트 색상 */
+  padding: 8px 15px; /* 버튼 여백 */
+  border-radius: 5px; /* 둥근 버튼 */
+  font-size: 14px; /* 글자 크기 */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.write-review-image-container label:hover {
+  background-color: rgba(0, 0, 0, 0.9); /* 호버 시 버튼 색상 */
+}
+
+#write-imageInput {
+  display: none; /* 파일 입력 숨김 */
+}
+
+
+/* 리뷰 작성부분 css 끝 */

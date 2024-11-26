@@ -36,17 +36,16 @@ public interface SearchBookPageService {
 	// 옵션이랑 쿼리 데이터를 이용한 검색
 	Map<String, Object> searchBooks(String searchTitle, int[] categories, int[] preferences, int cp);
 
-	  // 리뷰 개수 가져오기
-    int getReviewCount(int bookNo);
 
     // 특정 책에 대한 리뷰 리스트 가져오기 (페이지네이션 포함)
-    List<Review> getReviewsByBookNo(int bookNo, int cp);
+    Map<String, Object> getReviewsByBookNo(int bookNo, int cp);
+   
 
 	String updateReview(int reviewNo, String title, String content, double score, int memberNo, MultipartFile file);
 
 	boolean writeReview(int bookNo, String title, String content, double score, int memberNo, MultipartFile file);
 
-	int deleteReview(int reviewNo, int memberNo);
+	int deleteReview(int reviewNo);
 
 	
 

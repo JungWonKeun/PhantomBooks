@@ -50,8 +50,7 @@ public interface SearchBookPageMapper {
     List<Review> getReviewsByBookNo(
         @Param("bookNo") int bookNo,
         RowBounds bounds,
-        @Param("countReview") int countReview
-    );
+        @Param("countReview") int countReview );
     // 리뷰 작성
         int insertReview(Review review);
 
@@ -62,9 +61,7 @@ public interface SearchBookPageMapper {
 		int countReviewsByBookNo(int bookNo);
 
 		// 리뷰 삭제
-		int deleteReview(@Param("reviewNo") int reviewNo,@Param("memberNo") int memberNo);
-
-	
+		int deleteReview(@Param("reviewNo") int reviewNo);	
 
 
 

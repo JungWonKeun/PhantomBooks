@@ -206,7 +206,7 @@
   <!-- 리뷰 불러오기 END -->
 
   <!-- 페이지 네이션  -->
-  <section>
+ <section>
     <div class="pagination-area" th:if="${pagination != null}">
       <div class="pagination-area" th:if="${pagination != null}">
         <ul class="pagination" th:object="${pagination}">
@@ -232,9 +232,7 @@
           </li>
         </ul>
       </div>
-
     </div>
-
   </section>
   <!-- 페이지 네이션  -->
 
@@ -243,7 +241,7 @@
     <form id="writeReviewForm" method="post" action="/searchBookPage/writeReview" enctype="multipart/form-data">
       <input type="hidden" name="bookNo" th:value="${book.bookNo}">
       <label class="rwbLabel">
-        <button class="review-write-button" type="submit">리뷰 작성</button>
+        <button class="review-write-button" type="submit"><span class="review-write-text">리뷰 작성</span></button>
       </label>
 
       <div class="write-review-border">
