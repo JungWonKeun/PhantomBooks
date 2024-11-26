@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="/css/order/order.css">
   <!-- 결제 -->
   <script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
-  
+
   <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   <!-- <script src="/js/order/order.js" defer></script> -->
   <!-- 주소 -->
@@ -19,84 +19,97 @@
 <body>
   <header th:replace="~{common/common}"></header>
   <main class="orderMain">
-
-    <form>
-      <div>
-        <label for="userName">수령인 이름:</label>
-        <input type="text" id="userName" name="userName" required>
-      </div>
-
-      <div>
-        <label for="userTelNo">전화번호:</label>
-        <input type="tel" id="userTelNo" name="userTelNo" required pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-1234-5678">
-      </div>
-
-      <!-- 기본 배송지 -->
+    <!-- 배송 정보와 주문 상품 목록을 묶는 컨테이너 -->
+    <div class="infoAndOrder">
+      <!-- 배송 정보 영역 -->
       <div class="addressForm">
-        <input type="checkbox" id="defaultAddressCheck" checked="on">
-        <h4>기본 배송지</h4>
-
-        <div class="form-floating mb-2">
-          <input type="text" class="form-control" id="userZip" name="zip" readonly th:value="${defaultAddress?.zip}">
-          <label for="zip">우편번호</label>
+        <h4>배송 정보</h4>
+        <div class="form-group">
+          <label for="userName">수령인</label>
+          <input type="text" id="userName" name="userName" required placeholder="수령인" />
         </div>
-
-        <div class="form-floating mb-2">
-          <input type="text" class="form-control" id="userAddress" name="address" readonly th:value="${defaultAddress?.address}">
-          <label for="address">주소</label>
+        <div class="form-group">
+          <label for="userTelNo">전화번호</label>
+          <input type="tel" id="userTelNo" name="userTelNo" required pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"
+            placeholder="010-1234-5678" />
         </div>
-
-        <div class="form-floating mb-2">
-          <input type="text" class="form-control" id="userDetailAddress" name="detailAddress" readonly th:value="${defaultAddress?.detailAddress}">
-          <label for="detailAddress">상세 주소</label>
+        <!-- 기본 배송지 -->
+        <div class="addressForm">
+          <p>
+            <input type="checkbox" id="defaultAddressCheck" checked="on" />
+            기본 배송지
+          </p>
+          <div class="form-floating mb-2">
+            <input type="text" class="form-control" id="userZip" name="zip" readonly
+              th:value="${defaultAddress?.zip}" />
+            <label for="zip">우편번호</label>
+          </div>
+          <div class="form-floating mb-2">
+            <input type="text" class="form-control" id="userAddress" name="address" readonly
+              th:value="${defaultAddress?.address}" />
+            <label for="address">주소</label>
+          </div>
+          <div class="form-floating mb-2">
+            <input type="text" class="form-control" id="userDetailAddress" name="detailAddress" readonly
+              th:value="${defaultAddress?.detailAddress}" />
+            <label for="detailAddress">상세 주소</label>
+          </div>
+          <button type="button" id="addAddressBtn" class="btn btn-primary mt-3">배송지 추가</button>
+          <div id="additionalAddresses"></div>
         </div>
       </div>
-    </form>
-
-    <button type="button" id="addAddressBtn" class="btn btn-primary mt-3">배송지 추가</button>
-    <div id="additionalAddresses"></div>
-
-    <h4>주문 상품 목록</h4>
-    <table>
-      <thead>
-        <tr>
-          <th></th>
-          <th>상품명</th>
-          <th>수량</th>
-          <th>가격</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr th:each="item : ${orderItems}" th:attr="data-book-no=${item.bookNo}">
-          <td>
-            <img th:src="${item.bookCover != null ? item.bookCover : '/images/bookCover/default.jpg'}" alt="책이미지" class="book-cover">
-          </td>
-          <td th:text="${item.bookTitle}">상품명</td>
-          <td th:text="${item.cartCount}">수량</td>
-          <td>
-            <span class="book-price" th:attr="data-price=${item.bookPrice}" th:text="${item.bookPrice * item.cartCount}"></span>
-          </td>
-        </tr>
-        </tbody>
-        
-    
-    
-        
-      
-    </table>
-
-    <h3>
-      <span class="delivery-fee" data-fee="${deliveryFee}" th:text="${deliveryFee}"></span>
-    </h3>
-    <h3>총 결제 금액:
-      <span id="totalPrice" th:text="${totalPrice + deliveryFee}"></span> 원
-    </h3>
-
-    <button onclick="requestPay()" class="paymentButton" id="paymentButton">결제하기</button>
 
 
-    
-    
+
+
+      <!-- 주문 상품 목록 -->
+      <div id="orderTableContainer">
+        <div class="orderHeader">
+          <h4>주문 상품 목록&nbsp;: &nbsp;총 <span id="totalItemCount">0</span> 개</h4>
+          <button id="toggleTableBtn" class="btn btn-secondary">접기</button>
+        </div>
+        <div class="orderTable">
+          <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th>상품명</th>
+                <th>수량</th>
+                <th>가격</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="item : ${orderItems}" th:attr="data-book-no=${item.bookNo}">
+                <td>
+                  <img th:src="${item.bookCover != null ? item.bookCover : '/images/bookCover/default.jpg'}" alt="책이미지"
+                    class="book-cover">
+                </td>
+                <td th:text="${item.bookTitle}">상품명</td>
+                <td th:text="${item.cartCount}">수량</td>
+                <td>
+                  <span class="book-price" th:attr="data-price=${item.bookPrice}"
+                    th:text="${item.bookPrice * item.cartCount}"></span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="paymentSummary">
+          <div class="paymentDetails">
+            <p><span class="label">배송비</span><span class="value" id="deliveryFee" th:text="${deliveryFee}"></span>
+              &nbsp;원</p>
+            <p><span class="label">총 결제 금액</span><span class="value" id="totalPrice"
+                th:text="${totalPrice + deliveryFee}"></span> &nbsp;원</p>
+          </div>
+          <button onclick="requestPay()" class="paymentButton" id="paymentButton">결제하기</button>
+        </div>
+      </div>
+
+
+    </div>
+
+
+
 
     <script th:inline="javascript">
       document.addEventListener('DOMContentLoaded', () => {
@@ -106,23 +119,23 @@
         const detailAddressInput = document.getElementById('userDetailAddress');
         const userNameInput = document.getElementById('userName');
         const userTelNoInput = document.getElementById('userTelNo');
-    
+
         const addAddressBtn = document.getElementById('addAddressBtn');
         const additionalAddressesContainer = document.getElementById('additionalAddresses');
-    
-    
+
+
         let selectedAddress = {
           zip: zipInput.value,
           address: addressInput.value,
           detailAddress: detailAddressInput.value,
         };
-    
+
         // 기본 배송지 선택 시 추가 배송지 해제
         defaultAddressCheckbox.addEventListener('change', () => {
           if (defaultAddressCheckbox.checked) {
             const additionalCheckbox = document.querySelector('.additional-address-form .defaultAddressCheck');
             if (additionalCheckbox) additionalCheckbox.checked = false;
-    
+
             selectedAddress = {
               zip: zipInput.value,
               address: addressInput.value,
@@ -130,7 +143,7 @@
             };
           }
         });
-    
+
         // 배송지 추가 버튼 클릭
         addAddressBtn.addEventListener('click', () => {
           const existingAddress = document.querySelector('.additional-address-form');
@@ -138,21 +151,21 @@
             alert('추가 배송지는 한 개만 생성할 수 있습니다.');
             return;
           }
-    
+
           const newAddressForm = createNewAddressForm();
           additionalAddressesContainer.appendChild(newAddressForm);
-    
+
           const newCheckbox = newAddressForm.querySelector('.defaultAddressCheck');
           const validateButton = newAddressForm.querySelector('.validateButton');
           const findAddressBtn = newAddressForm.querySelector('.findAddressBtn');
-    
+
           newCheckbox.addEventListener('change', () => {
             if (newCheckbox.checked) {
               defaultAddressCheckbox.checked = false;
               const newZipInput = newAddressForm.querySelector('.zip-input').value;
               const newAddressInput = newAddressForm.querySelector('.address-input').value;
               const newDetailAddressInput = newAddressForm.querySelector('.detail-address-input').value;
-    
+
               selectedAddress = {
                 zip: newZipInput,
                 address: newAddressInput,
@@ -160,33 +173,33 @@
               };
             }
           });
-    
+
           // validateButton 클릭 이벤트
           validateButton.addEventListener('click', () => {
             const newZipInput = newAddressForm.querySelector('.zip-input');
             const newAddressInput = newAddressForm.querySelector('.address-input');
             const newDetailAddressInput = newAddressForm.querySelector('.detail-address-input');
-    
+
             if (!newZipInput.value || !newAddressInput.value || !newDetailAddressInput.value) {
               alert('추가 배송지 정보를 모두 입력해주세요.');
               return;
             }
-    
+
             console.log('추가된 배송지:', newZipInput.value, newAddressInput.value, newDetailAddressInput.value);
-    
+
             alert('추가된 배송지가 기본 배송지로 선택되었습니다.');
             selectedAddress = {
               zip: newZipInput.value,
               address: newAddressInput.value,
               detailAddress: newDetailAddressInput.value,
             };
-    
+
             console.log('선택된 배송지:', selectedAddress);
-    
+
             defaultAddressCheckbox.checked = false;
             newCheckbox.checked = true;
           });
-    
+
           findAddressBtn.addEventListener('click', () => {
             new daum.Postcode({
               oncomplete: (data) => {
@@ -199,12 +212,64 @@
             }).open();
           });
         });
-    
+
+
+
+
+
+        // 주문 도서 접기 기능
+        const totalItemCountElement = document.getElementById('totalItemCount');
+        const toggleTableBtn = document.getElementById('toggleTableBtn');
+        const orderTable = document.querySelector('#orderTableContainer .orderTable');
+
+        const deliveryFeeElement = document.getElementById('deliveryFee');
+        const totalPriceElement = document.getElementById('totalPrice');
+        const bookPrices = document.querySelectorAll('.book-price');
+
+        // 숫자에 쉼표 추가 함수
+        const formatNumber = (number) => {
+          return new Intl.NumberFormat('ko-KR').format(number);
+        };
+
+        // 배송비와 총 결제금액 포맷팅
+        if (deliveryFeeElement) {
+          deliveryFeeElement.textContent = `${formatNumber(Number(deliveryFeeElement.textContent.trim()))}`;
+        }
+
+        if (totalPriceElement) {
+          totalPriceElement.textContent = `${formatNumber(Number(totalPriceElement.textContent.trim()))}`;
+        }
+
+        // 각 책의 가격 포맷팅
+        bookPrices.forEach((priceElement) => {
+          priceElement.textContent = formatNumber(Number(priceElement.textContent.trim()));
+        });
+
+        // 총 주문 수량 계산
+        const totalCount = Array.from(document.querySelectorAll('tbody tr')).reduce((sum, row) => {
+          const count = parseInt(row.querySelector('td:nth-child(3)').textContent, 10) || 0;
+          return sum + count;
+        }, 0);
+
+        // 총 수량 표시
+        totalItemCountElement.textContent = totalCount;
+
+        // 접기/펼치기 버튼 동작
+        toggleTableBtn.addEventListener('click', () => {
+          if (orderTable.classList.contains('hidden')) {
+            orderTable.classList.remove('hidden');
+            toggleTableBtn.textContent = '접기';
+          } else {
+            orderTable.classList.add('hidden');
+            toggleTableBtn.textContent = '펼치기';
+          }
+        });
+
         // 새로운 배송지 폼 생성
         function createNewAddressForm() {
           const formElement = document.createElement('div');
           formElement.classList.add('additional-address-form', 'mt-4');
-    
+
           formElement.innerHTML = `
             <div class="form-floating mb-2">
               <input type="checkbox" class="defaultAddressCheck">
@@ -223,18 +288,19 @@
               <label>상세 주소</label>
             </div>
             <button type="button" class="btn btn-secondary findAddressBtn">주소 검색</button>
-            <button type="button" class="btn btn-success validateButton">입력 확인</button>
+            <button type="button" class="btn btn-success validateButton" 
+            style="background-color:  #205375; color: #fff;">입력 확인</button>
           `;
-    
+
           return formElement;
         }
-    
+
         document.getElementById('paymentButton').addEventListener('click', () => {
           if (!userNameInput.value || !userTelNoInput.value) {
             alert('수령인 이름과 전화번호를 입력해주세요.');
             return;
           }
-    
+
           if (!selectedAddress.zip || !selectedAddress.address || !selectedAddress.detailAddress) {
             alert('배송지를 선택해주세요.');
             return;
@@ -244,32 +310,32 @@
 
         });
       });
-    
-      const requestPay = async() => {
+
+      const requestPay = async () => {
         const userName = document.getElementById('userName').value;
         const userTelNo = document.getElementById('userTelNo').value;
         const userZip = document.getElementById('userZip').value;
         const userAddress = document.getElementById('userAddress').value;
         const userDetailAddress = document.getElementById('userDetailAddress').value;
         const totalPrice = parseInt(document.getElementById('totalPrice').innerText, 10);
-    
+
         if (!userName || !userTelNo) {
           alert('수령인 이름과 전화번호를 입력해주세요.');
           return;
         }
-    
+
         if (!userZip || !userAddress || !userDetailAddress) {
           alert('배송지를 선택해주세요.');
           return;
         }
-    
+
         const memberNo = /*[[${session.loginMember?.memberNo}]]*/ 'defaultMemberNo';
         const storeId = /*[[${storeId}]]*/ 'default-store-id';
         const channelKey = /*[[${channelKey}]]*/ 'default-channel-key';
         const redirectUrl = "http://localhost/order/afterOrder";
         const paymentId = `${memberNo}-${Date.now()}`;
         const orderNo = /*[[${orderNo}]]*/ 'defaultOrderNo';
-    
+
 
         // 주문 상품 정보 가져오기
         const orderBooks = Array.from(document.querySelectorAll("tbody tr")).map(row => ({
@@ -277,9 +343,9 @@
           bookTitle: row.querySelector("td:nth-child(2)").innerText,
           bookPrice: parseInt(row.querySelector(".book-price").getAttribute("data-price"), 10),
           bookCount: parseInt(row.querySelector("td:nth-child(3)").innerText, 10)
-      }));
+        }));
 
-      console.log("Order Books:", orderBooks);
+        console.log("Order Books:", orderBooks);
 
 
         const orderData = {
@@ -293,10 +359,10 @@
           userName: userName,
           orderBooks: orderBooks,
         };
-    
+
 
         console.log("Order Data:", orderData);
-    
+
         try {
           const resp = await PortOne.requestPayment({
             storeId: storeId,
@@ -336,14 +402,14 @@
                 alert('주문 처리에 실패했습니다. 네트워크 상태를 확인하고 다시 시도해주세요.');
               });
           }
-    } catch (error) {
-      console.error('결제 요청 중 오류:', error);
-      alert('결제 처리 중 문제가 발생했습니다. 다시 시도해주세요.');
-    }
-  };
+        } catch (error) {
+          console.error('결제 요청 중 오류:', error);
+          alert('결제 처리 중 문제가 발생했습니다. 다시 시도해주세요.');
+        }
+      };
     </script>
-    
-    
+
+
 
   </main>
   <div th:replace="~{common/footer :: footer}"></div>

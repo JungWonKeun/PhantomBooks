@@ -24,59 +24,74 @@ h4 {
 
 /* 메인 컨테이너 */
 .orderMain {
-  margin: 0 auto;
-  max-width: 800px;
+  margin: 0;
+  margin-left: 300px;
+  margin-bottom: 100px;
   padding: 20px;
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start; 
+  gap: 20px;
 }
 
-/* 폼 스타일 */
-form > div {
-  margin-bottom: 15px;
-}
-
-label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 5px;
-  color: #444;
-}
-
-input[type="text"],
-input[type="tel"] {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 1rem;
-}
-
-input[type="text"]:focus,
-input[type="tel"]:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-
-/* 기본 배송지 스타일 */
 .addressForm {
   padding: 15px;
   border: 1px solid #ddd;
   border-radius: 10px;
-  background-color: #f9f9f9;
-  margin-top: 20px;
+  background-color: #ffffff;
+  width: 100%;
+  margin-left: 0;
+  margin-right: auto;
+  max-width: 500px;
+  flex: 1 1 45%;
+  height: auto; 
 }
 
-.addressForm input{
-  background-color: #dddcdc;
-  color: #bdbdbd;
+.infoAndOrder {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+  align-items: stretch; 
 }
 
-.addressForm h4 {
+.addressForm input {
+  background-color: #ffffff;
+  color: #333;
+}
+
+.form-group {
   margin-bottom: 15px;
 }
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 1rem;
+}
+
+.form-group input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  outline: none;
+}
+
 
 /* 추가 배송지 스타일 */
 #additionalAddresses {
@@ -114,7 +129,7 @@ input[type="tel"]:focus {
 .validateButton {
   margin-top: 10px;
   padding: 10px 15px;
-  background-color: #28a745;
+  background-color: #205375; 
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -123,7 +138,7 @@ input[type="tel"]:focus {
 }
 
 .validateButton:hover {
-  background-color: #218838;
+  background-color: #205375; 
 }
 
 .defaultAddressCheck {
@@ -146,7 +161,7 @@ input[type="tel"]:focus {
 h4 {
   margin: 0;
   font-size: 1.2rem;
-  color: #007bff;
+  color: #205375; 
 }
 
 
@@ -156,8 +171,8 @@ h4 {
   margin: 20px auto;
   padding: 10px 20px;
   font-size: 1rem;
-  border: 1px solid #007bff;
-  background-color: #007bff;
+  border: 1px solid #205375; 
+  background-color: #205375; 
   color: white;
   border-radius: 5px;
   cursor: pointer;
@@ -167,30 +182,90 @@ h4 {
   background-color: #0056b3;
 }
 
-/* 상품 목록 스타일 */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
+/* 주문 상품 목록 */
+#orderTableContainer{
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  
+  flex: 1 1 50%; 
+  max-width: 80%;
+  margin-right: 50px;
+  height: auto;
+  min-height: 637px;
+}
+.orderHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
+/* 테이블 접기/펼치기 효과 */
+#orderTableContainer .orderTable.hidden {
+  display: none;
+  
+}
+
+
+
+.orderTable.hidden {
+  display: none;
+}
+
+
+
+.orderTable table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.orderTable table th,
+.orderTable table td {
+  padding: 10px;
+  text-align: center;
+}
+
+.orderTable h4 {
+  margin-bottom: 10px;
+}
+
+
+
 thead th {
-  background-color: #007bff;
+  background-color: #205375; 
   color: white;
   text-align: left;
   padding: 10px;
   font-size: 1rem;
 }
 
+thead th:nth-child(2){
+  text-align: left; 
+  padding-left: 40px;
+}
+
 tbody td {
-  padding: 10px;
+  padding: 5px; 
   border-bottom: 1px solid #ddd;
-  font-size: 0.9rem;
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+
+tbody td:nth-child(2) {
+  text-align: left; 
+  padding-left: 5px;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
 }
 
 tbody img {
-  max-width: 50px;
+  max-width: 80px;
   border-radius: 5px;
+  margin-right: 5px;
 }
 
 h3 {
@@ -200,30 +275,67 @@ h3 {
 }
 
 .delivery-fee {
-  color: #ff6347; 
+  color: black; 
 }
 
 #totalPrice {
   font-weight: bold;
-  color: #28a745; 
+  color: black; 
 }
 
-/* 결제 버튼 */
+/* 배송비 및 결제 영역은 항상 보이도록 설정 */
+.paymentSummary {
+  margin-top: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #ddd;
+}
+
+.paymentDetails {
+  flex-grow: 1;
+}
+
+.paymentDetails p {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; 
+  margin: 5px 0; 
+  font-size: 1.5rem; 
+}
+
+.paymentDetails .label {
+  flex: 1;
+  text-align: left;
+  color: #444;
+}
+
+.paymentDetails .value {
+  flex: 1;
+  text-align: right;
+  font-weight: bold;
+  color: black;
+}
+
 #paymentButton {
-  margin-top: 20px;
-  width: 100%;
-  padding: 15px;
-  font-size: 1.1rem;
-  background-color: #28a745;
+  width: 130px;
+  height: 50px;
+  font-size: 1.5rem;
+  background-color: #205375;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-left: 300px; 
+  margin-right: 50px;
 }
 
 #paymentButton:hover {
-  background-color: #218838;
+  background-color: #0056b3;
 }
+
+
+
 
 /* 반응형 스타일 */
 @media (max-width: 768px) {
@@ -243,5 +355,21 @@ h3 {
 
   #addAddressBtn {
     font-size: 0.9rem;
+  }
+}
+
+
+
+
+@media (max-width: 768px) {
+  .orderMain {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .addressForm {
+    width: 100%; 
+    margin-left: 0;
+    margin-right: 0;
   }
 }
