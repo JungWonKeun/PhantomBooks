@@ -46,7 +46,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public Map<String, Object> getInquiryListByMember(int cp, int memberNo, String status, String startDate,
+	public Map<String, Object> getInquiryListByMember(int cp, int memberNo, int status, String startDate,
 			String endDate) {
 
 		// 조건 만족하는 문의리스트 수 조회
@@ -60,7 +60,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 		RowBounds bounds = new RowBounds(offset, limit);
 
-		List<Query> queryList = customerMapper.queryList(cp, memberNo, bounds, status, startDate, endDate);
+		List<Query> queryList = customerMapper.queryList(cp, memberNo, status, startDate, endDate, bounds);
 
 		Map<String, Object> map = new HashMap<>();
 

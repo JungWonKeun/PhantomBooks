@@ -39,7 +39,7 @@ public class CustomerController {
 	}
 	
 	/**
-	 * 1:1 문의 페이지로 이동
+	 * 1:1 문의 작성 페이지로 이동
 	 * 
 	 * @param model - View에 데이터를 전달하기 위한 Model 객체
 	 * @return 1:1 문의 페이지의 템플릿 경로("customer/query")
@@ -86,7 +86,7 @@ public class CustomerController {
 	@GetMapping("/customer/inquiry")
 	public String getInquiryList(
 	        @RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
-	        @RequestParam(value = "status", required = false, defaultValue = "all") String status, 
+	        @RequestParam(value = "status", required = false, defaultValue = "-1") int status, 
 	        @RequestParam(value = "startDate", required = false, defaultValue = "7day") String startDate,
 	        @RequestParam(value = "endDate", required = false, defaultValue = "currentDate") String endDate,
 	        @SessionAttribute("loginMember") Member loginMember,
@@ -112,7 +112,7 @@ public class CustomerController {
 	@ResponseBody
 	public Map<String, Object> getquiryList(
 			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
-			@RequestParam(value = "status", required = false, defaultValue = "all") String status, 
+			@RequestParam(value = "status", required = false, defaultValue = "-1") int status, 
 			@RequestParam(value = "startDate", required = false, defaultValue = "7day") String startDate,
 			@RequestParam(value = "endDate", required = false, defaultValue = "currentDate") String endDate,
 			@SessionAttribute("loginMember") Member loginMember,

@@ -23,7 +23,7 @@
                     <option value="6">6개월</option>
                     <option value="12">1년</option>
                 </select>
-
+                
                 <label for="startDate">시작일:</label>
                 <input type="date" id="startDate">
 
@@ -42,10 +42,10 @@
         <section class="inquiry-tabs">
             <nav>
                 <ul>
-                    <li class="tab active" value="all">전체</li>
-                    <li class="tab" value="recieved">접수 완료</li>
-                    <li class="tab" value="waiting">관리자 확인</li>
-                    <li class="tab" value="completed">답변 완료</li>
+                    <li class="tab active"  data-status="-1">전체</li>
+                    <li class="tab" data-status="0">접수 완료</li>
+                    <li class="tab" data-status="1">관리자 확인</li>
+                    <li class="tab" data-status="2">답변 완료</li>
                 </ul>
             </nav>
         </section>

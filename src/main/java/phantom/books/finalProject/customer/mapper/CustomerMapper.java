@@ -32,8 +32,8 @@ public interface CustomerMapper {
 	List<Query> queryList(
 					@Param("cp") int cp, 
 					@Param("memberNo") int memberNo,
-					RowBounds bounds,
-					@Param("status") String status, 
+					@Param("status") int status, 
 					@Param("startDate") String startDate,
-					@Param("endDate") String endDate);
+					@Param("endDate") String endDate,
+					RowBounds bounds);
 }

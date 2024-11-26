@@ -59,10 +59,10 @@
 		FROM QUERY
 		WHERE MEMBER_NO = #{memberNo}
 		<choose>
-			<when test="status == 'all'"></when>
-			<when test="status == 0">AND STATUS = #{status}</when>
-			<when test="status == 1">AND STATUS = #{status}</when>
-			<when test="status == 2">AND STATUS = #{status}</when>
+			<when test="status == -1"></when>
+			<otherwise>
+				AND STATUS = #{status}
+			</otherwise>
 		</choose>
 		
 		ORDER BY QUERY_NO DESC

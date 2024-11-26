@@ -4,16 +4,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const emptyMessage = document.getElementById("emptyMessage");
   const searchButton = document.getElementById("searchButton");
   const inquiryButton = document.getElementById("inquiryButton");
-  const tabs = document.querySelectorAll(".inquiry-tabs");
+  const tabs = document.querySelectorAll(".inquiry-tabs .tab");
   const paginationContainer = document.querySelector(".pagination");
-  let status = "all"; // 초기 상태
+  let status = "-1"; // 초기 상태
   let startDate = ""; // 초기 시작일
   let endDate = ""; // 초기 종료일
 
+  
+
+  
   // 기본 조회 기간 설정
   const defaultStartDate = new Date();
   const defaultEndDate = new Date();
-  defaultStartDate.setMonth(defaultEndDate.getMonth() - 1); // 1개월 전
+  defaultStartDate.setMonth(defaultEndDate.getMonth() - 7); // 1개월 전
   startDate = defaultStartDate.toISOString().split("T")[0];
   endDate = defaultEndDate.toISOString().split("T")[0];
   document.getElementById("startDate").value = startDate;
@@ -39,17 +42,17 @@ document.addEventListener("DOMContentLoaded", () => {
       })
       .then((data) => {
         console.log("Fetched data:", data); // 응답 데이터 확인
-        if (!data.inquiries || !data.pagination) {
+        if (!data.queryList || !data.pagination) {
           throw new Error("Unexpected response structure");
         }
-        renderInquiries(data.inquiries);
+        renderInquiries(data.queryList);
         renderPagination(data.pagination);
       })
       .catch(err => {
         console.error("Error fetching data:", err);
       });
   }
-
+  
   // 문의 내역 렌더링 함수
   function renderInquiries(data) {
     inquiryTableBody.innerHTML = ""; // 기존 데이터 초기화
@@ -64,12 +67,25 @@ document.addEventListener("DOMContentLoaded", () => {
         const row = document.createElement("tr");
         row.innerHTML = `
           <td>${inquiry.queryNo}</td>
-          <td><a href="/customer/inquiryDetail/${inquiry.queryNo}">${inquiry.title}</a></td>
-          <td>${inquiry.writeDate}</td>
+          <td><a href="/customer/inquiryDetail/${inquiry.queryNo}">${inquiry.queryTitle}</a></td>
+          <td>${inquiry.queryWriteDate}</td>
           <td>${getInquiryStatus(inquiry.status)}</td>
         `;
         inquiryTableBody.appendChild(row);
       });
+    }
+  }
+
+  function getInquiryStatus(status) {
+    switch (status) {
+      case 0:
+        return "접수완료";
+      case 1:
+        return "관리자 확인";
+      case 2:
+        return "답변완료";
+      default:
+        return "접수완료";
     }
   }
 
@@ -130,7 +146,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // 탭 클릭 이벤트
   tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
-      status = tab.value;
+      status = tab.dataset.status;
+      console.log(tab);
+      console.log(status);
       tabs.forEach((t) => t.classList.remove("active"));
       tab.classList.add("active");
       fetchInquiries(status, startDate, endDate, 1);
