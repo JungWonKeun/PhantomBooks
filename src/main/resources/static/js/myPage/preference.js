@@ -1,3 +1,28 @@
+let initialCategoryState = new Set();
+let initialPreferenceState = new Set();
+
+function saveInitialState() {
+  initialCategoryState = new Set(
+    Array.from(document.querySelectorAll('.category-checkbox:checked')).map(input => input.value)
+  );
+  initialPreferenceState = new Set(
+    Array.from(document.querySelectorAll('.preference-checkbox:checked')).map(input => input.value)
+  );
+}
+
+function hasUnsavedChanges() {
+  const currentCategoryState = new Set(
+    Array.from(document.querySelectorAll('.category-checkbox:checked')).map(input => input.value)
+  );
+  const currentPreferenceState = new Set(
+    Array.from(document.querySelectorAll('.preference-checkbox:checked')).map(input => input.value)
+  );
+
+  return JSON.stringify([...currentCategoryState]) !== JSON.stringify([...initialCategoryState]) ||
+         JSON.stringify([...currentPreferenceState]) !== JSON.stringify([...initialPreferenceState]);
+}
+
+// 내 취향 페이지 오픈 및 닫기
 document.addEventListener('DOMContentLoaded', function () {
   const openBtn = document.getElementById("openBtn");
   const closeBtn = document.getElementById("closeBtn");
@@ -27,6 +52,8 @@ document.addEventListener('DOMContentLoaded', function () {
       menu.classList.remove("active");
     });
   });
+
+
 });
 
 
@@ -350,9 +377,21 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
+  // 페이지 로드 시 초기 상태 저장
+  Promise.all([loadCategory(), loadPreference()])
+    .then(() => {
+      console.log('데이터 자동 로드 완료');
+      saveInitialState(); // 초기 상태 저장
+    })
+    .catch(error => {
+      console.error('데이터 자동 로드 실패:', error);
+    });
+
   // 초기 텍스트 가시성 업데이트
   updateTextVisibility(categoryBadgeContainer, categoryText);
   updateTextVisibility(preferenceBadgeContainer, preferenceText);
+
+
 });
 
 
@@ -361,6 +400,7 @@ document.addEventListener('DOMContentLoaded', function () {
 const saveCategoryButton = document.getElementById('saveCategory');
 const savePreferenceButton = document.getElementById('savePreference');
 const saveAllButton = document.getElementById('allSave');
+
 function saveCategory(showAlert = true) {
   const checkedCategory = Array.from(document.querySelectorAll('.category-checkbox:checked')).map(input => input.value);
 
@@ -433,17 +473,28 @@ saveAllButton.addEventListener('click', async () => {
 
   try {
     const [categoryResult, preferenceResult] = await Promise.all([
-      saveCategory(false), // 개별 알림 생략
-      savePreference(false) // 개별 알림 생략
+      saveCategory(false),
+      savePreference(false)
     ]);
 
     if (categoryResult === 'Success' && preferenceResult === 'Success') {
       alert('모든 저장이 성공적으로 완료되었습니다.');
+      saveInitialState();
     } else {
       alert('일부 저장이 실패했습니다.\n선호 카테고리 저장: ' + categoryResult + '\n선호 취향 저장: ' + preferenceResult);
     }
   } catch (err) {
     console.error(err);
     alert('저장 중 오류가 발생했습니다.');
+  }
+});
+
+// beforeunload 이벤트 리스너
+window.addEventListener('beforeunload', (event) => {
+  if (hasUnsavedChanges()) {
+    const message = '저장되지 않은 변경사항이 있습니다. 정말로 페이지를 떠나시겠습니까?';
+    event.preventDefault();
+    (event || window.event).returnValue = message;
+    return message;
   }
 });

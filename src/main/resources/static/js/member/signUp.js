@@ -478,7 +478,6 @@ function toggleSubmitButton() {
         clearInput('telNo');
         phoneInput.focus();
         document.getElementById('verificationSection').style.display = 'none';
-        if (phoneCheckBtn) phoneCheckBtn.style.display = 'inline-block';
         phoneChangeBtn.style.display = 'none';
       });
     }
