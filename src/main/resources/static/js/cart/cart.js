@@ -186,6 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.cartTable tbody tr').forEach((row) => {
         const checkbox = row.querySelector('input[type="checkbox"]');
         const bookNo = row.querySelector('.delete-btn').getAttribute('data-id');
+        const bookCover = row.querySelector('td:nth-child(2) img').getAttribute('src');
         const bookTitle = row.querySelector('td:nth-child(3)').innerText;
         const quantity = parseInt(row.querySelector('.quantity-input').value, 10);
         const price = parseInt(row.querySelector('.book-price').getAttribute('data-price'), 10);
@@ -194,6 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
             selectedItems.push({
                 bookNo: parseInt(bookNo),
                 bookTitle,
+                bookCover,
                 cartCount: quantity,
                 bookPrice: price,
                 totalPrice: price * quantity,

@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import phantom.books.finalProject.order.dto.AddressDto;
+import phantom.books.finalProject.order.dto.OrderBookDto;
 import phantom.books.finalProject.order.dto.OrderDto;
 
 @Mapper
@@ -19,4 +20,6 @@ public interface OrderMapper {
     int insertOrder(OrderDto order);
 
     int updateBookStock(@Param("bookNo") int bookNo, @Param("bookCount") int bookCount);
+
+	void insertOrderList(OrderBookDto book);
   }

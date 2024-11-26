@@ -39,6 +39,18 @@ public class OrderServiceImpl implements OrderService {
             mapper.insertOrder(orderDto);
             log.debug("OrderDto after insert: {}", orderDto);
 
+            // 2. orderList 테이블에 삽입
+            for (OrderBookDto book : orderDto.getOrderBooks()) {
+                book.setOrderNo(orderDto.getOrderNo());
+                book.setMemberNo(orderDto.getMemberNo());
+                book.setOrderPrice(book.getBookPrice() * book.getBookCount());
+                book.setDiscountPrice(book.getOrderPrice()); 
+
+                mapper.insertOrderList(book);
+                log.debug("Inserted into ORDER_LIST: {}", book);
+            }
+
+            
             // 2. 장바구니 삭제
             List<Integer> bookNoList = orderDto.getOrderBooks().stream()
                                                .map(OrderBookDto::getBookNo)

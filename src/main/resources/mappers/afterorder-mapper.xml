@@ -16,24 +16,53 @@
         <result property="userDetailAddress" column="user_detail_address"/>
         <result property="userTelNo" column="user_tel_no"/>
         <result property="userName" column="user_name"/>
+
+        <!-- 주문 책 목록 매핑 -->
+        <collection property="orderBooks" ofType="OrderBookDto">
+            <id property="bookNo" column="book_no"/>
+            <result property="bookTitle" column="book_title"/>
+            <result property="bookCover" column="book_cover"/>
+            <result property="bookCount" column="book_count"/>
+            <result property="orderPrice" column="order_price"/>
+            <result property="discountPrice" column="discount_price"/>
+            <result property="refundYn" column="refund_yn"/>
+        </collection>
+        
+          
+    
     </resultMap>
 
     <select id="selectOrderDetails" resultMap="orderResultMap">
-        SELECT 
-            o.order_no,
-            o.member_no,
-            o.order_date,
-            o.order_count,
-            o.total_price,
-            o.delivery_fee,
-            o.payment_status,
-            o.user_zip,
-            o.user_address,
-            o.user_detail_address,
-            o.user_tel_no,
-            o.user_name
-        FROM "ORDER" o
-        WHERE o.order_no = #{orderNo}
-    </select>
+	    SELECT 
+	        o.order_no,
+	        o.member_no,
+	        o.order_date,
+	        o.order_count,
+	        o.total_price,
+	        o.delivery_fee,
+	        o.payment_status,
+	        o.user_zip,
+	        o.user_address,
+	        o.user_detail_address,
+	        o.user_tel_no,
+	        o.user_name,
+	        ob.book_no,
+	        b.book_title,
+	        b.book_cover,
+	        ob.book_count,
+	        ob.order_price,
+	        ob.discount_price,
+	        ob.refund_yn
+	    FROM 
+	        "ORDER" o
+	    LEFT JOIN 
+	        ORDER_LIST ob ON o.order_no = ob.order_no
+	    LEFT JOIN 
+	        BOOK b ON ob.book_no = b.book_no
+	    WHERE 
+	        o.order_no = #{orderNo}
+	</select>
+
 
 </mapper>
+

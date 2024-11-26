@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import phantom.books.finalProject.cart.dto.CartDto;
 import phantom.books.finalProject.cart.mapper.CartMapper;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -22,6 +24,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public List<CartDto> getCartItems(int memberNo) {
         List<CartDto> cartItems = mapper.getCartItems(memberNo);
+        log.debug("Fetched cart items from DB: {}", cartItems);
         return cartItems != null ? cartItems : List.of();
     }
     

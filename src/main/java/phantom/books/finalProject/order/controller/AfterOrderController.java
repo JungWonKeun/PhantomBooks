@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import phantom.books.finalProject.order.dto.OrderDto;
 import phantom.books.finalProject.order.service.AfterOrderService;
 
+@Slf4j
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/order")
@@ -25,6 +27,10 @@ public class AfterOrderController {
 	) {
 	    OrderDto order = service.getOrderDetails(orderNo);
 
+	    if (order.getOrderBooks() == null || order.getOrderBooks().isEmpty()) {
+	        log.warn("주문 번호 {}에 해당하는 주문 책 목록이 비어 있습니다.", orderNo);
+	    }
+	    
 	    // 모델에 데이터 추가
 	    model.addAttribute("order", order);
 	    model.addAttribute("orderItems", order.getOrderBooks());
