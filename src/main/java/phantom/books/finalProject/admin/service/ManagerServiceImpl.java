@@ -8,10 +8,12 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import phantom.books.finalProject.admin.mapper.ManagerMapper;
 import phantom.books.finalProject.pagination.Pagination;
 import phantom.books.finalProject.searchBookPage.dto.Book;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ManagerServiceImpl implements ManagerService {
@@ -31,6 +33,7 @@ public class ManagerServiceImpl implements ManagerService {
 		RowBounds bounds = new RowBounds(offset, limit);
 		
 		List<Book> bookList = mapper.bookList(sort,text, bounds);
+		log.debug("bookList : {}", bookList);
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("countBookList", countBookList);

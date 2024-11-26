@@ -36,39 +36,150 @@ const listUp = (cp, sort, view, text) => {
       td2.addEventListener("click", () => {
         resultArea.innerHTML = "";
 
+        const tr11 = document.createElement("tr");
         const tr1 = document.createElement("tr");
+
+        const tr21 = document.createElement("tr");
         const tr2 = document.createElement("tr");
+
+        const tr31 = document.createElement("tr");
         const tr3 = document.createElement("tr");
-        const th1 = document.createElement("th");
-        const th2 = document.createElement("th");
-        th1.rowSpan ="4";
-        th1.innerHTML = book.bookCover;
+
+        const tr41 = document.createElement("tr");
+        const tr4 = document.createElement("tr");
         
-        th2.colSpan = "4";
-        th2.innerHTML = "책 제목 : " + book.bookTitle;
-
-        tr1.append(th1, th2);
-
+        const th111 = document.createElement("th");
+        const th1 = document.createElement("th");
+        const th112 = document.createElement("th");
+        const th2 = document.createElement("th");
+        const th113 = document.createElement("th");
         const th3 = document.createElement("th");
-        th3.colSpan = "4";
-        th3.innerHTML = "출판사 : " + book.companyName;
-
-        tr2.append(th3);
-
+        const th114 = document.createElement("th");
         const th4 = document.createElement("th");
-        th4.colSpan = "4";
-        th4.innerHTML = "책 저자 : " + book.bookWriter;
+        const th115 = document.createElement("th");
+        const th5 = document.createElement("th");
+        th111.rowSpan ="9";
+        
+        const img = document.createElement("img");
+        img.src = book.bookCover;
+        th111.append(img);
+        img.style.width = '300px'; // 원하는 너비
+        img.style.height = '300px'; // 원하는 높이
 
-        tr3.append(th4);
+        th112.innerHTML = "책 제목";
+        th113.innerHTML = "출판사";
+        th114.innerHTML = "책 저자";
+        th115.innerHTML = "번역가";
+        
+        th2.innerHTML = book.bookTitle;
+        th3.innerHTML = book.companyName;
+        th4.innerHTML = book.bookWriter;
+        th5.innerHTML = book.bookTalt;
 
-        resultArea.append(tr1, tr2, tr3);
+        tr11.append(th111, th112, th113, th114, th115);
+        tr1.append(th2, th3, th4, th5);
+
+        const th26 = document.createElement("th");
+        const th27 = document.createElement("th");
+        const th28 = document.createElement("th");
+        const th29 = document.createElement("th");
+
+        const th6 = document.createElement("th");
+        const th7 = document.createElement("th");
+        const th8 = document.createElement("th");
+        const th9 = document.createElement("th");
+
+        th26.innerHTML = "출간일";
+        th27.innerHTML = "책 내용";
+        th28.innerHTML = "페이지수";
+        th29.innerHTML = "판매가격";
+
+        th6.append(book.bookDate);
+        th7.append(book.bookContent);
+        th8.append(book.bookPageCount);
+        th9.append(book.bookPrice);
+
+        tr21.append(th26, th27, th28, th29);
+        tr2.append(th6, th7, th8, th9);
+
+        const th310 =document.createElement("th");
+        const th311 =document.createElement("th");
+        const th312 =document.createElement("th");
+        const th313 =document.createElement("th");
+        const th10 = document.createElement("th");
+        const th11 = document.createElement("th");
+        const th12 = document.createElement("th");
+        const th13 = document.createElement("th");
+
+        th310.innerHTML = "잔여수량";
+        th311.innerHTML = "최초수량";
+        th312.innerHTML = "요청 가격";
+        th313.innerHTML = "요청 수량";
+
+        th11.append(book.currentCount);
+        th12.append(book.basicCount);
+        th10.append( document.createElement("input") );
+        th13.append( document.createElement("input") );
+
+        tr31.append(th310, th311, th312, th313);
+        tr3.append( th11, th12, th10, th13);
+        
+        const th16 = document.createElement("th");
+        const th17 = document.createElement("th");
+        const th14 = document.createElement("th");
+        const th15 = document.createElement("th");
+        const button1 = document.createElement("button");
+        button1.innerHTML = "보내기";
+        const button2 = document.createElement("button");
+        button2.innerHTML = "취소";
+        
+        th16.innerHTML= "요청 이메일";
+        const input = document.createElement("input")
+        th17.append(input);
+        input.value = book.email;
+        th14.append(button1);
+        th15.append(button2);
+
+        button1.addEventListener("click", ()=>{
+          const alarm = confirm(book.email + "으로 발주요청을 보내시겠습니까?");
+
+          if(alarm){
+            fetch("/admin/request", {
+              method : "post",
+              headers : {"Content-Type" : "application/json"},
+              body : JSON.stringify({
+                email : book.email,
+                title : book.bookTitle
+              })
+              })
+            .then(response => {
+              if(response.ok) return response.text();
+              throw new Error("전송 실패");
+            })
+            .then(result => {
+              if(result > 0){
+                alert("요청을 보냈습니다");
+                location.reload();
+              }
+            })
+
+          }
+        })
+
+        button2.addEventListener("click", () => {
+          location.reload();
+        })
+
+        tr4.append(th16, th17, th14, th15);
+
+        resultArea.append(tr11, tr1, tr21, tr2, tr31, tr3, tr41, tr4);
       })
 
       const td3 = document.createElement("td");
-      td3.append(book.bookWriter);
+      td3.append(book.companyName);
 
       const td4 = document.createElement("td");
-      td4.append(book.companyName);
+      td4.append(book.currentCount);
 
       tr.append(td1, td2, td3, td4);
       list.append(tr);
