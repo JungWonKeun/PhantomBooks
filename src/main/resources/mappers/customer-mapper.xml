@@ -35,10 +35,12 @@
 
 	<select id="getResultInquiry" resultType="Query">
 		SELECT 
-			QUERY_NO,
-			QUERY_TITLE,
-			QUERY_CONTENT,
-			QUERY_WRITE_DATE
+			QUERY_NO, 
+			QUERY_TITLE, 
+			QUERY_CONTENT, 
+			QUERY_WRITE_DATE, 
+			QUERY_UPDATE_DATE, 
+			REPLY
 		FROM
 			QUERY
 		WHERE
@@ -94,13 +96,20 @@
 		ORDER BY QUERY_NO DESC
 	</select>
 	
-	<update id="updateInquiry">
+	<update id="updateInquiry" parameterType="Query">
 		UPDATE QUERY
 		SET
-		QUERY_CONTENT = #{queryContent}
-		STATUS = {status}
+		QUERY_TITLE = #{queryTitle},
+		QUERY_CONTENT = #{queryContent},
+		QUERY_UPDATE_DATE = CURRENT_DATE
 		WHERE QUERY_NO = #{queryNo}
+		AND MEMBER_NO = #{memberNo}
 	</update>
 	
-	
+	<delete id="deleteInquiry">
+		DELETE FROM QUERY
+		WHERE QUERY_NO = #{queryNo}
+		AND   MEMBER_NO = #{memberNo}
+		AND	  STATUS != 2
+	</delete>
 </mapper>

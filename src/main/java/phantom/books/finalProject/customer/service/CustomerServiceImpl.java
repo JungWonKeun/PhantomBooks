@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import phantom.books.finalProject.customer.dto.FAQ;
@@ -16,6 +17,7 @@ import phantom.books.finalProject.query.dto.Query;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class CustomerServiceImpl implements CustomerService {
 
 	private final CustomerMapper customerMapper;
@@ -70,8 +72,16 @@ public class CustomerServiceImpl implements CustomerService {
 		return map;
 	}
 	@Override
-	public Query updateInquiry(int queryNo) {
-		return customerMapper.updateInquiry(queryNo);
+	public int updateInquiry(int queryNo, int memberNo) {
+		return customerMapper.updateInquiry(queryNo, memberNo);
+	}
+	@Override
+	public void updateInquiry(Query query) {
+		customerMapper.updateInquiry(query);		
 	}
 	
+	@Override
+	public int deleteInquiry(int queryNo, int memberNo) {
+		return customerMapper.deleteInquiry(queryNo, memberNo);
+	}
 }
