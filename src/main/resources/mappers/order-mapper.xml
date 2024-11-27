@@ -69,11 +69,18 @@
 	        #{memberNo}, 
 	        #{bookNo}, 
 	        #{bookCount}, 
-	        #{orderPrice}, 
-	        #{discountPrice}, 
+	        ((SELECT BOOK_PRICE
+	         FROM BOOK
+	         WHERE BOOK_NO = #{bookNo})
+	         * #{bookCount}), 
+	        ((SELECT BOOK_PRICE
+	         FROM BOOK
+	         WHERE BOOK_NO = #{bookNo})
+	         * #{bookCount}), 
 	        DEFAULT
 	    )
 	</insert>
+
 
 
 

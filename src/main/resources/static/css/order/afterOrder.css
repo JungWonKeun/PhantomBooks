@@ -1,115 +1,175 @@
-/* 주문 완료 페이지 스타일 */
+/* 전역 스타일 */
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-style: normal;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Pretendard-Regular', Arial, sans-serif;
+}
+
+body {
+  background-color: #f9fafc;
+  color: #333;
+  line-height: 1.8;
+}
+
+/* 메인 컨테이너 */
 .afterOrderMain {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 50px auto;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: #ffffff;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.afterOrderMain h1 {
+/* 제목 스타일 */
+h1 {
   text-align: center;
-  font-size: 2.5rem;
-  color: #333;
+  font-size: 2rem;
+  color: #205375;
   margin-bottom: 30px;
-  font-weight: bold;
 }
 
-.afterOrderMain section {
-  margin-bottom: 40px;
-}
-
-.afterOrderMain h3 {
+h3 {
+  margin-top: 20px;
   font-size: 1.5rem;
-  color: #555;
-  margin-bottom: 20px;
-  border-bottom: 2px solid #ddd;
+  color: #444;
+  border-bottom: 2px solid #205375;
   padding-bottom: 5px;
 }
 
-.afterOrderMain table {
+/* 테이블 스타일 */
+table {
   width: 100%;
-  margin-top: 20px;
   border-collapse: collapse;
-}
-
-.afterOrderMain table thead {
-  background-color: #007bff;
-  color: #fff;
-}
-
-.afterOrderMain table th,
-.afterOrderMain table td {
-  text-align: center;
-  padding: 15px;
-  border: 1px solid #ddd;
-}
-
-.afterOrderMain table th {
-  font-weight: bold;
-}
-
-.afterOrderMain table td img {
-  max-width: 80px;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-}
-
-.afterOrderMain table td {
-  font-size: 1rem;
-  color: #333;
-}
-
-.afterOrderMain table tbody tr:nth-child(even) {
-  background-color: #f5f5f5;
-}
-
-.afterOrderMain table tbody tr:nth-child(odd) {
+  margin-top: 20px;
   background-color: #fff;
 }
 
-.afterOrderMain table tbody tr:hover {
-  background-color: #f0f8ff;
-  transition: background-color 0.3s;
+thead th {
+  background-color: #205375;
+  color: white;
+  text-align: left;
+  padding: 15px;
+  font-size: 1rem;
+  text-transform: uppercase;
 }
 
-/* 버튼 스타일 */
-.afterOrderMain .btn {
-  display: block;
-  margin: 20px auto;
-  padding: 10px 20px;
+tbody td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+tbody td:nth-child(2) {
+  text-align: left;
+}
+
+tbody img {
+  max-width: 100px;
+  border-radius: 5px;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* 배송 정보와 결제 정보 섹션 */
+section {
+  margin-bottom: 30px;
+}
+
+table th {
+  text-align: left;
+  padding: 10px;
+  background-color: #f2f5f9;
+  font-size: 1rem;
+}
+
+table td {
+  padding: 10px;
+  color: #555;
+}
+
+.paymentSummary {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 2px solid #ddd;
+  padding-top: 10px;
+}
+
+/* 결제 버튼 */
+#paymentButton {
+  width: 100%;
+  max-width: 200px;
+  height: 50px;
   font-size: 1.2rem;
-  background-color: #007bff;
+  background-color: #205375;
   color: white;
   border: none;
   border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
 }
 
-.afterOrderMain .btn:hover {
-  background-color: #0056b3;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+#paymentButton:hover {
+  background-color: #007bff;
 }
 
-/* 반응형 */
+/* 배송 정보 스타일 */
+table th,
+table td {
+  vertical-align: middle;
+}
+
+.delivery-fee {
+  color: #205375;
+  font-weight: bold;
+}
+
+#totalPrice {
+  font-weight: bold;
+  color: #205375;
+  font-size: 1.2rem;
+}
+
+/* 반응형 스타일 */
 @media (max-width: 768px) {
   .afterOrderMain {
-      padding: 15px;
+    padding: 15px;
+    margin: 20px;
   }
 
-  .afterOrderMain h1 {
-      font-size: 2rem;
+  h1 {
+    font-size: 1.8rem;
   }
 
-  .afterOrderMain h3 {
-      font-size: 1.3rem;
+  h3 {
+    font-size: 1.2rem;
   }
 
-  .afterOrderMain table th, .afterOrderMain table td {
-      font-size: 0.9rem;
-      padding: 10px;
+  table th,
+  table td {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+
+  tbody img {
+    max-width: 70px;
+  }
+
+  #paymentButton {
+    font-size: 1rem;
+    max-width: 150px;
   }
 }

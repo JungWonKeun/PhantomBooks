@@ -1,0 +1,106 @@
+<style>
+<style>
+  /* 다크모드 스타일 */
+  .dark-mode {
+      background-color: #1e1e1e !important; /* 전체 배경색 */
+      color: #ffffff !important; /* 기본 텍스트 색상 */
+  }
+
+  /* 다크모드 내 모든 요소 */
+  .dark-mode * {
+      background-color: #1e1e1e !important; /* 모든 요소 배경색 */
+      color: #ffffff !important; /* 모든 요소 텍스트 색상 */
+  }
+
+  /* 링크 스타일 */
+  .dark-mode a {
+      color: #90caf9 !important; /* 링크 색상 */
+  }
+
+  /* 버튼 스타일 */
+  .dark-mode .btn {
+      background-color: #424242 !important; /* 버튼 배경색 */
+      color: #ffffff !important; /* 버튼 텍스트 색상 */
+  }
+
+  .dark-mode .btn:hover {
+      background-color: #616161 !important;
+      color: #ffffff !important;
+  }
+
+  /* 테이블 스타일 */
+  .dark-mode table {
+      background-color: #2e2e2e !important; /* 테이블 배경 */
+      border-color: #424242 !important; /* 테이블 경계 */
+  }
+
+  .dark-mode th, .dark-mode td {
+      background-color: #2e2e2e !important;
+      color: #ffffff !important;
+      border-color: #424242 !important;
+  }
+
+
+
+  .btn-bd-primary {
+        --bd-violet-bg: #712cf9;
+        --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+
+        --bs-btn-font-weight: 600;
+        --bs-btn-color: var(--bs-white);
+        --bs-btn-bg: var(--bd-violet-bg);
+        --bs-btn-border-color: var(--bd-violet-bg);
+        --bs-btn-hover-color: var(--bs-white);
+        --bs-btn-hover-bg: #6528e0;
+        --bs-btn-hover-border-color: #6528e0;
+        --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+        --bs-btn-active-color: var(--bs-btn-hover-color);
+        --bs-btn-active-bg: #5a23c8;
+        --bs-btn-active-border-color: #5a23c8;
+      }
+
+      .bd-mode-toggle {
+        z-index: 1500;
+      }
+
+      .bd-mode-toggle .dropdown-menu .active .bi {
+        display: block !important;
+      }
+</style>
+
+<!-- 다크모드 토글 버튼 -->
+<div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3">
+  <button id="darkModeToggle" class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center"
+          type="button" aria-expanded="false" data-bs-toggle="dropdown" aria-label="Toggle theme">
+      <svg class="bi my-1 theme-icon-active" width="1em" height="1em"></svg>
+      <span id="darkModeButtonText"></span>
+  </button>
+</div>
+
+<svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+  <symbol id="circle-half" viewBox="0 0 16 16">
+      <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"/>
+  </symbol>
+</svg>
+
+<!-- 다크모드 스크립트 -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+      const toggleButton = document.getElementById('darkModeToggle');
+      const buttonText = document.getElementById('darkModeButtonText');
+      const body = document.body;
+
+      // 초기 버튼 텍스트 설정
+      buttonText.textContent = body.classList.contains('dark-mode') ? '☀️ 라이트모드' : '🌙 다크모드';
+
+      // 버튼 클릭 이벤트
+      toggleButton.addEventListener('click', () => {
+          body.classList.toggle('dark-mode');
+
+          // 버튼 텍스트 업데이트
+          buttonText.textContent = body.classList.contains('dark-mode')
+              ? '☀️ 라이트모드'
+              : '🌙 다크모드';
+      });
+  });
+</script>

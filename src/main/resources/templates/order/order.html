@@ -9,6 +9,7 @@
   <!-- 결제 -->
   <script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
 
+
   <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   <!-- <script src="/js/order/order.js" defer></script> -->
   <!-- 주소 -->
@@ -109,7 +110,7 @@
     </div>
 
 
-
+    <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 
     <script th:inline="javascript">
       document.addEventListener('DOMContentLoaded', () => {
@@ -296,10 +297,7 @@
         }
 
         document.getElementById('paymentButton').addEventListener('click', () => {
-          if (!userNameInput.value || !userTelNoInput.value) {
-            alert('수령인 이름과 전화번호를 입력해주세요.');
-            return;
-          }
+        
 
           if (!selectedAddress.zip || !selectedAddress.address || !selectedAddress.detailAddress) {
             alert('배송지를 선택해주세요.');
@@ -317,7 +315,11 @@
         const userZip = document.getElementById('userZip').value;
         const userAddress = document.getElementById('userAddress').value;
         const userDetailAddress = document.getElementById('userDetailAddress').value;
-        const totalPrice = parseInt(document.getElementById('totalPrice').innerText, 10);
+
+        const removeComma = (value) => {
+          return parseInt(value.replace(/,/g, ''), 10);
+        };
+        const totalPrice = removeComma(document.getElementById('totalPrice').innerText);
 
         if (!userName || !userTelNo) {
           alert('수령인 이름과 전화번호를 입력해주세요.');
@@ -341,11 +343,11 @@
         const orderBooks = Array.from(document.querySelectorAll("tbody tr")).map(row => ({
           bookNo: parseInt(row.getAttribute("data-book-no"), 10),
           bookTitle: row.querySelector("td:nth-child(2)").innerText,
-          bookPrice: parseInt(row.querySelector(".book-price").getAttribute("data-price"), 10),
+          bookPrice: removeComma(row.querySelector(".book-price").textContent),
           bookCount: parseInt(row.querySelector("td:nth-child(3)").innerText, 10)
         }));
 
-        console.log("Order Books:", orderBooks);
+        console.log("주문 상품 정보:", orderBooks);
 
 
         const orderData = {
@@ -361,14 +363,14 @@
         };
 
 
-        console.log("Order Data:", orderData);
+        console.log("주문한 값 전달 확인 :", orderData);
 
         try {
           const resp = await PortOne.requestPayment({
             storeId: storeId,
             paymentId: paymentId,
             orderName: "테스트 결제",
-            totalAmount: 100,
+            totalAmount: totalPrice,
             currency: "KRW",
             channelKey: channelKey,
             payMethod: "CARD",

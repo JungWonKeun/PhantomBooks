@@ -19,7 +19,7 @@ public class OrderBookDto {
     private String bookTitle; // 책 제목
     private String bookCover; // 책 표지
     private int bookPrice;    // 책 가격
-    private int bookCount;    // 책 재고
+    private int bookCount;    // 책 수량
     private int orderCount;   // 주문 수량
     
     private int discountPrice;

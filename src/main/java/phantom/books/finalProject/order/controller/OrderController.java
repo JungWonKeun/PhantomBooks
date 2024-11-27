@@ -22,6 +22,7 @@ import phantom.books.finalProject.cart.dto.CartDto;
 import phantom.books.finalProject.common.config.PortOneConfig;
 import phantom.books.finalProject.member.dto.Member;
 import phantom.books.finalProject.order.dto.AddressDto;
+import phantom.books.finalProject.order.dto.OrderBookDto;
 import phantom.books.finalProject.order.dto.OrderDto;
 import phantom.books.finalProject.order.service.AfterOrderService;
 import phantom.books.finalProject.order.service.OrderService;
@@ -98,8 +99,11 @@ public class OrderController {
 
             orderDto.setMemberNo(loginMember.getMemberNo());
             
+            
+            
             int orderNo = service.saveOrder(orderDto);
 
+            log.debug("orderDtO: {}", orderDto);
             return ResponseEntity.ok(Map.of("success", true, "orderNo", orderNo));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
