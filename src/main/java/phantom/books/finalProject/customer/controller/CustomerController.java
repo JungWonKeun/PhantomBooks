@@ -94,6 +94,7 @@ public class CustomerController {
 	        @RequestParam(value = "status", required = false, defaultValue = "-1") int status, 
 	        @RequestParam(value = "startDate", required = false, defaultValue = "default") String startDate,
 	        @RequestParam(value = "endDate", required = false, defaultValue = "default") String endDate,
+	        @RequestParam(name = "project" , required = false, defaultValue = "all") String project,
 	        @SessionAttribute("loginMember") Member loginMember,
 	        Model model) {
 

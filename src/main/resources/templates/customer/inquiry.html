@@ -13,6 +13,15 @@
     <div th:replace="~{common/side-menu}"></div>
     <main class="inquiry-main">
         <!-- 검색 섹션 -->
+        <h4><strong>상세 조회</strong></h4>
+        <select name="project" id="inquiryProject-dropdown">
+            <option>유형 선택</option>
+            <option value="all">전체보기</option>
+            <option value="order">주문관련</option>
+            <option value="delivery">배송관련</option>
+            <option value="cancelOrRefund">취소/환불</option>
+            <option value="etc">기타문의</option>
+        </select>
         <section class="inquiry-search">
             <div class="filter-area">
                 <label for="sort-dropdown">조회 기간:</label>
@@ -22,14 +31,14 @@
                     <option value="3">3개월</option>
                     <option value="6">6개월</option>
                     <option value="12">1년</option>
-
                 </select>
                 <div>
                     <label for="startDate">시작일:</label>
                     <input type="date" id="startDate">
-    
+
                     <label for="endDate">종료일:</label>
                     <input type="date" id="endDate">
+
                 </div>
                 <buton id="searchButton">조회</buton>
             </div>
@@ -43,7 +52,7 @@
         <section class="inquiry-tabs">
             <nav>
                 <ul>
-                    <li class="tab active"  data-status="-1">전체</li>
+                    <li class="tab active" data-status="-1">전체</li>
                     <li class="tab" data-status="0">접수 완료</li>
                     <li class="tab" data-status="1">관리자 확인</li>
                     <li class="tab" data-status="2">답변 완료</li>
@@ -72,15 +81,13 @@
                     <th:block th:unless="${#lists.isEmpty(inquiryList)}">
                         <tr th:each="inquiry:${inquiryList}" th:object="${inquiry}">
                             <td th:text="*{queryNo}">번호</td>
-                            <td th:text="*{queryTitle}"
-                                class="queryName"
-                                th:data-query-no="*{queryNo}">
+                            <td th:text="*{queryTitle}" class="queryName" th:data-query-no="*{queryNo}">
                                 <span>제목</span>
                             </td>
                             <td th:text="*{queryWriteDate}">작성일</td>
-                            <td th:if= "${inquiry.status== 0}">접수완료</td>
-                            <td th:if= "${inquiry.status== 1}">관리자 확인</td>
-                            <td th:if= "${inquiry.status== 2}">답변완료</td>
+                            <td th:if="${inquiry.status== 0}">접수완료</td>
+                            <td th:if="${inquiry.status== 1}">관리자 확인</td>
+                            <td th:if="${inquiry.status== 2}">답변완료</td>
                         </tr>
                     </th:block>
                 </tbody>
@@ -92,45 +99,45 @@
             </div>
 
             <!-- 페이지네이션 -->
-            <div class="pagination-area" th:unless= "${#lists.isEmpty(inquiryList)}">
-        
+            <div class="pagination-area" th:unless="${#lists.isEmpty(inquiryList)}">
+
                 <ul class="pagination" th:object="${pagination}">
-                  
-                  <!-- 첫 페이지로 이동 -->
-                  <li><a href="#">&lt;&lt;</a></li>
-                  
-                  <!-- 이전 목록 마지막 번호로 이동 -->
-                  <li><a href="#">&lt;</a></li>
-                  
-                  <!-- 특정 페이지로 이동 -->
-                  
-                  <!-- 
+
+                    <!-- 첫 페이지로 이동 -->
+                    <li><a href="#">&lt;&lt;</a></li>
+
+                    <!-- 이전 목록 마지막 번호로 이동 -->
+                    <li><a href="#">&lt;</a></li>
+
+                    <!-- 특정 페이지로 이동 -->
+
+                    <!-- 
                     #numbers.sequence(startPage, endPage)
                     -> startPage부터 endPage까지 1씩 증가하는 숫자를 가진
                     List를 만들어서 반환
                   -->
-                  <th:block th:each= "i : *{#numbers.sequence(startPage, endPage)}">
-                    
-                    <!-- 현재 보고있는 페이지 -->
-                    <li th:if= "${i}==*{currentPage}">
-                      <a class="current" th:text="${i}">현재 페이지</a>
-                    </li>
-                    
-                    <!-- 보고있지 않은 페이지 -->                    
-                    <li th:unless = "${i} == *{currentPage}">
-                      <a th:text="${i}">이동할 수 있는 페이지</a>
-                    </li>
-                    
-                    
-                  </th:block>
-                  
-                  <!-- 다음 목록 시작 번호로 이동 -->
-                  <li><a href="#">&gt;</a></li>
-                  
-                  <!-- 끝 페이지로 이동 -->
-                  <li><a href="#">&gt;&gt;</a></li>
+                    <th:block th:each="i : *{#numbers.sequence(startPage, endPage)}">
+
+                        <!-- 현재 보고있는 페이지 -->
+                        <li th:if="${i}==*{currentPage}">
+                            <a class="current" th:text="${i}">현재 페이지</a>
+                        </li>
+
+                        <!-- 보고있지 않은 페이지 -->
+                        <li th:unless="${i} == *{currentPage}">
+                            <a th:text="${i}">이동할 수 있는 페이지</a>
+                        </li>
+
+
+                    </th:block>
+
+                    <!-- 다음 목록 시작 번호로 이동 -->
+                    <li><a href="#">&gt;</a></li>
+
+                    <!-- 끝 페이지로 이동 -->
+                    <li><a href="#">&gt;&gt;</a></li>
                 </ul>
-              </div>
+            </div>
         </section>
     </main>
 

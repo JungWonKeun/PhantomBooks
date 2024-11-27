@@ -106,10 +106,10 @@
 		AND MEMBER_NO = #{memberNo}
 	</update>
 	
-	<delete id="deleteInquiry">
+	<delete id="deleteInquiry" parameterType="int">
 		DELETE FROM QUERY
 		WHERE QUERY_NO = #{queryNo}
 		AND   MEMBER_NO = #{memberNo}
-		AND	  STATUS != 2
+		AND	  STATUS!= 2
 	</delete>
 </mapper>

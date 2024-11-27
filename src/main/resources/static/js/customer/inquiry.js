@@ -39,14 +39,38 @@ document.addEventListener("DOMContentLoaded", () => {
   sortDropdown.addEventListener('change', () => {
 
     let time = 0;
-    if(sortDropdown.value == '7') time = new Date().setDate(new Date().getDate() - 7);
-
-    else time = new Date(new Date().setMonth(new Date().getMonth() - Number(sortDropdown.value)))
-
+    if (sortDropdown.value == '7'){ 
+      time = new Date().setDate(new Date().getDate() - 7);
+    }else{
+      time = new Date(new Date().setMonth(new Date().getMonth() - Number(sortDropdown.value)));
+    } 
     selectStartDate.value = new Date(time).toISOString().split('T')[0];
- 
+
   });
 
+  // 문의 유형 선택 시 이벤트 처리
+  const inquiryProjectDropdown = document.getElementById("inquiryProject-dropdown");
+  inquiryProjectDropdown.addEventListener("change", () => {
+    const selectedValue = inquiryProjectDropdown.value;
+    const statusMapping = {
+      all : "-1", // 전체 보기는 기본값
+      order: "주문관련",
+      delivery: "배송관련",
+      cancelOrRefund: "취소/환불",
+      etc: "기타문의"
+    };
+    const status = statusMapping[selectedValue] || "-1"; // 매핑된 값이 없으면 기본값
+    if (status === "-1" && selectedValue !== "all") {
+      alert("유효한 문의 유형을 선택해주세요.");
+      return;
+    }
+    console.log(`선택된 유형: ${status}`);
+
+    // 서버로 데이터 요청 (fetchInquiries 함수 호출)
+    fetchInquiries(status, startDate, endDate, 1);
+  });
+
+  
   // 데이터 요청 함수
   function fetchInquiries(status, startDate, endDate, cp) {
     if (!status || !startDate || !endDate) {
@@ -182,7 +206,7 @@ document.addEventListener("DOMContentLoaded", () => {
    */
   function pageNoAddClickEventHandler() {
     const pageNoList = document.querySelectorAll(".pagination a");
-    
+
     pageNoList?.forEach(a => {
       const cp = a.dataset.cp;
 
@@ -208,7 +232,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const startDate = document.getElementById("startDate").value;
     const endDate = document.getElementById("endDate").value;
 
-    fetchInquiries(status, startDate, endDate, 1);  
+    fetchInquiries(status, startDate, endDate, 1);
   });
 
 
@@ -220,5 +244,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 초기 데이터 로드
   fetchInquiries(status, startDate, endDate, 1);
-  pageNoAddClickEventHandler(); 
+  pageNoAddClickEventHandler();
 });
