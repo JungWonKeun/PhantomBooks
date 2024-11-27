@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="phantom.books.finalProject.admin.mapper.AdminNewBookMapper">
+
+	<select id="countNewBook">
+		SELECT COUNT(*)
+		FROM BOOK_REQUEST
+	</select>
+	
+	<select id="newBookList" resultType="Request">
+		SELECT 
+			*
+		FROM BOOK_REQUEST
+		LEFT JOIN BOOK USING(BOOK_NO)
+	</select>
+	
+</mapper>

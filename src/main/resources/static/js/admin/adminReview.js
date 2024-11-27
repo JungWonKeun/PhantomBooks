@@ -84,47 +84,45 @@ const listUp = (cp, sort, title) => {
 
       // 구매자 평점
       const td4 = document.createElement("td");
-      td4.classList.add("score");
-      td4.innerHTML = review.reviewScore;
+      const div = document.createElement("div");
+      div.append(displayRating(review.reviewScore));
+
+      td4.append(div);
       
       // 리뷰 사진
       const td5 = document.createElement("td");
-      td4.classList.add("image");
+      td5.classList.add("image");
       td5.innerHTML = review.reviewImgNo;
       
       // 리뷰 제목
       const td6 = document.createElement("td");
-      td4.classList.add("reviewTitle");
+      td6.classList.add("reviewTitle");
       td6.innerHTML = review.reviewTitle;
 
       // 리뷰 내용
       const td7 = document.createElement("td");
-      td4.classList.add("content");
+      td7.classList.add("content");
       td7.innerHTML = review.reviewContent;
 
       // 작성자
       const td8 = document.createElement("td");
-      td4.classList.add("name");
+      td8.classList.add("name");
       td8.innerHTML = review.memberId;
 
       // 작성일자
       const td9 = document.createElement("td");
-      td4.classList.add("writeDate");
+      td9.classList.add("writeDate");
       td9.innerHTML = review.reviewWriteDate;
       
       // 수정일자
       const td10 = document.createElement("td");
-      td4.classList.add("updateDate");
+      td10.classList.add("updateDate");
       td10.innerHTML = review.reviewWriteDate;
       
       tr.append(td2, td3, td4, td5, td6, td7, td8, td9, td10, th1);
       reviewContent.append(tr);
       
     })
-
-
-
-
 
   // 페이지네이션 출력
   const pg = document.querySelector('.pagination');
@@ -187,6 +185,40 @@ sortSelect.addEventListener('change', () => {
 
   listUp(1, sort)
 })
+
+// 별 모양 변수
+
+// 반쪽짜리 별
+const halfStar = document.createElement("i");
+halfStar.classList.add("fa-solid");
+halfStar.classList.add("fa-star-half");
+
+// 꽉찬 별
+const star = document.createElement("i");
+star.classList.add("fa-solid");
+star.classList.add("fa-star");
+
+// 빈별
+const noStar = document.createElement("i");
+noStar.classList.add("fa-light");
+noStar.classList.add("fa-star");
+
+function displayRating(rating){
+
+  const stars = document.createElement("div");
+
+  for(let i = 1; i <= 5; i++){
+    if(rating >= i){
+      stars.appendChild(star.cloneNode());
+    } else if(rating >= i - 0.5){
+      stars.appendChild(halfStar.cloneNode());
+      ;
+    } else{
+      stars.appendChild(noStar.cloneNode());
+    }
+  }
+  return stars;
+}
 
 /**
  * 화면 실행 시 listUp하기

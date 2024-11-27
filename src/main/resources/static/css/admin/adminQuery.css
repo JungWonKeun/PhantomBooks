@@ -1,3 +1,5 @@
+
+
 /* 폰트 스타일 */
 @font-face {
   font-family: 'Pretendard-Regular';
@@ -9,11 +11,6 @@
 /* 드롭다운 스타일 */
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
-*{
-  background-color: #EFEFEF;
-  font-family: 'Pretendard-Regular';
-  box-sizing: border-box;
-}
 
 html, body {
   margin: 0;
@@ -182,3 +179,9 @@ html, body {
 }
 
 
+*{
+  background-color: #EFEFEF;
+  font-family: 'Pretendard-Regular';
+  box-sizing: border-box;
+  border: 1px solid black;
+}

@@ -143,7 +143,7 @@ public class Pagination {
 		//			 (이전 페이지 번호 목록 중 끝 번호)
 		
 		// 더 이상 뒤로갈 페이지가 없을 경우
-		if(currentPage < pageSize) {
+		if(currentPage <= pageSize) {
 			prevPage = 1; 
 		
 		} else {
