@@ -28,6 +28,7 @@ public class Book {
 	    private char bookYn;            // 책 여부
 	    private String bookDate;        // 출간일
 	    private String insertDate;      // 등록일자
+	    private double scoreAvg;      // 점수 평근
 
 	    /* 책 관리 테이블 정보*/
 	    private int currentCount;				// 책 개수

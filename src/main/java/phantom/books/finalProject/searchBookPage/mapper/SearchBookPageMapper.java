@@ -61,7 +61,12 @@ public interface SearchBookPageMapper {
 		int countReviewsByBookNo(int bookNo);
 
 		// 리뷰 삭제
-		int deleteReview(@Param("reviewNo") int reviewNo);	
+		int deleteReview(@Param("reviewNo") int reviewNo);
+
+		// 책 평점
+		Double selectScoreAvg(int bookNo);
+
+		int insertScoreAvg(@Param("bookNo") int bookNo, @Param("scoreAvg") Double scoreAvg);	
 
 
 

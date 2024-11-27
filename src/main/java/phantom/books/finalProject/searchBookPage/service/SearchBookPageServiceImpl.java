@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import phantom.books.finalProject.pagination.Pagination;
 import phantom.books.finalProject.searchBookPage.dto.Book;
 import phantom.books.finalProject.searchBookPage.dto.Review;
@@ -23,6 +24,7 @@ import phantom.books.finalProject.searchBookPage.mapper.SearchBookPageMapper;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 /* @PropertySource("classpath:/config.properties") */
 public class SearchBookPageServiceImpl implements SearchBookPageService {
 
@@ -107,12 +109,27 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 		// 책 목록 조회
 		List<Book> bookList = mapper.searchBooks(searchTitle, categories, preferences, bounds);
 
+		// 책 평점 계산
+		Double scoreAvg = 0.0;
+		
+		// 책 평점
+		for (Book book : bookList) {
+			scoreAvg = mapper.selectScoreAvg(book.getBookNo());
+			
+			log.debug("scoreAvg: {}", scoreAvg);
+			
+			int result = mapper.insertScoreAvg(book.getBookNo(), scoreAvg);
+			log.debug("result : {}", result);
+		}
+		
+		
+		
 		// 결과를 담을 Map 생성
 		Map<String, Object> result = new HashMap<>();
 		result.put("pagination", pagination);
 		result.put("totalCount", totalCount);
 		result.put("bookList", bookList);
-
+		
 		return result;
 	}
 
@@ -142,6 +159,7 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 		return map;
 	}
 	
+	//리뷰작성
 	@Override
 	public boolean writeReview(int bookNo, String title, String content, double score, int memberNo,
 			MultipartFile file) {

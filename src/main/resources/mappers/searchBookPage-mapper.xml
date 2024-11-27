@@ -99,7 +99,8 @@
     B.BOOK_TALT AS bookTalt,
     B.BOOK_PRICE AS bookPrice,
     B.BOOK_PAGE_COUNT AS bookPageCount,
-    B.BOOK_YN AS bookYn
+    B.BOOK_YN AS bookYn,
+    B.SCORE_AVG 
     FROM BOOK B
     LEFT JOIN BOOK_PREFERENCE BP ON B.BOOK_NO = BP.BOOK_NO
     LEFT JOIN PREFERENCE P ON BP.PREFERENCE_NO = P.PREFERENCE_NO
@@ -318,7 +319,19 @@
 		WHERE REVIEW_NO = #{reviewNo}
 	</delete>
 
-
+	<select id="selectScoreAvg" resultType="_double">
+		SELECT
+			AVG(REVIEW_SCORE)
+		FROM REVIEW
+		WHERE BOOK_NO = #{bookNo}
+	</select>
+	
+	<update id="insertScoreAvg">
+		UPDATE BOOK
+		SET
+			SCORE_AVG = #{scoreAvg}
+		WHERE BOOK_NO = #{bookNo}
+	</update>
 
 
 </mapper>

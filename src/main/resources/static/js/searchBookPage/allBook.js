@@ -320,6 +320,8 @@ function handlePaginationClick(event) {
     // 확인용 최종 URL 출력
     console.log("Generated URL:", url.toString());
     location.href = url.toString();
+
+ 
 }
 
 document.addEventListener("DOMContentLoaded", () => {
