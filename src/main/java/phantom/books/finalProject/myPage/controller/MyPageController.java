@@ -1,9 +1,8 @@
 package phantom.books.finalProject.myPage.controller;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -126,6 +126,72 @@ public class MyPageController {
 
 		return "redirect:/myPage/info";
 	}
+
+	/**
+	 * 마이페이지(비밀번호 변경 페이지)
+	 * 
+	 * @param loginMember
+	 * @return
+	 */
+	@GetMapping("changePw")
+	public String changePw(@SessionAttribute("loginMember") Member loginMember) {
+		return "myPage/changePw";
+	}
+
+	@PostMapping("checkTelNo")
+	public ResponseEntity<Map<String, String>> checkTelNo(@RequestParam("telNo") String telNo,
+			@SessionAttribute("loginMember") Member loginMember) {
+
+		log.debug("telNo: {}", telNo);
+		log.debug("logintelNo: {}", loginMember.getTelNo());
+
+		Map<String, String> response = new HashMap<>();
+
+		// 로그인된 회원의 전화번호와 입력된 전화번호 비교
+		if (!loginMember.getTelNo().equals(telNo)) {
+			response.put("status", "error");
+			return ResponseEntity.ok(response);
+		}
+
+		response.put("status", "success");
+		return ResponseEntity.ok(response);
+	}
+
+	@PostMapping("changePw")
+	public ResponseEntity<Map<String, String>> changePw(
+	        @RequestParam("currentPw") String currentPw,
+	        @RequestParam("memberPw") String newPw,
+	        @SessionAttribute("loginMember") Member loginMember) {
+	    Map<String, String> response = new HashMap<>();
+
+	    // 서비스 호출
+	    int result = service.changePassword(currentPw, newPw, loginMember);
+
+	    // 결과에 따른 응답 처리
+	    switch (result) {
+	        case 1:
+	            response.put("status", "fail");
+	            response.put("message", "현재 비밀번호가 일치하지 않습니다.");
+	            response.put("type", "1");
+	            break;
+	        case 2:
+	            response.put("status", "fail");
+	            response.put("message", "새 비밀번호는 현재 비밀번호와 다르게 설정해주세요.");
+	            response.put("type", "2");
+	            break;
+	        case 3:
+	            response.put("status", "success");
+	            response.put("message", "비밀번호 변경이 완료되었습니다.");
+	            break;
+	        default: 
+	            response.put("status", "fail");
+	            response.put("message", "오류가 발생했습니다.");
+	            break;
+	    }
+
+	    return ResponseEntity.ok(response);
+	}
+
 
 	/**
 	 * 마이페이지(내 취향 페이지)

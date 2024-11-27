@@ -27,82 +27,103 @@
 
 	<!-- 기존 저장된 선호 카테고리 삭제 -->
 	<delete id="deleteCategoryByMemberNo" parameterType="_int">
-		DELETE FROM MEMBER_CATEGORY 
+		DELETE FROM
+		MEMBER_CATEGORY
 		WHERE MEMBER_NO = #{memberNo}
 	</delete>
-	
+
 	<!-- 선호 카테고리 저장 -->
 	<insert id="insertCategory">
-		INSERT INTO MEMBER_CATEGORY (MEMBER_NO, CATEGORY_NO) VALUES (#{memberNo}, #{categoryNo})
+		INSERT INTO MEMBER_CATEGORY (MEMBER_NO, CATEGORY_NO)
+		VALUES (#{memberNo}, #{categoryNo})
 	</insert>
 
 	<!-- 기존 저장된 선호 취향 삭제 -->
 	<delete id="deletePreferenceByMemberNo" parameterType="_int">
-		DELETE FROM MEMBER_PREFERENCE
+		DELETE
+		FROM MEMBER_PREFERENCE
 		WHERE MEMBER_NO = #{memberNo}
 	</delete>
-		
-	<!-- 선호 취향 저장 -->	
+
+	<!-- 선호 취향 저장 -->
 	<insert id="insertPreference">
-		INSERT INTO MEMBER_PREFERENCE (MEMBER_NO, PREFERENCE_NO) VALUES (#{memberNo}, #{preferenceNo})
+		INSERT INTO MEMBER_PREFERENCE (MEMBER_NO,
+		PREFERENCE_NO) VALUES (#{memberNo}, #{preferenceNo})
 	</insert>
 
 	<select id="getCategoryByMemberId">
 		SELECT *
 		FROM "MEMBER_CATEGORY"
-		WHERE MEMBER_NO = #{memberNo}
+		WHERE MEMBER_NO =
+		#{memberNo}
 	</select>
 
 	<select id="getPreferenceByMemberId">
 		SELECT *
 		FROM "MEMBER_PREFERENCE"
-		WHERE MEMBER_NO = #{memberNo}
+		WHERE MEMBER_NO =
+		#{memberNo}
 	</select>
 
 	<select id="getEncryptedPassword">
-		SELECT MEMBER_PW 
-		FROM MEMBER 
-		WHERE MEMBER_NO = #{memberNo}
+		SELECT MEMBER_PW
+		FROM MEMBER
+		WHERE MEMBER_NO =
+		#{memberNo}
 	</select>
 
 	<update id="changeInfo" parameterType="Member">
 		UPDATE MEMBER
-		SET 
-			ZIP = #{zip},
-			ADDRESS = #{address},
-			DETAIL_ADDRESS = #{detailAddress},
-			ADD_ZIP = #{addZip},
-			ADD_ADDRESS = #{addAddress},
-			ADD_DETAIL_ADDRESS = #{addDetailAddress},
-			TEL_NO = #{telNo},
-			NAME = #{name},
-			BIRTH_DATE = #{birthDate}
+		SET
+		ZIP =
+		#{zip},
+		ADDRESS = #{address},
+		DETAIL_ADDRESS = #{detailAddress},
+		ADD_ZIP
+		= #{addZip},
+		ADD_ADDRESS = #{addAddress},
+		ADD_DETAIL_ADDRESS =
+		#{addDetailAddress},
+		TEL_NO = #{telNo},
+		NAME = #{name},
+		BIRTH_DATE =
+		#{birthDate}
 		WHERE
-			MEMBER_NO = #{memberNo}
+		MEMBER_NO = #{memberNo}
 	</update>
-	
+
 	<select id="loginMemberByMemberNo" resultType="Member">
 		SELECT
-			MEMBER_NO,
-			MEMBER_ID,
-			MEMBER_PW,
-			ZIP,
-			ADDRESS,
-			DETAIL_ADDRESS,
-			ADD_ZIP,
-			ADD_ADDRESS,
-			ADD_DETAIL_ADDRESS,
-			TEL_NO,
-			TO_CHAR(BIRTH_DATE,
-			'YYYY"년" MM"월" DD"일"')
-			AS birthDate,
-			NAME,
-			RANK_NAME,
-			MEMBER_DEL_FL,
-			AUTHORITY,
-			CATEGORY_YN
+		MEMBER_NO,
+		MEMBER_ID,
+		MEMBER_PW,
+		ZIP,
+		ADDRESS,
+		DETAIL_ADDRESS,
+		ADD_ZIP,
+		ADD_ADDRESS,
+		ADD_DETAIL_ADDRESS,
+		TEL_NO,
+		TO_CHAR(BIRTH_DATE,
+		'YYYY"년" MM"월" DD"일"')
+		AS
+		birthDate,
+		NAME,
+		RANK_NAME,
+		MEMBER_DEL_FL,
+		AUTHORITY,
+		CATEGORY_YN
 		FROM
-			"MEMBER"
+		"MEMBER"
 		WHERE MEMBER_No = #{memberNo}
 	</select>
+
+	<update id="updatePassword">
+		UPDATE MEMBER
+		SET MEMBER_PW = #{encryptedPw}
+		WHERE
+		MEMBER_NO = #{memberNo}
+	</update>
+
+
 </mapper>

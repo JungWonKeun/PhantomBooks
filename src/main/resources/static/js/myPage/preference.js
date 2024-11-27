@@ -22,7 +22,7 @@ function hasUnsavedChanges() {
          JSON.stringify([...currentPreferenceState]) !== JSON.stringify([...initialPreferenceState]);
 }
 
-// 내 취향 페이지 오픈 및 닫기
+// 내 정보 페이지 오픈 및 닫기
 document.addEventListener('DOMContentLoaded', function () {
   const openBtn = document.getElementById("openBtn");
   const closeBtn = document.getElementById("closeBtn");
@@ -52,9 +52,9 @@ document.addEventListener('DOMContentLoaded', function () {
       menu.classList.remove("active");
     });
   });
-
-
 });
+
+
 
 
 
@@ -498,3 +498,40 @@ window.addEventListener('beforeunload', (event) => {
     return message;
   }
 });
+
+// 배지 추가 시 애니메이션
+function addBadgeWithAnimation(badge, container) {
+  badge.style.opacity = '0';
+  badge.style.transform = 'scale(0.8)';
+  container.appendChild(badge);
+  
+  requestAnimationFrame(() => {
+    badge.style.transition = 'all 0.3s ease';
+    badge.style.opacity = '1';
+    badge.style.transform = 'scale(1)';
+  });
+}
+
+// 배지 제거 시 애니메이션
+function removeBadgeWithAnimation(badge) {
+  badge.style.transition = 'all 0.3s ease';
+  badge.style.opacity = '0';
+  badge.style.transform = 'scale(0.8)';
+  
+  setTimeout(() => badge.remove(), 300);
+}
+
+
+// 스크롤 시 스티키 요소들의 위치 조정
+function updateStickyPositions() {
+  const btnContainer = document.querySelector('.btn-container');
+  const stickyCards = document.querySelectorAll('.sticky-card');
+  const btnHeight = btnContainer.offsetHeight;
+
+  stickyCards.forEach(card => {
+    card.style.top = `${btnHeight + 10}px`;
+  });
+}
+
+window.addEventListener('scroll', updateStickyPositions);
+window.addEventListener('resize', updateStickyPositions);
