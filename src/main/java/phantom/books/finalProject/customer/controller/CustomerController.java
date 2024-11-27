@@ -5,9 +5,12 @@ import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import phantom.books.finalProject.customer.dto.FAQ;
 import phantom.books.finalProject.customer.service.CustomerService;
 import phantom.books.finalProject.member.dto.Member;
@@ -23,6 +27,7 @@ import phantom.books.finalProject.query.dto.Query;
 @Controller
 @RequestMapping("/")
 @RequiredArgsConstructor
+@Slf4j
 public class CustomerController {
 
 	private final CustomerService customerService;
@@ -148,17 +153,35 @@ public class CustomerController {
 
 	
 	/** 문의글 수정하기
-	 * @param queryNo
-	 * @param model
+	 * @param queryNo : 문의글 번호
+	 * @param loginMember : 로그인된 사용자 정보
 	 * @return
 	 */
-	@GetMapping("/customer/inquiry/{queryNo}")
-	public String updateInquiry(@PathVariable("queryNo") int queryNo, Model model) {
-		
-	    Query inquiry = customerService.updateInquiry(queryNo);
-	    model.addAttribute("inquiry", inquiry);
-	    return "customer/inquiryModify";
+	@GetMapping("/customer/inquiryUpdate/{queryNo}")
+	public String getInquiryUpdatePage(@PathVariable("queryNo") int queryNo, Model model) {
+	    Query query = customerService.getResultInquiry(queryNo); // 수정할 데이터 조회
+	    model.addAttribute("query", query); // 뷰에 데이터 전달
+	    return "customer/inquiryUpdate";
 	}
+
+	@PostMapping("/customer/inquiryUpdate")
+	public String updateInquiry(@ModelAttribute Query query, @SessionAttribute("loginMember") Member loginMember) {
+	    query.setMemberNo(loginMember.getMemberNo()); // 로그인된 회원 정보 추가
+	    customerService.updateInquiry(query); // 서비스 호출로 업데이트 처리
+	    return "redirect:/customer/inquiry"; // 수정 완료 후 목록으로 리디렉션
+	}
+	
+	@DeleteMapping("/customer/inquiryDetail")
+	@ResponseBody
+	public int deleteInquiry(@RequestParam("queryNo") int queryNo,
+							 @SessionAttribute("loginMember") Member loginMember
+			) {
+		log.debug("queryNo : {}", queryNo);
+		int memberNo = loginMember.getMemberNo();
+		
+		return customerService.deleteInquiry(queryNo, memberNo);
+	}
+	
 	
 
 }

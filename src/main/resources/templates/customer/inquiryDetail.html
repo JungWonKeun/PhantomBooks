@@ -15,31 +15,34 @@
     <section class="board-detail" th:object="${inquiry}">
       <!-- 제목 -->
       <h1 class="board-title" th:text="*{queryTitle}">게시글 제목</h1>
+      <hr>
 
       <div class="board-header">
         <div class="board-info">
-          <p>
             <span>작성일</span>
             <th:block th:text="*{queryWriteDate}"></th:block>
-          </p>
-
           <!-- 수정한 게시글인 경우 -->
           <th:block th:if="*{queryUpdateDate}">
             <span>마지막 수정일</span>
             <th:block th:text="*{queryUpdateDate}"></th:block>
           </th:block>
-
+          <br>
           <th:block>
             <span>내용</span>
             <p th:text="*{queryContent}"></p>
           </th:block>
           
+          <th:block>
+            <span>답글</span>
+            <p th:if= "${inquiry.reply != null}" th:text="*{reply}"></p> 
+            <p th:if= "${inquiry.reply == null}">작성된 답글이 없습니다.</p>
+          </th:block>
 
           <th:block>
-            <button class="quiry-update">수정</button>
+            <button class="quiry-update" onclick="location.href='/customer/inquiryUpdate/${queryNo}'">수정</button>
           </th:block>
           <th:block>
-            <button class="quiry-delete">삭제</button>
+            <button class="quiry-delete" onclick="quiryDelete()">삭제</button>
           </th:block>
           <th:block>
             <a href="/customer/inquiry">목록으로</a>
@@ -50,20 +53,10 @@
       </div>
   </main>
 
-  <script th:inline="javascript">
-    // th:inline="javascript"
-    // -  Java 데이터 -> JS 자료형으로 자동 변환
-  
-    // 로그인 되어있으면 true, 아니면 false
-    const loginCheck 
-      = /*[[${session.loginMember != null}]]*/ false;
-
-    // 상세 조회 한 게시글 정보
-    const boardDetail = /*[[${board}]]*/ null;
-  </script>
-
   <div th:replace="~{common/footer}"></div>
   <script src="/js/customer/inquiryDetail.js"></script>
-
+  <script th:inline = "javascript">
+    const queryNo = /*[[${inquiry.queryNo}]]*/ null;
+  </script>
 </body>
 </html>

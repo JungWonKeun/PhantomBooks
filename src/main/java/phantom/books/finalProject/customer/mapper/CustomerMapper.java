@@ -40,5 +40,11 @@ public interface CustomerMapper {
 					@Param("endDate") String endDate,
 					RowBounds bounds);
 
-	Query updateInquiry(int queryNo);
+	int updateInquiry(@Param("queryNo")  int queryNo,
+					  @Param("memberNo") int memberNo);
+
+	void updateInquiry(Query query);
+
+	int deleteInquiry(@Param("queryNo") int queryNo,
+					  @Param("memberNo") int memberNo);
 }

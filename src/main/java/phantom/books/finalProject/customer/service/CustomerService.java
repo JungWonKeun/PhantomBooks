@@ -25,6 +25,10 @@ public interface CustomerService {
 
 	Map<String, Object> getInquiryListByMember(int cp, int memberNo, int status, String startDate, String endDate);
 
-	Query updateInquiry(int queryNo);
+	int updateInquiry(int queryNo, int memberNo);
+
+	void updateInquiry(Query query);
+
+	int deleteInquiry(int queryNo, int memberNo);
 
 }
