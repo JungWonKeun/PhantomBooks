@@ -1,13 +1,17 @@
-const queryBtn = document.querySelector("#queryBtn");
-const myForm = document.querySelector("#myForm");
-// 폼 데이터 수집
-
 queryBtn.addEventListener("click", (e) => {
   e.preventDefault(); // 기본 폼 제출 동작 막기
 
   const menu = document.querySelector("#subject").value;
   const title = document.querySelector("#title").value;
-  const content = quill.root.innerHTML; // Quill 에디터 내용
+  let content = quill.root.innerHTML; // Quill 에디터 내용
+  const textarea = document.getElementById("content"); // 숨겨진 textarea
+
+  // 불필요한 태그 제거
+  content = content.replace(/<\/?p>/g, "").trim();
+
+  // Quill 내용을 textarea에 설정
+  textarea.value = content;
+
   // 유효성 검사
   if (menu === "1") { // '유형 선택'이 선택된 경우
     alert("문의 유형을 선택해주세요.");
@@ -17,11 +21,10 @@ queryBtn.addEventListener("click", (e) => {
     alert("제목을 작성해주세요.");
     return;
   }
-  if (content === "" || content === "<p><br></p>") { // Quill 에디터 빈 내용 검사
+  if (content === "" || content === "<br>") { // Quill 에디터 빈 내용 검사
     alert("내용을 작성해주세요.");
     return;
   }
-
 
   // 데이터 전송
   fetch("/customer/query/submit", {
@@ -32,7 +35,7 @@ queryBtn.addEventListener("click", (e) => {
     body: JSON.stringify({
       querySubject: menu,
       queryTitle: title,
-      queryContent: content
+      queryContent: textarea.value // textarea에서 Quill 값 가져오기
     })
   })
     .then(response => {

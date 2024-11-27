@@ -27,7 +27,10 @@ public interface CustomerMapper {
 	
 	
 	int countQueryList(@Param("cp") int cp, 
-					@Param("memberNo") int memberNo);
+					@Param("memberNo") int memberNo,
+					@Param("status") int status,
+					@Param("startDate") String startDate,
+					@Param("endDate") String endDate);
 	
 	List<Query> queryList(
 					@Param("cp") int cp, 
@@ -36,4 +39,6 @@ public interface CustomerMapper {
 					@Param("startDate") String startDate,
 					@Param("endDate") String endDate,
 					RowBounds bounds);
+
+	Query updateInquiry(int queryNo);
 }

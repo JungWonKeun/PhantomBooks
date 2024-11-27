@@ -24,16 +24,28 @@
           </p>
 
           <!-- 수정한 게시글인 경우 -->
-          <p th:if="*{queryUpdateDate}">
+          <th:block th:if="*{queryUpdateDate}">
             <span>마지막 수정일</span>
             <th:block th:text="*{queryUpdateDate}"></th:block>
-          </p>
+          </th:block>
 
-          <p>
+          <th:block>
             <span>내용</span>
-            <th:block th:text="*{queryContent}"></th:block>
-          </p>
+            <p th:text="*{queryContent}"></p>
+          </th:block>
           
+
+          <th:block>
+            <button class="quiry-update">수정</button>
+          </th:block>
+          <th:block>
+            <button class="quiry-delete">삭제</button>
+          </th:block>
+          <th:block>
+            <a href="/customer/inquiry">목록으로</a>
+          </th:block>
+
+
         </div>
       </div>
   </main>

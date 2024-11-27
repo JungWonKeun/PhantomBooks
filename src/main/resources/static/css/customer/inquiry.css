@@ -99,7 +99,7 @@ header {
   border-radius: 5px;
 }
 
-.pagination a:hover {
+.pagination a:hover, .pagination .current {
   background-color: #205375;
   color: white;
 }

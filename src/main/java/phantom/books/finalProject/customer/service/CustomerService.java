@@ -25,4 +25,6 @@ public interface CustomerService {
 
 	Map<String, Object> getInquiryListByMember(int cp, int memberNo, int status, String startDate, String endDate);
 
+	Query updateInquiry(int queryNo);
+
 }
