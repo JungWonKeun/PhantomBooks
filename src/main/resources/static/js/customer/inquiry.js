@@ -6,24 +6,49 @@ document.addEventListener("DOMContentLoaded", () => {
   const inquiryButton = document.getElementById("inquiryButton");
   const tabs = document.querySelectorAll(".inquiry-tabs .tab");
   const paginationContainer = document.querySelector(".pagination");
+  const term = document.getElementById("sort-dropdown");
   let status = "-1"; // 초기 상태
-  let startDate = ""; // 초기 시작일
-  let endDate = ""; // 초기 종료일
+  let startDate = "";
+  let endDate = "";
 
-  
 
-  
+
+
   // 기본 조회 기간 설정
+  const selectStartDate = document.getElementById('startDate');
+  const selectEndDate = document.getElementById('endDate');
+  const sortDropdown = document.getElementById('sort-dropdown');
+
+  // endDate 기본값 오늘
+  selectEndDate.value = new Date().toISOString().split('T')[0];
+
+  // startDate 기본값 오늘 - 선택한 기간
+  selectStartDate.value = new Date(new Date().setDate(new Date().getDate() - sortDropdown.value)).toISOString().split('T')[0];
+
   const defaultStartDate = new Date();
   const defaultEndDate = new Date();
-  defaultStartDate.setMonth(defaultEndDate.getMonth() - 7); // 1개월 전
+  defaultStartDate.setDate(defaultEndDate.getDate() - 7); // 7일 전
   startDate = defaultStartDate.toISOString().split("T")[0];
   endDate = defaultEndDate.toISOString().split("T")[0];
   document.getElementById("startDate").value = startDate;
   document.getElementById("endDate").value = endDate;
 
+
+  // 선택한 기간 변경 시 이벤트 처리
+
+  sortDropdown.addEventListener('change', () => {
+
+    let time = 0;
+    if(sortDropdown.value == '7') time = new Date().setDate(new Date().getDate() - 7);
+
+    else time = new Date(new Date().setMonth(new Date().getMonth() - Number(sortDropdown.value)))
+
+    selectStartDate.value = new Date(time).toISOString().split('T')[0];
+ 
+  });
+
   // 데이터 요청 함수
-  function fetchInquiries(status, startDate , endDate, cp) {
+  function fetchInquiries(status, startDate, endDate, cp) {
     if (!status || !startDate || !endDate) {
       console.error("Invalid parameters for fetchInquiries:", { status, startDate, endDate });
       alert("올바른 조회 조건을 설정해주세요.");
@@ -52,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("Error fetching data:", err);
       });
   }
-  
+
   // 문의 내역 렌더링 함수
   function renderInquiries(data) {
     inquiryTableBody.innerHTML = ""; // 기존 데이터 초기화
@@ -89,59 +114,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // 페이지네이션 렌더링 함수
-  function renderPagination(pagination) {
-    paginationContainer.innerHTML = ""; // 기존 페이지네이션 초기화
-
-    const createcpButton = (label, cp, isDisabled = false, isCurrent = false) => {
-      const li = document.createElement("li");
-      const a = document.createElement("a");
-      a.textContent = label;
-      if (isDisabled) {
-        li.classList.add("disabled");
-        return li;
-      }
-      if (isCurrent) {
-        a.classList.add("current");
-      }
-      a.addEventListener("click", (e) => {
-        e.preventDefault();
-        if (!isCurrent) fetchInquiries(status, startDate, endDate, cp);
-      });
-      li.appendChild(a);
-      return li;
-    };
-
-    // 첫 페이지 버튼
-    paginationContainer.appendChild(createcpButton("<<", 1, pagination.currentcp === 1));
-
-    // 이전 페이지 버튼
-    paginationContainer.appendChild(createcpButton("<", pagination.prevcp, !pagination.hasPrevcp));
-
-    // 페이지 번호 버튼
-    for (let i = pagination.startcp; i <= pagination.endcp; i++) {
-      paginationContainer.appendChild(createcpButton(i, i, false, i === pagination.currentcp));
-    }
-
-    // 다음 페이지 버튼
-    paginationContainer.appendChild(createcpButton(">", pagination.nextcp, !pagination.hasNextcp));
-
-    // 마지막 페이지 버튼
-    paginationContainer.appendChild(createcpButton(">>", pagination.totalcps, pagination.currentcp === pagination.totalcps));
-  }
-
-  // 조회 버튼 클릭 이벤트
-  searchButton.addEventListener("click", () => {
-    startDate = document.getElementById("startDate").value;
-    endDate = document.getElementById("endDate").value;
-
-    if (!startDate || !endDate) {
-      alert("조회 기간을 설정해주세요.");
-      return;
-    }
-
-    fetchInquiries(status, startDate, endDate, 1);
-  });
 
   // 탭 클릭 이벤트
   tabs.forEach((tab) => {
@@ -155,6 +127,92 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+
+  // 페이지네이션 클릭 이벤트
+
+  function createPageNo(txt, cp) {
+    const li = document.createElement("li");
+    const a = document.createElement("a");
+    a.textContent = txt;
+    a.href = "#";
+    a.dataset.cp = cp;
+    li.appendChild(a);
+    return li;
+  }
+
+  /**
+   * 페이지네이션 생성 함수
+   * @param {} pagination 
+   */
+  function renderPagination(pagination) {
+
+    const { startPage, endPage, prevPage, nextPage, maxPage, currentPage } = pagination;
+
+    const ul = document.querySelector(".pagination");
+    ul.innerHTML = "";
+
+    const firstLi = createPageNo("<<", 1);
+    ul.appendChild(firstLi);
+
+    const prevLi = createPageNo("<", prevPage);
+    ul.appendChild(prevLi);
+
+
+    for (let i = startPage; i <= endPage; i++) {
+      const li = createPageNo(i, i);
+      if (i == currentPage) {
+        li.querySelector("a").classList.add("current");
+      }
+      ul.appendChild(li);
+    }
+
+    const nextLi = createPageNo(">", nextPage);
+    ul.appendChild(nextLi);
+
+    const maxLi = createPageNo(">>", maxPage);
+    ul.appendChild(maxLi);
+
+    // 페이지네이션 버튼 클릭 이벤트 추가
+    pageNoAddClickEventHandler();
+  }
+
+
+  /**
+   * 페이지네이션 버튼 클릭 시 동작 지정 함수
+   */
+  function pageNoAddClickEventHandler() {
+    const pageNoList = document.querySelectorAll(".pagination a");
+    
+    pageNoList?.forEach(a => {
+      const cp = a.dataset.cp;
+
+      a.addEventListener("click", (e) => {
+        e.preventDefault();
+        const term = document.getElementById("sort-dropdown").value;
+        const startDate = document.getElementById("startDate").value;
+        const endDate = document.getElementById("endDate").value;
+
+        fetchInquiries(status, startDate, endDate, cp);
+      });
+
+    });
+
+  }
+
+
+  /**
+   * 조회버튼 클릭 시
+   */
+  searchButton.addEventListener("click", () => {
+    const term = document.getElementById("sort-dropdown").value;
+    const startDate = document.getElementById("startDate").value;
+    const endDate = document.getElementById("endDate").value;
+
+    fetchInquiries(status, startDate, endDate, 1);  
+  });
+
+
+
   // 1:1 문의 버튼 클릭 이벤트
   inquiryButton.addEventListener("click", () => {
     location.href = "/customer/query";
@@ -162,4 +220,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 초기 데이터 로드
   fetchInquiries(status, startDate, endDate, 1);
+  pageNoAddClickEventHandler(); 
 });

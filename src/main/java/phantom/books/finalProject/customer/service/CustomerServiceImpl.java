@@ -50,10 +50,10 @@ public class CustomerServiceImpl implements CustomerService {
 			String endDate) {
 
 		// 조건 만족하는 문의리스트 수 조회
-		int countQueryList = customerMapper.countQueryList(cp, memberNo);
+		int countQueryList = customerMapper.countQueryList(cp, memberNo, status, startDate, endDate);
 
 		// 페이지네이션
-		Pagination pagination = new Pagination(1, countQueryList, 10, 5);
+		Pagination pagination = new Pagination(cp, countQueryList, 10, 5);
 
 		int limit = pagination.getLimit();
 		int offset = (cp - 1) * limit;
@@ -69,4 +69,9 @@ public class CustomerServiceImpl implements CustomerService {
 
 		return map;
 	}
+	@Override
+	public Query updateInquiry(int queryNo) {
+		return customerMapper.updateInquiry(queryNo);
+	}
+	
 }

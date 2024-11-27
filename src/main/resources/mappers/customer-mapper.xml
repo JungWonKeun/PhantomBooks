@@ -52,12 +52,38 @@
 		FROM QUERY
 		WHERE MEMBER_NO = #{memberNo}
 		
+		<choose>
+			<when test="startDate == 'default'">
+				AND TO_DATE(QUERY_WRITE_DATE) BETWEEN  TRUNC(CURRENT_DATE) -7 AND TRUNC(CURRENT_DATE)
+			</when>
+			<otherwise>
+				AND TO_DATE(QUERY_WRITE_DATE) BETWEEN  TO_DATE(#{startDate}) AND TO_DATE(#{endDate})
+			</otherwise>
+		</choose>
+		
+		<choose>
+			<when test="status == -1"></when>
+			<otherwise>
+				AND STATUS = #{status}
+			</otherwise>
+		</choose>
+		
 	</select>
 	
 	<select id="queryList" resultType="Query">
 		SELECT *
 		FROM QUERY
 		WHERE MEMBER_NO = #{memberNo}
+		
+		<choose>
+			<when test="startDate == 'default'">
+				AND TO_DATE(QUERY_WRITE_DATE) BETWEEN  TRUNC(CURRENT_DATE) -7 AND TRUNC(CURRENT_DATE)
+			</when>
+			<otherwise>
+				AND TO_DATE(QUERY_WRITE_DATE) BETWEEN  TO_DATE(#{startDate}) AND TO_DATE(#{endDate})
+			</otherwise>
+		</choose>
+		
 		<choose>
 			<when test="status == -1"></when>
 			<otherwise>
@@ -67,4 +93,14 @@
 		
 		ORDER BY QUERY_NO DESC
 	</select>
+	
+	<update id="updateInquiry">
+		UPDATE QUERY
+		SET
+		QUERY_CONTENT = #{queryContent}
+		STATUS = {status}
+		WHERE QUERY_NO = #{queryNo}
+	</update>
+	
+	
 </mapper>

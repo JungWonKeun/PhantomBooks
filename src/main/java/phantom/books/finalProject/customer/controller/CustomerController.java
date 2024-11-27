@@ -87,8 +87,8 @@ public class CustomerController {
 	public String getInquiryList(
 	        @RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
 	        @RequestParam(value = "status", required = false, defaultValue = "-1") int status, 
-	        @RequestParam(value = "startDate", required = false, defaultValue = "7day") String startDate,
-	        @RequestParam(value = "endDate", required = false, defaultValue = "currentDate") String endDate,
+	        @RequestParam(value = "startDate", required = false, defaultValue = "default") String startDate,
+	        @RequestParam(value = "endDate", required = false, defaultValue = "default") String endDate,
 	        @SessionAttribute("loginMember") Member loginMember,
 	        Model model) {
 
@@ -113,8 +113,8 @@ public class CustomerController {
 	public Map<String, Object> getquiryList(
 			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
 			@RequestParam(value = "status", required = false, defaultValue = "-1") int status, 
-			@RequestParam(value = "startDate", required = false, defaultValue = "7day") String startDate,
-			@RequestParam(value = "endDate", required = false, defaultValue = "currentDate") String endDate,
+			@RequestParam(value = "startDate", required = false, defaultValue = "default") String startDate,
+			@RequestParam(value = "endDate", required = false, defaultValue = "default") String endDate,
 			@SessionAttribute("loginMember") Member loginMember,
 			Model model) {
 		
@@ -146,6 +146,19 @@ public class CustomerController {
 	}
 
 
+	
+	/** 문의글 수정하기
+	 * @param queryNo
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/customer/inquiry/{queryNo}")
+	public String updateInquiry(@PathVariable("queryNo") int queryNo, Model model) {
+		
+	    Query inquiry = customerService.updateInquiry(queryNo);
+	    model.addAttribute("inquiry", inquiry);
+	    return "customer/inquiryModify";
+	}
 	
 
 }
