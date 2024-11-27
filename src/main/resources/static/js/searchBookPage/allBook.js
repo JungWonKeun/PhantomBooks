@@ -361,7 +361,7 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("Categories:", selectedCategories);
             console.log("Preferences:", selectedPreferences);
  */
-            // 폼을 수동으로 제출
+            
             searchForm.submit(); // 실제로 폼 제출
         });
     }
@@ -381,4 +381,41 @@ function updateHiddenValues() {
     ).map(checkbox => parseInt(checkbox.value, 10)); // `parseInt`로 값 변환하여 넘김
     document.getElementById('hiddenPreferences').value = selectedPreferences.join(",");
 }
+
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const params = new URLSearchParams(location.search);
+    const categories = params.get("categories") ? params.get("categories").split(",") : [];
+    const preferences = params.get("preferences") ? params.get("preferences").split(",") : [];
+
+    const selectedCategoryValuesDiv = document.getElementById("selectedCategoryValues");
+    const selectedPreferenceValuesDiv = document.getElementById("selectedPreferenceValues");
+
+    if (categories.length > 0) {
+        categories.forEach(category => {
+            const checkbox = document.querySelector(`#checkboxCategory input[value="${category}"]`);
+            if (checkbox) {
+                checkbox.checked = true;
+            }
+        });
+        // 선택한 카테고리 값 업데이트
+        updateSelectedValues(document.getElementById("checkboxCategory"), selectedCategoryValuesDiv);
+    }
+
+    if (preferences.length > 0) {
+        preferences.forEach(preference => {
+            const checkbox = document.querySelector(`#checkboxPreference input[value="${preference}"]`);
+            if (checkbox) {
+                checkbox.checked = true;
+            }
+        });
+        // 선택한 선호도 값 업데이트
+        updateSelectedValues(document.getElementById("checkboxPreference"), selectedPreferenceValuesDiv);
+    }
+});
+
 
