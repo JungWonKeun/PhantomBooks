@@ -49,4 +49,8 @@ public interface MyPageMapper {
 	//수정된 회원 정보 조회
 	Member loginMemberByMemberNo(int memberNo);
 
+	//비밀번호 변경
+	void updatePassword(
+			@Param("memberNo") int memberNo, 
+			@Param("encryptedPw") String encryptedPw);
 }

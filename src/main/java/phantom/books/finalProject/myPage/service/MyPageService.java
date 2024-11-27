@@ -33,5 +33,8 @@ public interface MyPageService {
 	// 정보 변경
 	Member changeInfo(Member inputMember);
 
+	// 비밀번호 변경
+	int changePassword(String currentPw, String newPw, Member loginMember);
+
 
 }

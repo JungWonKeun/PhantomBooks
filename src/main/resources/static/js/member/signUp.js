@@ -348,9 +348,9 @@ function toggleSubmitButton() {
         passwordInput.value = '';
         passwordConfirmInput.value = '';
         passwordInput.focus();
-        if (passwordConfirmBtn) passwordConfirmBtn.style.display = 'block'; // 비밀번호 사용하기 버튼 표시
         if (passwordChangeBtn) passwordChangeBtn.style.display = 'none'; // 비밀번호 변경 버튼 숨기기
         if (passwordConfirmSection) passwordConfirmSection.style.display = 'block'; // 비밀번호 확인 입력 섹션 표시
+        if (passwordConfirmBtn) passwordConfirmBtn.style.display = 'none'; // 비밀번호 사용하기 버튼 숨기기
         isPasswordConfirmed = false;
       });
     }
@@ -509,10 +509,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Esc 키가 눌렸을 때 입력 필드 초기화 및 버튼 숨기기
     input.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") { // Esc 키를 확인
+      if (event.key === "Escape" && !input.hasAttribute('readonly')) { // readonly가 아닐 때만 실행
         input.value = "";
         if (clearButton) {
-          clearButton.style.display = "none";
+          clearButton.style.display = "none"; 
         }
       }
     });

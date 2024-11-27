@@ -158,17 +158,17 @@ function addAddressToDefault() {
     return;
   }
   if (confirm("추가 배송지를 기본 배송지로 변경하시겠습니까?")) {
-    const TemporaryZip = zip.value;
-    const TemporaryAddress = address.value;
-    const TemporaryDetailAddress = detailAddress.value;
+    const temporaryZip = zip.value;
+    const temporaryAddress = address.value;
+    const temporaryDetailAddress = detailAddress.value;
 
     zip.value = addZip.value;
     address.value = addAddress.value;
     detailAddress.value = addDetailAddress.value;
 
-    addZip.value = TemporaryZip;
-    addAddress.value = TemporaryAddress;
-    addDetailAddress.value = TemporaryDetailAddress;
+    addZip.value = temporaryZip;
+    addAddress.value = temporaryAddress;
+    addDetailAddress.value = temporaryDetailAddress;
     toggleSubmitButton();
   };
 }
@@ -404,7 +404,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Esc 키가 눌렸을 때 입력 필드 초기화 및 버튼 숨기기
     input.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") { // Esc 키를 확인
+      if (event.key === "Escape" && !input.hasAttribute('readonly')) { // readonly가 아닐 때만 실행
         input.value = "";
         if (clearButton) {
           clearButton.style.display = "none";

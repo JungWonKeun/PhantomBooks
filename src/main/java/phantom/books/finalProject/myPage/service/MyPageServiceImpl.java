@@ -83,4 +83,28 @@ public class MyPageServiceImpl implements MyPageService {
 		
 	}
 
+	@Override
+  public int changePassword(String currentPw, String newPw, Member loginMember) {
+		
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		
+      // 1. 로그인한 회원의 비밀번호 가져오기
+      String dbPassword = loginMember.getMemberPw();
+
+      // 2. 입력된 현재 비밀번호와 로그인한 회원의 비밀번호 비교
+      if (!encoder.matches(currentPw, dbPassword)) {
+          return 1; // 현재 비밀번호 불일치
+      }
+
+      // 3. 새 비밀번호와 현재 비밀번호가 같은지 확인
+      if (encoder.matches(newPw, dbPassword)) {
+          return 2; // 새 비밀번호가 현재 비밀번호와 같음
+      }
+
+      // 4. 새 비밀번호 암호화 후 DB 업데이트
+      int memberNo = loginMember.getMemberNo();
+      String encryptedPw = encoder.encode(newPw);
+      mapper.updatePassword(memberNo, encryptedPw);
+      return 3; // 비밀번호 변경 성공
+	}
 }
