@@ -44,7 +44,7 @@ public class OrderServiceImpl implements OrderService {
                 book.setOrderNo(orderDto.getOrderNo());
                 book.setMemberNo(orderDto.getMemberNo());
                 book.setOrderPrice(book.getBookPrice() * book.getBookCount());
-                book.setDiscountPrice(book.getOrderPrice()); 
+                book.setDiscountPrice(book.getBookPrice() * book.getBookCount()); 
 
                 mapper.insertOrderList(book);
                 log.debug("Inserted into ORDER_LIST: {}", book);
