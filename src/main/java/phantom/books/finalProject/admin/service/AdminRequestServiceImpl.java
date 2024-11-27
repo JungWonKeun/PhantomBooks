@@ -35,41 +35,42 @@ public class AdminRequestServiceImpl implements AdminRequestService {
 	@Override
 	public int requestEmail(String htmlName, Book book) {
 		
-		int result = 0;
+		int result = mapper.insertRequestList(book);
 		
-		try {
+		if(result > 0) {
+			try {
+				
+				String emailTitle = "[PhantomBooks] "+book.getBookTitle()+" 발주 요청 이메일 입니다."; // 발송되는 이메일 제목
+				
+				/*---- 메일 발송 ----*/
+				MimeMessage mimeMessage = mailSender.createMimeMessage();
+				
+				MimeMessageHelper helper 
+					= new MimeMessageHelper(mimeMessage, true, "UTF-8");
+				
+				String email = book.getEmail();
+				
+				helper.setTo(email); // 받는 사람 이메일 세팅
+				helper.setSubject(emailTitle); // 이메일 제목 세팅
+				
+				
+				helper.setText(loadHtml(htmlName, book),true); // 이메일 내용
+				
+				helper.addInline("logo", 
+						new ClassPathResource("static/images/logo.png"));
+				
+				// 메일 발송하기
+				mailSender.send(mimeMessage);
+				
+				
+				log.debug("result : {}", result);
+				
+			}catch (Exception e) {
+				e.printStackTrace();
+				return 0; // 예외 발생 == 실패 == 0 반환
+			}
 			
-			String emailTitle = "[PhantomBooks] "+book.getBookTitle()+" 발주 요청 이메일 입니다."; // 발송되는 이메일 제목
-			
-			/*---- 메일 발송 ----*/
-			MimeMessage mimeMessage = mailSender.createMimeMessage();
-			
-			MimeMessageHelper helper 
-				= new MimeMessageHelper(mimeMessage, true, "UTF-8");
-			
-			String email = book.getEmail();
-			
-			helper.setTo(email); // 받는 사람 이메일 세팅
-			helper.setSubject(emailTitle); // 이메일 제목 세팅
-			
-			
-			helper.setText(loadHtml(htmlName, book),true); // 이메일 내용
-			
-			helper.addInline("logo", 
-					new ClassPathResource("static/images/logo.png"));
-			
-			// 메일 발송하기
-			mailSender.send(mimeMessage);
-			
-			result = mapper.insertRequestList(book);
-			
-			log.debug("result : {}", result);
-			
-		}catch (Exception e) {
-			e.printStackTrace();
-			return 0; // 예외 발생 == 실패 == 0 반환
 		}
-		
 		return result; 
 	}
 	

@@ -149,12 +149,19 @@ const listUp = (cp, sort, view, text) => {
         th16.innerHTML= "요청 이메일";
         const input = document.createElement("input")
         th17.append(input);
+        let email = book.email;
+        
         input.value = book.email;
+        
+        input.addEventListener("input", ()=>{
+          email = input.value;
+        })
+
         th14.append(button1);
         th15.append(button2);
 
         button1.addEventListener("click", ()=>{
-          const alarm = confirm(book.email + "으로 발주요청을 보내시겠습니까?");
+          const alarm = confirm(email + "으로 발주요청을 보내시겠습니까?");
 
           const price = input1.value;
           const count = input2.value;
@@ -164,7 +171,7 @@ const listUp = (cp, sort, view, text) => {
               method : "post",
               headers : {"Content-Type" : "application/json"},
               body : JSON.stringify({
-                email : book.email,
+                email : email,
                 bookNo : book.bookNo,
                 bookTitle : book.bookTitle,
                 bookWriter : book.bookWriter,

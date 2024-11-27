@@ -14,108 +14,126 @@
 
     <h1 style="text-align: center;">
       팬텀북스 발주서
+      <br>
+      <br>
     </h1>
 
-    <h2>
-      <div>발주일 : 
-        <span th:text="${today}"></span>
-      </div>
-    </h2>
-    <h2>
-      <div>거 래 처 :
-         <span th:text="${companyName}"></span>
-      </div>
-    </h2>
-
-    <table style="width: 100%;
-                  height: 40px;
-                  border: 1px solid black;">
-      <thead>
-        <tr>
-          <th style="font-size: 25px;
+      <h2>
+        <div style="margin-left:10%;
+                    margin-bottom: 10px;">발주일 : 
+          <span th:text="${today}"></span>
+        </div>
+      </h2>
+      <h2>
+        <div style="margin-left:10%;
+                    margin-bottom: 50px;">거 래 처 :
+           <span th:text="${companyName}"></span>
+        </div>
+      </h2>
+  
+      <table style="width: 70%;
+                    height: 40px;
+                    border-collapse: collapse;
+                    border: 1px solid black;
+                    margin-left:18%;
+                    "> 
+        <thead>
+          <tr style="font-size: 25px;
                      background-color: beige;
                      width: 15%;
                      height: 20px;
-                     border: 1px solid black;">순번</th>
-          <th style="font-size: 25px;
-                    background-color: beige;
-                    width: 15%;
-                    height: 20px;
-                    border: 1px solid black;">출판사</th>
-          <th style="font-size: 25px;
-                    background-color: beige;
-                    width: 15%;
-                    height: 20px;
-                    border: 1px solid black;">부수</th>
-          <th style="font-size: 25px;
-                    background-color: beige;
-                    width: 15%;
-                    height: 20px;
-                    border: 1px solid black;">제목 / 부제</th>
-          <th style="font-size: 25px;
-                    background-color: beige;
-                    width: 15%;
-                    height: 20px;
-                    border: 1px solid black;">저자</th>
-          <th style="font-size: 25px;
-                    background-color: beige;
-                    width: 15%;
-                    height: 20px;
-                    border: 1px solid black;">정가</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td style="font-size: 12px;
-                     width: 15%;
-                     height: 20px;
-                     text-align: center;">
-            1
-          </td>
-          <td th:text="${companyName}"
-              style="font-size: 20px;
-                     width: 15%;
-                     height: 20px;
-                     text-align: center;"></td>
-          <td th:text="${currentCount}"
-          style="font-size: 20px;
-          width: 15%;
-          height: 20px;
-          text-align: center;"></td>
-          <td th:text="${bookTitle}"
-          style="font-size: 20px;
-          width: 15%;
-          height: 20px;
-          text-align: center;"></td>
-          <td th:text="${bookWriter}"
-          style="font-size: 20px;
-          width: 15%;
-          height: 20px;
-          text-align: center;"></td>
-          <td th:text="${bookPrice}"
-          style="font-size: 20px;
-          width: 15%;
-          height: 20px;
-          text-align: center;"></td>
-        </tr>
-      </tbody>
-    </table>
-    <h2  style="text-align: center;
-                display: flex;
-                flex-align: row;
-                justify-content: space-around;">
-      <div>총 발주 부수 : <label th:text="${currentCount}"></label></div>      
-      <div>총 상품 부수 : <label th:text="${currentCount}"></label></div>     
-    </h2>
-
-
-    <h4 style="font-size: 15px;">
-      [PHANTOM BOOKS] <br>
-      대표 정원근 <br>
-      서울특별시 종로구 남대문로 120, 2층 <br>
-      대표전화: 1800-0000 <br>
-      이메일: ask@Phantom.inc <br>
-    </h4>
+                     ">
+            <th style="font-size: 25px;
+                       background-color: beige;
+                       width: 5%;
+                       height: 20px;
+                       border: 1px solid black;
+                       ">순번</th>
+            <th style="font-size: 25px;
+                      background-color: beige;
+                      width: 10%;
+                      height: 20px;
+                      border: 1px solid black;
+                      ">출판사</th>
+            <th style="font-size: 25px;
+                      background-color: beige;
+                      width: 5%;
+                      height: 20px;
+                      border: 1px solid black;
+                      ">부수</th>
+            <th style="font-size: 25px;
+                      background-color: beige;
+                      width: 20%;
+                      height: 20px;
+                      border: 1px solid black;
+                      ">제목 / 부재</th>
+            <th style="font-size: 25px;
+                      background-color: beige;
+                      width: 15%;
+                      height: 20px;
+                      border: 1px solid black;
+                      ">저자</th>
+            <th style="font-size: 25px;
+                      background-color: beige;
+                      width: 15%;
+                      height: 20px;
+                      border: 1px solid black;
+                     ">정가</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-size: 12px;
+                       width: 5%;
+                       height: 30px;
+                       text-align: center;
+                       ">
+              <p style="font-size: 20px;">1</p>
+            </td>
+            <td th:text="${companyName}"
+                style="font-size: 20px;
+                       width: 10%;
+                       height: 20px;
+                       text-align: center;"></td>
+            <td th:text="${currentCount}"
+            style="font-size: 20px;
+            width: 5%;
+            height: 20px;
+            text-align: center;"></td>
+            <td th:text="${bookTitle}"
+            style="font-size: 20px;
+            width: 20%;
+            height: 20px;
+            text-align: center;"></td>
+            <td th:text="${bookWriter}"
+            style="font-size: 20px;
+            width: 15%;
+            height: 20px;
+            text-align: center;"></td>
+            <td th:text="${bookPrice}"
+            style="font-size: 20px;
+            width: 15%;
+            height: 20px;
+            text-align: center;"></td>
+          </tr>
+        </tbody>
+      </table>
+      <h2>
+        <div style="margin-left: 20%;">
+          총 발주 부수 : <label th:text="${currentCount}"></label>
+        </div>      
+      </h2>
+  
+  
+      <h4 style="margin-top: 20px;
+                 margin-left:10%;
+                 font-size: 15px;">
+        [PHANTOM BOOKS] <br>
+        대표 정원근 <br>
+        서울특별시 종로구 남대문로 120, 2층 <br>
+        대표전화: 1800-0000 <br>
+        이메일: ask@Phantom.inc <br>
+      </h4>
 
   </div>
 </body>

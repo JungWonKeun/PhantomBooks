@@ -65,8 +65,6 @@ public class AdminFaqController {
 			@RequestParam("faqId") int faqId) {
 		
 		
-				
-		
 		return service.updateFaq(faqId);
 	}
 }

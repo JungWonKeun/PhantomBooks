@@ -169,3 +169,20 @@ html, body {
   font-size: 15px;
   color: rgb(37, 37, 37);
 }
+
+
+.fa-solid .fa-star-sharp{
+  width: 5px;
+  height: 5px;
+  color: black;
+}
+.fa-solid .fa-star-half-stroke{
+  width: 5px;
+  height: 5px;
+  color: black;
+}
+.fa-thin .fa-star-sharp{
+  width: 5px;
+  height: 5px;
+  color: black;
+}
