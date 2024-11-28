@@ -41,8 +41,9 @@ public interface SearchBookPageMapper {
     // 책 목록 조회
     List<Book> searchBooks(@Param("searchTitle") String searchTitle, 
                            @Param("categories") int[]  categories, 
-                           @Param("preferences") int[]  preferences, 
-                           RowBounds bounds);
+                           @Param("preferences") int[]  preferences,
+                           RowBounds bounds,
+                           @Param("sortOption") String sortOption);
 
 	// 리뷰 페이지 네이션용 리뷰 개수 조회
 	int countReview(int bookNo);
@@ -79,6 +80,8 @@ public interface SearchBookPageMapper {
 		List<Integer> myCategoryBringingIn(int memberNo);
 
 		List<Integer> myPreferenceBringingIn(int memberNo);
+
+	
 
 
 

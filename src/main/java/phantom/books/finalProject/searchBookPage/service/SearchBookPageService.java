@@ -35,7 +35,7 @@ public interface SearchBookPageService {
 
 
 	// 옵션이랑 쿼리 데이터를 이용한 검색
-	Map<String, Object> searchBooks(String searchTitle, int[] categories, int[] preferences, int cp);
+	Map<String, Object> searchBooks(String searchTitle, int[] categories, int[] preferences, int cp, String sortOption);
 
 
     // 특정 책에 대한 리뷰 리스트 가져오기 (페이지네이션 포함)

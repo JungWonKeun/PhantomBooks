@@ -471,6 +471,7 @@ function updateSelectedCategories() {
     hiddenCategoriesInput.value = selectedCategories.join(",");
 }
 
+/* 카테고리 가져오기 끝 */
 /* 내 프리퍼런스 불러오기  */
 
 
@@ -526,3 +527,19 @@ function updateSelectedPreferences() {
     // 숨겨진 필드에 값 저장
     hiddenPreferencesInput.value = selectedPreferences.join(",");
 }
+/* 내 프리퍼런스 불러오기  끝 */
+
+
+/* 검색시 옵션 설정  */
+document.getElementById('searchOptionSelect').addEventListener('change', function () {
+    const selectedValue = this.value;
+
+    if (selectedValue === "none") {
+        // 기본값인 경우, hidden input 값을 빈 문자열로 설정
+        document.getElementById('hiddenSearchOption').value = "";
+    } else {
+        // 선택된 값으로 hidden input을 업데이트
+        document.getElementById('hiddenSearchOption').value = selectedValue;
+    }
+});
+

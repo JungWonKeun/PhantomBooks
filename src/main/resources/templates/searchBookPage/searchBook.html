@@ -181,7 +181,17 @@
           <p>검색결과 (<span th:text="${totalCount}">0</span>건)</p>
 
         </div>
-
+        <div class="options">
+          <select name="searchOption" id="searchOptionSelect" >
+            <option value="none">=== 선택 ===</option>
+            <option value="highScore">평점 높은순</option>
+            <option value="lowScore">평점 낮은순</option>
+            <option value="manyReview">리뷰 많은순</option>
+            <option value="fewReview">리뷰 적은순</option>
+            <option value="highPrice">가격 높은순</option>
+            <option value="lowPrice">가격 낮은순</option>
+          </select>
+        </div>
         <div class="check-toGo">
           <label class="allCheck">
             <button type="button" id="selectAllButton" th:if="${session.loginMember != null}">전체선택</button>

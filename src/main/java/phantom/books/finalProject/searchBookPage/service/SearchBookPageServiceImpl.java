@@ -96,7 +96,7 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 
 	// 책 검색
 	@Override
-	public Map<String, Object> searchBooks(String searchTitle, int[] categories, int[] preferences, int cp) {
+	public Map<String, Object> searchBooks(String searchTitle, int[] categories, int[] preferences, int cp, String sortOption) {
 		// 전체 책 개수 조회
 		int totalCount = mapper.countBooks(searchTitle, categories, preferences);
 
@@ -110,8 +110,9 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 		RowBounds bounds = new RowBounds(offset, limit);
 
 		// 책 목록 조회
-		List<Book> bookList = mapper.searchBooks(searchTitle, categories, preferences, bounds);
+		List<Book> bookList = mapper.searchBooks(searchTitle, categories, preferences, bounds, sortOption);
 
+		log.debug("sortOption: {}", sortOption);
 		/*
 		 * // 책 평점 계산 Double scoreAvg = 0.0;
 		 * 
