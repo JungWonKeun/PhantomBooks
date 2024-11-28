@@ -6,20 +6,19 @@
                 <img src="/images/logo.png" alt="Logo" class="logoImg">
             </a>
         </div>
-        </nav>
         <!-- 검색 바 -->
         <div class="search-bar">
-            <h1 style="font-family: 'DeltaUniverse-Regular'; font-weight: 'bold';">
-                P&nbsp;&nbsp;H&nbsp;&nbsp;A&nbsp;&nbsp;N&nbsp;&nbsp;T&nbsp;&nbsp;O&nbsp;&nbsp;M&nbsp;&nbsp;B&nbsp;&nbsp;O&nbsp;&nbsp;O&nbsp;&nbsp;K&nbsp;&nbsp;S<br><br><br></h1> 
-            <form action="/searchBookPage/searchBooks" method="get"
-            th:value="${param.searchTitle ?: ''}">
-            <input type="text" name="searchTitle" placeholder="검색어를 입력하세요" />
-            <button type="submit">Search</button>
+            <a href="/" class="logoTitle">
+                P&nbsp;&nbsp;H&nbsp;&nbsp;A&nbsp;&nbsp;N&nbsp;&nbsp;T&nbsp;&nbsp;O&nbsp;&nbsp;M&nbsp;&nbsp;B&nbsp;&nbsp;O&nbsp;&nbsp;O&nbsp;&nbsp;K&nbsp;&nbsp;S<br><br><br>
+            </a>
+            <form action="/searchBookPage/searchBooks" method="get" th:value="${param.searchTitle ?: ''}">
+                <input type="text" name="searchTitle" placeholder="검색어를 입력하세요" />
+                <button type="submit">Search</button>
                 <input type="hidden" name="categories" id="hiddenCategories">
                 <input type="hidden" name="preferences" id="hiddenPreferences">
             </form>
         </div>
-        
+
 
         <!-- 사용자 메뉴 -->
         <div class="user-menu">
@@ -39,18 +38,18 @@
                 <a href="#" class="header-nav-item">1:1 문의</a>
             </div>
             <div class="header-nav-item-wrapper">
-              <a href="#" class="header-nav-item">자주 묻는 질문</a>
+                <a href="#" class="header-nav-item">자주 묻는 질문</a>
             </div>
             <div class="header-nav-item-wrapper">
-              <a href="#" class="header-nav-item">공지사항</a>
+                <a href="#" class="header-nav-item">공지사항</a>
             </div>
             <div class="header-nav-item-wrapper">
-              <a href="#" class="header-nav-item"></a>
+                <a href="#" class="header-nav-item"></a>
             </div>
             <div class="header-nav-item-wrapper">
-              <a href="#" class="header-nav-item"></a>
+                <a href="#" class="header-nav-item"></a>
             </div>
-            </div>
-        </nav>
+    </div>
+    </nav>
     </div>
 </th:block>
