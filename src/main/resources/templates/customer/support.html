@@ -60,14 +60,36 @@
       <!-- 1:1 문의 -->
       <div id="inquiry" class="tabContent hidden">
         <section>
-          <h4 class="sectionTitle">1:1 문의</h4>
+          <h4 class="sectionTitle">1:1 문의</h4><br>
           <div class="buttonGroup">
-            <button class="btn" onclick="location.href='/customer/query'"> <i class="fa-regular fa-comments"></i>
-              문의하기</button>
-            <button class="btn" onclick="location.href='/customer/inquiry'"> <i class="fa-regular fa-file-lines"></i> 내
-              문의 내역</button>
+            <!-- 로그인 여부에 따라 버튼 조건 분기 -->
+            <button class="btn icon-btn" th:if="${session.loginMember}" onclick="location.href='/customer/query'" style="background-color: white; 
+                           color: #333; 
+                           border: 1px solid #ddd;">
+              <i class="fa-regular fa-comments"></i><br><br>
+              <span>문의하기</span>
+            </button>
+            <button class="btn icon-btn" th:unless="${session.loginMember}" onclick="alert('로그인이 필요합니다.');"
+              data-bs-toggle="modal" data-bs-target="#modalLogin">
+              <i class="fa-regular fa-comments"></i><br><br>
+              <span>문의하기</span>
+            </button>
+
+            <button class="btn icon-btn" th:if="${session.loginMember}" onclick="location.href='/customer/inquiry'"
+                    style="background-color: white; 
+                           color: #333; 
+                           border: 1px solid #ddd;">
+              <i class="fa-regular fa-file-lines"></i><br><br>
+              <span>내 문의 내역</span>
+            </button>
+            <button class="btn icon-btn" th:unless="${session.loginMember}" onclick="alert('로그인이 필요합니다.');"
+              data-bs-toggle="modal" data-bs-target="#modalLogin">
+              <i class="fa-regular fa-file-lines"></i><br><br>
+              <span>내 문의 내역</span>
+            </button>
           </div>
-          <p>문의 내역 확인 및 진행 상태를 조회할 수 있습니다.</p>
+
+          <p>문의 내역 확인 및 진행 상태를 조회할 수 있습니다.</p><br>
 
           <div class="contactRow">
             <div class="contactInfo">
@@ -96,22 +118,22 @@
               + 더보기
             </a>
           </h4>
-          <ul id="notice-list" class="list" th:if="${noticeList}">
-            <li th:each="notice : ${noticeList}">
-              <a th:href="@{/customer/noticeDetail/{id}(id=${notice.noticeId})}" th:text="${notice.title}"
-                class="notice-title">
-                공지사항 제목
+          <div id="notice-board" class="notice-board" th:if="${noticeList}">
+            <div th:each="notice : ${noticeList}" class="notice-item">
+              <a th:href="@{/customer/noticeDetail/{id}(id=${notice.noticeId})}" class="notice-link">
+                <div class="notice-title" th:text="${notice.title}">공지사항 제목</div>
+                <div class="notice-date" th:text="${notice.createDate}">날짜</div>
               </a>
-              <span th:text="${notice.createDate}" class="notice-date"></span>
-            </li>
-          </ul>
-
+            </div>
+          </div>
           <!-- 공지사항이 없는 경우 -->
           <div th:if="${#lists.isEmpty(noticeList)}" class="no-notice">
             <p>현재 등록된 공지사항이 없습니다.</p>
           </div>
         </section>
       </div>
+
+
 
     </div>
   </main>

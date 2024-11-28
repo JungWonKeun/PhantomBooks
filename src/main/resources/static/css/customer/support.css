@@ -9,6 +9,8 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  user-select: none;
+
 }
 
 body {
@@ -115,6 +117,7 @@ body {
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
+  width: 70%;
 }
 
 .tab {
@@ -162,9 +165,10 @@ body {
   cursor: pointer;
   width: 70%;
   text-align: left;
-  display: flex; /* 플렉스 박스를 사용하여 제목 중앙 정렬 */
+  display: flex;
   flex-direction: column;
-  justify-content: center; /* 수직 중앙 정렬 */
+  justify-content: center; 
+  user-select: none;
 }
 
 .faq-item:hover {
@@ -175,7 +179,7 @@ body {
 .faq-title {
   font-size: 18px;
   font-weight: bold;
-  color: black;
+  color: #333;;
   line-height: 1.5;
   margin: 0;
 }
@@ -206,6 +210,7 @@ body {
 }
 
 
+
 /* 더보기 */
 .more-button{
   display: flex;
@@ -217,7 +222,6 @@ body {
 }
 
 /* 1:1 문의 */
-
 .contactRow {
   display: flex;
   flex-wrap: wrap; 
@@ -248,6 +252,43 @@ body {
   margin: 5px 0;
 }
 
+/* 아이콘 버튼 스타일 */
+.icon-btn {
+  display: flex;
+  flex-direction: column; 
+  align-items: center;
+  justify-content: center;
+  width: 140px;
+  height: 140px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  background-color: white; 
+  color: #205375; 
+  border: 2px solid #205375;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  margin-right: 50px;
+}
+
+.icon-btn i {
+  font-size: 36px; 
+}
+
+.icon-btn:hover {
+  background-color: #205375; 
+  color: white; 
+  transform: scale(1.05);
+}
+
+.icon-btn span {
+  margin-top: 8px; 
+  font-size: 16px;
+}
+
+
+
 .phoneService {
   display: inline-block;
   margin-top: 10px;
@@ -267,26 +308,52 @@ body {
 
 
 /* 공지사항 */
+.notice-board {
+  margin-top: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px; 
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  width: 70%;
+  color: #333;
+}
+
+/* 개별 공지사항 아이템 */
+.notice-item {
+  padding: 10px;
+  background-color: #fff; 
+  transition: background-color 0.3s ease;
+}
+
+/* 아이템 간 구분을 위한 간격 */
+.notice-item:not(:last-child) {
+  margin-bottom: 10px;
+  border-bottom: 1px solid #eee; 
+}
+
+/* 아이템 호버 효과 */
+.notice-item:hover {
+  background-color: #f9f9f9;
+}
+
+
+.notice-link {
+  display: flex;
+  justify-content: space-between;
+  text-decoration: none;
+  color: #333;
+}
+
 .notice-title {
   font-size: 16px;
   font-weight: bold;
-  color: black;
-  text-decoration: none;
-}
-
-.notice-title:hover {
-  text-decoration: underline;
+  color: #333;;
+  text-align: left;
 }
 
 .notice-date {
   font-size: 14px;
   color: #666;
-  margin-left: 10px;
-}
-
-.no-notice {
-  font-size: 16px;
-  color: #555;
-  text-align: center;
-  margin-top: 20px;
+  text-align: right;
 }

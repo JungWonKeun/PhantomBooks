@@ -6,38 +6,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>자주 묻는 질문</title>
   <link rel="stylesheet" href="/css/customer/qna.css">
+  <script src="https://kit.fontawesome.com/890489b5e8.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
-  <header th:replace="~{common/common}"></header>
-  <div th:replace="~{common/side-menu}"></div>
-  <header>
-    <h2>자주 묻는 질문</h2>
-  </header>
-  <main>
-    <section>
-      <div class="faq-list" th:if="${faqList}">
-        <div th:each="faq, iterStat : ${faqList}" class="faq-item">
-            <!-- 토글 버튼 역할을 하는 제목 -->
-            <h3 th:onclick="|toggleAnswer('answer-' + ${iterStat.index})|"
-                class="faq-title"
-                th:text="${faq.title}">질문 제목</h3>
-            <!-- 토글로 나타나는 답변 부분 -->
-            <div th:id="'answer-' + ${iterStat.index}" class="faq-content" style="display: none;">
-                <p th:text="${faq.content}">질문에 대한 답변이 여기에 표시됩니다.</p>
-            </div>
+  <div th:replace="~{common/common}"></div>
+
+  <main class="faqContainer">
+
+    <div th:replace="~{common/side-menu}"></div>
+
+    <div class="mainContent">
+      <h2 class="title">FAQ</h2>
+
+      <div class="faq-list" id="faqList">
+        <div th:each="faq, iterStat : ${faqList}" class="faq-item" id="faq-item-[[${iterStat.index}]]"
+             th:onclick="|toggleAnswer('answer-' + ${iterStat.index}, 'faq-item-' + ${iterStat.index})|">
+      
+          <div class="faq-header">
+            <h3 class="faq-title" th:text="${faq.title}">질문 제목</h3>
+            <i class="faq-arrow fas fa-chevron-down"></i>
+          </div>
+          <!-- 내용 -->
+          <div th:id="'answer-' + ${iterStat.index}" class="faq-content" style="display: none;">
+            <p th:text="${faq.content}">질문에 대한 답변이 여기에 표시됩니다.</p>
+          </div>
         </div>
-    </div>
-    
+      </div>
 
       <!-- FAQ가 없는 경우 표시 -->
       <div th:if="${#lists.isEmpty(faqList)}" class="no-faq">
         <p>현재 등록된 FAQ가 없습니다.</p>
-    </section>
+      </div>
 
+    </div>
 
   </main>
   <div th:replace="~{common/footer :: footer}"></div>
+  
   <script src="/js/customer/qna.js"></script>
 </body>
 
