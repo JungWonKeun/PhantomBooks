@@ -4,9 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-
-  <link rel="stylesheet" href="/css/myPage/changePw.css">
+  <title>비밀번호 확인</title>
+  <link rel="stylesheet" href="/css/member/findId.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 
 <body>
@@ -14,67 +14,45 @@
 
   <main>
     <section class="content-box">
-      <div class="sideBar">
-        <div class="text-end mb-3">
-          <button id="openBtn" class="btn btn-primary">
-            <i class="fa-solid fa-arrow-down-short-wide"></i>
-          </button>
-          <button id="closeBtn" class="btn btn-danger" style="display: none;">
-            <i class="fa-solid fa-arrow-up-short-wide"></i>
-          </button>
+      <div class="category-container container mt-3 mb-3 pb-3 pt-3 bg-light rounded shadow">
+
+        <div class="button-section" id="buttonSection">
+          <button type="button" id="findIdBtn" class="btn btn-primary active">아이디 찾기</button>
+          <button type="button" id="findPwBtn" class="btn btn-outline-secondary active">비밀번호 찾기</button>
         </div>
-        <h3 class="menu">
-          <i class="fa-solid fa-users"></i>&nbsp;&nbsp;내 정보
-          <ul class="submenu">
-            <li><a href="/myPage/info">&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;내 정보 보기/변경</a></li>
-            <li><a href="/myPage/changePw">&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;비밀번호 변경</a></li>
-            <li><a href="/myPage/preference">&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;내 취향 보기</a></li>
-            <li><a href="">&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;내 취향으로 검색</a></li>
-          </ul>
-        </h3>
 
-        <h3 class="menu">
-          <i class="fa-solid fa-arrow-trend-up"></i>&nbsp;&nbsp;구매 및 배송
-          <ul class="submenu">
-            <li><a href="">&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;구매 내역 조회</a></li>
-          </ul>
-        </h3>
+        <div class="progress-breadcrumb">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item" id="stepPhone">
+                <i class="bi bi-phone"></i>
+                전화번호 인증
+              </li>
+              <li class="breadcrumb-item" id="stepResult">
+                <i class="bi bi-check-circle"></i>
+                아이디 결과
+              </li>
+              <li class="breadcrumb-item" id="stepId">
+                <i class="bi bi-person"></i>
+                아이디 확인
+              </li>
+              <li class="breadcrumb-item" id="stepPassword">
+                <i class="bi bi-key"></i>
+                비밀번호 변경
+              </li>
+            </ol>
+          </nav>
+        </div>
 
-        <h3 class="menu">
-          <i class="fa-solid fa-warehouse"></i>&nbsp;&nbsp;내 활동 내역
-          <ul class="submenu">
-            <li><a href="">&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;내 리뷰 목록</a></li>
-            <li><a href="">&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;내가 찜한 목록</a></li>
-          </ul>
-        </h3>
-
-        <h3 class="menu">
-          <i class="fa-solid fa-comments"></i>&nbsp;&nbsp;1:1 문의
-          <ul class="submenu">
-            <li><a href="/customer/query">&nbsp;&nbsp;&nbsp;&nbsp;1:1 문의하기</a></li>
-            <li><a href="/customer/inquiry">&nbsp;&nbsp;&nbsp;&nbsp;1:1 문의내역</a></li>
-          </ul>
-        </h3>
-
-        <h3 class="menu">
-          <a href="/customer/qna" style="text-decoration: none; color:#333;"><i class="fa-solid fa-question-circle"></i>&nbsp;&nbsp;자주 묻는 질문(FAQ)</a>
-        </h3>
-    
-        <h3 class="menu">
-          <a href="/customer/notice" style="text-decoration: none; color:#333;"><i class="fa-solid fa-bullhorn"></i>&nbsp;&nbsp;공지사항</a>
-        </h3>
-      </div>
-
-      <div class="category-container container mt-3 mb-3 pb-3 pt-3 bg-light rounded shadow" id="phoneCheckSection">
-        <div class="row mb-3">
+        <div class="row mt-3 mb-3" id="checkTelNoSection">
           <div class="col-12">
             <div class="card sticky-card max-width">
               <div class="card-header">
-                <h2 style="font-weight: bold;">비밀번호 변경</h2>
+                <h2 style="font-weight: bold;">가입한 전화번호로 본인 인증</h2>
               </div>
-              <div class="d-flex flex-wrap gap-2 col-12 ">
+              <div class="d-flex flex-wrap gap-2 col-12">
                 <div class="card-body">
-                  <form action="checkTelNo" method="POST" name="checkTelNoForm" id="checkTelNoForm"
+                  <form action="#" method="POST" name="checkTelNoForm" id="checkTelNoForm"
                     class="needs-validation mx-auto mt-4" style="width: 60%;" novalidate>
 
                     <!-- 전화번호 입력, 인증 문자 발송 버튼 -->
@@ -95,7 +73,7 @@
                       </div>
                     </div>
 
-                    <!-- 인증번호 입력, 인증 버튼 -->
+                    <!-- 인증번호 력, 인증 버튼 -->
                     <div class="form-floating row g-3 mb-2 mt-2 position-relative" id="verificationSection"
                       style="display: none;">
                       <div class="form-floating col-7 position-relative">
@@ -122,10 +100,57 @@
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="category-container container mt-3 mb-3 pb-3 pt-3 bg-light rounded shadow" id="changePwSection" style="display: none;">
-        <div class="row mb-3">
+        <div class="row mt-3 mb-3" id="checkIdSection" style="display: none;">
+          <div class="col-12">
+            <div class="card sticky-card max-width">
+              <div class="card-header">
+                <h2 style="font-weight: bold;">아이디 확인</h2>
+              </div>
+              <div class="d-flex flex-wrap gap-2 col-12">
+                <div class="card-body">
+                  <form action="#" method="POST" name="checkIdForm" id="checkIdForm"
+                    class="needs-validation mx-auto mt-4" style="width: 60%;" novalidate>
+                    <div class="form-floating row g-3 mb-2 mt-2 position- relative">
+                      <div class="form-floating col-7 position-relative">
+                        <input type="tel" class="form-control" id="verifiedTelNo" name="verifiedTelNo"
+                          placeholder="" maxlength="11" autocomplete="off" required readonly>
+                        <label for="verifiedTelNo">인증 완료된 전화번호</label>
+                      </div>
+                    </div>
+                    <div class="form-floating row g-3 mb-2 mt-2 position-relative">
+                      <div class="form-floating col-7 position-relative">
+                        <input type="text" class="form-control" id="memberId" name="memberId" placeholder=""
+                          autocomplete="off" required>
+                        <label for="memberId">아이디를 입력해주세요</label>
+                        <button type="button" id="idClearBtn" class="btn-close clear-btn"
+                          onclick="clearInput('memberId')" aria-label="Clear" tabindex="-1"></button>
+                      </div>
+                      <div class="col-auto">
+                        <button type="submit" class="btn btn-primary">아이디 확인</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-3 mb-3" id="idResultSection" style="display: none;">
+          <div class="col-12">
+            <div class="card sticky-card max-width">
+              <div class="card-header">
+                <h2 style="font-weight: bold;">아이디 찾기 결과</h2>
+              </div>
+              <div class="card-body">
+                <p id="foundIdMessage"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3" id="findPwSection" style="display: none;">
           <div class="col-12">
             <div class="card sticky-card max-width">
               <div class="card-header">
@@ -135,19 +160,6 @@
                 <div class="card-body">
                   <form action="changePw" method="POST" name="changePwForm" id="changePwForm"
                     class="needs-validation mx-auto mt-4" style="width: 60%;" novalidate>
-
-                    <!-- 기존 비밀번호 입력 -->
-                    <div class="form-floating row g-3 mb-2 mt-2 position-relative">
-                      <div class="form-floating col-7 position-relative">
-                        <input type="password" class="form-control" id="currentPw" name="currentPw" placeholder=""
-                          maxlength="12" autocomplete="off" required>
-                        <label for="currentPw">현재 비밀번호</label>
-                        <button type="button" id="currentPasswordClearBtn" class="btn-close clear-btn"
-                          onclick="clearInput('currentPw')" aria-label="Clear" tabindex="-1"></button>
-                      </div>
-                    </div>
-
-                    <div style="height: 30px;"></div>
 
                     <!-- 새로운 비밀번호 입력, 요청사항 -->
                     <div class="form-floating row g-3 mb-2 mt-2 position-relative">
@@ -186,7 +198,8 @@
                     </div>
 
                     <!-- 변경 버튼 -->
-                    <button id="passwordSubmitBtnDanger" class="btn btn-danger col-10" disabled>새로운 비밀번호를 입력해주세요</button>
+                    <button id="passwordSubmitBtnDanger" class="btn btn-danger col-10" disabled>새로운 비밀번호를
+                      입력해주세요</button>
                     <button type="submit" id="passwordSubmitBtnSuccess" class="btn btn-success col-10"
                       style="display: none;">변경하기</button>
                   </form>
@@ -196,13 +209,10 @@
           </div>
         </div>
       </div>
-    </section>
   </main>
 
   <footer th:replace="~{common/footer :: footer}"></footer>
-  <script src="/js/myPage/changePw.js"></script>
-  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-  <script src="https://kit.fontawesome.com/5eb8a8a2db.js" crossorigin="anonymous"></script>
+  <script src="/js/member/findId.js"></script>
 </body>
 
 </html>

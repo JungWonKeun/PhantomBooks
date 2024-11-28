@@ -19,7 +19,8 @@
 		TEL_NO,
 		TO_CHAR(BIRTH_DATE,
 		'YYYY"년" MM"월" DD"일"')
-		AS birthDate,
+		AS
+		birthDate,
 		NAME,
 		RANK_NAME,
 		MEMBER_DEL_FL,
@@ -45,7 +46,8 @@
 		TEL_NO,
 		TO_CHAR(BIRTH_DATE,
 		'YYYY"년" MM"월" DD"일"')
-		AS birthDate,
+		AS
+		birthDate,
 		NAME,
 		RANK_NAME,
 		MEMBER_DEL_FL,
@@ -90,7 +92,8 @@
 	<update id="updateCategoryYn">
 		UPDATE MEMBER
 		SET CATEGORY_YN = 'Y'
-		WHERE MEMBER_NO = #{memberNo}
+		WHERE MEMBER_NO =
+		#{memberNo}
 	</update>
 
 	<!-- 아이디 중복 검사 -->
@@ -100,6 +103,29 @@
 		WHERE MEMBER_ID = #{memberId}
 		AND MEMBER_DEL_FL = 'N'
 	</select>
+
+	<!-- 전화번호로 아이디 찾기 -->
+	<select id="findIdByTelNo">
+		SELECT MEMBER_ID
+		FROM "MEMBER"
+		WHERE TEL_NO = #{telNo}
+	</select>
+
+	<!-- 아이디와 전화번호가 일치하는 회원 확인 -->
+	<select id="checkIdAndTel">
+		SELECT COUNT(*)
+		FROM "MEMBER"
+		WHERE MEMBER_ID =
+		#{memberId}
+		AND TEL_NO = #{telNo}
+	</select>
+
+	<!-- 아이디가 일치하는 회원 비밀번호 변경 -->
+	<update id="updatePassword">
+		UPDATE "MEMBER"
+		SET MEMBER_PW = #{encPw}
+		WHERE MEMBER_ID = #{memberId}
+	</update>
 
 
 </mapper>
