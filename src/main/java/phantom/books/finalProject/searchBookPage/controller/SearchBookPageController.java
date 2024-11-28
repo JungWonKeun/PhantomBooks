@@ -10,6 +10,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -42,7 +44,8 @@ public class SearchBookPageController {
 	private final SearchBookPageService service;
 
 	@GetMapping("/searchBooks")
-	public String searchBooks(@RequestParam(value = "searchTitle", required = false) String searchTitle,
+	public String searchBooks(
+			@RequestParam(value = "searchTitle", required = false) String searchTitle,
 			@RequestParam(value = "categories", required = false) int[] categories, // int[]로 받기
 			@RequestParam(value = "preferences", required = false) int[] preferences, // int[]로 받기
 			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp, Model model) {
@@ -240,6 +243,33 @@ public class SearchBookPageController {
 
 	  }
 
+	  @ResponseBody
+	  @GetMapping("/myCategoryBringingInBtn")
+	  public ResponseEntity<List<Integer>> myCategoryBringingIn(
+	          @SessionAttribute(name = "loginMember", required = false) Member loginMember) {
+
+	      if (loginMember == null) {
+	          return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+	      }
+
+	      log.debug("Member number: {}", loginMember.getMemberNo());
+
+	      return service.myCategoryBringingIn(loginMember.getMemberNo());
+	  }
+	  
+	  @ResponseBody
+	  @GetMapping("/myPreferenceBringingInBtn")
+	  public ResponseEntity<List<Integer>> myPreferenceBringingIn(
+	          @SessionAttribute(name = "loginMember", required = false) Member loginMember) {
+
+	      if (loginMember == null) {
+	          return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+	      }
+
+	      log.debug("Member number: {}", loginMember.getMemberNo());
+
+	      return service.myPreferenceBringingIn(loginMember.getMemberNo());
+	  }
 
 	 
 

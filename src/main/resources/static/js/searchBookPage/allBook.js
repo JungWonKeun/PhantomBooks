@@ -385,10 +385,7 @@ function updateHiddenValues() {
 }
 
 
-
-
-
-
+/* 검색후 옵션 선택 유지 */
 document.addEventListener("DOMContentLoaded", () => {
     const params = new URLSearchParams(location.search);
     const categories = params.get("categories") ? params.get("categories").split(",") : [];
@@ -421,3 +418,111 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
+document.getElementById("myCategoryBringingInBtn").addEventListener("click", () => {
+    fetch('/searchBookPage/myCategoryBringingInBtn', {
+        method: 'GET',
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("에러 발생");
+            }
+            return response.json();
+        })
+        .then(categories => {
+            console.log("categories:", categories);
+
+            // 체크박스 업데이트
+            const checkboxes = document.querySelectorAll('.categoryCheckbox');
+            checkboxes.forEach(checkbox => {
+                if (categories.includes(parseInt(checkbox.value))) {
+                    checkbox.checked = true;
+                } else {
+                    checkbox.checked = false;
+                }
+            });
+
+            // 선택한 카테고리 값 업데이트
+            updateSelectedCategories();
+        })
+        .catch(error => console.error("Error:", error));
+});
+
+// 체크박스 상태 변화에 따라 선택 항목 및 숨겨진 필드 업데이트
+document.querySelectorAll('.categoryCheckbox').forEach(checkbox => {
+    checkbox.addEventListener('change', updateSelectedCategories);
+});
+
+// 선택한 카테고리 값을 업데이트하는 함수
+function updateSelectedCategories() {
+    const selectedCategories = [];
+    const selectedCategoryValuesDiv = document.getElementById("selectedCategoryValues");
+    const hiddenCategoriesInput = document.getElementById("hiddenCategories");
+
+    // 선택된 체크박스를 배열로 수집
+    document.querySelectorAll('.categoryCheckbox:checked').forEach(checkbox => {
+        const categoryLabel = checkbox.closest("label").textContent.trim(); // 체크박스의 부모 label에서 텍스트 추출
+        selectedCategories.push(categoryLabel);
+    });
+
+    // 선택한 항목을 표시
+    selectedCategoryValuesDiv.textContent = `선택한 항목: ${selectedCategories.join(", ")}`;
+
+    // 숨겨진 필드에 값 저장
+    hiddenCategoriesInput.value = selectedCategories.join(",");
+}
+
+/* 내 프리퍼런스 불러오기  */
+
+
+document.getElementById("myPreferenceBringingInBtn").addEventListener("click", () => {
+    fetch('/searchBookPage/myPreferenceBringingInBtn', {
+        method: 'GET',
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("에러 발생");
+            }
+            return response.json();
+        })
+        .then(preferences => {
+            console.log("preferences:", preferences);
+
+            // 체크박스 업데이트
+            const checkboxes = document.querySelectorAll('.preferenceCheckbox');
+            checkboxes.forEach(checkbox => {
+                if (preferences.includes(parseInt(checkbox.value))) {
+                    checkbox.checked = true;
+                } else {
+                    checkbox.checked = false;
+                }
+            });
+
+            // 선택한 카테고리 값 업데이트
+            updateSelectedPreferences();
+        })
+        .catch(error => console.error("Error:", error));
+});
+
+// 체크박스 상태 변화에 따라 선택 항목 및 숨겨진 필드 업데이트
+document.querySelectorAll('.preferenceCheckbox').forEach(checkbox => {
+    checkbox.addEventListener('change', updateSelectedPreferences);
+});
+
+// 선택한 항목을 표시하고 숨겨진 필드 업데이트하는 함수
+function updateSelectedPreferences() {
+    const selectedPreferences = [];
+    const selectedPreferenceValuesDiv = document.getElementById("selectedPreferenceValues");
+    const hiddenPreferencesInput = document.getElementById("hiddenPreferences");
+
+    // 선택된 체크박스를 배열로 수집
+    document.querySelectorAll('.preferenceCheckbox:checked').forEach(checkbox => {
+        const preferenceLabel = checkbox.closest("label").textContent.trim(); // 체크박스의 부모 label에서 텍스트 추출
+        selectedPreferences.push(preferenceLabel);
+    });
+
+    // 선택한 항목을 표시
+    selectedPreferenceValuesDiv.textContent = `선택한 항목: ${selectedPreferences.join(", ")}`;
+
+    // 숨겨진 필드에 값 저장
+    hiddenPreferencesInput.value = selectedPreferences.join(",");
+}

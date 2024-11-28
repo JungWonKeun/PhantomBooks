@@ -356,9 +356,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// 리뷰 삭제 요청 (POST 방식)
-function deleteReview(reviewNo) {
-    fetch(`/searchBookPage/deleteReview?reviewNo=${reviewNo}`, { method: 'DELETE' })
+// 리뷰 삭제 요청 (DELETE 방식)
+function deleteReview(reviewNo, bookNo) {
+    fetch(`/searchBookPage/deleteReview?reviewNo=${reviewNo}` + `&bookNo=${bookNo}`, { method: 'DELETE' })
         .then((response) => {
             if (response.ok) return response.text();
             
