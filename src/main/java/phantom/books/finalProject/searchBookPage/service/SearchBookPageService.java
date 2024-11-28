@@ -3,6 +3,7 @@ package phantom.books.finalProject.searchBookPage.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import phantom.books.finalProject.searchBookPage.dto.Book;
@@ -46,6 +47,10 @@ public interface SearchBookPageService {
 	boolean writeReview(int bookNo, String title, String content, double score, int memberNo, MultipartFile file);
 
 	int deleteReview(int reviewNo);
+
+	ResponseEntity<List<Integer>> myCategoryBringingIn(int memberNo);
+
+	ResponseEntity<List<Integer>> myPreferenceBringingIn(int memberNo);
 
 	
 

@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.http.ResponseEntity;
 
 import phantom.books.finalProject.searchBookPage.dto.Book;
 import phantom.books.finalProject.searchBookPage.dto.Review;
@@ -61,12 +62,24 @@ public interface SearchBookPageMapper {
 		int countReviewsByBookNo(int bookNo);
 
 		// 리뷰 삭제
-		int deleteReview(@Param("reviewNo") int reviewNo);
+		int deleteReview(int reviewNo);
 
 		// 책 평점
 		Double selectScoreAvg(int bookNo);
 
-		int insertScoreAvg(@Param("bookNo") int bookNo, @Param("scoreAvg") Double scoreAvg);	
+		int insertScoreAvg(@Param("bookNo") int bookNo, @Param("scoreAvg") Double scoreAvg);
+
+		// 리뷰작성시 평점 수정
+		int updateScoreAvg(int bookNo);
+
+		int updateScoreAvgDelete(int reviewNo);
+
+		int updateScoreAvgUpdate(@Param("reviewNo") int reviewNo);
+
+		List<Integer> myCategoryBringingIn(int memberNo);
+
+		List<Integer> myPreferenceBringingIn(int memberNo);
+
 
 
 
