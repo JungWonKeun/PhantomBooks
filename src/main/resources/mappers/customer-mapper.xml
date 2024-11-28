@@ -70,13 +70,19 @@
 			</otherwise>
 		</choose>
 		
+		<choose>
+			<when test="project == 1"></when>
+			<otherwise>
+				AND QUERY_SUBJECT = #{project}
+			</otherwise>
+		</choose>
+		
 	</select>
 	
 	<select id="queryList" resultType="Query">
 		SELECT *
 		FROM QUERY
 		WHERE MEMBER_NO = #{memberNo}
-		
 		<choose>
 			<when test="startDate == 'default'">
 				AND TO_DATE(QUERY_WRITE_DATE) BETWEEN  TRUNC(CURRENT_DATE) -7 AND TRUNC(CURRENT_DATE)
@@ -90,6 +96,13 @@
 			<when test="status == -1"></when>
 			<otherwise>
 				AND STATUS = #{status}
+			</otherwise>
+		</choose>
+		
+		<choose>
+			<when test="project == 1"></when>
+			<otherwise>
+				AND QUERY_SUBJECT = #{project}
 			</otherwise>
 		</choose>
 		

@@ -49,10 +49,10 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public Map<String, Object> getInquiryListByMember(int cp, int memberNo, int status, String startDate,
-			String endDate) {
+			String endDate, int project) {
 
 		// 조건 만족하는 문의리스트 수 조회
-		int countQueryList = customerMapper.countQueryList(cp, memberNo, status, startDate, endDate);
+		int countQueryList = customerMapper.countQueryList(cp, memberNo, status, startDate, endDate, project);
 
 		// 페이지네이션
 		Pagination pagination = new Pagination(cp, countQueryList, 10, 5);
@@ -62,7 +62,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 		RowBounds bounds = new RowBounds(offset, limit);
 
-		List<Query> queryList = customerMapper.queryList(cp, memberNo, status, startDate, endDate, bounds);
+		List<Query> queryList = customerMapper.queryList(cp, memberNo, status, startDate, endDate, project, bounds);
 
 		Map<String, Object> map = new HashMap<>();
 
