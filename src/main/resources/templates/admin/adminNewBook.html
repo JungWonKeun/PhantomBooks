@@ -99,12 +99,9 @@
       <h2>발주 요청관리</h2>
       <select name="key" class="sortSelect">
         <option value="all">전체보기</option>
-        <option value="Y">노출</option>
-        <option value="N">비노출</option>
+        <option value="Y">미등록</option>
+        <option value="N">등록</option>
       </select>
-      <button id="all">전체 선택 해제</button>
-      <button id="selectUpdate">선택한 내용 상태 변경</button>
-      <button id="selectDelete">선택한 내용 삭제</button>
 
 
     
@@ -147,10 +144,9 @@
                 N
               </td>
               <td>
-                <button class="updateBtn">
-                  노출 상태 변경<input type="text" th:value="*{requestNo}" class="updateId" hidden>
+                <button class="updateBtn" th:value="*{bookNo}">
+                  등록하기
                 </button>
-                
               </td>
             </tr>
           </th:block>
@@ -197,24 +193,6 @@
           <li><a href="#">&gt;&gt;</a></li>
         </ul>
       </div>
-
-      <div class="btn-area">
-        <!-- 로그인 상태일 때만 글쓰기 버튼 노출 -->
-        <button th:if= "${session.loginMember}"
-        id="insertBtn">신간 요청</button>                     
-      </div>
-  
-      <div id="addPopupLayer" class="popup-layer-close">
-        <div class="input-area">
-          제목 <input type="text" id="inputTitle" name="title" placeholder="제목을 입력하세요" autocomplete="off">
-          내용 <input type="text" id="inputContent" name="content" placeholder="내용을 입력하세요" autocomplete="off"></input>
-        </div>
-  
-  
-        <button id="addRequestBtn">등록하기</button>
-        <button id="back">돌아가기</button>
-      </div>
-
     </div>
     
   </section>

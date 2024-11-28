@@ -29,7 +29,7 @@ public class AdminNewBookServiceImpl implements AdminNewBookService {
 
 		int countNewBook = mapper.countNewBook();
 		
-		Pagination pagination = new Pagination(1, countNewBook, 10, 5);
+		Pagination pagination = new Pagination(1, countNewBook, 20, 5);
 		
 		int limit = pagination.getLimit();
 		int offset = (1-1) * limit;
@@ -44,5 +44,50 @@ public class AdminNewBookServiceImpl implements AdminNewBookService {
 		
 		
 		return map;
+	}
+	
+	// 등록 상태 변경
+	@Override
+	public int insertRequest(int bookNo) {
+		int result = 0;
+		int updateResult = 0; //
+		
+		int selectBook = mapper.selectBook(bookNo);
+		log.debug("selectBook : {}", selectBook);
+		
+		int requestNo = mapper.selectRequestNo(bookNo);
+		log.debug("requestNo : {}", requestNo);
+				
+		if(selectBook > 0) {
+			
+			// 기존 책 수량 변경
+			updateResult = mapper.updateManager(bookNo, requestNo);
+			log.debug("updateResult : {}", updateResult);
+			}else {
+				
+				int selectRequest = mapper.selectRequest(bookNo);
+				log.debug("selectRequest : {}", selectRequest);
+				
+				if(selectRequest == 0) {
+					result = 0;// 아무것도 없으면 0 반환
+				}else {
+					
+					// request에 bookNo 존재 === book에 신간 발주내용 삽입
+					updateResult = mapper.insertRequest(bookNo);
+					log.debug("updateResult : {}", updateResult);
+				}
+
+				
+		}
+		
+		if(updateResult > 0) {
+			result = mapper.updateRequest(requestNo);
+			log.debug("result : {}", result);
+			
+		}else {
+				result = 0;
+		}
+			
+		return result;
 	}
 }

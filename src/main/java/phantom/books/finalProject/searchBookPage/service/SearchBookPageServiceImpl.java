@@ -7,9 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,7 +35,7 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 
 	@Value("${phantomBooks.reviewImage.web-path}")
 	private String reviewImageWebPath; // Review 이미지 웹 경로
-	
+
 	@Value("${phantomBooks.reviewImage.folder-path}")
 	private String reviewImageFolderPath; // Review 이미지 서버 경로
 
@@ -93,7 +96,7 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 
 	// 책 검색
 	@Override
-	public Map<String, Object> searchBooks(String searchTitle, int[] categories, int[] preferences, int cp) {
+	public Map<String, Object> searchBooks(String searchTitle, int[] categories, int[] preferences, int cp, String sortOption) {
 		// 전체 책 개수 조회
 		int totalCount = mapper.countBooks(searchTitle, categories, preferences);
 
@@ -107,39 +110,36 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 		RowBounds bounds = new RowBounds(offset, limit);
 
 		// 책 목록 조회
-		List<Book> bookList = mapper.searchBooks(searchTitle, categories, preferences, bounds);
+		List<Book> bookList = mapper.searchBooks(searchTitle, categories, preferences, bounds, sortOption);
 
-		// 책 평점 계산
-		Double scoreAvg = 0.0;
-		
-		// 책 평점
-		for (Book book : bookList) {
-			scoreAvg = mapper.selectScoreAvg(book.getBookNo());
-			
-			log.debug("scoreAvg: {}", scoreAvg);
-			
-			int result = mapper.insertScoreAvg(book.getBookNo(), scoreAvg);
-			log.debug("result : {}", result);
-		}
-		
-		
-		
+		log.debug("sortOption: {}", sortOption);
+		/*
+		 * // 책 평점 계산 Double scoreAvg = 0.0;
+		 * 
+		 * // 책 평점 for (Book book : bookList) { scoreAvg =
+		 * mapper.selectScoreAvg(book.getBookNo());
+		 * 
+		 * log.debug("scoreAvg: {}", scoreAvg);
+		 * 
+		 * int result = mapper.insertScoreAvg(book.getBookNo(), scoreAvg);
+		 * log.debug("result : {}", result); }
+		 */
+
 		// 결과를 담을 Map 생성
 		Map<String, Object> result = new HashMap<>();
 		result.put("pagination", pagination);
 		result.put("totalCount", totalCount);
 		result.put("bookList", bookList);
-		
+
 		return result;
 	}
-
 
 	// 리뷰 페이지 네이션
 	@Override
 	public Map<String, Object> getReviewsByBookNo(int bookNo, int cp) {
-		
+
 		Map<String, Object> map = new HashMap<>();
-		
+
 		int countReview = mapper.countReview(bookNo);
 
 		// Pagination 객체 생성
@@ -154,12 +154,12 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 
 		map.put("reviewList", reviewList);
 		map.put("pagination", pagination);
-		
+
 		// 리뷰 리스트 조회
 		return map;
 	}
-	
-	//리뷰작성
+
+	// 리뷰작성
 	@Override
 	public boolean writeReview(int bookNo, String title, String content, double score, int memberNo,
 			MultipartFile file) {
@@ -189,16 +189,15 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 		}
 
 		// 리뷰 생성
-		Review review = Review.builder()
-				.bookNo(bookNo)
-				.memberNo(memberNo)
-				.reviewTitle(title)
-				.reviewContent(content)
-				.reviewScore(score)
-				.reviewImgNo(webPath)
-				.build();
+		Review review = Review.builder().bookNo(bookNo).memberNo(memberNo).reviewTitle(title).reviewContent(content)
+				.reviewScore(score).reviewImgNo(webPath).build();
 
-		return mapper.insertReview(review) > 0;
+		int result = mapper.insertReview(review);
+
+		if (result == 0)
+			return false;
+
+		return mapper.updateScoreAvg(bookNo) > 0;
 	}
 
 	// 리뷰 수정
@@ -207,51 +206,96 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 	public String updateReview(int reviewNo, String title, String content, double score, int memberNo,
 			MultipartFile file) {
 		String filePath = null;
-		 String webPath = null; 
-	        // 파일 저장 처리
-	      File folder = new File(reviewImageFolderPath);
-	      if (!folder.exists()) {
-	          folder.mkdirs();
-	      }
-	        if (file != null && !file.isEmpty()) {
-	            String uploadDir = reviewImageFolderPath;
-	            // 고유 파일 이름 생성
-	            String originalFilename = file.getOriginalFilename();
-	            String newFilename = UUID.randomUUID().toString() + "_" + originalFilename;
-	            filePath = uploadDir + newFilename;
-	            webPath = reviewImageWebPath + newFilename;
-	            
-	            // 파일 저장
-	            try {
-					file.transferTo(new File(filePath));
-				} catch (IllegalStateException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-	        }
+		String webPath = null;
+		// 파일 저장 처리
+		File folder = new File(reviewImageFolderPath);
+		if (!folder.exists()) {
+			folder.mkdirs();
+		}
+		if (file != null && !file.isEmpty()) {
+			String uploadDir = reviewImageFolderPath;
+			// 고유 파일 이름 생성
+			String originalFilename = file.getOriginalFilename();
+			String newFilename = UUID.randomUUID().toString() + "_" + originalFilename;
+			filePath = uploadDir + newFilename;
+			webPath = reviewImageWebPath + newFilename;
+
+			// 파일 저장
+			try {
+				file.transferTo(new File(filePath));
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 		// Review 객체 생성
-		Review review = Review.builder()
-				.reviewNo(reviewNo)
-				.memberNo(memberNo)
-				.reviewTitle(title)
-				.reviewContent(content)
-				.reviewScore(score)
-				.reviewImgNo(webPath) // 파일 경로를 저장
+		Review review = Review.builder().reviewNo(reviewNo).memberNo(memberNo).reviewTitle(title).reviewContent(content)
+				.reviewScore(score).reviewImgNo(webPath) // 파일 경로를 저장
 				.build();
 
 		// 기존 리뷰 업데이트
 		int result = mapper.updateReview(review);
-		return result > 0 ? "리뷰 업데이트 성공" : "리뷰 업데이트 실패";
-	}
 
+		if (result == 0)
+			return null;
+
+		int updateScoreAvgUpdate = mapper.updateScoreAvgUpdate(reviewNo);
+
+		if (updateScoreAvgUpdate == 0)
+			return null;
+
+		return webPath;
+
+	}
 
 	// 리뷰 삭제
 	@Override
 	public int deleteReview(int reviewNo) {
+
+		int result = mapper.deleteReview(reviewNo);
+
+		if (result == 0)
+			return 0;
+
+		return mapper.updateScoreAvgDelete(reviewNo);
+	}
+	
+	// 카테고리 불러오기
+	@Override
+	public ResponseEntity<List<Integer>> myCategoryBringingIn(int reviewNo) {
+	    List<Integer> categoryNoList = mapper.myCategoryBringingIn(reviewNo);
+
+	    // 디버깅 로그 추가
+		/*
+		 * log.debug("categories for member {}: {}", reviewNo, categoryNoList);
+		 */
+	    if (categoryNoList != null && !categoryNoList.isEmpty()) {
+	        return ResponseEntity.ok(categoryNoList); // 정상 반환
+	    } else {
+	        return ResponseEntity.noContent().build(); // 데이터가 없을 경우
+	    }
+	    
+	    
+	}
+	
+	// 카테고리 불러오기
+	@Override
+	public ResponseEntity<List<Integer>> myPreferenceBringingIn(int memberNo) {
 		
-		return mapper.deleteReview(reviewNo);
+		  List<Integer> preferenceNoList = mapper.myPreferenceBringingIn(memberNo);
+
+		    // 디버깅 로그 추가
+		    log.debug("Fetched categories for member {}: {}", memberNo, preferenceNoList);
+
+		    if (preferenceNoList != null && !preferenceNoList.isEmpty()) {
+		        return ResponseEntity.ok(preferenceNoList); // 정상 반환
+		    } else {
+		        return ResponseEntity.noContent().build(); // 데이터가 없을 경우
+		    }
+		    
+		
 	}
 
-	
+
 }

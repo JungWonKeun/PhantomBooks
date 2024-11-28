@@ -1,132 +1,223 @@
-// 내 정보 페이지 오픈 및 닫기
-document.addEventListener('DOMContentLoaded', function () {
-  const openBtn = document.getElementById("openBtn");
-  const closeBtn = document.getElementById("closeBtn");
-  const menus = document.querySelectorAll('.menu');
-
-  // 각 메뉴 클릭 시 active 상태 토글
-  menus.forEach(menu => {
-    menu.addEventListener('click', function () {
-      this.classList.toggle('active');
-    });
-  });
-
-  // 모두 열기 버튼 클릭
-  openBtn.addEventListener("click", () => {
-    openBtn.style.display = "none";
-    closeBtn.style.display = "inline-block";
-    menus.forEach(menu => {
-      menu.classList.add("active");
-    });
-  });
-
-  // 모두 닫기 버튼 클릭
-  closeBtn.addEventListener("click", () => {
-    openBtn.style.display = "inline-block";
-    closeBtn.style.display = "none";
-    menus.forEach(menu => {
-      menu.classList.remove("active");
-    });
-  });
-});
-
-
-const memberPw = document.getElementById('memberPw');
-const telNo = document.getElementById('telNo');
-
-// 전화번호로 본인 확인
-const checkTelNoForm = document.querySelector("#checkTelNoForm");
-
-checkTelNoForm.addEventListener("submit", e => {
-  e.preventDefault(); // 기본 제출 동작 중지
-
-  if (phoneSubmitBtnSuccess.disabled) {
-    alert('모든 필드를 올바르게 입력하고 인증 절차를 완료해야 합니다.');
-    return;
+document.addEventListener('DOMContentLoaded', function() {
+  const findIdBtn = document.getElementById('findIdBtn');
+  const findPwBtn = document.getElementById('findPwBtn');
+  const checkTelNoSection = document.getElementById('checkTelNoSection');
+  const idResultSection = document.getElementById('idResultSection');
+  const findPwSection = document.getElementById('findPwSection');
+  const checkIdSection = document.getElementById('checkIdSection');
+  
+  // 섹션 표시 함수
+  function showSection(section) {
+    section.style.display = 'block';
+    // 리플로우를 강제로 발생시켜 트랜지션이 작동하도록 함
+    section.offsetHeight;
+    section.classList.add('show');
   }
 
-  // FormData 객체 생성
-  const formData = new FormData(checkTelNoForm);
+  // 섹션 숨김 함수
+  function hideSection(section) {
+    section.classList.remove('show');
+    // 트랜지션이 완료된 후 display: none 설정
+    setTimeout(() => {
+      if (!section.classList.contains('show')) {
+        section.style.display = 'none';
+      }
+    }, 500); // CSS 트랜지션 시간과 동일하게 설정
+  }
 
-  // fetch를 사용하여 서버에 비동기 요청
-  fetch('/myPage/checkTelNo', {
-    method: 'POST',
-    body: formData
-  })
-    .then(response => response.json())
-    .then(data => {
-      if (data.status === 'success') {
-        // 성공 시 비밀번호 변경 섹션 표시
-        document.getElementById('phoneCheckSection').style.display = 'none';
-        document.getElementById('changePwSection').style.display = 'block';
+  // 초기 상태 설정
+  showSection(checkTelNoSection);
+  hideSection(idResultSection);
+  hideSection(findPwSection);
+  hideSection(checkIdSection);
+  
+  // 초기 상태에서 아이디 찾기 모드로 설정
+  findIdBtn.classList.add('btn-primary');
+  findIdBtn.classList.remove('btn-outline-secondary');
+  findPwBtn.classList.remove('btn-primary');
+  findPwBtn.classList.add('btn-outline-secondary');
+  
+  // 초기 폼 action 설정
+  document.getElementById('checkTelNoForm').action = '/member/findId';
+  updateProgressStatus('stepPhone', 'findId');
+
+  // 아이디 찾기 버튼 클릭
+  findIdBtn.addEventListener('click', function() {
+    findIdBtn.classList.remove('btn-outline-secondary');
+    findIdBtn.classList.add('btn-primary');
+    findPwBtn.classList.remove('btn-primary');
+    findPwBtn.classList.add('btn-outline-secondary');
+    
+    showSection(checkTelNoSection);
+    hideSection(idResultSection);
+    hideSection(findPwSection);
+    hideSection(checkIdSection);
+    
+    document.getElementById('checkTelNoForm').action = '/member/findId';
+    updateProgressStatus('stepPhone', 'findId');
+  });
+
+  // 비밀번호 찾기 버튼 클릭
+  findPwBtn.addEventListener('click', function() {
+    findPwBtn.classList.remove('btn-outline-secondary');
+    findPwBtn.classList.add('btn-primary');
+    findIdBtn.classList.remove('btn-primary');
+    findIdBtn.classList.add('btn-outline-secondary');
+    
+    showSection(checkTelNoSection);
+    hideSection(idResultSection);
+    hideSection(findPwSection);
+    hideSection(checkIdSection);
+    
+    document.getElementById('checkTelNoForm').action = '/member/findPw';
+    updateProgressStatus('stepPhone', 'findPw');
+  });
+
+  // 진행 상태 업데이트 함수 수정
+  function updateProgressStatus(currentStep, mode) {
+    const idSteps = ['stepPhone', 'stepResult'];
+    const pwSteps = ['stepPhone', 'stepId', 'stepPassword'];
+    const steps = mode === 'findId' ? idSteps : pwSteps;
+    const currentIndex = steps.indexOf(currentStep);
+    
+    // 모든 단계 표시하고 초기화
+    document.querySelectorAll('.breadcrumb-item').forEach(item => {
+      if (mode === 'findId') {
+        item.style.display = idSteps.includes(item.id) ? 'block' : 'none';
       } else {
-        // 실패 시 전화번호 재입력 요구
-        alert('저장된 전화번호와 일치하지 않습니다. 다시 확인해주세요.');
-        telNo.value = '';
-        telNo.removeAttribute('readonly');
-        telNo.focus();
-        document.getElementById('phoneChangeBtn').style.display = 'none';
-        isPhoneVerified = false;
-        toggleSubmitButton();
+        item.style.display = pwSteps.includes(item.id) ? 'block' : 'none';
       }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      alert('처리 중 오류가 발생했습니다. 다시 시도해주세요.');
+      item.classList.remove('active', 'completed');
     });
-});
+    
+    // 현재 단계까지 상태 업데이트
+    steps.forEach((step, index) => {
+      const element = document.getElementById(step);
+      if (!element) return;
+      
+      if (index < currentIndex) {
+        element.classList.add('completed');
+      } else if (index === currentIndex) {
+        element.classList.add('active');
+      }
+    });
 
-// 비밀번호 변경
-const changePwForm = document.querySelector("#changePwForm");
-
-changePwForm.addEventListener("submit", e => {
-  e.preventDefault(); // 기본 제출 동작 중지
-
-  if (passwordSubmitBtnSuccess.disabled) {
-    alert('모든 필드를 올바르게 입력하고 인증 절차를 완료해야 합니다.');
-    return;
+    // 뒤로가기 버튼 표시 여부 설정
+    const backBtn = document.getElementById('backBtn');
+    if (backBtn) {
+      if (mode === 'findPw' && currentIndex > 0) {
+        backBtn.style.display = 'block';
+      } else {
+        backBtn.style.display = 'none';
+      }
+    }
   }
 
-  // FormData 객체 생성
-  const formData = new FormData(changePwForm);
+  // 전화번호 인증 폼 제출 처리
+  document.getElementById('checkTelNoForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const action = this.action;
+    
+    try {
+        const formData = new FormData(this);
+        const response = await fetch(action, {
+            method: 'POST',
+            body: formData
+        });
+        
+        if (action.endsWith('findId')) {
+            // 아이디 찾기: 폼 제출 후 결과 표시
+            const data = await response.json();
+            document.getElementById('foundIdMessage').textContent = data.message;
+            hideSection(checkTelNoSection);
+            showSection(idResultSection);
+            updateProgressStatus('stepResult', 'findId');
+        } else {
+            // 비밀번호 찾기: 전화번호 인증만 완료하고 다음 단계로
+            const verifiedTelNo = document.getElementById('telNo').value;
+            document.getElementById('verifiedTelNo').value = verifiedTelNo;
+            hideSection(checkTelNoSection);
+            showSection(checkIdSection);
+            updateProgressStatus('stepId', 'findPw');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('처리 중 오류가 발생했습니다.');
+    }
+  });
 
-  // fetch를 사용하여 서버에 비동기 요청
-  fetch('/myPage/changePw', {
-    method: 'POST',
-    body: formData
-  })
-    .then(response => response.json())
-    .then(data => {
-      if (data.status === 'success') {
-        alert('비밀번호 변경이 완료되었습니다.\n다시 로그인해주세요.');
-        window.location.href = '/member/logout';
-      }
-      if (data.status === 'fail') {
-        alert(data.message);
-        if (data.type === '1') {
-          document.getElementById('currentPw').value = '';
-          document.getElementById('currentPw').focus();
+  // 아이디 확인 폼 제출 처리
+  document.getElementById('checkIdForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    try {
+        const formData = new FormData(this);
+        const response = await fetch('/member/checkIdAndTel', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const data = await response.json();
+        
+        if (data.status === 'success') {
+            hideSection(checkIdSection);
+            showSection(findPwSection);
+            updateProgressStatus('stepPassword', 'findPw');
+            alert(data.message);
+        } else {
+            document.getElementById('memberId').classList.add('is-invalid');
+            alert('일치하는 회원 정보가 없습니다.');
         }
-        if (data.type === '2') {
-          memberPw.value = '';
-          memberPw.removeAttribute('readonly');
-          memberPw.focus();
-          document.getElementById('passwordConfirmSection').style.display = 'block';
-          document.getElementById('passwordChangeBtn').style.display = 'none';
-          isPasswordConfirmed = false;
+    } catch (error) {
+        console.error('Error:', error);
+        alert('처리 중 오류가 발생했습니다.');
+    }
+  });
+
+  // 비밀번호 변경 폼 제출
+  document.getElementById('changePwForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    // FormData 내용 확인을 위한 디버깅 코드 추가
+    const formData = new FormData(this);
+    console.log('FormData contents:');
+    for (let pair of formData.entries()) {
+        console.log(pair[0] + ': ' + pair[1]);
+    }
+
+    try {
+        // 인증된 전화번호와 아이디 추가
+        formData.append('memberId', document.getElementById('memberId').value);
+
+        console.log('Final FormData contents:');
+        for (let pair of formData.entries()) {
+            console.log(pair[0] + ': ' + pair[1]);
         }
-        document.getElementById('floatingPasswordConfirm').value = '';
-        document.getElementById('passwordConfirmBtn').style.display = 'none'; // 비밀번호 사용하기 버튼 숨기기
-        toggleSubmitButton();
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      alert('처리 중 오류가 발생했습니다. 다시 시도해주세요.');
-    });
+
+        const response = await fetch('/member/changePw', {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (data.status === 'success') {
+            alert(data.message);
+            window.location.href = '/';
+        } else {
+            alert('비밀번호 변경에 실패했습니다.');
+            // 비밀번호 입력 필드 초기화
+            document.getElementById('memberPw').value = '';
+            document.getElementById('floatingPasswordConfirm').value = '';
+            document.getElementById('memberPw').focus();
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('처리 중 오류가 발생했습니다. 다시 시도해주세요.');
+    }
+  });
+
 });
-
-
 // 입력 필드 초기화 함수
 // 특정 입력 필드의 내용을 초기화하는 함수
 function clearInput(inputId) {
@@ -163,10 +254,10 @@ let isPhoneVerified = false;
 // 제출 버튼 활성화 토글 함수
 // 모든 입력값이 유효하고 추가된 인증 절차를 모두 완료했을 때만 버튼을 활성화
 function toggleSubmitButton() {
-  const phoneSection = document.getElementById('phoneCheckSection');
-  const passwordSection = document.getElementById('changePwSection');
+  const checkTelNoSection = document.getElementById('checkTelNoSection');
+  const findPwSection = document.getElementById('findPwSection');
 
-  if (phoneSection) {
+  if (checkTelNoSection) {
     const phoneInput = document.getElementById('telNo');
     const phoneSubmitButtonDanger = document.getElementById('phoneSubmitBtnDanger');
     const phoneSubmitButtonSuccess = document.getElementById('phoneSubmitBtnSuccess');
@@ -184,7 +275,7 @@ function toggleSubmitButton() {
     }
   }
 
-  if (passwordSection) {
+  if (findPwSection) {
     const passwordInput = document.getElementById('memberPw');
     const passwordSubmitButtonDanger = document.getElementById('passwordSubmitBtnDanger');
     const passwordSubmitButtonSuccess = document.getElementById('passwordSubmitBtnSuccess');
@@ -201,6 +292,7 @@ function toggleSubmitButton() {
     }
   }
 }
+
 (() => {
   'use strict';
 

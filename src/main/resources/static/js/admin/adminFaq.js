@@ -84,26 +84,30 @@ insertBtn?.addEventListener("click", () => {
 });
 
 // 노출상태 변경
-const updateBtn = document.querySelector(".updateBtn");
-const updateId = document.querySelectorAll(".updateId");
+const updateBtn = document.querySelectorAll(".updateBtn");
 
+updateBtn.forEach((button) => {
+  button.addEventListener("click", ()=> {
+    
+    const faqId = button.value;
 
-
-
-updateBtn.addEventListener("click", ()=> {
-
-  fetch("/admin/faq?faqId="+faqId, {method : "post"})
-  .then(response => {
-    if(response.ok) return response.json();
-    throw new Error("삭제 실패");
+    alert(faqId + "를 노출상태를 변경합니다.");
+  
+    fetch("/admin/faq?faqId="+faqId, {method : "post"})
+    .then(response => {
+      if(response.ok) return response.text();
+      throw new Error("노출 상태 변경");
+    })
+    .then(result => {
+      if(result > 0) {
+        console.log(faqId);
+        location.reload();
+      }
+    })
   })
-  .then(result => {
-    if(result > 0) {
-      console.log(faqId);
-      // location.reload();
-    }
-  })
-})
+});
+
+
 
 const pageNoList = document.querySelectorAll(".pagination a");
 

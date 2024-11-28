@@ -10,6 +10,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -42,10 +44,13 @@ public class SearchBookPageController {
 	private final SearchBookPageService service;
 
 	@GetMapping("/searchBooks")
-	public String searchBooks(@RequestParam(value = "searchTitle", required = false) String searchTitle,
-			@RequestParam(value = "categories", required = false) int[] categories, // int[]로 받기
-			@RequestParam(value = "preferences", required = false) int[] preferences, // int[]로 받기
-			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp, Model model) {
+	public String searchBooks(
+			@RequestParam(value = "searchTitle", required = false) String searchTitle,
+			@RequestParam(value = "categories", required = false) int[] categories, 
+			@RequestParam(value = "preferences", required = false) int[] preferences, 
+			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
+			@RequestParam(value = "sortOption", required = false) String sortOption,
+			Model model) {
 
 		// categories와 preferences는 int[]로 받았으므로, 바로 사용 가능
 		// 원하는 작업을 처리합니다.
@@ -53,14 +58,16 @@ public class SearchBookPageController {
 		log.debug("searchTitle: {}", searchTitle);
 		log.debug("categories: {}", Arrays.toString(categories)); // int[]을 배열로 출력
 		log.debug("preferences: {}", Arrays.toString(preferences)); // int[]을 배열로 출력
-
+		log.debug("sortOption: {}", sortOption);
 		// 서비스 호출
-		Map<String, Object> map = service.searchBooks(searchTitle, categories, preferences, cp);
+		Map<String, Object> map = service.searchBooks(searchTitle, categories, preferences, cp, sortOption);
 
+		log.debug("sortOption: {}", sortOption);
 		// 모델에 데이터 추가
 		model.addAttribute("bookList", map.get("bookList"));
 		model.addAttribute("pagination", map.get("pagination"));
 		model.addAttribute("totalCount", map.get("totalCount"));
+		
 
 		return "searchBookPage/searchBook";
 	}
@@ -240,6 +247,33 @@ public class SearchBookPageController {
 
 	  }
 
+	  @ResponseBody
+	  @GetMapping("/myCategoryBringingInBtn")
+	  public ResponseEntity<List<Integer>> myCategoryBringingIn(
+	          @SessionAttribute(name = "loginMember", required = false) Member loginMember) {
+
+	      if (loginMember == null) {
+	          return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+	      }
+
+	      log.debug("Member number: {}", loginMember.getMemberNo());
+
+	      return service.myCategoryBringingIn(loginMember.getMemberNo());
+	  }
+	  
+	  @ResponseBody
+	  @GetMapping("/myPreferenceBringingInBtn")
+	  public ResponseEntity<List<Integer>> myPreferenceBringingIn(
+	          @SessionAttribute(name = "loginMember", required = false) Member loginMember) {
+
+	      if (loginMember == null) {
+	          return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+	      }
+
+	      log.debug("Member number: {}", loginMember.getMemberNo());
+
+	      return service.myPreferenceBringingIn(loginMember.getMemberNo());
+	  }
 
 	 
 

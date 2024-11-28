@@ -6,5 +6,8 @@ public interface AdminNewBookService {
 
 	// 새 책 요청 목록 조회
 	Map<String, Object> newBookList();
+	
+	// 새 책 요청 삽입
+	int insertRequest(int bookNo);
 
 }

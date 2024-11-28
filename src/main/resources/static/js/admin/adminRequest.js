@@ -1,4 +1,14 @@
 const list = document.querySelector("#bookList")
+// 현재 날짜 받아오기
+const now = new Date();
+
+const year = now.getFullYear();
+const month = now.getMonth();
+const day = now.getDate();
+
+const today = `${year}-${month}-${day}`;
+
+
 
 /* 사이드바 열고 닫기 */
 document.querySelectorAll('.menu').forEach(menu => {
@@ -19,17 +29,10 @@ const listUp = (cp, sort, view, text) => {
   .then(map => {
     console.log(map);
 
+
     const bookList = map.bookList;
     const pagination = map.pagination;
 
-    // 현재 날짜 받아오기
-    const now = new Date();
-
-    const year = now.getFullYear();
-    const month = now.getMonth();
-    const day = now.getDate();
-
-    const today = `${year}-${month}-${day}`;
 
 
     list.innerHTML = "";
@@ -297,50 +300,6 @@ sortSelect.addEventListener('change', () => {
 
 })
 
-// /**
-//  * 출판사 검색 시 자동완성 추천
-//  */
-// const url = "/admin/manager/inputText?sort=" + sort + "&text=" + text
-
-// searchText.addEventListener("input", (sort, text) => {
-//   fetch(url)
-//   .then(response => {
-//     if(response.ok) return response.json();
-//     throw new Error("검색 실패");
-//   })
-//   .then(list => {
-//     console.log(list);
-
-//     resultArea.innerHTML = ""; // 이전 검색 결과 비우기
-
-//     if (list.length == 0) {
-//       const li = document.createElement("li");
-//       li.classList.add("result-row");
-//       li.innerText = "일치하는 출판사가 없습니다";
-//       resultArea.append(li);
-//       return;
-//     }
-
-//     for (let company of list) {
-//       // li요소 생성(한 행을 감싸는 요소)
-//       const li = document.createElement("li");
-//       li.classList.add("result-row");
-
-//       let companyName = company.companyName;
-
-//       const span = document.createElement("span");
-//       span.innerHTML = `${companyName}`.replace(text, `<mark>${text}</mark>`);
-
-//       // 요소 조립(화면에 추가)
-//       li.append(span);
-//       resultArea.append(li);
-
-//       
-//       li.addEventListener("click", listUp(1, sortSelect.value, text));
-//     }
-//   })
-//   .catch(err => console.error(err));
-// })
 
 /**
  * 페이지네이션
@@ -358,6 +317,80 @@ const paginationAddEvent = () => {
     });
   });
 }
+
+const newRequestBtn = document.querySelector("#newRequestBtn");
+
+newRequestBtn.addEventListener("click", () => {
+  const content = document.querySelector("#newBook") ;
+
+  content.classList.remove("hidden");
+
+ 
+
+  const requestBtn = document.querySelector("#requestBtn");
+
+  document.querySelector("#back").addEventListener("click", () => {
+    location.reload();
+  })
+
+  requestBtn.addEventListener("click", () => {
+
+    // 신간 요청 내용
+    const bookTitle = document.querySelector("#bookTitle").value.trim();
+    const bookContent = document.querySelector("#bookContent").value.trim();
+    const bookCover = document.querySelector("#bookCover").value.trim();
+    const bookWriter = document.querySelector("#bookWriter").value.trim();
+    const companyName = document.querySelector("#companyName").value.trim();
+    const email = document.querySelector("#email").value.trim();
+    const bookTalt = document.querySelector("#bookTalt").value.trim();
+    const bookPrice = document.querySelector("#bookPrice").value.trim();
+    const bookPageCount = document.querySelector("#bookPageCount").value.trim();
+    const bookDate = document.querySelector("#bookDate").value.trim();
+    const requestCount = document.querySelector("#requestCount").value.trim();
+    const requestPrice = document.querySelector("#requestPrice").value.trim();
+
+
+    const alarm = confirm(email + "으로 신간 발주요청을 보내시겠습니까?");
+
+
+    if(alarm){
+      fetch("/admin/request/newBook", {
+        method : "post",
+        headers : {"Content-Type" : "application/json"},
+        body : JSON.stringify({
+          bookTitle : bookTitle,
+          bookContent : bookContent,
+          bookCover : bookCover,
+          bookWriter : bookWriter,
+          companyName : companyName,
+          email : email,
+          bookTalt : bookTalt,
+          bookPrice : bookPrice,
+          bookPageCount : bookPageCount,
+          bookDate : bookDate,
+          requestCount : requestCount,
+          requestPrice : requestPrice,
+          insertDate : today
+        })
+        })
+      .then(response => {
+        if(response.ok) return response.text();
+        throw new Error("전송 실패");
+      })
+      .then(result => {
+        if(result == 0){
+          alert("발주 요청이 되지 않았습니다.");
+          return;
+        }
+
+        alert("발주 요청이 되었습니다.");
+        location.reload();
+      })
+    }
+  })
+})
+
+
 
 /**
  * 문서 시작시 실행하는 함수

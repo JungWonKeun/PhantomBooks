@@ -7,103 +7,33 @@ document.querySelectorAll('.menu').forEach(menu => {
   });
 });
 
-// 내용 작성 영역
-const faqContent = document.querySelector(".faqContent");
 
-/* 글쓰기 버튼 클릭 시 */
-const insertBtn = document.querySelector("#insertBtn");
+// 등록상태 변경
+const updateBtn = document.querySelectorAll(".updateBtn");
 
-// 팝업 / 내용
-const addPopupLayer = document.querySelector("#addPopupLayer");
-const inputArea = document.querySelector(".input-area");
-const title = document.querySelector("#inputTitle");
-const content = document.querySelector("#inputContent");
+updateBtn.forEach((button) => {
+  const bookNo = button.value;
+  button.addEventListener("click", ()=> {
 
-
-insertBtn?.addEventListener("click", () => {
-
-  // 팝업 나타나게 하기
-  addPopupLayer.classList.remove("popup-layer-close");
-  title.focus();
-  const addFaqBtn = document.querySelector("#addFaqBtn");
-  const back = document.querySelector("#back");
- 
-  // 등록하기 버튼 클릭 시
-  addFaqBtn.addEventListener("click", () => {
-    
-    // 1. 내용 검사
-    if(title.value == ""){
-      alert("제목을 작성해주세요");
-      return;
-    }
-
-    if(content.value == ""){
-      alert("내용을 작성해주세요");
-      return;
-    }
-
-    fetch("/admin/faq", {
-      method : "PUT",
-      headers : {"Content-Type" : "application/json"},
-      body : JSON.stringify({
-        title : title.value.trim(),
-        content : content.value.trim()
-      })
-    })
+    fetch("/admin/newBook?bookNo="+bookNo, { method : "post" })
     .then(response => {
-      if(response.ok) return response.json();
-      throw new Error("추가 실패");
+      if(response.ok) return response.text();
+      throw new Error("등록 실패");
     })
     .then(result => {
-      if(result > 0){
-        alert("새로운 FAQ를 등록하였습니다.");
-
-        // 작성한 내용 없애기
-        title.value = "";
-        content.value = "";
-
-        // 팝업 숨기기
-        addPopupLayer.classList.add("popup-layer-close");
-
+      if(result > 0) {
+        console.log(requestNo);
+        alert(`등록 하였습니다. ${bookNo}번 책을 재고 추가하세요.`);
         location.reload();
       }
+      alert(`${bookNo}는 삭제된 발주요청입니다.`);
     })
   })
-
-  // 돌아가기 버튼
-  back.addEventListener("click", () => {
-    
-    // 작성한 내용 없애기
-    title.value = '';
-    content.value = "";
-
-    // 팝업 숨기기
-    addPopupLayer.classList.add("popup-layer-close");
-  })
-
-});
-
-// 노출상태 변경
-const updateBtn = document.querySelector(".updateBtn");
-const updateId = document.querySelectorAll(".updateId");
-
-
-
-
-updateBtn.addEventListener("click", ()=> {
-
-  fetch("/admin/faq?faqId="+faqId, {method : "post"})
-  .then(response => {
-    if(response.ok) return response.json();
-    throw new Error("삭제 실패");
-  })
-  .then(result => {
-    if(result > 0) {
-      console.log(faqId);
-      // location.reload();
-    }
-  })
 })
+
+
+
+
 
 const pageNoList = document.querySelectorAll(".pagination a");
 

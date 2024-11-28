@@ -86,61 +86,8 @@
 	</update>
 
 	<!-- 카테고리/옵션/쿼리 검색 -->
-	
+
 	<select id="searchBooks" resultType="Book">
-    SELECT DISTINCT
-    B.BOOK_NO AS bookNo,
-    B.BOOK_TITLE AS bookTitle,
-    B.BOOK_CONTENT AS bookContent,
-    B.BOOK_COVER AS bookCover,
-    B.BOOK_DATE AS bookDate,
-    B.BOOK_WRITER AS bookWriter,
-    B.COMPANY_NAME AS companyName,
-    B.BOOK_TALT AS bookTalt,
-    B.BOOK_PRICE AS bookPrice,
-    B.BOOK_PAGE_COUNT AS bookPageCount,
-    B.BOOK_YN AS bookYn,
-    B.SCORE_AVG 
-    FROM BOOK B
-    LEFT JOIN BOOK_PREFERENCE BP ON B.BOOK_NO = BP.BOOK_NO
-    LEFT JOIN PREFERENCE P ON BP.PREFERENCE_NO = P.PREFERENCE_NO
-    LEFT JOIN BOOK_CATEGORY BC ON B.BOOK_NO = BC.BOOK_NO
-    LEFT JOIN CATEGORY C ON BC.CATEGORY_NO = C.CATEGORY_NO
-    WHERE 1=1
-    <choose>
-        <when test="categories != null and categories.length > 0 and preferences != null and preferences.length > 0">
-            AND (
-                BC.CATEGORY_NO IN
-                <foreach item="category" collection="categories" open="(" separator="," close=")">
-                    #{category}
-                </foreach>
-                OR
-                BP.PREFERENCE_NO IN
-                <foreach item="preference" collection="preferences" open="(" separator="," close=")">
-                    #{preference}
-                </foreach>
-            )
-        </when>
-        <when test="categories != null and categories.length > 0">
-            AND BC.CATEGORY_NO IN
-            <foreach item="category" collection="categories" open="(" separator="," close=")">
-                #{category}
-            </foreach>
-        </when>
-        <when test="preferences != null and preferences.length > 0">
-            AND BP.PREFERENCE_NO IN
-            <foreach item="preference" collection="preferences" open="(" separator="," close=")">
-                #{preference}
-            </foreach>
-        </when>
-    </choose>
-    <if test="searchTitle != null and searchTitle != ''">
-        AND B.BOOK_TITLE LIKE '%' || #{searchTitle} || '%'
-    </if>
-    ORDER BY B.BOOK_NO ASC
-</select>
-	
-	<!-- <select id="searchBooks" resultType="Book">
 		SELECT DISTINCT
 		B.BOOK_NO AS bookNo,
 		B.BOOK_TITLE AS bookTitle,
@@ -154,35 +101,106 @@
 		B.BOOK_PRICE AS bookPrice,
 		B.BOOK_PAGE_COUNT AS
 		bookPageCount,
-		B.BOOK_YN AS bookYn
+		B.BOOK_YN AS bookYn,
+		B.SCORE_AVG
 		FROM BOOK B
-		LEFT JOIN BOOK_PREFERENCE
-		BP ON B.BOOK_NO = BP.BOOK_NO
-		LEFT JOIN PREFERENCE P ON BP.PREFERENCE_NO
-		= P.PREFERENCE_NO
-		LEFT JOIN BOOK_CATEGORY BC ON B.BOOK_NO = BC.BOOK_NO
-		LEFT JOIN CATEGORY C ON BC.CATEGORY_NO = C.CATEGORY_NO
+		LEFT JOIN
+		BOOK_PREFERENCE BP ON B.BOOK_NO = BP.BOOK_NO
+		LEFT JOIN PREFERENCE P ON
+		BP.PREFERENCE_NO = P.PREFERENCE_NO
+		LEFT JOIN BOOK_CATEGORY BC ON
+		B.BOOK_NO = BC.BOOK_NO
+		LEFT JOIN CATEGORY C ON BC.CATEGORY_NO =
+		C.CATEGORY_NO
 		WHERE 1=1
-		<if test="categories != null and categories.length > 0">
-			AND BC.CATEGORY_NO IN
-			<foreach item="category" collection="categories" open="("
-				separator="," close=")">
-				#{category}
-			</foreach>
-		</if>
-		<if test="preferences != null and preferences.length > 0">
-			AND BP.PREFERENCE_NO IN
-			<foreach item="preference" collection="preferences" open="("
-				separator="," close=")">
-				#{preference}
-			</foreach>
-		</if>
+		<choose>
+			<when
+				test="categories != null and categories.length > 0 and preferences != null and preferences.length > 0">
+				AND (
+				BC.CATEGORY_NO IN
+				<foreach item="category" collection="categories" open="("
+					separator="," close=")">
+					#{category}
+				</foreach>
+				OR
+				BP.PREFERENCE_NO IN
+				<foreach item="preference" collection="preferences" open="("
+					separator="," close=")">
+					#{preference}
+				</foreach>
+				)
+			</when>
+			<when test="categories != null and categories.length > 0">
+				AND BC.CATEGORY_NO IN
+				<foreach item="category" collection="categories" open="("
+					separator="," close=")">
+					#{category}
+				</foreach>
+			</when>
+			<when test="preferences != null and preferences.length > 0">
+				AND BP.PREFERENCE_NO IN
+				<foreach item="preference" collection="preferences" open="("
+					separator="," close=")">
+					#{preference}
+				</foreach>
+			</when>
+		</choose>
 		<if test="searchTitle != null and searchTitle != ''">
-			AND B.BOOK_TITLE LIKE '%' || #{searchTitle} || '%'
+			AND (
+			B.BOOK_TITLE LIKE '%' || #{searchTitle} || '%'
+			OR B.BOOK_WRITER LIKE '%' || #{searchTitle} || '%'
+			OR B.COMPANY_NAME LIKE '%' || #{searchTitle} || '%'
+			)
 		</if>
-		ORDER BY B.BOOK_NO ASC
+		<choose>
+			<when test="sortOption == 'highScore'">
+				ORDER BY B.SCORE_AVG DESC, B.BOOK_NO ASC
+			</when>
+			<when test="sortOption == 'lowScore'">
+				ORDER BY B.SCORE_AVG ASC, B.BOOK_NO ASC
+			</when>
+			<when test="sortOption == 'manyReview'">
+				ORDER BY (
+				SELECT COUNT(*)
+				FROM REVIEW R
+				WHERE R.BOOK_NO = B.BOOK_NO
+				) DESC, B.BOOK_NO ASC
+			</when>
+
+			<when test="sortOption == 'fewReview'">
+					ORDER BY (
+				SELECT COUNT(*)
+				FROM REVIEW R
+				WHERE R.BOOK_NO = B.BOOK_NO
+				) ASC, B.BOOK_NO ASC
+			</when>
+			<when test="sortOption == 'highPrice'">
+				ORDER BY B.BOOK_PRICE DESC, B.BOOK_NO ASC
+			</when>
+			<when test="sortOption == 'lowPrice'">
+				ORDER BY B.BOOK_PRICE ASC, B.BOOK_NO ASC
+			</when>
+			<otherwise>
+				ORDER BY B.BOOK_NO ASC
+			</otherwise>
+		</choose>
 	</select>
- -->
+
+	<!-- <select id="searchBooks" resultType="Book"> SELECT DISTINCT B.BOOK_NO 
+		AS bookNo, B.BOOK_TITLE AS bookTitle, B.BOOK_CONTENT AS bookContent, B.BOOK_COVER 
+		AS bookCover, B.BOOK_DATE AS bookDate, B.BOOK_WRITER AS bookWriter, B.COMPANY_NAME 
+		AS companyName, B.BOOK_TALT AS bookTalt, B.BOOK_PRICE AS bookPrice, B.BOOK_PAGE_COUNT 
+		AS bookPageCount, B.BOOK_YN AS bookYn FROM BOOK B LEFT JOIN BOOK_PREFERENCE 
+		BP ON B.BOOK_NO = BP.BOOK_NO LEFT JOIN PREFERENCE P ON BP.PREFERENCE_NO = 
+		P.PREFERENCE_NO LEFT JOIN BOOK_CATEGORY BC ON B.BOOK_NO = BC.BOOK_NO LEFT 
+		JOIN CATEGORY C ON BC.CATEGORY_NO = C.CATEGORY_NO WHERE 1=1 <if test="categories 
+		!= null and categories.length > 0"> AND BC.CATEGORY_NO IN <foreach item="category" 
+		collection="categories" open="(" separator="," close=")"> #{category} </foreach> 
+		</if> <if test="preferences != null and preferences.length > 0"> AND BP.PREFERENCE_NO 
+		IN <foreach item="preference" collection="preferences" open="(" separator="," 
+		close=")"> #{preference} </foreach> </if> <if test="searchTitle != null and 
+		searchTitle != ''"> AND B.BOOK_TITLE LIKE '%' || #{searchTitle} || '%' </if> 
+		ORDER BY B.BOOK_NO ASC </select> -->
 
 
 
@@ -191,13 +209,16 @@
 	<select id="countBooks" resultType="int">
 		SELECT COUNT(DISTINCT B.BOOK_NO)
 		FROM BOOK B
-		LEFT JOIN BOOK_PREFERENCE BP ON B.BOOK_NO = BP.BOOK_NO
-		LEFT JOIN PREFERENCE P ON BP.PREFERENCE_NO = P.PREFERENCE_NO
+		LEFT JOIN BOOK_PREFERENCE
+		BP ON B.BOOK_NO = BP.BOOK_NO
+		LEFT JOIN PREFERENCE P ON BP.PREFERENCE_NO
+		= P.PREFERENCE_NO
 		LEFT JOIN BOOK_CATEGORY BC ON B.BOOK_NO = BC.BOOK_NO
 		LEFT JOIN CATEGORY C ON BC.CATEGORY_NO = C.CATEGORY_NO
 		WHERE 1=1
 		<if test="searchTitle != null and searchTitle != ''">
-			AND LOWER(B.BOOK_TITLE) LIKE '%' || LOWER(#{searchTitle}) || '%'
+			AND LOWER(B.BOOK_TITLE) LIKE '%' || LOWER(#{searchTitle})
+			|| '%'
 		</if>
 		<choose>
 			<when
@@ -321,17 +342,92 @@
 
 	<select id="selectScoreAvg" resultType="_double">
 		SELECT
-			AVG(REVIEW_SCORE)
+		AVG(REVIEW_SCORE)
 		FROM REVIEW
 		WHERE BOOK_NO = #{bookNo}
 	</select>
-	
+
 	<update id="insertScoreAvg">
 		UPDATE BOOK
 		SET
-			SCORE_AVG = #{scoreAvg}
-		WHERE BOOK_NO = #{bookNo}
+		SCORE_AVG = #{scoreAvg}
+		WHERE BOOK_NO =
+		#{bookNo}
 	</update>
 
 
+	<update id="updateScoreAvg">
+		UPDATE "BOOK" SET
+		SCORE_AVG = (
+		SELECT
+		ROUND(AVG(REVIEW_SCORE), 1)
+		FROM REVIEW
+		WHERE BOOK_NO = #{bookNo})
+		WHERE
+		BOOK_NO = #{bookNo}
+	</update>
+
+	<update id="updateScoreAvgDelete">
+		UPDATE "BOOK" SET
+		SCORE_AVG = (
+		SELECT
+		ROUND(AVG(REVIEW_SCORE), 1)
+		FROM REVIEW
+		WHERE BOOK_NO =
+		(SELECT
+		BOOK_NO
+		FROM
+		REVIEW
+		WHERE
+		REVIEW_NO = #{reviewNo})
+		)
+		WHERE BOOK_NO = (
+		SELECT
+		BOOK_NO
+		FROM
+		REVIEW
+		WHERE
+		REVIEW_NO = #{reviewNo})
+	</update>
+
+	<update id="updateScoreAvgUpdate">
+		UPDATE "BOOK" SET
+		SCORE_AVG = (
+		SELECT
+		ROUND(AVG(REVIEW_SCORE), 1)
+		FROM REVIEW
+		WHERE BOOK_NO =
+		(SELECT
+		BOOK_NO
+		FROM
+		REVIEW
+		WHERE
+		REVIEW_NO = #{reviewNo})
+		)
+		WHERE BOOK_NO = (
+		SELECT
+		BOOK_NO
+		FROM
+		REVIEW
+		WHERE
+		REVIEW_NO = #{reviewNo})
+	</update>
+
+	<select id="myCategoryBringingIn" resultType="int">
+		SELECT
+		CATEGORY_NO
+		FROM
+		MEMBER_CATEGORY
+		WHERE
+		MEMBER_NO = #{memberNo}
+	</select>
+
+	<select id="myPreferenceBringingIn" resultType="int">
+		SELECT
+		PREFERENCE_NO
+		FROM
+		MEMBER_PREFERENCE
+		WHERE
+		MEMBER_NO = #{memberNo}
+	</select>
 </mapper>
