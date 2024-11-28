@@ -16,10 +16,10 @@ public interface MyPageService {
 	List<Preference> getPreference();
 
 	// 로그인한 회원의 선호 카테고리 저장
-	void saveCategory(int memberNo, List<Integer> categoryNo);
+	void saveCategory(int memberNo, String categoryYn, List<Integer> categoryNo);
 	
 	// 로그인한 회원의 선호 취향 저장
-	void savePreference(int memberNo, List<Integer> preferenceNo);
+	void savePreference(int memberNo,	String preferenceYn, List<Integer> preferenceNo);
 
 	// 로그인한 회원의 선호 카테고리 불러오기
 	List<Category> getCategoryByMemberId(int memberNo);

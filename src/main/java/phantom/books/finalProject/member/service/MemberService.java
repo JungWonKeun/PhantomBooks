@@ -28,4 +28,8 @@ public interface MemberService {
 	int signUp(Member inputMember);
 
 
+
+	void updateCategoryYn(int memberNo);
+
+
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -80,7 +81,21 @@ public class MemberController {
 		}
 	}
 	
-
+	@PutMapping("/updateCategoryYn")
+	@ResponseBody
+	public ResponseEntity<String> updateCategoryYn(HttpSession session) {
+	    Member loginMember = (Member) session.getAttribute("loginMember");
+	    
+	    if (loginMember != null) {
+	        loginMember.setCategoryYn("Y");
+	        service.updateCategoryYn(loginMember.getMemberNo());
+	        session.setAttribute("loginMember", loginMember);
+	        return ResponseEntity.ok("success");
+	    }
+	    
+	    return ResponseEntity.badRequest().body("로그인 정보가 없습니다.");
+	}
+	
 	// 로그아웃 처리
 	@GetMapping("logout")
 	public String logout(SessionStatus status) {

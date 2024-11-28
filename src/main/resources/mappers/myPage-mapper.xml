@@ -51,6 +51,14 @@
 		PREFERENCE_NO) VALUES (#{memberNo}, #{preferenceNo})
 	</insert>
 
+	<!-- 선호도 조사 저장 여부 업데이트 -->
+	<update id="updateCategoryYn">
+		UPDATE MEMBER
+		SET CATEGORY_YN = 'Y'
+		WHERE MEMBER_NO =
+		#{memberNo}
+	</update>
+
 	<select id="getCategoryByMemberId">
 		SELECT *
 		FROM "MEMBER_CATEGORY"
