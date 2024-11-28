@@ -30,7 +30,8 @@
 		as title, CONTENT as content, FAQ_YN as faqYn
 		FROM FAQ
 		WHERE FAQ_YN =
-		'N'
+		'Y'
+		ORDER BY FAQ_ID DESC
 	</select>
 
 	<select id="getResultInquiry" resultType="Query">

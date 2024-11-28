@@ -49,4 +49,14 @@ public class NoticeServiceImpl implements NoticeService {
 	public int updateReadCount(int noticeId) {
 		return mapper.updateReadCount(noticeId);
 	}
+	
+	/**
+     * 공지사항 상위 5개를 가져오는 메서드
+     * @return 상위 5개의 공지사항 리스트
+     */
+    @Override
+    public List<Notice> getTopNotices() {
+        RowBounds bounds = new RowBounds(0, 5); // 상위 5개 공지사항 가져오기
+        return mapper.noticeList(bounds);
+    }
 }
