@@ -41,6 +41,9 @@ public interface MemberMapper {
 	 * @return
 	 */
 	Member adminLogin(int memberNo);
+
+	
+	void updateCategoryYn(int memberNo);
 	
 	
 }

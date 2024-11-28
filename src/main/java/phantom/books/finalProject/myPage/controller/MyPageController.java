@@ -226,7 +226,7 @@ public class MyPageController {
 	public ResponseEntity<?> saveCategory(@RequestBody List<Integer> category,
 			@SessionAttribute("loginMember") Member loginMember) {
 
-		service.saveCategory(loginMember.getMemberNo(), category);
+		service.saveCategory(loginMember.getMemberNo(), loginMember.getCategoryYn(), category);
 		return ResponseEntity.ok("Success");
 	}
 
@@ -235,7 +235,7 @@ public class MyPageController {
 	public ResponseEntity<?> savePreference(@RequestBody List<Integer> preference,
 			@SessionAttribute("loginMember") Member loginMember) {
 
-		service.savePreference(loginMember.getMemberNo(), preference);
+		service.savePreference(loginMember.getMemberNo(), loginMember.getCategoryYn(), preference);
 		return ResponseEntity.ok("Success");
 	}
 

@@ -6,9 +6,10 @@ document.addEventListener('DOMContentLoaded', function () {
     modalLogin.show();
   }
 });
+if (document.querySelector("#modalLogin form")) {
+const modalLoginForm = document.querySelector("#modalLogin form");
 
-
-document.querySelector("#modalLogin form").addEventListener("submit", function (event) {
+modalLoginForm.addEventListener("submit", function (event) {
   event.preventDefault(); // 기본 폼 제출 동작을 막음
 
   const memberId = document.querySelector("input[name='memberId']").value;
@@ -41,8 +42,13 @@ document.querySelector("#modalLogin form").addEventListener("submit", function (
         return;
       }
       modal.hide();
-      // 페이지 새로고침
-      window.location.reload(); // 로그인 상태에 따른 조건부 렌더링 반영
+      
+      // categoryYn 체크 후 팝업 또는 새로고침
+      if (data.categoryYn === 'N') {
+        showPreferencePopup();
+      } else {
+        window.location.reload(); // categoryYn이 'N'이 아닐 때만 새로고침
+      }
     })
     .catch(error => {
       alert(error.message);
@@ -50,3 +56,68 @@ document.querySelector("#modalLogin form").addEventListener("submit", function (
     });
 
 });
+}
+
+// 팝업 관련 함수들 추가
+function showPreferencePopup() {
+  const popupHtml = `
+    <div class="popup-overlay" id="preferencePopup">
+      <div class="popup-content">
+        <h2>취향 조사 안내</h2>
+        <p>고객님의 취향에 따른 도서 추천을 위한 취향 조사 페이지로 이동하시겠습니까?</p>
+        
+        <div class="checkbox-wrapper">
+          <input type="checkbox" id="dontShowAgain">
+          <label for="dontShowAgain">다시 보지 않기</label>
+        </div>
+
+        <div class="button-group">
+          <button onclick="handleConfirm()" class="btn btn-primary">네</button>
+          <button onclick="handleCancel()" class="btn btn-secondary">아니요</button>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  document.body.insertAdjacentHTML('beforeend', popupHtml);
+}
+
+async function handleConfirm() {
+  const dontShowAgain = document.getElementById('dontShowAgain').checked;
+  
+  if (dontShowAgain) {
+    await updateCategoryYn();
+  }
+  
+  window.location.href = '/myPage/preference';
+}
+
+async function handleCancel() {
+  const dontShowAgain = document.getElementById('dontShowAgain').checked;
+  
+  if (dontShowAgain) {
+    await updateCategoryYn();
+  }
+  
+  const popup = document.getElementById('preferencePopup');
+  popup.remove();
+  window.location.reload(); // 팝업 닫은 후 새로고침
+}
+
+async function updateCategoryYn() {
+  try {
+    const response = await fetch('/member/updateCategoryYn', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    
+    if (!response.ok) {
+      throw new Error('카테고리 업데이트 실패');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    alert('처리 중 오류가 발생했습니다.');
+  }
+}

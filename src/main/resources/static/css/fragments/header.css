@@ -157,3 +157,42 @@
     border-radius: 3px;
   }
 }
+
+/* 팝업 스타일 추가 */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1100; /* 모달보다 위에 표시되도록 */
+}
+
+.popup-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  text-align: center;
+}
+
+.checkbox-wrapper {
+  margin: 15px 0;
+  text-align: left;
+}
+
+.popup-content .button-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.popup-content button {
+  min-width: 80px;
+}
