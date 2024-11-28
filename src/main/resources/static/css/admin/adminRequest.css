@@ -137,4 +137,8 @@ html, body {
   max-width: 100%;
 }
 
-.popup-layer-close{ display: none;  }
+
+.hidden {
+  visibility: hidden; 
+  pointer-events: none;
+}

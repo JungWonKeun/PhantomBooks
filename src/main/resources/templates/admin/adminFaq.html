@@ -153,8 +153,8 @@
                 N
               </td>
               <td>
-                <button class="updateBtn">
-                  노출 상태 변경<input type="text" th:value="*{faqId}" class="updateId" hidden>
+                <button class="updateBtn" th:value="*{faqId}">
+                  노출 상태 변경
                 </button>
                 
               </td>
@@ -224,7 +224,10 @@
     </div>
     
   </section>
- 
+  <script th:inline="javaScript">
+    const faqList = /*[[${faqList}]]*/ "FAQ리스트";
+
+  </script>
   <script src="/js/admin/adminFaq.js"></script>
 </body>
 </html>
