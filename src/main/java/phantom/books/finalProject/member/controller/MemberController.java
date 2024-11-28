@@ -1,12 +1,14 @@
 package phantom.books.finalProject.member.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -80,22 +82,22 @@ public class MemberController {
 			return ResponseEntity.ok(loginMember);
 		}
 	}
-	
+
 	@PutMapping("/updateCategoryYn")
 	@ResponseBody
 	public ResponseEntity<String> updateCategoryYn(HttpSession session) {
-	    Member loginMember = (Member) session.getAttribute("loginMember");
-	    
-	    if (loginMember != null) {
-	        loginMember.setCategoryYn("Y");
-	        service.updateCategoryYn(loginMember.getMemberNo());
-	        session.setAttribute("loginMember", loginMember);
-	        return ResponseEntity.ok("success");
-	    }
-	    
-	    return ResponseEntity.badRequest().body("로그인 정보가 없습니다.");
+		Member loginMember = (Member) session.getAttribute("loginMember");
+
+		if (loginMember != null) {
+			loginMember.setCategoryYn("Y");
+			service.updateCategoryYn(loginMember.getMemberNo());
+			session.setAttribute("loginMember", loginMember);
+			return ResponseEntity.ok("success");
+		}
+
+		return ResponseEntity.badRequest().body("로그인 정보가 없습니다.");
 	}
-	
+
 	// 로그아웃 처리
 	@GetMapping("logout")
 	public String logout(SessionStatus status) {
@@ -225,6 +227,75 @@ public class MemberController {
 		} else {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("인증 코드가 일치하지 않습니다.");
 		}
+	}
+
+	/**
+	 * 아이디/비밀번호 찾기 페이지
+	 * 
+	 * @return
+	 */
+	@GetMapping("/findId")
+	public String findId() {
+		return "member/findId";
+	}
+
+	/**
+	 * 전화번호로 아이디 찾기
+	 * 
+	 * @param telNo
+	 * @return
+	 */
+	@PostMapping("/findId")
+	@ResponseBody // JSON 응답을 위해 필요
+	public ResponseEntity<Map<String, String>> findIdByTelNo(@RequestParam("telNo") String telNo) {
+		List<String> memberId = service.findIdByTelNo(telNo);
+		Map<String, String> response = new HashMap<>();
+		response.put("message", "회원님의 아이디는 " + memberId + " 입니다");
+		return ResponseEntity.ok(response);
+	}
+
+	/**
+	 * 아이디와 전화번호가 일치하는 회원 찾기
+	 * 
+	 * @param telNo
+	 * @param memberId
+	 * @return
+	 */
+	@PostMapping("/checkIdAndTel")
+	@ResponseBody // JSON 응답을 위해 필요
+	public ResponseEntity<Map<String, String>> checkIdAndTel(@RequestParam("verifiedTelNo") String telNo,
+			@RequestParam("memberId") String memberId) {
+
+		service.checkIdAndTel(telNo, memberId);
+
+		// 성공시 다음 단계로 진행하도록 응답
+		Map<String, String> response = new HashMap<>();
+		response.put("status", "success");
+		response.put("message", memberId + "회원님 새로운 비밀번호를 입력해주세요");
+		return ResponseEntity.ok(response);
+	}
+
+	/**
+	 * 비밀번호 변경
+	 * 
+	 * @param memberId
+	 * @param memberPw
+	 * @return
+	 */
+	@PostMapping("/changePw")
+	@ResponseBody
+	public ResponseEntity<Map<String, String>> changePw(@RequestParam("memberId") String memberId,
+			@RequestParam("memberPw") String memberPw) {
+
+		log.debug("memberId: {}", memberId);
+		log.debug("memberPw: {}", memberPw);
+
+		Map<String, String> response = new HashMap<>();
+		
+		service.updatePassword(memberId, memberPw);
+		response.put("status", "success");
+		response.put("message", memberId + "회원님 비밀번호 변경이 완료되었습니다.");
+		return ResponseEntity.ok(response);
 	}
 
 }

@@ -1,0 +1,158 @@
+.content-box {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 20px;
+  width: 100%; 
+  min-height: 100vh;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+/* 기본적으로 clear-btn 버튼 숨기기 */
+.clear-btn {
+  display: none;
+  position: absolute;
+  
+  top: 50%;
+  right: 35px;
+  transform: translateY(-50%);
+}
+
+/* 입력 필드의 오른쪽 여백을 늘려서 유효성 아이콘과 clear-btn이 겹치지 않도록 조정 */
+.form-control {
+  padding-right: 60px; /* 여유 있는 오른쪽 패딩 추가 */
+}
+
+
+div label {
+  margin-left: 3px; /* input 깨짐 방지 */
+}
+
+#submitBtn{
+  margin-bottom: 100px;
+}
+
+.button-section {
+  display: flex;
+  gap: 10px;
+  padding: 20px;
+  justify-content: center;
+}
+
+.button-section .btn {
+  padding: 10px 20px;
+  min-width: 150px;
+  transition: all 0.3s ease;
+}
+
+.button-section .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.btn.btn-primary {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.btn.btn-outline-secondary:hover {
+  background-color: #6c757d;
+  color: white;
+}
+
+/* 섹션 애니메이션 효과 */
+#checkTelNoSection, #idResultSection, #findPwSection {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-in-out, opacity 0.3s ease-in-out;
+  opacity: 0;
+}
+
+#checkTelNoSection.show, #idResultSection.show, #findPwSection.show {
+  max-height: 1000px; /* 충분히 큰 값으로 설정 */
+  opacity: 1;
+}
+
+/* 버튼 스타일 */
+.button-section .btn {
+  padding: 10px 20px;
+  min-width: 150px;
+  transition: all 0.3s ease;
+}
+
+.button-section .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* 브레드크럼 스타일 수정 */
+.progress-breadcrumb {
+  margin: 20px 0;
+  width: 100%;
+  padding-left: 20px;
+}
+
+.progress-breadcrumb .breadcrumb {
+  display: flex;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  background: none;
+  justify-content: flex-start;
+}
+
+.progress-breadcrumb .breadcrumb-item {
+  position: relative;
+  padding: 10px 25px 10px 35px;
+  background: #f8f9fa;
+  color: #6c757d;
+  margin-right: 20px;
+  clip-path: polygon(0% 0%, 90% 0%, 100% 50%, 90% 100%, 0% 100%, 10% 50%);
+}
+
+.progress-breadcrumb .breadcrumb-item.active {
+  background: #0d6efd;
+  color: white;
+}
+
+.progress-breadcrumb .breadcrumb-item.completed {
+  background: #198754;
+  color: white;
+}
+
+.progress-breadcrumb .breadcrumb-item:first-child {
+  padding-left: 25px;
+  clip-path: polygon(0% 0%, 90% 0%, 100% 50%, 90% 100%, 0% 100%);
+}
+
+.progress-breadcrumb .breadcrumb-item:last-child {
+  margin-right: 0;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 10% 50%);
+}
+
+/* SVG 아이콘 스타일 */
+.progress-breadcrumb .bi {
+  margin-right: 8px;
+  vertical-align: middle;
+  position: relative;
+  z-index: 1;
+}
+
+/* 뒤로가기 버튼 스타일 추가 */
+#backBtn {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  display: none;
+  z-index: 1000;
+}
+
+#backBtn i {
+  margin-right: 5px;
+}
+
+/* stepId와 stepPassword는 초기에 숨김 처리 */
+#stepId, #stepPassword {
+  display: none;
+}

@@ -1,5 +1,7 @@
 package phantom.books.finalProject.member.service;
 
+import java.util.List;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -107,5 +109,32 @@ public class MemberServiceImpl implements MemberService {
 	public int idCheck(String memberId) {
 		return mapper.idCheck(memberId);
 	}
+	
+	// 전화번호로 아이디 찾기
+	@Override
+	public List<String> findIdByTelNo(String telNo) {
+		return mapper.findIdByTelNo(telNo);
+	}
 
+	// 아이디와 전화번호가 일치하는 회원 확인
+	@Override
+	public void checkIdAndTel(String telNo, String memberId) {
+		int result = mapper.checkIdAndTel(telNo, memberId);
+		if(result == 0) {
+			throw new RuntimeException("아이디와 전화번호가 일치하는 회원 정보가 없습니다.");
+		}
+	}
+	
+	
+	// 비밀번호 변경
+	@Override
+	public void updatePassword(String memberId, String memberPw) {
+		String encPw = encorder.encode(memberPw);
+		log.debug("implMemberId : {}", memberId);
+		log.debug("implEncPw : {}", encPw);
+		int result = mapper.updatePassword(memberId, encPw);
+		if(result == 0) {
+			throw new RuntimeException("비밀번호 변경 실패");
+		}
+	}
 }
