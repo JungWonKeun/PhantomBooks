@@ -1,0 +1,302 @@
+.mypage-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.welcome-title {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    color: #2c3e50;
+    font-weight: 700;
+}
+
+.mypage-container > p {
+    color: #666;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+}
+
+.card {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    padding: 1.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.card h2 {
+    font-size: 1.4rem;
+    color: #2c3e50;
+    margin-bottom: 1.2rem;
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 0.8rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.card h2 i {
+    color: #3498db;
+    font-size: 1.2rem;
+}
+
+.card-content {
+    min-height: 180px;
+    position: relative;
+}
+
+/* 내 정보 섹션 스타일 */
+.user-summary {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 10px;
+}
+
+.user-summary i {
+    font-size: 1.8rem;
+    color: #3498db;
+}
+
+.user-summary span {
+    font-size: 1.2rem;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+}
+
+.btn {
+    padding: 0.7rem 1.2rem;
+    background: #f1f3f5;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #495057;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn:hover {
+    background: #3498db;
+    color: #fff;
+}
+
+/* 요약 리스트 스타일 */
+.summary-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.summary-item {
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    transition: background 0.2s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.summary-item:hover {
+    background: #e9ecef;
+}
+
+.empty-message {
+    text-align: center;
+    color: #868e96;
+    padding: 2rem 0;
+    font-size: 0.95rem;
+}
+
+.more-btn {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    text-decoration: none;
+    color: #3498db;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: color 0.2s ease;
+}
+
+.more-btn:hover {
+    color: #2980b9;
+}
+
+/* 바로가기 링크 스타일 */
+.quick-links .card-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+}
+
+.quick-link {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #495057;
+    transition: all 0.2s ease;
+}
+
+.quick-link i {
+    font-size: 1.2rem;
+    color: #3498db;
+}
+
+.quick-link:hover {
+    background: #3498db;
+    color: #fff;
+}
+
+.quick-link:hover i {
+    color: #fff;
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+    .mypage-container {
+        padding: 1rem;
+    }
+    
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .welcome-title {
+        font-size: 2rem;
+    }
+}
+
+/* 헤더 영역 스타일 */
+.mypage-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.title-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.user-info i {
+    font-size: 1.2rem;
+    color: #3498db;
+}
+
+.user-info span {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+.user-actions {
+    display: flex;
+    gap: 0.8rem;
+    margin-left: 1rem;
+}
+
+.header-btn {
+    padding: 0.5rem 1rem;
+    background: #f1f3f5;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #495057;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.header-btn:hover {
+    background: #3498db;
+    color: #fff;
+}
+
+/* 선호 취향 섹션 스타일 */
+.preferences .card-content {
+    padding: 0.5rem 0;
+}
+
+.preference-category {
+    margin-bottom: 1.5rem;
+}
+
+.preference-category h3 {
+    font-size: 1.1rem;
+    color: #495057;
+    margin-bottom: 0.8rem;
+}
+
+.tag-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+}
+
+.preference-tag {
+    padding: 0.5rem 1rem;
+    background: #e9ecef;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    color: #495057;
+    transition: all 0.2s ease;
+}
+
+.preference-tag:hover {
+    background: #3498db;
+    color: #fff;
+}
+
+/* 반응형 스타일 추가 */
+@media (max-width: 768px) {
+    .title-area {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .user-info {
+        flex-wrap: wrap;
+    }
+
+    .user-actions {
+        margin-left: 0;
+        margin-top: 0.5rem;
+    }
+}

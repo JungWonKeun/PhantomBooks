@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>위시리스트 | Phantom Books</title>
+    <link rel="stylesheet" th:href="@{/css/myPage/myPageCommon.css}">
+    <link rel="stylesheet" th:href="@{/css/myPage/myWishList.css}">
+</head>
+<body>
+    <header th:replace="~{common/common}"></header>
+
+    <main>
+        <section class="content-box">
+            <div th:replace="~{myPage/sidebar :: sidebar}"></div>
+
+            <h2>위시리스트</h2>
+            <div class="wishlist-container">
+                <!-- 실제 위시리스트 아이템 -->
+                <div th:each="wish : ${wishList}" class="wishlist-item">
+                    <div class="book-image">
+                        <img th:src="${wish.book.coverImage}" alt="책 표지">
+                    </div>
+                    <div class="book-info">
+                        <h3 th:text="${wish.book.title}">책 제목</h3>
+                        <p th:text="${wish.book.author}">저자</p>
+                        <p th:text="${#numbers.formatDecimal(wish.book.price, 0, 'COMMA', 0, 'POINT')} + '원'">가격</p>
+                    </div>
+                    <div class="item-actions">
+                        <button class="btn-cart" th:data-book-id="${wish.book.id}">장바구니 담기</button>
+                        <button class="btn-remove" th:data-wish-id="${wish.id}">삭제</button>
+                    </div>
+                </div>
+
+                <!-- 테스트용 위시리스트 아이템 -->
+                <div class="wishlist-item">
+                    <div class="book-image">
+                        <img src="https://via.placeholder.com/150x200" alt="책 표지">
+                    </div>
+                    <div class="book-info">
+                        <h3>테스트 책 제목</h3>
+                        <p>테스트 저자</p>
+                        <p>15,000원</p>
+                    </div>
+                    <div class="item-actions">
+                        <button class="btn-cart" data-book-id="test1">장바구니 담기</button>
+                        <button class="btn-remove" data-wish-id="test1">삭제</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 푸터 -->
+    <div th:replace="~{common/footer :: footer}"></div>
+
+    <script src="/js/myPage/myWishList.js"></script>
+</body>
+</html>

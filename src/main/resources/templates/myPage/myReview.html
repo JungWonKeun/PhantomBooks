@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>내 리뷰 | Phantom Books</title>
+    <link rel="stylesheet" th:href="@{/css/myPage/myPageCommon.css}">
+    <link rel="stylesheet" th:href="@{/css/myPage/myReview.css}">
+</head>
+<body>
+    <header th:replace="~{common/common}"></header>
+
+    <main>
+        <section class="content-box">
+            <div th:replace="~{myPage/sidebar :: sidebar}"></div>
+
+            <h2>내 리뷰</h2>
+            <div class="review-container">
+                <!-- 실제 리뷰 아이템 -->
+                <div th:each="review : ${reviews}" class="review-item">
+                    <div class="book-info">
+                        <img th:src="${review.book.coverImage}" alt="책 표지">
+                        <div>
+                            <h3 th:text="${review.book.title}">책 제목</h3>
+                            <p th:text="${review.book.author}">저자</p>
+                        </div>
+                    </div>
+                    <div class="review-content">
+                        <div class="rating" th:data-rating="${review.rating}">
+                            ★★★★★
+                        </div>
+                        <p th:text="${review.content}">리뷰 내용</p>
+                        <span class="review-date" th:text="${#temporals.format(review.createdAt, 'yyyy-MM-dd')}">작성일</span>
+                    </div>
+                    <div class="review-actions">
+                        <button class="btn-edit" th:data-review-id="${review.id}">수정</button>
+                        <button class="btn-delete" th:data-review-id="${review.id}">삭제</button>
+                    </div>
+                </div>
+
+                <!-- 테스트용 리뷰 아이템 -->
+                <div class="review-item">
+                    <div class="book-info">
+                        <img src="https://via.placeholder.com/150x200" alt="책 표지">
+                        <div>
+                            <h3>해리포터와 마법사의 돌</h3>
+                            <p>J.K. 롤링</p>
+                        </div>
+                    </div>
+                    <div class="review-content">
+                        <div class="rating" data-rating="4">
+                            ★★★★☆
+                        </div>
+                        <p>정말 재미있게 읽었습니다. 마법 세계관이 너무 멋져요!</p>
+                        <span class="review-date">2024-03-20</span>
+                    </div>
+                    <div class="review-actions">
+                        <button class="btn-edit" data-review-id="test1">수정</button>
+                        <button class="btn-delete" data-review-id="test1">삭제</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 푸터 -->
+    <div th:replace="~{common/footer :: footer}"></div>
+
+    <script src="/js/myPage/myReview.js"></script>
+</body>
+</html>
