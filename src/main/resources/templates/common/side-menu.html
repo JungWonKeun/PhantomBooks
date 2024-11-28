@@ -1,21 +1,22 @@
   <script src="https://kit.fontawesome.com/5eb8a8a2db.js" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/890489b5e8.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="/css/fragments/side-menu.css">
   <div th:fragment="side-menu">
     <div class="sideBar">
       <h3 class="menu">
-        <i class="fa-solid fa-question-circle"></i>&nbsp;&nbsp;<a href="/customer/qna">자주 묻는 질문(FAQ)</a>
+        <a href="/customer/qna" style="text-decoration: none; color:#333;"><i class="fa-solid fa-question-circle"></i>&nbsp;&nbsp;&nbsp;&nbsp;자주 묻는 질문(FAQ)</a>
       </h3>
   
-      <h3 class="menu" onclick="toggleDropdown('submenu1')">
-        <i class="fa-solid fa-comments"></i>&nbsp;&nbsp;1:1 문의
+      <h3 class="menu" onclick="toggleDropdown('submenu')">
+        <i class="fa-solid fa-comments"></i>&nbsp;1:1 문의
       </h3>
-        <ul class="submenu active" id="submenu1">
-          <li><a href="/customer/query" th:if= "${session.loginMember}">&nbsp;&nbsp;&nbsp;-&nbsp;1:1 문의하기</a></li>
-          <li><a href="/customer/inquiry" th:if= "${session.loginMember}">&nbsp;&nbsp;&nbsp;-&nbsp;1:1 문의내역</a></li>
+        <ul class="submenu active" id="submenu">
+          <li><a href="/customer/query" th:if= "${session.loginMember}">-&nbsp;&nbsp;&nbsp;1:1 문의하기</a></li>
+          <li><a href="/customer/inquiry" th:if= "${session.loginMember}">-&nbsp;&nbsp;&nbsp;1:1 문의내역</a></li>
         </ul>
   
       <h3 class="menu">
-        <a href="/customer/notice"><i class="fa-solid fa-bullhorn"></i>&nbsp;&nbsp;공지사항</a>
+        <a href="/customer/notice" style="text-decoration: none; color:#333;"><i class="fa-solid fa-bullhorn"></i>&nbsp;&nbsp;&nbsp;&nbsp;공지사항</a>
       </h3>
       
       <script src="/js/fragments/side-menu.js"></script>

@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import phantom.books.finalProject.customer.dto.FAQ;
+import phantom.books.finalProject.customer.dto.Notice;
 import phantom.books.finalProject.customer.service.CustomerService;
+import phantom.books.finalProject.customer.service.NoticeService;
 import phantom.books.finalProject.member.dto.Member;
 import phantom.books.finalProject.query.dto.Query;
 
@@ -31,7 +33,7 @@ import phantom.books.finalProject.query.dto.Query;
 public class CustomerController {
 
 	private final CustomerService customerService;
-
+	private final NoticeService noticeService;
 	/**
 	 * 고객 지원 페이지로 이동
 	 * 
@@ -40,8 +42,22 @@ public class CustomerController {
 	 */
 	@GetMapping("/support")
 	public String customerSupportPage(Model model) {
-		return "customer/support";
+		
+		 // FAQ 데이터 조회 후 상위 5개만 전달
+	    List<FAQ> faqList = customerService.getFaqList();
+	    
+	    // customer 페이지에 FaqList 최대 n개만 보이게 설정 limit()숫자 변경으로 개수 조정 가능~
+	    List<FAQ> limitedFaqList = faqList.stream().limit(5).toList();
+	    model.addAttribute("faqList", limitedFaqList);
+	    
+	    List<Notice> noticeList = noticeService.getTopNotices();
+	    model.addAttribute("noticeList", noticeList);
+	    
+	    return "customer/support";
+	    
+		
 	}
+	
 	
 	/**
 	 * 1:1 문의 작성 페이지로 이동
