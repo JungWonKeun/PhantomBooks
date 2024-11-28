@@ -7,7 +7,10 @@ import java.util.Map;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import lombok.RequiredArgsConstructor;
@@ -44,6 +47,14 @@ public class AdminNewBookController {
 		
 		
 		return "admin/adminNewBook";
+	}
+	
+	@PostMapping("")
+	@ResponseBody
+	public int insertRequest(
+			@RequestParam("bookNo") int bookNo) {
+		
+		return service.insertRequest(bookNo);
 	}
 	
 }
