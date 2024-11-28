@@ -26,33 +26,23 @@
 }
 
 .logo img {
-  max-width: 150px;
-  max-height: 150px;
+  max-width: 250px;
+  max-height: 250px;
 }
 
-/* 카테고리 */
-.categories {
-  display: flex;
-  gap: 20px;
-  position: absolute;
-  top: 40%; /* 헤더 중앙에 배치 */
-  left: 50%; /* 화면 중앙 */
-  transform: translate(-50%, -50%);
-  flex-wrap: nowrap; /* 항상 한 줄 유지 */
-  justify-content: space-between; /* 간격 유지 */
-}
-
-.categories a {
+.logoTitle{
+  font-family: 'DeltaUniverse-Regular';
+  font-size: 60px;
+  color: rgb(29,30,57);
   text-decoration: none;
-  color: #343a40;
-  font-weight: bold;
-  font-size: 16px;
-  transition: color 0.3s;
+  font-weight:900;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-.categories a:hover {
-  color: #007bff;
-}
+
 
 /* 검색 바 */
 .search-bar {
@@ -60,7 +50,7 @@
   align-items: center;
   gap: 10px;
   position: absolute;
-  top: 60%; /* 카테고리 아래 */
+  top: 80%; /* 카테고리 아래 */
   left: 50%;
   transform: translate(-50%, -50%);
   flex-wrap: nowrap; /* 항상 한 줄 유지 */
@@ -111,7 +101,7 @@
 }
 
 /* 반응형 처리 */
-@media screen and (max-width: 1290px) {
+@media screen and (max-width: 1600px) {
   .header-container {
     flex-direction: column;
     align-items: center;
@@ -122,6 +112,18 @@
     position: static;
     margin-bottom: 20px;
     transform: none;
+  }
+
+  .logoImg{
+    margin-top: 40% !important;
+    width: 130px !important;
+    height: 130px !important;
+  }
+
+  .logoTitle{
+    font-size: 40px;
+    margin-top: 20px;
+    padding-bottom: 50px;
   }
 
   .categories {
