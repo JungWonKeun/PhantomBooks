@@ -29,7 +29,7 @@ public class AdminNewBookServiceImpl implements AdminNewBookService {
 
 		int countNewBook = mapper.countNewBook();
 		
-		Pagination pagination = new Pagination(1, countNewBook, 10, 5);
+		Pagination pagination = new Pagination(1, countNewBook, 20, 5);
 		
 		int limit = pagination.getLimit();
 		int offset = (1-1) * limit;

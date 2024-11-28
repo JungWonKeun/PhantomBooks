@@ -22,7 +22,6 @@ public class Request {
   private String bookTalt;        // 옮긴이
   private String bookPrice;       // 가격
   private int bookPageCount;      // 페이지 수
-  private char bookYn;            // 책 여부
   private String bookDate;        // 출간일
   private String insertDate;      // 등록일자
 
@@ -30,8 +29,17 @@ public class Request {
   private int currentCount;				// 책 개수
   private int basicCount; 				// 기본 책 수량
   
+	/* 발주요청 테이블 정보*/
   private int requestNo;					// 발주요청 번호
   private int requestCount;				// 발주요청 수량
   private String requestPrice;		// 발주요청 가격
   private String requestDate; 		// 발주요청일
+  
+	/* 출판사 정보 */
+  private String Email;    // 출판사 이메일
+  private String tel;				// 출판사 전화번호
+  
+  // 신간 등록 : request DTO로 받아와서
+  // 						 신규 책 등록(newBookRequest)에 저장
+  //						 등록 버튼 클릭 시 book 테이블 저장
 }

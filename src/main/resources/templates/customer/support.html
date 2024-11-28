@@ -6,40 +6,120 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>고객센터</title>
   <link rel="stylesheet" href="/css/customer/support.css">
+  <script src="https://kit.fontawesome.com/890489b5e8.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
   <div th:replace="~{common/common}"></div>
 
-  <div th:replace= "~{common/side-menu}"></div>
   <main class="supportContainer">
-    <h1>고객센터</h1>
-    <section>
-      <h2>자주 묻는 질문</h2>
-      <input type="text" id="search-bar" placeholder="질문을 검색하세요.">
-      <button onclick="searchFAQ()">검색</button>
-      <ul id="faq-list">
-        <!-- 자주 묻는 질문이 JS로 로드됨 -->
-      </ul>
-    </section>
-    <hr>
-    <section>
-      <h2>1:1 문의</h2>
-      <button onclick="location.href='/customer/query'">문의하기</button>
-      <p>문의 내역 확인 및 진행 상태를 조회할 수 있습니다.</p>
-    </section>
-    <hr>
-    <section>
-      <h2>공지사항</h2>
-      <ul id="notice-list">
-        <!-- 공지사항이 JS로 로드됨 -->
-      </ul>
-    </section>
+
+    <div th:replace="~{common/side-menu}"></div>
+
+    <div class="mainContent">
+      <h2 class="title">고객센터</h2>
+
+      <div class="tabs">
+        <button class="tab active" onclick="showTab('faq')">FAQ</button>
+        <button class="tab" onclick="showTab('inquiry')">1:1 문의</button>
+        <button class="tab" onclick="showTab('notice')">공지사항</button>
+      </div>
+
+      <!-- FAQ -->
+      <div id="faq" class="tabContent">
+        <section>
+          <h4 class="sectionTitle">
+            자주 묻는 질문
+            <a href="/customer/qna" class="more-button">
+              + 더보기
+            </a>
+          </h4>
+
+
+
+          <section>
+            <div class="faq-list" th:if="${faqList}">
+              <div th:each="faq, iterStat : ${faqList}" class="faq-item"
+                th:onclick="|toggleAnswer('answer-' + ${iterStat.index})|">
+                <h3 class="faq-title" th:text="${faq.title}">질문</h3>
+                <div th:id="'answer-' + ${iterStat.index}" class="faq-content" style="display: none;">
+                  <p th:text="${faq.content}">답변</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- FAQ가 없는 경우 -->
+            <div th:if="${#lists.isEmpty(faqList)}" class="no-faq">
+              <p>현재 등록된 FAQ가 없습니다.</p>
+            </div>
+          </section>
+        </section>
+      </div>
+
+
+      <!-- 1:1 문의 -->
+      <div id="inquiry" class="tabContent hidden">
+        <section>
+          <h4 class="sectionTitle">1:1 문의</h4>
+          <div class="buttonGroup">
+            <button class="btn" onclick="location.href='/customer/query'"> <i class="fa-regular fa-comments"></i>
+              문의하기</button>
+            <button class="btn" onclick="location.href='/customer/inquiry'"> <i class="fa-regular fa-file-lines"></i> 내
+              문의 내역</button>
+          </div>
+          <p>문의 내역 확인 및 진행 상태를 조회할 수 있습니다.</p>
+
+          <div class="contactRow">
+            <div class="contactInfo">
+              <h5 class="contactTitle">전화 상담</h5>
+              <p>팬텀북스 <strong>010-8795-9134</strong> | <strong>1541-1688</strong></p>
+              <p>평일 09:00~18:00 (주말 및 공휴일 휴무)</p>
+              <p>점심 12:00~13:00 (팬텀북스 전화상담만 가능)</p>
+            </div>
+
+            <div class="contactInfo">
+              <h5 class="contactTitle">방문 상담</h5>
+              <p>평일 09:00~18:00 (주말 및 공휴일 휴무)</p>
+              <p>서울 중구 남대문로 120 대일빌딩 2층, 3층 (남대문로1가 18)</p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+
+      <!-- 공지사항 -->
+      <div id="notice" class="tabContent hidden">
+        <section>
+          <h4 class="sectionTitle">
+            공지사항
+            <a href="/customer/notice" class="more-button">
+              + 더보기
+            </a>
+          </h4>
+          <ul id="notice-list" class="list" th:if="${noticeList}">
+            <li th:each="notice : ${noticeList}">
+              <a th:href="@{/customer/noticeDetail/{id}(id=${notice.noticeId})}" th:text="${notice.title}"
+                class="notice-title">
+                공지사항 제목
+              </a>
+              <span th:text="${notice.createDate}" class="notice-date"></span>
+            </li>
+          </ul>
+
+          <!-- 공지사항이 없는 경우 -->
+          <div th:if="${#lists.isEmpty(noticeList)}" class="no-notice">
+            <p>현재 등록된 공지사항이 없습니다.</p>
+          </div>
+        </section>
+      </div>
+
+    </div>
   </main>
 
-  <!-- Footer Fragment Include -->
+  <!-- 공통 푸터 -->
   <div th:replace="~{common/footer}"></div>
 
+  <!-- JavaScript -->
   <script src="/js/customer/support.js"></script>
 </body>
 

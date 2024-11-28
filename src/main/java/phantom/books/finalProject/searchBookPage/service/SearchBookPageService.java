@@ -3,6 +3,7 @@ package phantom.books.finalProject.searchBookPage.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import phantom.books.finalProject.searchBookPage.dto.Book;
@@ -34,7 +35,7 @@ public interface SearchBookPageService {
 
 
 	// 옵션이랑 쿼리 데이터를 이용한 검색
-	Map<String, Object> searchBooks(String searchTitle, int[] categories, int[] preferences, int cp);
+	Map<String, Object> searchBooks(String searchTitle, int[] categories, int[] preferences, int cp, String sortOption);
 
 
     // 특정 책에 대한 리뷰 리스트 가져오기 (페이지네이션 포함)
@@ -46,6 +47,10 @@ public interface SearchBookPageService {
 	boolean writeReview(int bookNo, String title, String content, double score, int memberNo, MultipartFile file);
 
 	int deleteReview(int reviewNo);
+
+	ResponseEntity<List<Integer>> myCategoryBringingIn(int memberNo);
+
+	ResponseEntity<List<Integer>> myPreferenceBringingIn(int memberNo);
 
 	
 

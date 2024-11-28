@@ -1,18 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
+  
   // DOM 요소 초기화
   const inquiryTableBody = document.getElementById("inquiryTableBody");
   const emptyMessage = document.getElementById("emptyMessage");
   const searchButton = document.getElementById("searchButton");
   const inquiryButton = document.getElementById("inquiryButton");
   const tabs = document.querySelectorAll(".inquiry-tabs .tab");
-  const paginationContainer = document.querySelector(".pagination");
   const term = document.getElementById("sort-dropdown");
   let status = "-1"; // 초기 상태
   let startDate = "";
   let endDate = "";
-
-
-
 
   // 기본 조회 기간 설정
   const selectStartDate = document.getElementById('startDate');
@@ -35,15 +32,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   // 선택한 기간 변경 시 이벤트 처리
-
   sortDropdown.addEventListener('change', () => {
 
     let time = 0;
-    if (sortDropdown.value == '7'){ 
+    if (sortDropdown.value == '7') {
       time = new Date().setDate(new Date().getDate() - 7);
-    }else{
+    } else {
       time = new Date(new Date().setMonth(new Date().getMonth() - Number(sortDropdown.value)));
-    } 
+    }
     selectStartDate.value = new Date(time).toISOString().split('T')[0];
 
   });
@@ -51,35 +47,25 @@ document.addEventListener("DOMContentLoaded", () => {
   // 문의 유형 선택 시 이벤트 처리
   const inquiryProjectDropdown = document.getElementById("inquiryProject-dropdown");
   inquiryProjectDropdown.addEventListener("change", () => {
-    const selectedValue = inquiryProjectDropdown.value;
-    const statusMapping = {
-      all : "-1", // 전체 보기는 기본값
-      order: "주문관련",
-      delivery: "배송관련",
-      cancelOrRefund: "취소/환불",
-      etc: "기타문의"
-    };
-    const status = statusMapping[selectedValue] || "-1"; // 매핑된 값이 없으면 기본값
-    if (status === "-1" && selectedValue !== "all") {
-      alert("유효한 문의 유형을 선택해주세요.");
-      return;
-    }
-    console.log(`선택된 유형: ${status}`);
+    const project = inquiryProjectDropdown.value;
+    console.log(`선택된 유형: ${project}`);
 
     // 서버로 데이터 요청 (fetchInquiries 함수 호출)
-    fetchInquiries(status, startDate, endDate, 1);
+    fetchInquiries(status, startDate, endDate, 1, project);
   });
 
-  
+
   // 데이터 요청 함수
-  function fetchInquiries(status, startDate, endDate, cp) {
+  function fetchInquiries(status, startDate, endDate, cp, project) {
     if (!status || !startDate || !endDate) {
-      console.error("Invalid parameters for fetchInquiries:", { status, startDate, endDate });
+      console.error("Invalid parameters for fetchInquiries:", { status, startDate, endDate, project });
       alert("올바른 조회 조건을 설정해주세요.");
       return;
     }
 
-    const apiUrl = `/customer/inquiry/queryList?status=${status}&startDate=${startDate}&endDate=${endDate}&cp=${cp}`;
+    if(project === undefined) project = document.querySelector("#inquiryProject-dropdown").value;
+
+    const apiUrl = `/customer/inquiry/queryList?status=${status}&startDate=${startDate}&endDate=${endDate}&cp=${cp}&project=${project}`;
     console.log(`Fetching data from: ${apiUrl}`); // 요청 URL 확인
 
     fetch(apiUrl)
@@ -116,10 +102,22 @@ document.addEventListener("DOMContentLoaded", () => {
         const row = document.createElement("tr");
         row.innerHTML = `
           <td>${inquiry.queryNo}</td>
+          <td>${inquiry.querySubject}</td>
           <td><a href="/customer/inquiryDetail/${inquiry.queryNo}">${inquiry.queryTitle}</a></td>
           <td>${inquiry.queryWriteDate}</td>
           <td>${getInquiryStatus(inquiry.status)}</td>
         `;
+        if (inquiry.querySubject == 2) {
+          row.querySelector("td:nth-child(2)").textContent = "주문관련";
+      } else if (inquiry.querySubject == 3) {
+          row.querySelector("td:nth-child(2)").textContent = "배송관련";
+      } else if (inquiry.querySubject == 4) {
+          row.querySelector("td:nth-child(2)").textContent = "취소/환불";
+      } else if (inquiry.querySubject == 5) {
+          row.querySelector("td:nth-child(2)").textContent = "기타";
+      } else if (inquiry.querySubject == 1) {
+          row.querySelector("td:nth-child(2)").textContent = "전체";
+      };
         inquiryTableBody.appendChild(row);
       });
     }
