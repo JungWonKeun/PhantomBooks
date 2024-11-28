@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import phantom.books.finalProject.main.mapper.MainMapper;
+import phantom.books.finalProject.order.dto.OrderBookDto;
 import phantom.books.finalProject.searchBookPage.dto.Book;
 
 @Service
@@ -24,5 +25,9 @@ public class MainServiceImpl implements MainService {
 	@Override
 	public List<Book> getDailyRecommendedBooks() {
 		return mapper.getDailyRecommendedBooks();
+	}
+	@Override
+	public List<OrderBookDto> getDailyRecommendedList() {
+		return mapper.getDailyRecommendedList();
 	}
 }
