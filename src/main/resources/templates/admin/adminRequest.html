@@ -77,7 +77,7 @@
           <ul class="submenu">
             <li><a href="/admin/manager">&nbsp;&nbsp;&nbsp;-&nbsp;재고 관리</a></li>
             <li><a href="/admin/request">&nbsp;&nbsp;&nbsp;-&nbsp;발주 요청</a></li>
-            <li><a href="/admin/newBook">&nbsp;&nbsp;&nbsp;-&nbsp;새 책 등록</a></li>
+            <li><a href="/admin/newBook">&nbsp;&nbsp;&nbsp;-&nbsp;발주 요청내역</a></li>
           </ul>
         </h3>
         <h3 class="menu">
@@ -165,10 +165,69 @@
 
         </table>
       </div>
-     
+      
+      <button id="newRequestBtn">신간 발주 요청</button>
+
+      <div id="newBook" class="hidden popup-layer-close">
+        <div>
+          <label for="bookTitle"> 책 제목 : </label>
+          <input type="text" id="bookTitle" name="bookTitle">
+        </div>
+        <div>
+          <label for="bookContent"> 책 내용 : </label>
+          <input type="text" id="bookContent" name="bookContent">
+        </div>
+        <div>
+          <label for="bookCover"> 책 이미지 : </label>
+          <input type="text" id="bookCover" name="bookCover">
+        </div>
+        <div>
+          <label for="bookWriter"> 지은이 : </label>
+          <input type="text" id="bookWriter" name="bookWriter">
+        </div>
+        <div>
+          <label for="companyName"> 출판사 : </label>
+          <input type="text" id="companyName" name="companyName">
+        </div>
+        <div>
+          <label for="email"> 담당자 이메일 : </label>
+          <input type="text" id="email" name="email">
+        </div>
+        <div>
+          <label for="bookTalt"> 옮긴이 : </label>
+          <input type="text" id="bookTalt" name="bookTalt">
+        </div>
+        <div>
+          <label for="bookPrice"> 가격 : </label>
+          <input type="text" id="bookPrice" name="bookPrice">
+        </div>
+        <div>
+          <label for="bookPageCount"> 페이지 수 : </label>
+          <input type="text" id="bookPageCount" name="bookPageCount">
+        </div>
+        <div>
+          <label for="bookDate"> 출간일 : </label>
+          <input type="text" id="bookDate" name="bookDate">
+        </div>
+        <div>
+          <label for="requestCount"> 요청 수량 : </label>
+          <input type="text" id="requestCount" name="requestCount">
+        </div>
+        <div>
+          <label for="requestPrice"> 요청가격 : </label>
+          <input type="text" id="requestPrice" name="requestPrice">
+        </div>
+
+        <button id="requestBtn">발주요청</button>
+        <button id="back">취소</button>
+      </div>
 
     </div>
+
+
+    
   </section>
+
 
   <script src="/js/admin/adminRequest.js"></script>
 </body>

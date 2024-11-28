@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.RequiredArgsConstructor;
+import phantom.books.finalProject.admin.dto.Request;
 import phantom.books.finalProject.admin.service.AdminRequestService;
 import phantom.books.finalProject.common.util.RedisUtil;
 import phantom.books.finalProject.searchBookPage.dto.Book;
@@ -34,6 +35,13 @@ public class AdminRequestController {
 			) {
 		
 		return service.requestEmail("request", book);
+	}
+	
+	@ResponseBody
+	@PostMapping("newBook")
+	public int newBooRequest(
+			@RequestBody Request request) {
+		return service.newBookRequest("request", request);
 	}
 	
 }

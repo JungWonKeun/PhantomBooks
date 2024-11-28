@@ -17,4 +17,40 @@
 	</insert>
 	
 	
+	
+	
+		<insert id="insertNewBookList" 
+			parameterType="Request" 
+			useGeneratedKeys="true">
+		
+    INSERT INTO BOOK_REQUEST
+    VALUES (
+    		(SELECT NVL(COUNT(REQUEST_NO), 0)+1 AS BOOK_NO FROM BOOK_REQUEST),
+        (SELECT NVL(COUNT(BOOK_NO), 0) + 1 AS BOOK_NO FROM BOOK),
+        #{currentCount},
+        #{bookPrice},
+        DEFAULT
+    )
+	</insert>
+	
+	<insert id="insertNewBookRequest"
+					parameterType="Request"
+					useGeneratedKeys="true">
+		INSERT INTO NEW_BOOK_REQUEST
+		VALUES(
+				(SELECT NVL(COUNT(BOOK_NO), 0) + 1 AS BOOK_NO FROM BOOK),
+        #{bookTitle},
+        #{bookContent},
+        #{bookCover},
+        TO_DATE(#{bookDate}, 'YYYY-MM-DD'),
+        #{bookWriter},
+        #{companyName},
+        #{bookTalt},
+        #{bookPrice},
+        #{bookPageCount},
+        'N'
+		)
+	</insert>
+	
+	
 </mapper>
