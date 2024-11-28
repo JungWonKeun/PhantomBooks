@@ -63,6 +63,11 @@ public class MemberServiceImpl implements MemberService {
     return loginMember;
 	}
 	
+	@Override
+	public void updateCategoryYn(int memberNo) {
+		mapper.updateCategoryYn(memberNo);
+	}
+	
 	/** 회원가입
 	 * @param inputMember
 	 * @return 

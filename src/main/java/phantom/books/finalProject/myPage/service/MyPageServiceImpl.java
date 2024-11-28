@@ -38,20 +38,27 @@ public class MyPageServiceImpl implements MyPageService {
 	}
 
 	@Override
-	public void saveCategory(int memberNo, List<Integer> categoryNo) {
+	public void saveCategory(int memberNo, String categoryYn, List<Integer> categoryNo) {
 		mapper.deleteCategoryByMemberNo(memberNo);
-
+		
 		for (int category : categoryNo) {
 			mapper.insertCategory(memberNo, category);
+		}
+		if (categoryYn.equals("N")) {
+			mapper.updateCategoryYn(memberNo);
 		}
 	}
 
 	@Override
-	public void savePreference(int memberNo, List<Integer> preferenceNo) {
+	public void savePreference(int memberNo, String categoryYn,List<Integer> preferenceNo) {
 		mapper.deletePreferenceByMemberNo(memberNo);
 
 		for (int preference : preferenceNo) {
-			mapper.insertPreference(memberNo, preference);
+			mapper.insertPreference(memberNo, preference);			
+		}
+		
+		if (categoryYn.equals("N")) {
+			mapper.updateCategoryYn(memberNo);
 		}
 	}
 

@@ -27,15 +27,18 @@ public interface MyPageMapper {
 	// 특정 회원의 기존 선호 카테고리 삭제
 	int deleteCategoryByMemberNo(int memberNo);
 
-	// 새로운 선호 카테고리 삽입
+	// 새로운 선호 카테고리 저장
 	int insertCategory(@Param("memberNo") int memberNo, @Param("categoryNo") int categoryNo);
 
 	// 특정 회원의 기존 선호 취향 삭제
 	int deletePreferenceByMemberNo(int memberNo);
 
-	// 새로운 선호 취향 삽입
+	// 새로운 선호 취향 저장
 	int insertPreference(@Param("memberNo") int memberNo, @Param("preferenceNo") int preferenceNo);
 
+	// 취향 조사 여부 업데이트
+	int updateCategoryYn(int memberNo);
+	
 	List<Category> getCategoryByMemberId(int memberNo);
 
 	List<Preference> getPreferenceByMemberId(int memberNo);

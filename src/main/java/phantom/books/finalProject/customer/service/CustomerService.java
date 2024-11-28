@@ -23,7 +23,7 @@ public interface CustomerService {
 
 	List<FAQ> getFaqList();
 
-	Map<String, Object> getInquiryListByMember(int cp, int memberNo, int status, String startDate, String endDate);
+	Map<String, Object> getInquiryListByMember(int cp, int memberNo, int status, String startDate, String endDate, int project);
 
 	int updateInquiry(int queryNo, int memberNo);
 

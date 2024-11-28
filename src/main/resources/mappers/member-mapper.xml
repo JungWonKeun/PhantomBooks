@@ -7,26 +7,26 @@
 	<!-- 로그인 -->
 	<select id="login" resultType="Member">
 		SELECT
-			MEMBER_NO,
-			MEMBER_ID,
-			MEMBER_PW,
-			ZIP,
-			ADDRESS,
-			DETAIL_ADDRESS,
-			ADD_ZIP,
-			ADD_ADDRESS,
-			ADD_DETAIL_ADDRESS,
-			TEL_NO,
-			TO_CHAR(BIRTH_DATE,
-			'YYYY"년" MM"월" DD"일"')
-			AS birthDate,
-			NAME,
-			RANK_NAME,
-			MEMBER_DEL_FL,
-			AUTHORITY,
-			CATEGORY_YN
+		MEMBER_NO,
+		MEMBER_ID,
+		MEMBER_PW,
+		ZIP,
+		ADDRESS,
+		DETAIL_ADDRESS,
+		ADD_ZIP,
+		ADD_ADDRESS,
+		ADD_DETAIL_ADDRESS,
+		TEL_NO,
+		TO_CHAR(BIRTH_DATE,
+		'YYYY"년" MM"월" DD"일"')
+		AS birthDate,
+		NAME,
+		RANK_NAME,
+		MEMBER_DEL_FL,
+		AUTHORITY,
+		CATEGORY_YN
 		FROM
-			"MEMBER"
+		"MEMBER"
 		WHERE MEMBER_ID = #{memberId}
 		AND MEMBER_DEL_FL = 'N'
 	</select>
@@ -53,24 +53,23 @@
     FROM "MEMBER" M
     LEFT JOIN ADMIN A ON M.MEMBER_NO = A.MEMBER_NO
     WHERE M.MEMBER_NO = #{memberNo}
-
 	</select>
-	
+
 	<!-- 회원 가입 -->
 	<insert id="signUp" parameterType="Member">
 		INSERT INTO "MEMBER"
 		VALUES(
-			SEQ_MEMBER_NO.NEXTVAL,
-			#{memberId},
-			#{memberPw},
-			#{zip},
-			#{address},
-			#{detailAddress},
-			NULL, NULL, NULL,
-			#{telNo},
-			#{birthDate},
-			#{name},
-			DEFAULT, NULL, DEFAULT, DEFAULT, DEFAULT, DEFAULT
+		SEQ_MEMBER_NO.NEXTVAL,
+		#{memberId},
+		#{memberPw},
+		#{zip},
+		#{address},
+		#{detailAddress},
+		NULL, NULL, NULL,
+		#{telNo},
+		#{birthDate},
+		#{name},
+		DEFAULT, NULL, DEFAULT, DEFAULT, DEFAULT, DEFAULT
 		)
 	</insert>
 
@@ -79,6 +78,14 @@
 	<update id="updateLoginDate">
 		UPDATE "MEMBER"
 		SET LOGIN_DATE = SYSDATE
+		WHERE
+		MEMBER_NO = #{memberNo}
+	</update>
+
+	<!-- 카테고리 다시 보지 않기 체크 -->
+	<update id="updateCategoryYn">
+		UPDATE MEMBER
+		SET CATEGORY_YN = 'Y'
 		WHERE MEMBER_NO = #{memberNo}
 	</update>
 
