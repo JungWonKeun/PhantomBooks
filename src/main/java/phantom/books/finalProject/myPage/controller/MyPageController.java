@@ -33,8 +33,26 @@ import phantom.books.finalProject.myPage.service.MyPageService;
 @RequiredArgsConstructor
 @Slf4j
 public class MyPageController {
+	
+	
 
 	private final MyPageService service;
+
+	
+	/** 마이페이지 메인화면
+	 * @return
+	 */
+	@GetMapping("/index")
+	public String myPage(HttpSession session, Model model) {
+	    Member loginMember = (Member) session.getAttribute("loginMember");
+
+	    if (loginMember == null) {
+	        return "redirect:/login"; // 로그인되지 않았을 경우 로그인 페이지로 이동
+	    }
+
+	    model.addAttribute("member", loginMember);
+	    return "myPage/index";
+	}
 
 	/**
 	 * 비밀번호 확인
@@ -64,7 +82,7 @@ public class MyPageController {
 	 * 
 	 * @return
 	 */
-	@GetMapping("/checkPw")
+	@GetMapping("checkPw")
 	public String checkPw() {
 		return "myPage/checkPw";
 	}
@@ -255,5 +273,37 @@ public class MyPageController {
 		System.out.println(preference);
 		return ResponseEntity.ok(preference);
 	}
+	
+	
+	/** 마이 페이지(내가 찜한 목록 페이지)
+	 * @return
+	 */
+	@GetMapping("myWishList")
+	public String myWishList() {
+		
+		return "myPage/myWishList";
+	}
+	
+	
+	
+	/** 마이 페이지(내 리뷰 페이지)
+	 * @return
+	 */
+	@GetMapping("myReview")
+	public String myReview() {
+		
+		return "myPage/myReview";
+	}
+	
+	
+	/** 마이 페이지(내 주문 목록 페이지)
+	 * @return
+	 */
+	@GetMapping("myOrder")
+	public String myOrder() {
+		
+		return "myPage/myOrder";
+	}
+	
 
 }
