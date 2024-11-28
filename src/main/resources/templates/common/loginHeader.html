@@ -6,21 +6,15 @@
                 <img src="/images/logo.png" alt="Logo" class="logoImg">
             </a>
         </div>
-
-        <!-- 카테고리 메뉴 -->
-        <nav class="categories">
-            <a href="#">카테고리1</a>
-            <a href="#">카테고리2</a>
-            <a href="#">카테고리3</a>
-            <a href="/support">고객지원</a>
         </nav>
-
         <!-- 검색 바 -->
         <div class="search-bar">
+            <h1 style="font-family: 'DeltaUniverse-Regular'; font-weight: 'bold';">
+                P&nbsp;&nbsp;H&nbsp;&nbsp;A&nbsp;&nbsp;N&nbsp;&nbsp;T&nbsp;&nbsp;O&nbsp;&nbsp;M&nbsp;&nbsp;B&nbsp;&nbsp;O&nbsp;&nbsp;O&nbsp;&nbsp;K&nbsp;&nbsp;S<br><br><br></h1> 
             <form action="/searchBookPage/searchBooks" method="get"
-             th:value="${param.searchTitle ?: ''}">
-                <input type="text" name="searchTitle" placeholder="검색어를 입력하세요" />
-                <button type="submit">Search</button>
+            th:value="${param.searchTitle ?: ''}">
+            <input type="text" name="searchTitle" placeholder="검색어를 입력하세요" />
+            <button type="submit">Search</button>
                 <input type="hidden" name="categories" id="hiddenCategories">
                 <input type="hidden" name="preferences" id="hiddenPreferences">
             </form>
@@ -32,6 +26,7 @@
             <a href="/member/logout" class="btn btn-primary headerLogoutBtn"> 로그아웃</a>
             <a href="/myPage/info" class="btn btn-primary headerJoinBtn"> 마이페이지</a>
             <a href="/cart" class="btn btn-primary headerCartBtn"> 장바구니</a>
+            <a href="/support" class="btn btn-primary headerJoinBtn">고객지원</a>
         </div>
     </header>
 </div>

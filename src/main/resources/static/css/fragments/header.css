@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'DeltaUniverse-Regular';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.0/DeltaUniverse-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
 /* 헤더 스타일 */
 .header-container {
   display: flex;
