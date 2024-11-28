@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +42,11 @@ public class CustomerController {
 	 * @return 고객지원 페이지 템플릿 경로("customer/support")
 	 */
 	@GetMapping("/support")
-	public String customerSupportPage(Model model) {
+	public String customerSupportPage(
+			Model model
+			) {
+		
+		
 		
 		 // FAQ 데이터 조회 후 상위 5개만 전달
 	    List<FAQ> faqList = customerService.getFaqList();

@@ -4,7 +4,6 @@
   height: 100vh;
   background-color: white;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
   flex-shrink: 0;
   display: flex;
@@ -12,6 +11,8 @@
   padding: 20px;
   margin-left: 300px;
   gap: 20px;
+  align-self: stretch; 
+  border-bottom: none;
   
 }
 
