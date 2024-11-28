@@ -25,7 +25,7 @@ import phantom.books.finalProject.member.dto.Member;
 import phantom.books.finalProject.query.dto.Query;
 
 @Controller
-@RequestMapping("/")
+//@RequestMapping("/")
 @RequiredArgsConstructor
 @Slf4j
 public class CustomerController {
@@ -94,14 +94,14 @@ public class CustomerController {
 	        @RequestParam(value = "status", required = false, defaultValue = "-1") int status, 
 	        @RequestParam(value = "startDate", required = false, defaultValue = "default") String startDate,
 	        @RequestParam(value = "endDate", required = false, defaultValue = "default") String endDate,
-	        @RequestParam(name = "project" , required = false, defaultValue = "all") String project,
+	        @RequestParam(value = "project" , required = false, defaultValue = "1") int project,
 	        @SessionAttribute("loginMember") Member loginMember,
 	        Model model) {
 
 	    int memberNo = loginMember.getMemberNo();
 
 	    // 사용자별 문의 내역 조회
-	    Map<String, Object> map = customerService.getInquiryListByMember(cp, memberNo, status, startDate, endDate);
+	    Map<String, Object> map = customerService.getInquiryListByMember(cp, memberNo, status, startDate, endDate, project);
 	    
 	    model.addAttribute("inquiryList", map.get("queryList"));
 	    model.addAttribute("pagination", map.get("pagination"));
@@ -121,13 +121,14 @@ public class CustomerController {
 			@RequestParam(value = "status", required = false, defaultValue = "-1") int status, 
 			@RequestParam(value = "startDate", required = false, defaultValue = "default") String startDate,
 			@RequestParam(value = "endDate", required = false, defaultValue = "default") String endDate,
+			@RequestParam(value = "project", required = false, defaultValue = "1") int project, 
 			@SessionAttribute("loginMember") Member loginMember,
 			Model model) {
 		
 		int memberNo = loginMember.getMemberNo();
 		
 		
-		return customerService.getInquiryListByMember(cp, memberNo, status, startDate, endDate);
+		return customerService.getInquiryListByMember(cp, memberNo, status, startDate, endDate, project);
 	}
 	
 	
