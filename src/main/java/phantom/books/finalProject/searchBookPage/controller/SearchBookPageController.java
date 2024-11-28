@@ -46,9 +46,11 @@ public class SearchBookPageController {
 	@GetMapping("/searchBooks")
 	public String searchBooks(
 			@RequestParam(value = "searchTitle", required = false) String searchTitle,
-			@RequestParam(value = "categories", required = false) int[] categories, // int[]로 받기
-			@RequestParam(value = "preferences", required = false) int[] preferences, // int[]로 받기
-			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp, Model model) {
+			@RequestParam(value = "categories", required = false) int[] categories, 
+			@RequestParam(value = "preferences", required = false) int[] preferences, 
+			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
+			@RequestParam(value = "sortOption", required = false) String sortOption,
+			Model model) {
 
 		// categories와 preferences는 int[]로 받았으므로, 바로 사용 가능
 		// 원하는 작업을 처리합니다.
@@ -56,14 +58,16 @@ public class SearchBookPageController {
 		log.debug("searchTitle: {}", searchTitle);
 		log.debug("categories: {}", Arrays.toString(categories)); // int[]을 배열로 출력
 		log.debug("preferences: {}", Arrays.toString(preferences)); // int[]을 배열로 출력
-
+		log.debug("sortOption: {}", sortOption);
 		// 서비스 호출
-		Map<String, Object> map = service.searchBooks(searchTitle, categories, preferences, cp);
+		Map<String, Object> map = service.searchBooks(searchTitle, categories, preferences, cp, sortOption);
 
+		log.debug("sortOption: {}", sortOption);
 		// 모델에 데이터 추가
 		model.addAttribute("bookList", map.get("bookList"));
 		model.addAttribute("pagination", map.get("pagination"));
 		model.addAttribute("totalCount", map.get("totalCount"));
+		
 
 		return "searchBookPage/searchBook";
 	}
