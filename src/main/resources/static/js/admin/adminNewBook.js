@@ -7,44 +7,26 @@ document.querySelectorAll('.menu').forEach(menu => {
   });
 });
 
-// 내용 작성 영역
-const faqContent = document.querySelector(".faqContent");
 
-/* 글쓰기 버튼 클릭 시 */
-const insertBtn = document.querySelector("#insertBtn");
-
-// 팝업 / 내용
-const addPopupLayer = document.querySelector("#addPopupLayer");
-const inputArea = document.querySelector(".input-area");
-const title = document.querySelector("#inputTitle");
-const content = document.querySelector("#inputContent");
-
-
-insertBtn?.addEventListener("click", () => {
-
-  // 팝업 나타나게 하기
-  addPopupLayer.classList.remove("popup-layer-close");
-  title.focus();
-  
-});
-
-// 노출상태 변경
+// 등록상태 변경
 const updateBtn = document.querySelectorAll(".updateBtn");
 
 updateBtn.forEach((button) => {
-  const requestNo = button.value;
+  const bookNo = button.value;
   button.addEventListener("click", ()=> {
 
-    fetch("/admin/newBook?requestNo="+requestNo, {method : "post"})
+    fetch("/admin/newBook?bookNo="+bookNo, { method : "post" })
     .then(response => {
-      if(response.ok) return response.json();
-      throw new Error("삭제 실패");
+      if(response.ok) return response.text();
+      throw new Error("등록 실패");
     })
     .then(result => {
       if(result > 0) {
-        console.log(faqId);
+        console.log(requestNo);
+        alert(`등록 하였습니다. ${bookNo}번 책을 재고 추가하세요.`);
         location.reload();
       }
+      alert(`${bookNo}는 삭제된 발주요청입니다.`);
     })
   })
 })

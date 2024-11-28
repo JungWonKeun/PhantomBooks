@@ -54,5 +54,67 @@
 	</select>
 	
 	
+	<select id="selectBook" resultType="_int">
+		SELECT COUNT(*)
+		FROM BOOK
+		WHERE BOOK_NO = #{bookNo}
+	</select>
+	
+	<select id="selectRequestNo" > 
+		SELECT
+			REQUEST_NO
+		FROM BOOK_REQUEST
+		WHERE BOOK_NO = #{bookNo}
+	</select>
+	
+	<select id="selectRequest" resultType="_int">
+		SELECT COUNT(*)
+		FROM NEW_BOOK_REQUEST
+		WHERE BOOK_NO = #{bookNo}
+	</select>
+	
+	<update id="updateManager">
+		UPDATE BOOK_MANAGER
+		SET
+			CURRENT_COUNT = 
+				(CURRENT_COUNT 
+					+ (SELECT REQUEST_COUNT 
+						 FROM BOOK_REQUEST 
+						 WHERE REQUEST_NO = #{requestNo})),
+			BASIC_COUNT = 
+				(SELECT REQUEST_COUNT
+				 FROM BOOK_REQUEST
+				  WHERE REQUEST_NO = #{requestNo})
+		WHERE BOOK_NO = #{bookNo}
+	</update>
+	
+
+	
+	<insert id="insertRequest">
+		INSERT INTO BOOK
+		VALUES(
+			(SELECT BOOK_NO FROM NEW_BOOK_REQUEST WHERE BOOK_NO = #{bookNo}),
+			(SELECT NBR_NAME FROM NEW_BOOK_REQUEST WHERE BOOK_NO = #{bookNo}),
+			(SELECT NBR_CONTENT FROM NEW_BOOK_REQUEST WHERE BOOK_NO = #{bookNo}),
+			(SELECT NBR_COVER FROM NEW_BOOK_REQUEST WHERE BOOK_NO = #{bookNo}),
+			(SELECT NBR_DATE FROM NEW_BOOK_REQUEST WHERE BOOK_NO = #{bookNo}),
+			(SELECT NBR_WRITER FROM NEW_BOOK_REQUEST WHERE BOOK_NO = #{bookNo}),
+			(SELECT COMPANY_NAME FROM NEW_BOOK_REQUEST WHERE BOOK_NO = #{bookNo}),
+			(SELECT BOOK_TALT FROM NEW_BOOK_REQUEST WHERE BOOK_NO = #{bookNo}),
+			(SELECT BOOK_PRICE FROM NEW_BOOK_REQUEST WHERE BOOK_NO = #{bookNo}),
+			(SELECT BOOK_PAGE_COUNT FROM NEW_BOOK_REQUEST WHERE BOOK_NO = #{bookNo}),
+			DEFAULT,
+			DEFAULT,
+			DEFAULT
+		)
+	</insert>
+	
+	<update id="updateRequest">
+		UPDATE BOOK_REQUEST
+		SET
+			REQUEST_YN = 'Y',
+			COMPLETE_DATE = SYSDATE
+		WHERE REQUEST_NO = #{requestNo}
+	</update>
 	
 </mapper>
