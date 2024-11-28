@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mubatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="phantom.book.finalProject.main.mapper.Mainmapper">
-	
+
+	<select id="getDailyRecommendedBooks" resultType="Book">
+        SELECT * FROM books WHERE recommendation_type = 'daily'
+    </select>
+
+    <select id="getBooksByUserPreference" parameterType="int" resultType="Book">
+        SELECT * FROM books WHERE category IN (SELECT preference FROM user_preferences WHERE user_id = #{userId})
+    </select>
+
+    <select id="getBestsellerBooks" resultType="Book">
+        SELECT * FROM books ORDER BY sales DESC LIMIT 10
+    </select>
 </mapper>
