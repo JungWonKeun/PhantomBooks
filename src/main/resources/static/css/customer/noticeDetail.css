@@ -19,7 +19,7 @@ body {
 .noticeDetailContainer {
   display: flex;
   flex-direction: row;
-  min-height: calc(100vh - 100px);
+  min-height: calc(100vh - 1000px);
   gap: 20px;
 }
 
@@ -32,12 +32,11 @@ body {
 }
 
 .notice-title {
-  font-size: 32px;
+  font-size: 20px;
   font-weight: bold;
   margin-bottom: 20px;
   color: #333;
   text-align: left;
-  border-bottom: 2px solid #e9ecef;
   padding-bottom: 10px;
 }
 
@@ -96,4 +95,9 @@ body {
 
 .notice-btn-area button:hover {
   background-color: #163c57;
+}
+
+#goToListBtn{
+  margin-right: 0;
+  margin-left:30%;
 }
