@@ -7,11 +7,11 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.kh.project.chatting.dto.ChattingRoom;
-import edu.kh.project.chatting.dto.Message;
-import edu.kh.project.chatting.mapper.ChattingMapper;
-import edu.kh.project.member.dto.Member;
 import lombok.RequiredArgsConstructor;
+import phantom.books.finalProject.chatting.dto.ChattingRoom;
+import phantom.books.finalProject.chatting.dto.Message;
+import phantom.books.finalProject.chatting.mapper.ChattingMapper;
+import phantom.books.finalProject.member.dto.Member;
 
 @Service
 @RequiredArgsConstructor

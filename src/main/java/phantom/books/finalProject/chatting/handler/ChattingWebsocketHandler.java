@@ -15,11 +15,11 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import edu.kh.project.chatting.dto.Message;
-import edu.kh.project.chatting.service.ChattingService;
-import edu.kh.project.member.dto.Member;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import phantom.books.finalProject.chatting.dto.Message;
+import phantom.books.finalProject.chatting.service.ChattingService;
+import phantom.books.finalProject.member.dto.Member;
 
 /**
  * 채팅 웹소텟 요청 시 수행할 구문을 작성한 클래스

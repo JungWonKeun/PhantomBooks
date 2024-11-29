@@ -6,8 +6,8 @@ import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 import org.springframework.web.socket.server.HandshakeInterceptor;
 
-import edu.kh.project.chatting.handler.ChattingWebsocketHandler;
 import lombok.RequiredArgsConstructor;
+import phantom.books.finalProject.chatting.handler.ChattingWebsocketHandler;
 
 @Configuration   // 서버실행시 메서드 모두 수행
 @EnableWebSocket // 웹소켓을 사용하겠다!!는 설정(활성화)
