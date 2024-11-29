@@ -103,7 +103,8 @@ document.addEventListener("DOMContentLoaded", () => {
         row.innerHTML = `
           <td>${inquiry.queryNo}</td>
           <td>${inquiry.querySubject}</td>
-          <td><a href="/customer/inquiryDetail/${inquiry.queryNo}">${inquiry.queryTitle}</a></td>
+          <td><a href="/customer/inquiryDetail/${inquiry.queryNo}" style="text-decoration: none;
+  color: #333;">${inquiry.queryTitle}</a></td>
           <td>${inquiry.queryWriteDate}</td>
           <td>${getInquiryStatus(inquiry.status)}</td>
         `;

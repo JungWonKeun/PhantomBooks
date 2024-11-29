@@ -6,147 +6,154 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>1:1 문의 내역</title>
     <link rel="stylesheet" href="/css/customer/inquiry.css">
+    <script src="https://kit.fontawesome.com/890489b5e8.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <header th:replace="~{common/common}"></header>
-    <div th:replace="~{common/side-menu}"></div>
-    <main class="inquiry-main">
-        <h3><strong>상세 조회</strong></h3>
-        
-        <!-- 탭 섹션 -->
-        <p> <h5>문의 유형 선택하기</h5>
-            <select name="project" id="inquiryProject-dropdown">
-                <option value="1">전체보기</option>
-                <option value="2">주문관련</option>
-                <option value="3">배송관련</option>
-                <option value="4">취소/환불</option>
-                <option value="5">기타문의</option>
-            </select>
-        </p>
-        <section class="inquiry-tabs">
-            <nav>
-                <ul>
-                    <li class="tab active" data-status="-1">전체</li>
-                    <li class="tab" data-status="0">접수 완료</li>
-                    <li class="tab" data-status="1">관리자 확인</li>
-                    <li class="tab" data-status="2">답변 완료</li>
-                </ul>
-            </nav>
-        </section>
-        <!-- 검색 섹션 -->
-        <section class="inquiry-search">
-            <div class="filter-area">
-                <label for="sort-dropdown">조회 기간:</label>
-                <select id="sort-dropdown">
-                    <option value="7">7일</option>
-                    <option value="1">1개월</option>
-                    <option value="3">3개월</option>
-                    <option value="6">6개월</option>
-                    <option value="12">1년</option>
+    <div th:replace="~{common/common}"></div>
+
+    <main class="inquiryContainer">
+
+        <div th:replace="~{common/side-menu}"></div>
+
+        <div class="mainContent">
+            <h2 class="title">1:1 문의 내역</h2>
+
+            <!-- 탭 섹션 -->
+            <div class="sort-dropdown">
+                <select name="project" id="inquiryProject-dropdown" class="form-control">
+                    <option value="1">전체보기</option>
+                    <option value="2">주문관련</option>
+                    <option value="3">배송관련</option>
+                    <option value="4">취소/환불</option>
+                    <option value="5">기타문의</option>
                 </select>
-                <div>
-                    <label for="startDate">시작일:</label>
-                    <input type="date" id="startDate">
+            </div>
 
-                    <label for="endDate">종료일:</label>
-                    <input type="date" id="endDate">
+            <section class="inquiry-tabs">
+                <nav>
+                    <ul>
+                        <li class="tab active" data-status="-1">전체</li>
+                        <li class="tab" data-status="0">접수 완료</li>
+                        <li class="tab" data-status="1">관리자 확인</li>
+                        <li class="tab" data-status="2">답변 완료</li>
+                    </ul>
+                </nav>
+            </section>
+            <!-- 검색 섹션 -->
+            <section class="inquiry-search">
+                <div class="filter-area">
+                    <label for="sort-dropdown">조회 기간:</label>
+                    <select id="sort-dropdown">
+                        <option value="7">7일</option>
+                        <option value="1">1개월</option>
+                        <option value="3">3개월</option>
+                        <option value="6">6개월</option>
+                        <option value="12">1년</option>
+                    </select>
+                    <div class="date">
+                        <label for="startDate">시작일:</label>
+                        <input type="date" id="startDate">
 
+                        <label for="endDate">종료일:</label>
+                        <input type="date" id="endDate">
+
+                    </div>
+                    <buton id="searchButton">조회</buton>
                 </div>
-                <buton id="searchButton">조회</buton>
-            </div>
 
-            <div class="inquiry-button-area">
-                <button id="inquiryButton" onclick="location.href='/customer/query'">1:1 문의하기</button>
-            </div>
-        </section>
+            </section>
 
 
 
-        <!-- 문의 리스트 -->
-        <section class="inquiry-list">
-            <table>
-                <thead>
-                    <tr>
-                        <th>글번호</th>
-                        <th>문의 유형</th>
-                        <th>제목</th>
-                        <th>작성일</th>
-                        <th>처리 상태</th>
-                    </tr>
-                </thead>
-                <tbody id="inquiryTableBody">
-                    <th:block th:if="${#lists.isEmpty(inquiryList)}">
+            <!-- 문의 리스트 -->
+            <section class="inquiry-list">
+                <table>
+                    <thead>
                         <tr>
-                            <td colspan="4">1:1 문의 내역이 없습니다.</td>
+                            <th>글번호</th>
+                            <th>문의 유형</th>
+                            <th>제목</th>
+                            <th>작성일</th>
+                            <th>처리 상태</th>
                         </tr>
-                    </th:block>
+                    </thead>
+                    <tbody id="inquiryTableBody">
+                        <th:block th:if="${#lists.isEmpty(inquiryList)}">
+                            <tr>
+                                <td colspan="4">1:1 문의 내역이 없습니다.</td>
+                            </tr>
+                        </th:block>
 
-                    <th:block th:unless="${#lists.isEmpty(inquiryList)}">
-                        <tr th:each="inquiry:${inquiryList}" th:object="${inquiry}">
-                            <td th:text="*{queryNo}">번호</td>
-                            <td th:if= "${inquiry.querySubject == '2'}">주문관련</td>
-                            <td th:if= "${inquiry.querySubject == '3'}">배송관련</td>
-                            <td th:if= "${inquiry.querySubject == '4'}">취소/환불</td>
-                            <td th:if= "${inquiry.querySubject == '5'}">기타문의</td>
-                            <td th:text="*{queryTitle}" class="queryName" th:data-query-no="*{queryNo}">
-                                <span>제목</span>
-                            </td>
-                            <td th:text="*{queryWriteDate}">작성일</td>
-                            <td th:if="${inquiry.status== 0}">접수완료</td>
-                            <td th:if="${inquiry.status== 1}">관리자 확인</td>
-                            <td th:if="${inquiry.status== 2}">답변완료</td>
-                        </tr>
-                    </th:block>
-                </tbody>
-            </table>
+                        <th:block th:unless="${#lists.isEmpty(inquiryList)}">
+                            <tr th:each="inquiry:${inquiryList}" th:object="${inquiry}">
+                                <td th:text="*{queryNo}">번호</td>
+                                <td th:if="${inquiry.querySubject == '2'}">주문관련</td>
+                                <td th:if="${inquiry.querySubject == '3'}">배송관련</td>
+                                <td th:if="${inquiry.querySubject == '4'}">취소/환불</td>
+                                <td th:if="${inquiry.querySubject == '5'}">기타문의</td>
+                                <td th:text="*{queryTitle}" th:data-query-no="*{queryNo}" class="queryTitle">
+                                    <span class="queryName">제목</span>
+                                </td>
+                                <td th:text="*{queryWriteDate}">작성일</td>
+                                <td th:if="${inquiry.status== 0}">접수완료</td>
+                                <td th:if="${inquiry.status== 1}">관리자 확인</td>
+                                <td th:if="${inquiry.status== 2}">답변완료</td>
+                            </tr>
+                        </th:block>
+                    </tbody>
+                </table>
 
-            <!-- 문의 내역이 없을 때 메시지 -->
-            <div class="empty-message" id="emptyMessage" style="display: none;">
-                <i class="fa-solid fa-circle-exclamation"></i> 해당 기간에 작성된 문의 내역이 없습니다.
-            </div>
+                <!-- 문의 내역이 없을 때 메시지 -->
+                <div class="empty-message" id="emptyMessage" style="display: none;">
+                    <i class="fa-solid fa-circle-exclamation"></i> 해당 기간에 작성된 문의 내역이 없습니다.
+                </div>
 
-            <!-- 페이지네이션 -->
-            <div class="pagination-area" th:unless="${#lists.isEmpty(inquiryList)}">
+                <!-- 페이지네이션 -->
+                <div class="pagination-area" th:unless="${#lists.isEmpty(inquiryList)}">
 
-                <ul class="pagination" th:object="${pagination}">
+                    <ul class="pagination" th:object="${pagination}">
 
-                    <!-- 첫 페이지로 이동 -->
-                    <li><a href="#">&lt;&lt;</a></li>
+                        <!-- 첫 페이지로 이동 -->
+                        <li><a href="#">&lt;&lt;</a></li>
 
-                    <!-- 이전 목록 마지막 번호로 이동 -->
-                    <li><a href="#">&lt;</a></li>
+                        <!-- 이전 목록 마지막 번호로 이동 -->
+                        <li><a href="#">&lt;</a></li>
 
-                    <!-- 특정 페이지로 이동 -->
+                        <!-- 특정 페이지로 이동 -->
 
-                    <!-- 
-                    #numbers.sequence(startPage, endPage)
-                    -> startPage부터 endPage까지 1씩 증가하는 숫자를 가진
-                    List를 만들어서 반환
-                  -->
-                    <th:block th:each="i : *{#numbers.sequence(startPage, endPage)}">
+                        <!-- 
+                        #numbers.sequence(startPage, endPage)
+                        -> startPage부터 endPage까지 1씩 증가하는 숫자를 가진
+                        List를 만들어서 반환
+                      -->
+                        <th:block th:each="i : *{#numbers.sequence(startPage, endPage)}">
 
-                        <!-- 현재 보고있는 페이지 -->
-                        <li th:if="${i}==*{currentPage}">
-                            <a class="current" th:text="${i}">현재 페이지</a>
-                        </li>
+                            <!-- 현재 보고있는 페이지 -->
+                            <li th:if="${i}==*{currentPage}">
+                                <a class="current" th:text="${i}">현재 페이지</a>
+                            </li>
 
-                        <!-- 보고있지 않은 페이지 -->
-                        <li th:unless="${i} == *{currentPage}">
-                            <a th:text="${i}">이동할 수 있는 페이지</a>
-                        </li>
+                            <!-- 보고있지 않은 페이지 -->
+                            <li th:unless="${i} == *{currentPage}">
+                                <a th:text="${i}">이동할 수 있는 페이지</a>
+                            </li>
 
+                            
+                        </th:block>
 
-                    </th:block>
+                        <!-- 다음 목록 시작 번호로 이동 -->
+                        <li><a href="#">&gt;</a></li>
 
-                    <!-- 다음 목록 시작 번호로 이동 -->
-                    <li><a href="#">&gt;</a></li>
-
-                    <!-- 끝 페이지로 이동 -->
-                    <li><a href="#">&gt;&gt;</a></li>
-                </ul>
-            </div>
-        </section>
+                        <!-- 끝 페이지로 이동 -->
+                        <li><a href="#">&gt;&gt;</a></li>
+                    </ul>
+                </div>
+                <div class="inquiry-button-area">
+                    <button id="inquiryButton" onclick="location.href='/customer/query'">1:1 문의하기</button>
+                </div>
+            </section>
+        </div>
     </main>
 
     <footer th:replace="~{common/footer :: footer}"></footer>

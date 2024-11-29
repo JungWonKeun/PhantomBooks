@@ -18,11 +18,12 @@
     <div class="mainContent">
       <section class="notice-detail" th:object="${notice}">
         <!-- 제목 -->
-        <h2 class="notice-title" th:text="*{title}">게시글 제목</h2>
-
+        
         <!-- 작성일 + 조회수 -->
+        <h2 class="notice-title" th:text="*{title}">게시글 제목</h2>
         <div class="notice-header">
           <p>
+
             <span>작성일:</span>
             <th:block th:text="*{createDate}">2024-11-21</th:block>
           </p>
