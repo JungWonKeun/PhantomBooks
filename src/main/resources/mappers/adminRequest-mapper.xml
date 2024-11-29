@@ -29,6 +29,8 @@
         (SELECT NVL(COUNT(BOOK_NO), 0) + 1 AS BOOK_NO FROM BOOK),
         #{currentCount},
         #{bookPrice},
+        DEFAULT,
+        DEFAULT,
         DEFAULT
     )
 	</insert>

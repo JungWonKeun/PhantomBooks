@@ -1,0 +1,186 @@
+    <style>
+        /* 팝업 스타일 */
+        .popup {
+            width: 400px;
+            height: 600px;
+            background-color: #ffffff;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: absolute;
+            top: 100px;
+            left: 100px;
+            display: none; /* 기본적으로 숨김 */
+            z-index: 1000;
+        }
+
+        /* 헤더 스타일 */
+        .top{
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+
+          background-color: #f1f1f1;
+
+        }
+
+        .popup-header {
+            background-color: #f1f1f1;
+            padding: 10px;
+            cursor: grab;
+            font-weight: bold;
+        }
+
+        /* 본문 스타일 */
+        .popup-body {
+            padding: 15px;
+            text-align: center;
+        }
+
+        /* 버튼 스타일 */
+        .popup button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .popup button:hover {
+            background-color: #0056b3;
+        }
+
+        /* 채팅 내용 */
+      .chatting-content{
+        width: 94%;
+        height: 50%;
+        justify-content: center;
+      }
+
+      .display-chatting {
+        width: 100%;
+        height: 400px;
+        border: 1px solid black;
+        overflow: auto;
+        list-style: none;
+        padding: 10px 10px;
+      }
+
+      .display-chatting > li{
+        margin: 10px 0;
+      }
+
+      .target-chat{
+        display: flex;
+        align-items: flex-start;
+      }
+      .target-chat > img{
+        width: 50px;
+        margin-right: 5px;
+      }
+
+      .chat {
+        display: inline-block;
+        border-radius: 5px;
+        padding: 5px;
+        background-color: #eee;
+        text-align: left;
+        max-width: 500px;
+        word-break: break-all;
+        white-space: pre-wrap;
+      }
+
+
+      .input-area {
+        height: 80px;
+        width: 100%;
+        display: flex;
+      }
+
+      #inputChatting {
+        padding: 3px;
+        font-size: 1.3em;
+        width: 80%;
+        resize: none;
+      }
+
+      #send {
+        width: 20%;
+      }
+
+      .my-chat {
+        text-align: right;
+      }
+
+      .my-chat>p {
+        background-color: yellow;
+      }
+
+      .chatDate {
+        font-size: 9px;
+      }
+
+      #exit-area {
+        text-align: right;
+        margin-bottom: 10px;
+      }
+
+
+      .exit {
+        text-align: center;
+      }
+
+      .exit>p {
+        background-color: rgba(0, 0, 0, 0.3);
+      }
+
+
+    
+
+
+    </style>
+
+<!-- 팝업 창 -->
+<div class="popup" id="popup">
+    <div class="top" id="popupHeader">
+      <div class="popup-header">
+        관리자 채팅방
+      </div>
+      <button id="closePopup">ⅹ</button>
+    </div>
+    <div class="chatting-area">
+			<div class="chatting-content">
+				<ul class="display-chatting">
+					<li class="my-chat">
+						<span class="chatDate">14:01</span>
+						<p class="chat">가나다라마바사</p>
+					</li>
+
+					<li class="target-chat">
+						<img src="/images/user.png">
+
+						<div>
+							<b>이번유저</b>	<br>
+							<p class="chat">
+								안녕하세요?? 반갑습니다.<br>
+								ㅎㅎㅎㅎㅎ
+							</p>
+							<span class="chatDate">14:05</span>
+						</div>
+					</li>
+				</ul>
+
+				<div class="input-area">
+					<textarea id="inputChatting" rows="3"></textarea>
+					<button id="send">보내기</button>
+				</div>
+			</div>
+		</div>
+</div>
+
+
+<script src="/js/admin/adminChatting.js"></script>
+
+
