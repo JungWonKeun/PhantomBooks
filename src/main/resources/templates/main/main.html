@@ -11,132 +11,133 @@
 <body>
   <header th:replace="~{common/common}"></header>
   <main>
-    <section class="dailyRecommendationContainer">
-      <h1>오늘의 추천도서</h1>
-      <h5>슬라이드로 카테고리별 추천도서 불러오기</h5>
-      <div id="daily-recommendation">
-          <ul>
-            <li>이미지</li>
-            <li>카테고리</li>
-            <li>제목</li>
-            <li>작가</li>
-            <li>출판사</li>
-            <li>가격</li>
-            <li>평점</li>
-          </ul>
-        </div>
+    <section class="recommend">
+      <h2>오늘의 추천 도서</h2>
+      <div class="book-slider" id="bookSlider">
+        <div class="book" data-index="0">
+          <div class="book-cover"></div>
+          <div class="book-info">
+            <h5>책이름: OOO
+              <ul>
+                <li>이미지</li>
+                <li>카테고리</li>
+                <li>제목</li>
+                <li>작가</li>
+                <li>출판사</li>
+                <li>가격</li>
+                <li>평점</li>
+              </ul>
+            </h5>
+
+            <section class="bestSellerContainer">
+              <h1>오늘의 베스트셀러</h1>
+              <h5>일간 베스트셀러 불러오기</h5>
+              <ul>
+                <li>이미지</li>
+                <li>카테고리</li>
+                <li>제목</li>
+                <li>작가</li>
+                <li>출판사</li>
+                <li>가격</li>
+                <li>평점</li>
+              </ul>
+          </div>
     </section>
 
-  <section class="bestSellerContainer">
-      <h1>오늘의 베스트셀러</h1>
-      <h5>일간 베스트셀러 불러오기</h5>
-            <ul>
-              <li>이미지</li>
-              <li>카테고리</li>
-              <li>제목</li>
-              <li>작가</li>
-              <li>출판사</li>
-              <li>가격</li>
-              <li>평점</li>
-            </ul>
-      </div>
-  </section>
-
-    <section class="preferenceRecommendationContainer">
-      <h1>취향별 추천 도서</h1>
-      <h5>슬라이드로 취향별 추천도서 불러오기. 로그인이 되지 않은 경우엔 hidden으로 안보이게 해야됨</h5>
-      <div class="recommendWrapperContainer">
-        <div class="recommendation-wrapper" id="scroll-container">
-          <ul class="recommendation-list">
-            <li class="recommendation-item">
-              <a href="#">
-                <img src="recommend1.jpg" alt="추천 도서 1">
-                <h3>추천 도서 1</h3>
-                <p>12,000원</p>
-              </a>
-            </li>
-            <li class="recommendation-item">
-              <a href="#">
-                <img src="recommend2.jpg" alt="추천 도서 2">
-                <h3>추천 도서 2</h3>
-                <p>15,000원</p>
-              </a>
-            </li>
-            <li class="recommendation-item">
-              <a href="#">
-                <img src="recommend3.jpg" alt="추천 도서 3">
-                <h3>추천 도서 3</h3>
-                <p>10,000원</p>
-              </a>
-            </li>
-            <li class="recommendation-item">
-              <a href="#">
-                <img src="recommend4.jpg" alt="추천 도서 4">
-                <h3>추천 도서 4</h3>
-                <p>10,000원</p>
-              </a>
-            </li>
-            <li class="recommendation-item">
-              <a href="#">
-                <img src="recommend5.jpg" alt="추천 도서 5">
-                <h3>추천 도서 5</h3>
-                <p>10,000원</p>
-              </a>
-            </li>
-            <li class="recommendation-item">
-              <a href="#">
-                <img src="recommend6.jpg" alt="추천 도서 6">
-                <h3>추천 도서 6</h3>
-                <p>10,000원</p>
-              </a>
-            </li>
-            <li class="recommendation-item">
-              <a href="#">
-                <img src="recommend7.jpg" alt="추천 도서 7">
-                <h3>추천 도서 7</h3>
-                <p>10,000원</p>
-              </a>
-            </li>
-            <li class="recommendation-item">
-              <a href="#">
-                <img src="recommend8.jpg" alt="추천 도서 8">
-                <h3>추천 도서 8</h3>
-                <p>10,000원</p>
-              </a>
-            </li>
-            <li class="recommendation-item">
-              <a href="#">
-                <img src="recommend9.jpg" alt="추천 도서 9">
-                <h3>추천 도서 9</h3>
-                <p>10,000원</p>
-              </a>
-            </li>
-            <li class="recommendation-item">
-              <a href="#">
-                <img src="recommend10.jpg" alt="추천 도서 10">
-                <h3>추천 도서 10</h3>
-                <p>10,000원</p>
-              </a>
-            </li>
-            <li class="recommendation-item">
-              <a href="#">
-                <img src="recommend11.jpg" alt="추천 도서 11">
-                <h3>추천 도서 11</h3>
-                <p>10,000원</p>
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div class="slider-indicator">
-          <div class="scroll-bar"></div>
+    <section class="personalized">
+      <h2>취향에 맞는 추천도서</h2>
+      <br>
+      <br>
+      <div class="RecommendContainer">
+        <div class="recommendWrapperContainer">
+          <div class="recommendation-wrapper" id="scroll-container">
+            <ul class="recommendation-list">
+              <li class="recommendation-item">
+                <a href="#">
+                  <img src="recommend1.jpg" alt="추천 도서 1">
+                  <h3>추천 도서 1</h3>
+                  <p>12,000원</p>
+                </a>
+              </li>
+              <li class="recommendation-item">
+                <a href="#">
+                  <img src="recommend2.jpg" alt="추천 도서 2">
+                  <h3>추천 도서 2</h3>
+                  <p>15,000원</p>
+                </a>
+              </li>
+              <li class="recommendation-item">
+                <a href="#">
+                  <img src="recommend3.jpg" alt="추천 도서 3">
+                  <h3>추천 도서 3</h3>
+                  <p>10,000원</p>
+                </a>
+              </li>
+              <li class="recommendation-item">
+                <a href="#">
+                  <img src="recommend4.jpg" alt="추천 도서 4">
+                  <h3>추천 도서 4</h3>
+                  <p>10,000원</p>
+                </a>
+              </li>
+              <li class="recommendation-item">
+                <a href="#">
+                  <img src="recommend5.jpg" alt="추천 도서 5">
+                  <h3>추천 도서 5</h3>
+                  <p>10,000원</p>
+                </a>
+              </li>
+              <li class="recommendation-item">
+                <a href="#">
+                  <img src="recommend6.jpg" alt="추천 도서 6">
+                  <h3>추천 도서 6</h3>
+                  <p>10,000원</p>
+                </a>
+              </li>
+              <li class="recommendation-item">
+                <a href="#">
+                  <img src="recommend7.jpg" alt="추천 도서 7">
+                  <h3>추천 도서 7</h3>
+                  <p>10,000원</p>
+                </a>
+              </li>
+              <li class="recommendation-item">
+                <a href="#">
+                  <img src="recommend8.jpg" alt="추천 도서 8">
+                  <h3>추천 도서 8</h3>
+                  <p>10,000원</p>
+                </a>
+              </li>
+              <li class="recommendation-item">
+                <a href="#">
+                  <img src="recommend9.jpg" alt="추천 도서 9">
+                  <h3>추천 도서 9</h3>
+                  <p>10,000원</p>
+                </a>
+              </li>
+              <li class="recommendation-item">
+                <a href="#">
+                  <img src="recommend10.jpg" alt="추천 도서 10">
+                  <h3>추천 도서 10</h3>
+                  <p>10,000원</p>
+                </a>
+              </li>
+              <li class="recommendation-item">
+                <a href="#">
+                  <img src="recommend11.jpg" alt="추천 도서 11">
+                  <h3>추천 도서 11</h3>
+                  <p>10,000원</p>
+                </a>
+              </li>
+          </div>
         </div>
       </div>
     </section>
   </main>
 
-<!-- 푸터 조각 삽입 -->
-<footer th:replace="~{common/footer :: footer}"></footer>
-<script src="/js/main/main.js"></script>
+  <!-- 푸터 조각 삽입 -->
+  <footer th:replace="~{common/footer :: footer}"></footer>
+  <script src="/js/main/main.js"></script>
 </body>
 
 </html>
