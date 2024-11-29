@@ -2,9 +2,9 @@ package phantom.books.finalProject.chatting.service;
 
 import java.util.List;
 
-import edu.kh.project.chatting.dto.ChattingRoom;
-import edu.kh.project.chatting.dto.Message;
-import edu.kh.project.member.dto.Member;
+import phantom.books.finalProject.chatting.dto.ChattingRoom;
+import phantom.books.finalProject.chatting.dto.Message;
+import phantom.books.finalProject.member.dto.Member;
 
 public interface ChattingService {
 
@@ -45,5 +45,6 @@ public interface ChattingService {
 	 * @return
 	 */
 	int insertMessage(Message msg);
+
 
 }
