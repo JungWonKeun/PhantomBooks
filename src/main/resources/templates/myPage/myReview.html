@@ -15,26 +15,27 @@
 
             <h2>내 리뷰</h2>
             <div class="review-container">
-                <!-- 실제 리뷰 아이템 -->
                 <div th:each="review : ${reviews}" class="review-item">
-                    <div class="book-info">
-                        <img th:src="${review.book.coverImage}" alt="책 표지">
-                        <div>
-                            <h3 th:text="${review.book.title}">책 제목</h3>
-                            <p th:text="${review.book.author}">저자</p>
+                    <a th:href="@{/books/{id}(id=${review.book.id})}" class="review-link">
+                        <div class="book-info">
+                            <img th:src="${review.book.coverImage}" alt="책 표지">
+                            <div>
+                                <h3 th:text="${review.book.title}">책 제목</h3>
+                                <p th:text="${review.book.author}">저자</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="review-content">
-                        <div class="rating" th:data-rating="${review.rating}">
-                            ★★★★★
+                        <div class="review-content">
+                            <div class="rating" th:data-rating="${review.rating}">
+                                ★★★★★
+                            </div>
+                            <p th:text="${review.content}">리뷰 내용</p>
+                            <span class="review-date" th:text="${#temporals.format(review.createdAt, 'yyyy-MM-dd')}">작성일</span>
                         </div>
-                        <p th:text="${review.content}">리뷰 내용</p>
-                        <span class="review-date" th:text="${#temporals.format(review.createdAt, 'yyyy-MM-dd')}">작성일</span>
-                    </div>
-                    <div class="review-actions">
-                        <button class="btn-edit" th:data-review-id="${review.id}">수정</button>
-                        <button class="btn-delete" th:data-review-id="${review.id}">삭제</button>
-                    </div>
+                        <div class="review-actions">
+                            <button class="btn-edit" th:data-review-id="${review.id}">수정</button>
+                            <button class="btn-delete" th:data-review-id="${review.id}">삭제</button>
+                        </div>
+                    </a>
                 </div>
 
                 <!-- 테스트용 리뷰 아이템 -->

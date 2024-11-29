@@ -26,6 +26,10 @@ import phantom.books.finalProject.member.dto.Member;
 import phantom.books.finalProject.myPage.dto.Category;
 import phantom.books.finalProject.myPage.dto.Preference;
 import phantom.books.finalProject.myPage.service.MyPageService;
+import phantom.books.finalProject.order.dto.OrderBookDto;
+import phantom.books.finalProject.query.dto.Query;
+import phantom.books.finalProject.searchBookPage.dto.Book;
+import phantom.books.finalProject.searchBookPage.dto.Review;
 
 @SessionAttributes({ "loginMember" })
 @Controller
@@ -38,7 +42,6 @@ public class MyPageController {
 
 	private final MyPageService service;
 
-	
 	/** 마이페이지 메인화면
 	 * @return
 	 */
@@ -46,11 +49,38 @@ public class MyPageController {
 	public String myPage(HttpSession session, Model model) {
 	    Member loginMember = (Member) session.getAttribute("loginMember");
 
+	    
 	    if (loginMember == null) {
-	        return "redirect:/login"; // 로그인되지 않았을 경우 로그인 페이지로 이동
+	        return "redirect:/";
 	    }
-
+	    
+	    int memberNo = (loginMember.getMemberNo());
+	    
+	    // 선택한 카테고리 이름 가져오기
+	    List <Category> selectCategory = service.selectCategory(memberNo);
+	    // 선택한 취향 이름 가져오기
+	    List <Preference> selectPreference = service.selectPreference(memberNo);
+	    
+	    // 최근 구매 내역 가져오기
+	    List <OrderBookDto> buyList = service.buyList(memberNo);
+	    
+	    // 내가 쓴 리뷰 목록 조회
+	    List <Review> writeReview = service.writeReview(memberNo);
+	    
+	    // 내가 찜한 목록 조회
+	    List <Book> wishList = service.wishList(memberNo);
+	    
+	    // 내 문의 목록 조회
+	    List <Query>queryList = service.queryList(memberNo);
+	    
+	    System.out.println(queryList);
 	    model.addAttribute("member", loginMember);
+	    model.addAttribute("category", selectCategory); // 카테고리 리스트
+	    model.addAttribute("preference", selectPreference); // 취향 리스트
+	    model.addAttribute("buyList", buyList); // 구매 내역
+	    model.addAttribute("writeReview", writeReview); // 리뷰 리스트
+	    model.addAttribute("wishList", wishList); // 찜 리스트
+	    model.addAttribute("queryList", queryList); // 문의 내역
 	    return "myPage/index";
 	}
 
@@ -71,6 +101,7 @@ public class MyPageController {
 
 		if (service.checkPassword(loginMember.getMemberNo(), password)) {
 			session.setAttribute("passwordChecked", true);
+			
 			return ResponseEntity.ok().build();
 		}
 

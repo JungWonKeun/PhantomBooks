@@ -98,12 +98,18 @@ public class MemberController {
 		return ResponseEntity.badRequest().body("로그인 정보가 없습니다.");
 	}
 
-	// 로그아웃 처리
 	@GetMapping("logout")
-	public String logout(SessionStatus status) {
-		status.setComplete(); // 세션 종료
-		return "redirect:/"; // 홈 페이지로 리다이렉트
+	public String logout(SessionStatus status, HttpSession session) {
+	    status.setComplete(); // @SessionAttributes 관리 데이터 삭제
+
+	    if (session != null) {
+	        session.removeAttribute("passwordChecked"); // passwordChecked 속성 삭제
+	        session.invalidate(); // 전체 세션 무효화
+	    }
+
+	    return "redirect:/"; // 홈 페이지로 리다이렉트
 	}
+
 
 	/**
 	 * 회원 가입 페이지 전환

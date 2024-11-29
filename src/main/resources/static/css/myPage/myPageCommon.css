@@ -110,3 +110,28 @@ div label {
         height: auto;
     }
 } 
+
+.order-link,
+.review-link,
+.wishlist-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    transition: background-color 0.3s;
+}
+
+.order-item,
+.review-item,
+.wishlist-item {
+    cursor: pointer;
+    border: 1px solid #ddd;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 4px;
+}
+
+.order-item:hover,
+.review-item:hover,
+.wishlist-item:hover {
+    background-color: #f8f8f8;
+}
