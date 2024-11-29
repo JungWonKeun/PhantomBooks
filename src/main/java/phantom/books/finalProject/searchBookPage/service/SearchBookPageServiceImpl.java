@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import phantom.books.finalProject.cart.dto.CartDto;
 import phantom.books.finalProject.pagination.Pagination;
 import phantom.books.finalProject.searchBookPage.dto.Book;
 import phantom.books.finalProject.searchBookPage.dto.Review;
@@ -306,8 +307,14 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 	// 개별 찜 목록에 추가
 	@Override
 	public int putSingleWishlist(int memberNo, int bookNo) {
-		
+
 		return mapper.putSingleWishlist(memberNo, bookNo);
 	}
 
+	// 바로 구매
+	@Override
+	public void buyBook(int bookNo, int bookPrice, String bookTitle) {
+		
+		return;
+	}
 }
