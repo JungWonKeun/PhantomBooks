@@ -36,16 +36,23 @@
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
 }
 
-.card h2 {
-    font-size: 1.4rem;
-    color: #2c3e50;
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 1.2rem;
     border-bottom: 2px solid #e9ecef;
     padding-bottom: 0.8rem;
+}
+
+.card h2 {
+    font-size: 1.4rem;
+    color: #2c3e50;
     font-weight: 600;
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    margin: 0;
 }
 
 .card h2 i {
@@ -56,6 +63,8 @@
 .card-content {
     min-height: 180px;
     position: relative;
+    margin-top: 1rem;
+    padding: 0 0.5rem;
 }
 
 /* 내 정보 섹션 스타일 */
@@ -131,21 +140,7 @@
 }
 
 .more-btn {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    text-decoration: none;
-    color: #3498db;
-    font-size: 0.9rem;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-    transition: color 0.2s ease;
-}
-
-.more-btn:hover {
-    color: #2980b9;
+    display: none;
 }
 
 /* 바로가기 링크 스타일 */
@@ -257,30 +252,76 @@
     margin-bottom: 1.5rem;
 }
 
+/* 헤더 영역 flex 레이아웃 추가 */
+.preference-category .category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.8rem;
+}
+
 .preference-category h3 {
     font-size: 1.1rem;
     color: #495057;
-    margin-bottom: 0.8rem;
+    margin: 0; /* 기존 margin-bottom 제거 */
+}
+
+/* 카테고리 더보기 버튼 스타일 */
+.category-more {
+    font-size: 0.9rem;
+    color: #3498db;
+    transition: color 0.2s ease;
+}
+
+.category-more:hover {
+    color: #2980b9;
 }
 
 .tag-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.6rem;
+    gap: 8px;
 }
 
 .preference-tag {
-    padding: 0.5rem 1rem;
-    background: #e9ecef;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    color: #495057;
-    transition: all 0.2s ease;
+    padding: 4px 12px;
+    background-color: #f0f0f0;
+    border-radius: 16px;
+    font-size: 14px;
 }
 
-.preference-tag:hover {
-    background: #3498db;
-    color: #fff;
+.more-count {
+    background-color: transparent;
+    border: 1px dashed #3498db;
+    color: #3498db;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.more-count::before {
+    content: '···';
+    font-weight: bold;
+}
+
+.more-count:hover {
+    background-color: #3498db;
+    color: white;
+}
+
+.preference-tag:not(.more-count) {
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.preference-tag:not(.more-count):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background-color: #e8f4fd;
+    border-color: #3498db;
 }
 
 /* 반응형 스타일 추가 */
@@ -299,4 +340,272 @@
         margin-left: 0;
         margin-top: 0.5rem;
     }
+}
+
+/* a 태그 기본 스타일 초기화 */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* more-count를 감싸는 a 태그에 대한 스타일 */
+a .more-count {
+    text-decoration: none;
+}
+
+/* 카드 더보기 버튼 스타일 */
+.card-more {
+    font-size: 0.9rem;
+    color: #3498db;
+    transition: color 0.2s ease;
+}
+
+.card-more:hover {
+    color: #2980b9;
+}
+
+/* 리뷰 아이템 스타일 */
+.review-item {
+    display: block;
+    text-decoration: none !important;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    transition: background 0.2s ease;
+    margin-bottom: 0.8rem;
+}
+
+.review-item:last-child {
+    margin-bottom: 0;
+}
+
+.review-book-title {
+    font-weight: 600;
+    color: #3498db;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.review-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.review-title {
+    font-weight: 500;
+    color: #2c3e50;
+    font-size: 0.95rem;
+}
+
+.review-content {
+    color: #666;
+    font-size: 0.9rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;  /* 2줄까지만 표시 */
+    -webkit-box-orient: vertical;
+    line-height: 1.4;
+}
+
+.review-item:hover {
+    background: #e9ecef;
+    cursor: pointer;
+}
+
+/* 구매 내역 아이템 스타일 */
+.purchase-item {
+    display: block;
+    text-decoration: none !important;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    transition: background 0.2s ease;
+    margin-bottom: 0.8rem;
+}
+
+.purchase-item:last-child {
+    margin-bottom: 0;
+}
+
+.purchase-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.purchase-title span:first-child {
+    font-weight: 500;
+    color: #2c3e50;
+    font-size: 0.95rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 70%;
+}
+
+.book-count-title {
+    color: #666;
+    font-size: 0.85rem;
+    font-weight: normal;
+    white-space: nowrap;
+    margin-left: auto;
+}
+
+.purchase-info {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.total-price {
+    font-weight: 600;
+    color: #3498db;
+    font-size: 0.95rem;
+}
+
+.purchase-item:hover {
+    background: #e9ecef;
+    cursor: pointer;
+}
+
+/* 찜 목록 아이템 스타일 */
+.wishlist-item {
+    display: block;
+    text-decoration: none !important;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    transition: background 0.2s ease;
+    margin-bottom: 0.8rem;
+}
+
+.wishlist-item:last-child {
+    margin-bottom: 0;
+}
+
+.wishlist-item .book-title {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.wishlist-item .book-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.wishlist-item .book-writer {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.wishlist-item .book-price {
+    color: #3498db;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.wishlist-item .book-content {
+    color: #666;
+    font-size: 0.9rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;  /* 2줄까지만 표시 */
+    -webkit-box-orient: vertical;
+    line-height: 1.4;
+}
+
+.wishlist-item:hover {
+    background: #e9ecef;
+    cursor: pointer;
+}
+
+/* 문의 내역 아이템 스타일 */
+.inquiry-item {
+    display: block;
+    text-decoration: none !important;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    transition: background 0.2s ease;
+    margin-bottom: 0.8rem;
+}
+
+.inquiry-item:last-child {
+    margin-bottom: 0;
+}
+
+.inquiry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.8rem;
+}
+
+.inquiry-category, .inquiry-status {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+}
+
+.inquiry-category {
+    background-color: #e3f2fd;
+    color: #1976d2;
+}
+
+.inquiry-category i {
+    font-size: 0.9rem;
+}
+
+/* 상태별 스타일 */
+.inquiry-status {
+    font-weight: 500;
+}
+
+.status-0 {  /* 접수완료 */
+    background-color: #fff3e0;
+    color: #f57c00;
+}
+
+.status-1 {  /* 관리자확인 */
+    background-color: #e8f5e9;
+    color: #388e3c;
+}
+
+.status-2 {  /* 답변완료 */
+    background-color: #e3f2fd;
+    color: #1976d2;
+}
+
+.inquiry-title {
+    font-weight: 500;
+    color: #2c3e50;
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+}
+
+.inquiry-content {
+    color: #666;
+    font-size: 0.9rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-height: 1.4;
+}
+
+.inquiry-item:hover {
+    background: #e9ecef;
+    cursor: pointer;
 }

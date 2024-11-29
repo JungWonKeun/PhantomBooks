@@ -11,6 +11,10 @@ import phantom.books.finalProject.member.dto.Member;
 import phantom.books.finalProject.myPage.dto.Category;
 import phantom.books.finalProject.myPage.dto.Preference;
 import phantom.books.finalProject.myPage.mapper.MyPageMapper;
+import phantom.books.finalProject.order.dto.OrderBookDto;
+import phantom.books.finalProject.query.dto.Query;
+import phantom.books.finalProject.searchBookPage.dto.Book;
+import phantom.books.finalProject.searchBookPage.dto.Review;
 
 @Transactional
 @Service
@@ -19,6 +23,42 @@ public class MyPageServiceImpl implements MyPageService {
 
 	private final MyPageMapper mapper;
 
+	// 로그인한 회원의 선호 카테고리 불러오기
+	@Override
+	public List<Category> selectCategory(int memberNo) {
+		return mapper.selectCategory(memberNo);
+	}
+
+	// 로그인한 회원의 선호 취향 불러오기
+	@Override
+	public List<Preference> selectPreference(int memberNo) {
+		return mapper.selectPreference(memberNo);
+	}
+
+	// 로그인한 회원의 구매 내역 불러오기
+	@Override
+	public List<OrderBookDto> buyList(int memberNo) {
+		return mapper.buyList(memberNo);
+	}
+
+	// 로그인한 회원의 리뷰 작성 내역 불러오기
+	@Override
+	public List<Review> writeReview(int memberNo) {
+		return mapper.writeReview(memberNo);
+	}
+
+	// 로그인한 회원의 찜 목록 불러오기
+	@Override
+	public List<Book> wishList(int memberNo) {
+		return mapper.wishList(memberNo);
+	}
+
+	// 로그인한 회원의 문의 목록 불러오기
+	@Override
+	public List<Query> queryList(int memberNo) {
+		return mapper.queryList(memberNo);
+	}
+	
 	/**
 	 * 카테고리 전체 목록 불러오기
 	 *
@@ -40,7 +80,7 @@ public class MyPageServiceImpl implements MyPageService {
 	@Override
 	public void saveCategory(int memberNo, String categoryYn, List<Integer> categoryNo) {
 		mapper.deleteCategoryByMemberNo(memberNo);
-		
+
 		for (int category : categoryNo) {
 			mapper.insertCategory(memberNo, category);
 		}
@@ -50,13 +90,13 @@ public class MyPageServiceImpl implements MyPageService {
 	}
 
 	@Override
-	public void savePreference(int memberNo, String categoryYn,List<Integer> preferenceNo) {
+	public void savePreference(int memberNo, String categoryYn, List<Integer> preferenceNo) {
 		mapper.deletePreferenceByMemberNo(memberNo);
 
 		for (int preference : preferenceNo) {
-			mapper.insertPreference(memberNo, preference);			
+			mapper.insertPreference(memberNo, preference);
 		}
-		
+
 		if (categoryYn.equals("N")) {
 			mapper.updateCategoryYn(memberNo);
 		}
@@ -85,33 +125,33 @@ public class MyPageServiceImpl implements MyPageService {
 	@Override
 	public Member changeInfo(Member inputMember) {
 		mapper.changeInfo(inputMember);
-		
-	return mapper.loginMemberByMemberNo(inputMember.getMemberNo());
-		
+
+		return mapper.loginMemberByMemberNo(inputMember.getMemberNo());
+
 	}
 
 	@Override
-  public int changePassword(String currentPw, String newPw, Member loginMember) {
-		
+	public int changePassword(String currentPw, String newPw, Member loginMember) {
+
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		
-      // 1. 로그인한 회원의 비밀번호 가져오기
-      String dbPassword = loginMember.getMemberPw();
 
-      // 2. 입력된 현재 비밀번호와 로그인한 회원의 비밀번호 비교
-      if (!encoder.matches(currentPw, dbPassword)) {
-          return 1; // 현재 비밀번호 불일치
-      }
+		// 1. 로그인한 회원의 비밀번호 가져오기
+		String dbPassword = loginMember.getMemberPw();
 
-      // 3. 새 비밀번호와 현재 비밀번호가 같은지 확인
-      if (encoder.matches(newPw, dbPassword)) {
-          return 2; // 새 비밀번호가 현재 비밀번호와 같음
-      }
+		// 2. 입력된 현재 비밀번호와 로그인한 회원의 비밀번호 비교
+		if (!encoder.matches(currentPw, dbPassword)) {
+			return 1; // 현재 비밀번호 불일치
+		}
 
-      // 4. 새 비밀번호 암호화 후 DB 업데이트
-      int memberNo = loginMember.getMemberNo();
-      String encryptedPw = encoder.encode(newPw);
-      mapper.updatePassword(memberNo, encryptedPw);
-      return 3; // 비밀번호 변경 성공
+		// 3. 새 비밀번호와 현재 비밀번호가 같은지 확인
+		if (encoder.matches(newPw, dbPassword)) {
+			return 2; // 새 비밀번호가 현재 비밀번호와 같음
+		}
+
+		// 4. 새 비밀번호 암호화 후 DB 업데이트
+		int memberNo = loginMember.getMemberNo();
+		String encryptedPw = encoder.encode(newPw);
+		mapper.updatePassword(memberNo, encryptedPw);
+		return 3; // 비밀번호 변경 성공
 	}
 }

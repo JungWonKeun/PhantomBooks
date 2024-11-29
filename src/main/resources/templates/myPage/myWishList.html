@@ -15,20 +15,21 @@
 
             <h2>위시리스트</h2>
             <div class="wishlist-container">
-                <!-- 실제 위시리스트 아이템 -->
                 <div th:each="wish : ${wishList}" class="wishlist-item">
-                    <div class="book-image">
-                        <img th:src="${wish.book.coverImage}" alt="책 표지">
-                    </div>
-                    <div class="book-info">
-                        <h3 th:text="${wish.book.title}">책 제목</h3>
-                        <p th:text="${wish.book.author}">저자</p>
-                        <p th:text="${#numbers.formatDecimal(wish.book.price, 0, 'COMMA', 0, 'POINT')} + '원'">가격</p>
-                    </div>
-                    <div class="item-actions">
-                        <button class="btn-cart" th:data-book-id="${wish.book.id}">장바구니 담기</button>
-                        <button class="btn-remove" th:data-wish-id="${wish.id}">삭제</button>
-                    </div>
+                    <a th:href="@{/books/{id}(id=${wish.book.id})}" class="wishlist-link">
+                        <div class="book-image">
+                            <img th:src="${wish.book.coverImage}" alt="책 표지">
+                        </div>
+                        <div class="book-info">
+                            <h3 th:text="${wish.book.title}">책 제목</h3>
+                            <p th:text="${wish.book.author}">저자</p>
+                            <p th:text="${#numbers.formatDecimal(wish.book.price, 0, 'COMMA', 0, 'POINT')} + '원'">가격</p>
+                        </div>
+                        <div class="item-actions">
+                            <button class="btn-cart" th:data-book-id="${wish.book.id}">장바구니 담기</button>
+                            <button class="btn-remove" th:data-wish-id="${wish.id}">삭제</button>
+                        </div>
+                    </a>
                 </div>
 
                 <!-- 테스트용 위시리스트 아이템 -->
