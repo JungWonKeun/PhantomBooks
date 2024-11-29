@@ -1,5 +1,6 @@
 package phantom.books.finalProject.main;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -14,51 +15,42 @@ import phantom.books.finalProject.member.dto.Member;
 import phantom.books.finalProject.order.dto.OrderBookDto;
 import phantom.books.finalProject.searchBookPage.dto.Book;
 
-
 @RequestMapping("/")
 @Controller
 @RequiredArgsConstructor
 public class MainController {
 
 	private final MainService service;
-	
+
 	@GetMapping("")
 	public String main() {
 		return "main/main";
 	}
-	
-	
-    /** 오늘의 추천도서
-     * @param model : 
-     * @return
-     */
-    @GetMapping("/daily")
-    public String getDailyRecommendedBooks(Model model) {
 
-    	// 추천 도서로 사용될 전체 도서 리스트
-    	List<Book> books = service.getDailyRecommendedBooks();
-        
-        
-        model.addAttribute("books", books);
-        
-        return "dailyRecommendation";
-    }
+	@GetMapping("/main")
+	public String getCategoryBookList(
+	    Model model,
+	    @SessionAttribute(value = "loginMember", required = false) Member loginMember
+	) {
+	    // 오늘의 추천 도서 (모든 사용자가 볼 수 있음)
+	    List<Book> books = service.todayBooks();
+	    model.addAttribute("books", books);
 
-    /** 취향별 추천 도서
-     * @param model : 얻어와야 하는 DTO들의 집합
-     * @param loginMember
-     * @return
-     */
-    @GetMapping("/preferences")
-    public String getBooksByUserPreference(
-    			Model model,
-    			@SessionAttribute("loginMember") Member loginMember
-    		) {
-    	
-    	int memberNo = loginMember.getMemberNo();
-        List<Book> books = service.getBooksByUserPreference(memberNo);
-        model.addAttribute("books", books);
-        return "preferenceRecommendation";
-    }
-	
+	    // 로그인한 사용자만을 위한 데이터
+	    if (loginMember != null) {
+	        int memberNo = loginMember.getMemberNo();
+	        
+	        List<Book> bestsellerBooks = service.bestsellerBooks(memberNo);
+	        List<OrderBookDto> boughtBooks = service.getBoughtBooks(memberNo);
+	        List<Book> myTypeBooks = service.getMyTypeBooks(memberNo);
+	        
+	        model.addAttribute("bestsellerBooks", bestsellerBooks);
+	        model.addAttribute("boughtBooks", boughtBooks);
+	        model.addAttribute("myTypeBooks", myTypeBooks);
+	    }
+
+	    return "main/main";
+	}
+
+
 }

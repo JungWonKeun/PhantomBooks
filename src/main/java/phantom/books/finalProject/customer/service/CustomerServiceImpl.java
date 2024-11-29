@@ -71,15 +71,17 @@ public class CustomerServiceImpl implements CustomerService {
 
 		return map;
 	}
+
 	@Override
 	public int updateInquiry(int queryNo, int memberNo) {
 		return customerMapper.updateInquiry(queryNo, memberNo);
 	}
+
 	@Override
 	public void updateInquiry(Query query) {
-		customerMapper.updateInquiry(query);		
+		customerMapper.updateInquiry(query);
 	}
-	
+
 	@Override
 	public int deleteInquiry(int queryNo, int memberNo) {
 		return customerMapper.deleteInquiry(queryNo, memberNo);

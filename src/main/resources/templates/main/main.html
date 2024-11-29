@@ -14,121 +14,58 @@
     <section class="recommend">
       <h2>오늘의 추천 도서</h2>
       <div class="book-slider" id="bookSlider">
-        <div class="book" data-index="0">
-          <div class="book-cover"></div>
-          <div class="book-info">
-            <h5>책이름: OOO
-              <ul>
-                <li>이미지</li>
-                <li>카테고리</li>
-                <li>제목</li>
-                <li>작가</li>
-                <li>출판사</li>
-                <li>가격</li>
-                <li>평점</li>
-              </ul>
-            </h5>
-
-            <section class="bestSellerContainer">
-              <h1>오늘의 베스트셀러</h1>
-              <h5>일간 베스트셀러 불러오기</h5>
-              <ul>
-                <li>이미지</li>
-                <li>카테고리</li>
-                <li>제목</li>
-                <li>작가</li>
-                <li>출판사</li>
-                <li>가격</li>
-                <li>평점</li>
-              </ul>
+        <div th:if="${not #lists.isEmpty(books)}" 
+             th:each="book, status : ${books}" 
+             class="book" 
+             th:data-index="${status.index}">
+          <div class="book-cover">
+            <img th:src="${book.bookCover}" th:alt="${book.bookTitle}">
           </div>
+          <div class="book-info">
+            <h3 th:text="${book.bookTitle}">책 제목</h3>
+            <ul>
+              <li th:text="${book.categoryName}">카테고리</li>
+              <li th:text="${book.bookWriter}">작가</li>
+              <li th:text="${book.companyName}">출판사</li>
+              <li th:text="${book.bookPrice}">가격</li>
+              <li th:text="|평점: ${book.scoreAvg}|">평점</li>
+            </ul>
+          </div>
+        </div>
+        <div th:if="${#lists.isEmpty(books)}" class="no-books">
+          현재 표시할 책이 없습니다.
+        </div>
+      </div>
     </section>
 
-    <section class="personalized">
+
+      <section class="personalized">
+        <h2>오늘의 베스트셀러</h2>
+        <div th:if="${bestsellerBooks}" class="bestseller-wrapper">
+          <div th:each="book : ${bestsellerBooks}" class="bestseller-item">
+            <img th:src="${book.bookCover}" th:alt="${book.bookTitle}">
+            <h3 th:text="${book.bookTitle}">제목</h3>
+            <p th:text="${book.bookWriter}">작가</p>
+            <p th:text="${book.bookPrice}">가격</p>
+          </div>
+        </div>
+    </section>
+
+    <section class="personalized" th:if="${session.loginMember != null}">
       <h2>취향에 맞는 추천도서</h2>
-      <br>
-      <br>
       <div class="RecommendContainer">
         <div class="recommendWrapperContainer">
           <div class="recommendation-wrapper" id="scroll-container">
             <ul class="recommendation-list">
-              <li class="recommendation-item">
-                <a href="#">
-                  <img src="recommend1.jpg" alt="추천 도서 1">
-                  <h3>추천 도서 1</h3>
-                  <p>12,000원</p>
+              <li th:each="book : ${myTypeBooks}" class="recommendation-item">
+                <a th:href="@{/book/detail/{bookNo}(bookNo=${book.bookNo})}">
+                  <img th:src="${book.bookImageURL}" th:alt="${book.bookTitle}">
+                  <h3 th:text="${book.bookTitle}">도서명</h3>
+                  <p th:text="${book.bookPrice}">가격</p>
+                  <p th:text="|평점: ${book.scoreAvg}|">평점</p>
                 </a>
               </li>
-              <li class="recommendation-item">
-                <a href="#">
-                  <img src="recommend2.jpg" alt="추천 도서 2">
-                  <h3>추천 도서 2</h3>
-                  <p>15,000원</p>
-                </a>
-              </li>
-              <li class="recommendation-item">
-                <a href="#">
-                  <img src="recommend3.jpg" alt="추천 도서 3">
-                  <h3>추천 도서 3</h3>
-                  <p>10,000원</p>
-                </a>
-              </li>
-              <li class="recommendation-item">
-                <a href="#">
-                  <img src="recommend4.jpg" alt="추천 도서 4">
-                  <h3>추천 도서 4</h3>
-                  <p>10,000원</p>
-                </a>
-              </li>
-              <li class="recommendation-item">
-                <a href="#">
-                  <img src="recommend5.jpg" alt="추천 도서 5">
-                  <h3>추천 도서 5</h3>
-                  <p>10,000원</p>
-                </a>
-              </li>
-              <li class="recommendation-item">
-                <a href="#">
-                  <img src="recommend6.jpg" alt="추천 도서 6">
-                  <h3>추천 도서 6</h3>
-                  <p>10,000원</p>
-                </a>
-              </li>
-              <li class="recommendation-item">
-                <a href="#">
-                  <img src="recommend7.jpg" alt="추천 도서 7">
-                  <h3>추천 도서 7</h3>
-                  <p>10,000원</p>
-                </a>
-              </li>
-              <li class="recommendation-item">
-                <a href="#">
-                  <img src="recommend8.jpg" alt="추천 도서 8">
-                  <h3>추천 도서 8</h3>
-                  <p>10,000원</p>
-                </a>
-              </li>
-              <li class="recommendation-item">
-                <a href="#">
-                  <img src="recommend9.jpg" alt="추천 도서 9">
-                  <h3>추천 도서 9</h3>
-                  <p>10,000원</p>
-                </a>
-              </li>
-              <li class="recommendation-item">
-                <a href="#">
-                  <img src="recommend10.jpg" alt="추천 도서 10">
-                  <h3>추천 도서 10</h3>
-                  <p>10,000원</p>
-                </a>
-              </li>
-              <li class="recommendation-item">
-                <a href="#">
-                  <img src="recommend11.jpg" alt="추천 도서 11">
-                  <h3>추천 도서 11</h3>
-                  <p>10,000원</p>
-                </a>
-              </li>
+            </ul>
           </div>
         </div>
       </div>

@@ -30,86 +30,89 @@
 		as title, CONTENT as content, FAQ_YN as faqYn
 		FROM FAQ
 		WHERE FAQ_YN =
-		'Y'
-		ORDER BY FAQ_ID DESC
+		'N'
 	</select>
 
 	<select id="getResultInquiry" resultType="Query">
-		SELECT 
-			QUERY_NO, 
-			QUERY_TITLE, 
-			QUERY_CONTENT, 
-			QUERY_WRITE_DATE, 
-			QUERY_UPDATE_DATE, 
-			REPLY
+		SELECT
+		QUERY_NO,
+		QUERY_TITLE,
+		QUERY_CONTENT,
+		QUERY_WRITE_DATE,
+		QUERY_UPDATE_DATE,
+		REPLY
 		FROM
-			QUERY
+		QUERY
 		WHERE
-			QUERY_NO = #{queryNo}
-		
-		
+		QUERY_NO = #{queryNo}
+
+
 	</select>
-	
+
 	<select id="countQueryList" resultType="_int">
 		SELECT COUNT(*)
 		FROM QUERY
 		WHERE MEMBER_NO = #{memberNo}
-		
+
 		<choose>
 			<when test="startDate == 'default'">
-				AND TO_DATE(QUERY_WRITE_DATE) BETWEEN  TRUNC(CURRENT_DATE) -7 AND TRUNC(CURRENT_DATE)
+				AND TO_DATE(QUERY_WRITE_DATE) BETWEEN
+				TRUNC(CURRENT_DATE) -7 AND TRUNC(CURRENT_DATE)
 			</when>
 			<otherwise>
-				AND TO_DATE(QUERY_WRITE_DATE) BETWEEN  TO_DATE(#{startDate}) AND TO_DATE(#{endDate})
+				AND TO_DATE(QUERY_WRITE_DATE) BETWEEN
+				TO_DATE(#{startDate}) AND TO_DATE(#{endDate})
 			</otherwise>
 		</choose>
-		
+
 		<choose>
 			<when test="status == -1"></when>
 			<otherwise>
 				AND STATUS = #{status}
 			</otherwise>
 		</choose>
-		
+
 		<choose>
 			<when test="project == 1"></when>
 			<otherwise>
 				AND QUERY_SUBJECT = #{project}
 			</otherwise>
 		</choose>
-		
+
 	</select>
-	
+
 	<select id="queryList" resultType="Query">
 		SELECT *
 		FROM QUERY
 		WHERE MEMBER_NO = #{memberNo}
 		<choose>
 			<when test="startDate == 'default'">
-				AND TO_DATE(QUERY_WRITE_DATE) BETWEEN  TRUNC(CURRENT_DATE) -7 AND TRUNC(CURRENT_DATE)
+				AND TO_DATE(QUERY_WRITE_DATE) BETWEEN
+				TRUNC(CURRENT_DATE) -7 AND TRUNC(CURRENT_DATE)
 			</when>
 			<otherwise>
-				AND TO_DATE(QUERY_WRITE_DATE) BETWEEN  TO_DATE(#{startDate}) AND TO_DATE(#{endDate})
+				AND TO_DATE(QUERY_WRITE_DATE) BETWEEN
+				TO_DATE(#{startDate}) AND TO_DATE(#{endDate})
 			</otherwise>
 		</choose>
-		
+
 		<choose>
 			<when test="status == -1"></when>
 			<otherwise>
 				AND STATUS = #{status}
 			</otherwise>
 		</choose>
-		
+
 		<choose>
 			<when test="project == 1"></when>
 			<otherwise>
 				AND QUERY_SUBJECT = #{project}
 			</otherwise>
 		</choose>
-		
+
 		ORDER BY QUERY_NO DESC
 	</select>
-	
+
 	<update id="updateInquiry" parameterType="Query">
 		UPDATE QUERY
 		SET
@@ -117,13 +120,15 @@
 		QUERY_CONTENT = #{queryContent},
 		QUERY_UPDATE_DATE = CURRENT_DATE
 		WHERE QUERY_NO = #{queryNo}
-		AND MEMBER_NO = #{memberNo}
+		AND
+		MEMBER_NO = #{memberNo}
 	</update>
-	
+
 	<delete id="deleteInquiry" parameterType="int">
 		DELETE FROM QUERY
-		WHERE QUERY_NO = #{queryNo}
-		AND   MEMBER_NO = #{memberNo}
-		AND	  STATUS!= 2
+		WHERE
+		QUERY_NO = #{queryNo}
+		AND MEMBER_NO = #{memberNo}
+		AND STATUS!= 2
 	</delete>
 </mapper>

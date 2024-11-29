@@ -1,16 +1,108 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mubatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="phantom.book.finalProject.main.mapper.Mainmapper">
+<mapper	namespace="phantom.book.finalProject.main.mapper.Mainmapper">
 
-	<select id="getDailyRecommendedBooks" resultType="Book">
-        SELECT * FROM books WHERE recommendation_type = 'daily'
-    </select>
+	<!-- 오늘의 책 추천 -->
+	<select id="todayBooks" resultType="Book">
+		WITH TEMP_TABLE AS (
+        SELECT 
+            BOOK_NO, 
+            CATEGORY_NO, 
+            COUNT(*) AS SELL_COUNT
+        FROM "ORDER"
+        JOIN ORDER_LIST USING (ORDER_NO)
+        JOIN BOOK USING (BOOK_NO)
+        JOIN BOOK_CATEGORY USING (BOOK_NO)
+        JOIN CATEGORY USING (CATEGORY_NO)
+        WHERE TRUNC(ORDER_DATE) = TRUNC(#{SYSDATE})
+        GROUP BY BOOK_NO, CATEGORY_NO
+    )
+    SELECT 
+        MAIN.BOOK_NO,
+        BOOK_TITLE,
+        BOOK_COVER,
+        BOOK_WRITER,
+        COMPANY_NAME,
+        BOOK_PRICE,
+        SCORE_AVG, 
+        (
+            SELECT
+                LISTAGG(CATEGORY_NAME, ',') WITHIN GROUP (ORDER BY CT.CATEGORY_NO)
+            FROM BOOK SUB
+            JOIN BOOK_CATEGORY BCT ON (SUB.BOOK_NO = BCT.BOOK_NO)
+            JOIN CATEGORY CT ON (BCT.CATEGORY_NO = CT.CATEGORY_NO)
+            WHERE SUB.BOOK_NO = MAIN.BOOK_NO
+        ) AS CATEGORY_NAME
+    FROM (
+        SELECT 
+            DISTINCT BOOK_NO 
+        FROM TEMP_TABLE
+        WHERE (CATEGORY_NO, SELL_COUNT) IN (
+            SELECT 
+                CATEGORY_NO, 
+                MAX(SELL_COUNT)
+            FROM TEMP_TABLE
+            GROUP BY CATEGORY_NO
+        )
+    ) MAIN
+    JOIN BOOK ON BOOK.BOOK_NO = MAIN.BOOK_NO
+	</select>
 
-    <select id="getBooksByUserPreference" parameterType="int" resultType="Book">
-        SELECT * FROM books WHERE category IN (SELECT preference FROM user_preferences WHERE user_id = #{userId})
-    </select>
-
-    <select id="getBestsellerBooks" resultType="Book">
-        SELECT * FROM books ORDER BY sales DESC LIMIT 10
-    </select>
+	<!-- 일간 베스트셀러 -->
+	<select id="bestsellerBooks" parameterType = "int" resultType="book">
+    SELECT 
+        b.BOOK_NO,
+        b.BOOK_TITLE,
+        COUNT(o.ORDER_NO) AS TOTAL_COUNT
+    FROM 
+        ORDER_LIST o
+    JOIN 
+        BOOK b ON o.BOOK_NO = b.BOOK_NO
+    WHERE 
+        o.MEMBER_NO = #{memberNo}
+    GROUP BY 
+        b.BOOK_NO, b.BOOK_TITLE
+    ORDER BY 
+        TOTAL_COUNT DESC
+    LIMIT 1
+	</select>
+	
+	<!-- 구매한 책 리스트 가져오기 -->
+	<select id="getBoughtBooks" parameterType="int" resultType="OrderBookDto">
+    SELECT 
+        b.BOOK_NO,
+        b.BOOK_TITLE,
+        o.ORDER_DATE,
+        o.BOOK_COUNT
+    FROM 
+        ORDER_LIST o
+    JOIN 
+        BOOK b ON o.BOOK_NO = b.BOOK_NO
+    WHERE 
+        o.MEMBER_NO = #{memberNo}
+    ORDER BY 
+        o.ORDER_DATE DESC
+	</select>
+	
+	
+	<!-- 취향별 책 추천 -->	
+	<select id="getMyTypeBooks" resultType="Book">
+    SELECT 
+        b.BOOK_NO,
+        b.BOOK_TITLE,
+        b.BOOK_CONTENT,
+        b.SCORE_AVG
+    FROM 
+        MEMBER_PREFERENCE mp
+    JOIN 
+        BOOK_PREFERENCE bp ON mp.PREFERENCE_NO = bp.PREFERENCE_NO
+    JOIN 
+        BOOK b ON bp.BOOK_NO = b.BOOK_NO
+    WHERE 
+        mp.MEMBER_NO = #{memberNo}
+    ORDER BY 
+        b.SCORE_AVG DESC
+    LIMIT 10
+	</select>
+	
 </mapper>

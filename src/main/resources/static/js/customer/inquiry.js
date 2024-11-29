@@ -54,7 +54,6 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchInquiries(status, startDate, endDate, 1, project);
   });
 
-
   // 데이터 요청 함수
   function fetchInquiries(status, startDate, endDate, cp, project) {
     if (!status || !startDate || !endDate) {
@@ -64,7 +63,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if(project === undefined) project = document.querySelector("#inquiryProject-dropdown").value;
-
     const apiUrl = `/customer/inquiry/queryList?status=${status}&startDate=${startDate}&endDate=${endDate}&cp=${cp}&project=${project}`;
     console.log(`Fetching data from: ${apiUrl}`); // 요청 URL 확인
 
@@ -168,9 +166,13 @@ document.addEventListener("DOMContentLoaded", () => {
    */
   function renderPagination(pagination) {
 
-    const { startPage, endPage, prevPage, nextPage, maxPage, currentPage } = pagination;
+    const { startPage, endPage, prevPage, nextPage, maxPage, currentPage, project } = pagination;
 
     const ul = document.querySelector(".pagination");
+    if (!ul) {
+      console.error("Pagination element (.pagination) not found");
+      return;  // ul 요소가 없으면 함수 종료
+    }
     ul.innerHTML = "";
 
     const firstLi = createPageNo("<<", 1);
