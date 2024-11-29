@@ -518,3 +518,13 @@ h1 {
 
 
 /* 리뷰 작성부분 css 끝 */
+
+/*  별점 Css */
+.star-ratings i {
+  font-size: 2rem; /* 별 크기 */
+  margin-right: 0.1rem; /* 별 간격 */
+  transition: opacity 0.3s; /* 부드러운 전환 효과 */
+}
+
+
+/*  별점 Css */

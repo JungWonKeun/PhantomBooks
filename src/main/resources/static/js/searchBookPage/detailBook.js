@@ -1,9 +1,9 @@
 /* 불러오기용 JS 별점 */
 const rateWrap = document.querySelectorAll('.rating'),
-        label = document.querySelectorAll('.rating .rating__label'),
-        input = document.querySelectorAll('.rating .rating__input'),
-        labelLength = label.length,
-        opacityHover = '0.5';
+    label = document.querySelectorAll('.rating .rating__label'),
+    input = document.querySelectorAll('.rating .rating__input'),
+    labelLength = label.length,
+    opacityHover = '0.5';
 
 let stars = document.querySelectorAll('.rating .star-icon');
 
@@ -15,8 +15,8 @@ rateWrap.forEach(wrap => {
 
         stars.forEach((starIcon, idx) => {
             starIcon.addEventListener('mouseenter', () => {
-                initStars(); 
-                filledRate(idx, labelLength); 
+                initStars();
+                filledRate(idx, labelLength);
 
                 for (let i = 0; i < stars.length; i++) {
                     if (stars[i].classList.contains('filled')) {
@@ -27,7 +27,7 @@ rateWrap.forEach(wrap => {
 
             starIcon.addEventListener('mouseleave', () => {
                 starIcon.style.opacity = '1';
-                checkedRate(); 
+                checkedRate();
             });
 
             wrap.addEventListener('mouseleave', () => {
@@ -247,45 +247,70 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+/** 수정 모드 전환 */
 function toggleEditMode(reviewNo, button) {
     console.log(`toggleEditMode 실행. 리뷰 번호: ${reviewNo}`);
-    
+
     const titleInput = document.querySelector(`input[data-review-no="${reviewNo}"]`);
     const contentTextarea = document.querySelector(`textarea[data-review-no="${reviewNo}"]`);
     const cancelButton = document.querySelector(`button[data-review-no="${reviewNo}"][id="deleteReview"]`);
     const rating = document.querySelector(`.rating[data-review-no="${reviewNo}"]`);
     const ratingInputs = rating?.querySelectorAll('input[type="radio"]');
-    const imageInput = document.querySelector(`#imageInput-${reviewNo}`)
+    const imageInput = document.querySelector(`#imageInput-${reviewNo}`);
     if (!titleInput || !contentTextarea || !cancelButton || !ratingInputs) {
         console.error(`리뷰 요소를 찾을 수 없습니다. 리뷰 번호: ${reviewNo}`);
         return;
     }
 
+    // 백업: 원래 삭제 이벤트 저장
+    const originalDeleteHandler = cancelButton.onclick;
+
     if (button.textContent === "수정") {
         console.log(`수정 모드 활성화: 리뷰 번호 ${reviewNo}`);
 
+        // 활성화
         titleInput.removeAttribute('readonly');
         contentTextarea.removeAttribute('readonly');
-        rating.classList.remove('readonly'); // 수정 가능 상태
+        rating.classList.remove('readonly');
         ratingInputs.forEach(input => input.removeAttribute('disabled'));
         if (imageInput) imageInput.removeAttribute('disabled');
 
         titleInput.style.border = "1px solid #ccc";
         contentTextarea.style.border = "1px solid #ccc";
 
+        // 버튼 상태 변경
         button.textContent = "저장";
         cancelButton.textContent = "취소";
-        titleInput.focus();
+
+        // 삭제 버튼의 기존 이벤트 비활성화
+        cancelButton.onclick = null;
+
+        // 취소 버튼 동작 설정
+        cancelButton.onclick = () => {
+            resetEditMode(
+                titleInput,
+                contentTextarea,
+                rating,
+                ratingInputs,
+                imageInput,
+                button,
+                cancelButton,
+                originalDeleteHandler // 원래 삭제 이벤트 복구
+            );
+        };
     } else if (button.textContent === "저장") {
         console.log(`저장 요청: 리뷰 번호 ${reviewNo}`);
         const updatedTitle = titleInput.value.trim();
         const updatedContent = contentTextarea.value.trim();
         const updatedRating = [...ratingInputs].find(input => input.checked)?.value;
         const updatedImage = imageInput?.files[0];
+
         if (!updatedTitle || !updatedContent || !updatedRating) {
             alert("제목, 내용, 별점을 모두 입력해주세요.");
             return;
         }
+
+        // 서버로 데이터 전송
         const formData = new FormData();
         formData.append('reviewNo', reviewNo);
         formData.append('reviewTitle', updatedTitle);
@@ -294,6 +319,7 @@ function toggleEditMode(reviewNo, button) {
         if (updatedImage) {
             formData.append('image', updatedImage);
         }
+
         fetch(`/searchBookPage/updateReview/${reviewNo}`, {
             method: 'POST',
             body: formData
@@ -301,7 +327,16 @@ function toggleEditMode(reviewNo, button) {
             .then(response => {
                 if (response.ok) {
                     alert('리뷰가 수정되었습니다.');
-                    resetEditMode(titleInput, contentTextarea, rating, ratingInputs, imageInput, button, cancelButton);
+                    resetEditMode(
+                        titleInput,
+                        contentTextarea,
+                        rating,
+                        ratingInputs,
+                        imageInput,
+                        button,
+                        cancelButton,
+                        originalDeleteHandler // 원래 삭제 이벤트 복구
+                    );
                 } else {
                     throw new Error('서버 응답 실패');
                 }
@@ -310,21 +345,31 @@ function toggleEditMode(reviewNo, button) {
                 console.error('Error:', error);
                 alert('리뷰 수정 중 문제가 발생했습니다. 다시 시도해주세요.');
             });
-        
     }
 }
-function resetEditMode(titleInput, contentTextarea, rating, ratingInputs, imageInput, button, cancelButton) {
-    console.log('수정 모드 종료.');
+
+/** 수정 취소 및 초기 상태로 복구 */
+function resetEditMode(titleInput, contentTextarea, rating, ratingInputs, imageInput, button, cancelButton, originalDeleteHandler) {
+    console.log('수정 취소. 원래 상태로 복구합니다.');
+
+    // 읽기 전용 상태로 복구
     titleInput.setAttribute('readonly', true);
     contentTextarea.setAttribute('readonly', true);
-    titleInput.style.border = "none";
-    contentTextarea.style.border = "none";
-    rating.classList.add('readonly'); // 읽기 전용 상태
+    rating.classList.add('readonly');
     ratingInputs.forEach(input => input.setAttribute('disabled', true));
     if (imageInput) imageInput.setAttribute('disabled', true);
+
+    titleInput.style.border = "none";
+    contentTextarea.style.border = "none";
+
+    // 버튼 상태 복구
     button.textContent = "수정";
     cancelButton.textContent = "삭제";
+
+    // 원래 삭제 이벤트 복구
+    cancelButton.onclick = originalDeleteHandler;
 }
+
 
 
 /*-------------------------------------- 리뷰 수정 end------------------------------------------- */
@@ -361,11 +406,11 @@ function deleteReview(reviewNo, bookNo) {
     fetch(`/searchBookPage/deleteReview?reviewNo=${reviewNo}` + `&bookNo=${bookNo}`, { method: 'DELETE' })
         .then((response) => {
             if (response.ok) return response.text();
-            
+
             throw new Error('리뷰 삭제에 실패했습니다.');
         })
         .then(result => {
-            if (result  = 0) {
+            if (result = 0) {
                 alert('리뷰 삭제 중 문제가 발생했습니다. 다시 시도해주세요.');
             }
             alert('리뷰가 삭제되었습니다.');
@@ -431,15 +476,68 @@ const imageInput = document.getElementById('write-imageInput');
 const preview = document.querySelector('.write-review-img-thumb');
 
 imageInput.addEventListener('change', (e) => {
-  const file = e.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = () => {
-      preview.src = reader.result;
-    };
-    reader.readAsDataURL(file);
-  }
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+            preview.src = reader.result;
+        };
+        reader.readAsDataURL(file);
+    }
 });
+
+// 장바구니 담기
+function detailCart(button) {
+    // 클릭된 버튼의 상위 요소에서 book-item 클래스를 가진 요소를 찾습니다.
+    const bookItem = button.closest('.book-item');
+
+    if (!bookItem) {
+        console.error("bookItem 요소를 찾을 수 없습니다.");
+        return;
+    }
+
+    // book-item 요소에 있는 data-book-no 속성에서 bookNo를 가져옵니다.
+    const bookNo = parseInt(bookItem.getAttribute('data-book-no'), 10);
+
+    if (!bookNo) {
+        console.error("bookNo를 찾을 수 없습니다.");
+        return;
+    }
+
+    // 책 제목을 알림에 표시
+    const bookTitleElement = bookItem.querySelector('.book-detail-header-name');
+    const bookTitle = bookTitleElement ? bookTitleElement.textContent.trim() : '';
+
+
+    // 서버에 bookNo를 전송
+    fetch(`/searchBookPage/detailCart`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ bookNo: bookNo })
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('장바구니 추가에 실패했습니다.');
+            }
+            return response.text();  // 응답을 텍스트로 받습니다.
+        })
+        .then(message => {
+            if (message === "추가 성공") {
+                alert(`"${bookTitle}"을(를) 장바구니에 추가했습니다.`);
+                let userResponse = confirm("장바구니로 이동하시겠습니까?");
+                if (userResponse) {
+                    window.location.href = "/cart";  // 장바구니 페이지로 이동
+                }
+            } else {
+                alert('장바구니 추가에 실패했습니다.');
+            }
+        })
+        .catch(error => console.error('에러:', error));
+
+}
+
 
 /* 리뷰 작성 이미지 미리보기 end  */
 

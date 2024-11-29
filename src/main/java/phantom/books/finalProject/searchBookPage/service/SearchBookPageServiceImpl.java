@@ -96,7 +96,8 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 
 	// 책 검색
 	@Override
-	public Map<String, Object> searchBooks(String searchTitle, int[] categories, int[] preferences, int cp, String sortOption) {
+	public Map<String, Object> searchBooks(String searchTitle, int[] categories, int[] preferences, int cp,
+			String sortOption) {
 		// 전체 책 개수 조회
 		int totalCount = mapper.countBooks(searchTitle, categories, preferences);
 
@@ -260,42 +261,53 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 
 		return mapper.updateScoreAvgDelete(reviewNo);
 	}
-	
+
 	// 카테고리 불러오기
 	@Override
 	public ResponseEntity<List<Integer>> myCategoryBringingIn(int reviewNo) {
-	    List<Integer> categoryNoList = mapper.myCategoryBringingIn(reviewNo);
+		List<Integer> categoryNoList = mapper.myCategoryBringingIn(reviewNo);
 
-	    // 디버깅 로그 추가
+		// 디버깅 로그 추가
 		/*
 		 * log.debug("categories for member {}: {}", reviewNo, categoryNoList);
 		 */
-	    if (categoryNoList != null && !categoryNoList.isEmpty()) {
-	        return ResponseEntity.ok(categoryNoList); // 정상 반환
-	    } else {
-	        return ResponseEntity.noContent().build(); // 데이터가 없을 경우
-	    }
-	    
-	    
+		if (categoryNoList != null && !categoryNoList.isEmpty()) {
+			return ResponseEntity.ok(categoryNoList); // 정상 반환
+		} else {
+			return ResponseEntity.noContent().build(); // 데이터가 없을 경우
+		}
+
 	}
-	
+
 	// 카테고리 불러오기
 	@Override
 	public ResponseEntity<List<Integer>> myPreferenceBringingIn(int memberNo) {
-		
-		  List<Integer> preferenceNoList = mapper.myPreferenceBringingIn(memberNo);
 
-		    // 디버깅 로그 추가
-		    log.debug("Fetched categories for member {}: {}", memberNo, preferenceNoList);
+		List<Integer> preferenceNoList = mapper.myPreferenceBringingIn(memberNo);
 
-		    if (preferenceNoList != null && !preferenceNoList.isEmpty()) {
-		        return ResponseEntity.ok(preferenceNoList); // 정상 반환
-		    } else {
-		        return ResponseEntity.noContent().build(); // 데이터가 없을 경우
-		    }
-		    
-		
+		// 디버깅 로그 추가
+		log.debug("Fetched categories for member {}: {}", memberNo, preferenceNoList);
+
+		if (preferenceNoList != null && !preferenceNoList.isEmpty()) {
+			return ResponseEntity.ok(preferenceNoList); // 정상 반환
+		} else {
+			return ResponseEntity.noContent().build(); // 데이터가 없을 경우
+		}
+
 	}
 
+	// 선택한 요소 찜 목록에 추가
+	@Override
+	public int putWishlist(Map<String, Object> map) {
+
+		return mapper.putWishlist(map);
+	}
+
+	// 개별 찜 목록에 추가
+	@Override
+	public int putSingleWishlist(int memberNo, int bookNo) {
+		
+		return mapper.putSingleWishlist(memberNo, bookNo);
+	}
 
 }

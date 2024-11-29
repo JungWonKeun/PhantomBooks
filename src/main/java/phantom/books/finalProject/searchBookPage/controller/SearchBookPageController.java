@@ -44,13 +44,11 @@ public class SearchBookPageController {
 	private final SearchBookPageService service;
 
 	@GetMapping("/searchBooks")
-	public String searchBooks(
-			@RequestParam(value = "searchTitle", required = false) String searchTitle,
-			@RequestParam(value = "categories", required = false) int[] categories, 
-			@RequestParam(value = "preferences", required = false) int[] preferences, 
+	public String searchBooks(@RequestParam(value = "searchTitle", required = false) String searchTitle,
+			@RequestParam(value = "categories", required = false) int[] categories,
+			@RequestParam(value = "preferences", required = false) int[] preferences,
 			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
-			@RequestParam(value = "sortOption", required = false) String sortOption,
-			Model model) {
+			@RequestParam(value = "sortOption", required = false) String sortOption, Model model) {
 
 		// categories와 preferences는 int[]로 받았으므로, 바로 사용 가능
 		// 원하는 작업을 처리합니다.
@@ -67,7 +65,6 @@ public class SearchBookPageController {
 		model.addAttribute("bookList", map.get("bookList"));
 		model.addAttribute("pagination", map.get("pagination"));
 		model.addAttribute("totalCount", map.get("totalCount"));
-		
 
 		return "searchBookPage/searchBook";
 	}
@@ -102,34 +99,29 @@ public class SearchBookPageController {
 
 // 상세조회
 	@GetMapping("/bookDetail/{bookNo}")
-	public String bookDetail(
-	        Model model,
-	        @PathVariable("bookNo") int bookNo,
-	        @SessionAttribute(value = "loginMember", required = false) Member loginMember,
-	        @RequestParam(value = "cp", required = false, defaultValue = "1") int cp
-	) {
-	    if (loginMember != null) {
-	        model.addAttribute("memberId", loginMember.getMemberId());
-	    }
+	public String bookDetail(Model model, @PathVariable("bookNo") int bookNo,
+			@SessionAttribute(value = "loginMember", required = false) Member loginMember,
+			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
+		if (loginMember != null) {
+			model.addAttribute("memberId", loginMember.getMemberId());
+		}
 
-	    // 책 정보 가져오기
-	    Book book = service.bookDetail(bookNo);
-	    model.addAttribute("book", book);
+		// 책 정보 가져오기
+		Book book = service.bookDetail(bookNo);
+		model.addAttribute("book", book);
 
-	    // 리뷰/페이지네이션 가져오기
-	    Map<String, Object> map = service.getReviewsByBookNo(bookNo, cp);
-	    
-	    List<Review> reviews = (List<Review>)map.get("reviewList");
-	    Pagination pagination = (Pagination)map.get("pagination");
-	    
-	    model.addAttribute("reviews", reviews);
-	    model.addAttribute("pagination", pagination);
-	    model.addAttribute("currentPage", cp);
+		// 리뷰/페이지네이션 가져오기
+		Map<String, Object> map = service.getReviewsByBookNo(bookNo, cp);
 
-	    return "searchBookPage/bookDetail";
+		List<Review> reviews = (List<Review>) map.get("reviewList");
+		Pagination pagination = (Pagination) map.get("pagination");
+
+		model.addAttribute("reviews", reviews);
+		model.addAttribute("pagination", pagination);
+		model.addAttribute("currentPage", cp);
+
+		return "searchBookPage/bookDetail";
 	}
-
-
 
 	// 선택한 책을 장바구니에 담기
 	@ResponseBody
@@ -137,7 +129,6 @@ public class SearchBookPageController {
 	public String addCart(@RequestBody Map<String, List<Integer>> paramMap,
 			@SessionAttribute("loginMember") Member loginMember) {
 
-		
 		int memberNo = loginMember.getMemberNo();
 
 		log.debug("memberNo : {}", memberNo);
@@ -167,7 +158,7 @@ public class SearchBookPageController {
 	@PutMapping("/singleCart")
 	public String singleCart(@SessionAttribute("loginMember") Member loginMember,
 			@RequestBody Map<String, Object> requestData) {
-		
+
 		int memberNo = loginMember.getMemberNo();
 		int bookNo = (int) requestData.get("bookNo");
 
@@ -199,82 +190,114 @@ public class SearchBookPageController {
 		return message;
 	}
 
-	
-	  // 리뷰 작성
-	  
-	  @ResponseBody
-	  @PostMapping("/writeReview/{bookNo}")
-	  public boolean writeReview(
-		  @PathVariable("bookNo") int bookNo, // URL 경로에서 bookNo 가져오기
-		  @SessionAttribute("loginMember") Member loginMember, // 로그인한 사용자 정보
-		  @RequestParam("rating") double score,
-		  @RequestParam("title") String title,
-		  @RequestParam("content") String content,
-		  @RequestParam(value = "reviewImage", required = false) MultipartFile file,
-		  RedirectAttributes ra ) { // 서비스 호출
-			  
-	 return service.writeReview(bookNo, title,
-	  content, score, loginMember.getMemberNo(), file);
-	  
-	  }
-	 
-	  // 리뷰 수정
-	  @ResponseBody
-	  @PostMapping("/updateReview/{reviewNo}") 
-	  public String updateReview(
-		  @PathVariable("reviewNo") int reviewNo,
-		  @SessionAttribute("loginMember") Member loginMember, // 로그인한 사용자 정보
-		  @RequestParam("rating") double score,
-		  @RequestParam("reviewTitle") String title,
-		  @RequestParam("reviewContent") String content,
-		  @RequestParam(value = "image", required = false) MultipartFile file,
-		  RedirectAttributes ra) {
-	  
-	  return service.updateReview(reviewNo, title, content, score,
-	  loginMember.getMemberNo(), file);
-	 
-	  }
-	  
-	  // 리뷰 삭제 
-	  @ResponseBody
-	  @DeleteMapping("/deleteReview")
-	  public int deleteReview(
-	      @RequestParam("reviewNo") int reviewNo
-	  ) {
-	      
-	    	  
-	      return service.deleteReview(reviewNo);
+	// 리뷰 작성
 
-	  }
+	@ResponseBody
+	@PostMapping("/writeReview/{bookNo}")
+	public boolean writeReview(@PathVariable("bookNo") int bookNo, // URL 경로에서 bookNo 가져오기
+			@SessionAttribute("loginMember") Member loginMember, // 로그인한 사용자 정보
+			@RequestParam("rating") double score, @RequestParam("title") String title,
+			@RequestParam("content") String content,
+			@RequestParam(value = "reviewImage", required = false) MultipartFile file, RedirectAttributes ra) { // 서비스
+																												// 호출
 
-	  @ResponseBody
-	  @GetMapping("/myCategoryBringingInBtn")
-	  public ResponseEntity<List<Integer>> myCategoryBringingIn(
-	          @SessionAttribute(name = "loginMember", required = false) Member loginMember) {
+		return service.writeReview(bookNo, title, content, score, loginMember.getMemberNo(), file);
 
-	      if (loginMember == null) {
-	          return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-	      }
+	}
 
-	      log.debug("Member number: {}", loginMember.getMemberNo());
+	// 리뷰 수정
+	@ResponseBody
+	@PostMapping("/updateReview/{reviewNo}")
+	public String updateReview(@PathVariable("reviewNo") int reviewNo,
+			@SessionAttribute("loginMember") Member loginMember, // 로그인한 사용자 정보
+			@RequestParam("rating") double score, @RequestParam("reviewTitle") String title,
+			@RequestParam("reviewContent") String content,
+			@RequestParam(value = "image", required = false) MultipartFile file, RedirectAttributes ra) {
 
-	      return service.myCategoryBringingIn(loginMember.getMemberNo());
-	  }
-	  
-	  @ResponseBody
-	  @GetMapping("/myPreferenceBringingInBtn")
-	  public ResponseEntity<List<Integer>> myPreferenceBringingIn(
-	          @SessionAttribute(name = "loginMember", required = false) Member loginMember) {
+		return service.updateReview(reviewNo, title, content, score, loginMember.getMemberNo(), file);
 
-	      if (loginMember == null) {
-	          return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-	      }
+	}
 
-	      log.debug("Member number: {}", loginMember.getMemberNo());
+	// 리뷰 삭제
+	@ResponseBody
+	@DeleteMapping("/deleteReview")
+	public int deleteReview(@RequestParam("reviewNo") int reviewNo) {
 
-	      return service.myPreferenceBringingIn(loginMember.getMemberNo());
-	  }
+		return service.deleteReview(reviewNo);
 
-	 
+	}
+
+	@ResponseBody
+	@GetMapping("/myCategoryBringingInBtn")
+	public ResponseEntity<List<Integer>> myCategoryBringingIn(
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
+
+		if (loginMember == null) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
+
+		log.debug("Member number: {}", loginMember.getMemberNo());
+
+		return service.myCategoryBringingIn(loginMember.getMemberNo());
+	}
+
+	@ResponseBody
+	@GetMapping("/myPreferenceBringingInBtn")
+	public ResponseEntity<List<Integer>> myPreferenceBringingIn(
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
+
+		if (loginMember == null) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
+
+		log.debug("Member number: {}", loginMember.getMemberNo());
+
+		return service.myPreferenceBringingIn(loginMember.getMemberNo());
+	}
+
+	// 선택한 책을 찜 목록에 담기
+	@ResponseBody
+	@PutMapping("/addWishlist")
+	public String addWishlist(@RequestBody Map<String, List<Integer>> paramMap,
+			@SessionAttribute("loginMember") Member loginMember) {
+
+		int memberNo = loginMember.getMemberNo();
+
+		log.debug("memberNo : {}", memberNo);
+		log.debug("paramMap: {}", paramMap);
+		List<Integer> bookNo = paramMap.get("bookNo");
+
+		Map<String, Object> map = Map.of("bookNo", bookNo, "memberNo", memberNo);
+
+		// 찜 목록에 추가하는 서비스 호출
+		int addWishlist = service.putWishlist(map);
+
+		String message = null;
+
+		if (addWishlist > 0) {
+			message = "추가 성공";
+		}
+
+		return "redirect:/searchBookPage/searchBooks";
+	}
+
+	// 책한권 찜 보내기
+	@ResponseBody
+	@PutMapping("/singleWishlist")
+	public String singleWishlist(@SessionAttribute("loginMember") Member loginMember,
+	        @RequestBody Map<String, Object> requestData) {
+
+	    int memberNo = loginMember.getMemberNo();
+	    int bookNo = (int) requestData.get("bookNo");
+
+	    log.debug("memberNo : {}", memberNo);
+	    log.debug("bookNo : {}", bookNo);
+
+	    int addWishlist = service.putSingleWishlist(memberNo, bookNo);
+
+	    String message = addWishlist > 0 ? "추가 성공" : "추가 실패";
+
+	    return message;
+	}
 
 }

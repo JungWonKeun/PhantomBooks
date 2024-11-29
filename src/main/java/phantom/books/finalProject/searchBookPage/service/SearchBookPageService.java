@@ -42,15 +42,26 @@ public interface SearchBookPageService {
     Map<String, Object> getReviewsByBookNo(int bookNo, int cp);
    
 
+    // 리뷰 업데이트
 	String updateReview(int reviewNo, String title, String content, double score, int memberNo, MultipartFile file);
 
+	// 리뷰 작성
 	boolean writeReview(int bookNo, String title, String content, double score, int memberNo, MultipartFile file);
 
+	// 리뷰 삭제
 	int deleteReview(int reviewNo);
 
+	// 내 정보에서 카테고리 가져오기
 	ResponseEntity<List<Integer>> myCategoryBringingIn(int memberNo);
 
+	// 내정보에서 취향 가져오기
 	ResponseEntity<List<Integer>> myPreferenceBringingIn(int memberNo);
+
+	// 선택한 요소 찜목록으로 이동 
+	int putWishlist(Map<String, Object> map);
+
+	// 한개 찜 목록으로 이동
+	int putSingleWishlist(int memberNo, int bookNo);
 
 	
 
