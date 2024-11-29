@@ -6,14 +6,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>공지사항</title>
   <link rel="stylesheet" href="/css/customer/notice.css">
+  <script src="https://kit.fontawesome.com/890489b5e8.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
-  <header th:replace="~{common/common}"></header>
-  <div th:replace="~{common/side-menu}"></div>
-  <main>
-    <h1>공지사항</h1>
-    <section class="notice-container">
+  <div th:replace="~{common/common}"></div>
+
+  <main class="noticeContainer">
+
+    <div th:replace="~{common/side-menu}"></div>
+
+    <div class="noticeContent">
+      <h2 class="title">공지사항</h2>
+      
       <div class="notice-list">
         <table class="notice-table">
           <thead>
@@ -99,7 +104,7 @@
           <li><a href="#">&gt;&gt;</a></li>
         </ul>
       </div>
-    </section>
+    </div>
   </main>
   <script src="/js/customer/notice.js"></script>
   <div th:replace="~{common/footer}"></div>
