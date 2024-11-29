@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
+import phantom.books.finalProject.cart.dto.CartDto;
 import phantom.books.finalProject.searchBookPage.dto.Book;
 import phantom.books.finalProject.searchBookPage.dto.Review;
 
@@ -62,6 +63,9 @@ public interface SearchBookPageService {
 
 	// 한개 찜 목록으로 이동
 	int putSingleWishlist(int memberNo, int bookNo);
+	
+    // 바로 구매
+	void buyBook(int bookNo, int bookPrice, String bookTitle);
 
 	
 

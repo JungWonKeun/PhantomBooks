@@ -17,16 +17,10 @@
       <div class="book-detail-header">
         <div class="book-detail-header-info">
           <div class="book-detail-header-name" th:text="${book.bookTitle}">책이름</div>
-          <div class="book-rating-avg">평점 4.5</div>
-          <div class="star-ratings" th:if="${book.scoreAvg != null}">
-            <div class="star-ratings" th:if="${book.scoreAvg != null}">
-              <!-- 별 5개 고정 생성 -->
-            <!--   <i class="fa-solid fa-star" 
-                 th:each="i : ${#numbers.sequence(1, 5)}" 
-                 th:style="'color: gold; opacity: ' + (book.scoreAvg >= i ? 1 : (book.scoreAvg > i - 1 ? book.scoreAvg - (i - 1) : 0))">
-              </i> -->
-            </div>
-            
+        
+            <p><strong>평점:</strong> <span th:text="${book.scoreAvg}">0.0</span></p>
+          </div>
+          
           <p><strong>평점:</strong> <span th:text="${book.scoreAvg}">0.0</span></p>
           
         </div>

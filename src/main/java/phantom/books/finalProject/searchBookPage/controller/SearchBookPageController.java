@@ -27,6 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import phantom.books.finalProject.cart.dto.CartDto;
 import phantom.books.finalProject.member.dto.Member;
 import phantom.books.finalProject.pagination.Pagination;
 import phantom.books.finalProject.searchBookPage.dto.Book;
@@ -299,5 +300,8 @@ public class SearchBookPageController {
 
 	    return message;
 	}
+	
+	
+
 
 }

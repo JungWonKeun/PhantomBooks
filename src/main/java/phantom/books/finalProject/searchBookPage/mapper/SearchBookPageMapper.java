@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.http.ResponseEntity;
 
+import phantom.books.finalProject.cart.dto.CartDto;
 import phantom.books.finalProject.searchBookPage.dto.Book;
 import phantom.books.finalProject.searchBookPage.dto.Review;
 
@@ -90,6 +91,12 @@ public interface SearchBookPageMapper {
 
 		// 한개 찜 목록로 이동
 		int putSingleWishlist(@Param("memberNo") int memberNo,@Param("bookNo") int bookNo);
+
+		// 바로구매용 장바구니 연결
+		int scBag(int memberNo, int bookNo);
+
+		// 바로 구매
+		Object buyBook(int bookNo, int bookPrice, String bookTitle);
 
 	
 

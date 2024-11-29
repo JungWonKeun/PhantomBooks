@@ -85,7 +85,7 @@ function ifChecked(action) {
                 } else if (action === 'wishlist') {
                     let userResponse = confirm("찜 목록으로 이동하시겠습니까?");
                     if (userResponse) {
-                        window.location.href = "/wishlist";  // 찜 목록 페이지로 이동
+                        window.location.href = "/myPage/myWishList";  // 찜 목록 페이지로 이동
                     }
                 }
                 // "아니오"를 누르면 아무 작업도 하지 않음 (현재 페이지 유지)
@@ -609,7 +609,7 @@ function singleWishListBtn(button) {
     // 책 제목을 알림에 표시
     const bookTitleElement = bookItem.querySelector('.book-title');
     const bookTitle = bookTitleElement ? bookTitleElement.textContent.trim() : '';
-    alert(`"${bookTitle}"을(를) 찜 목록에 추가했습니다.`);
+   
 
     // 서버에 bookNo를 전송
     fetch(`/searchBookPage/singleWishlist`, {
@@ -623,17 +623,66 @@ function singleWishListBtn(button) {
             if (!response.ok) {
                 throw new Error('찜 목록 추가에 실패했습니다.');
             }
-            return response.json();
+            return response.text(); // 응답을 텍스트로 처리합니다.
         })
         .then(data => {
-            if (data.success) {
-                alert('찜 목록에 성공적으로 추가되었습니다.');
+            if (data === "추가 성공") {
+                alert(`"${bookTitle}"을(를) 찜 목록에 추가했습니다.`);
             } else {
-                alert('찜 목록 추가에 실패했습니다.');
+                alert('이미 찜한 책입니다.');
             }
         })
         .catch(error => console.error('에러:', error));
 }
 
-
 /* 찜 보내기  */
+
+
+/* 바로구매 버튼  */
+
+document.addEventListener('DOMContentLoaded', function() {
+    const buyNowButtons = document.querySelectorAll('#buyNow');
+    
+    buyNowButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // 가장 가까운 .book-item 요소 찾기
+            const bookItem = this.closest('.book-item');
+            
+            // 필요한 정보 추출
+            const bookNo = bookItem.getAttribute('data-book-no');
+            const bookTitle = bookItem.querySelector('.book-title').textContent;
+            const bookCover = bookItem.querySelector('.book-item-image img').src;
+            const bookPrice = bookItem.querySelector('span:nth-child(6)').textContent.replace('원', '');
+            
+            // 데이터 객체 생성
+            const orderData = {
+                bookNo: bookNo,
+                bookTitle: bookTitle,
+                bookCover: bookCover,
+                bookPrice: parseInt(bookPrice)
+            };
+            
+            // 서버로 데이터 전송 및 페이지 이동
+            fetch('/searchBookPage/order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(orderData)
+            })
+            .then(response => {
+                if (response.ok) {
+                    // 주문 페이지로 이동
+                    window.location.href = '/order/orderPage';
+                } else {
+                    // 에러 처리
+                    alert('주문 처리 중 오류가 발생했습니다.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('주문 처리 중 네트워크 오류가 발생했습니다.');
+            });
+        });
+    });
+});

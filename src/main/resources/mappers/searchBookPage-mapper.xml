@@ -492,7 +492,21 @@
 		INSERT (MEMBER_NO, BOOK_NO)
 		VALUES (src.memberNo, src.bookNo)
 	</insert>
+	
 
 
-
+	
+	<select id="buyBook">
+		SELECT
+			BOOK_NO,
+			BOOK_TITLE,
+			BOOK_COVER,
+			BOOK_PRICE
+		FROM
+			BOOK
+		WHERE
+			BOOK_NO = #{bookNo}
+	</select>
+	
+	
 </mapper>
