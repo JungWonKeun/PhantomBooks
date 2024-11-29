@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title th:text="${book.bookTitle}"></title>
   <link rel="stylesheet" href="/css/searchBookPage/bookDetail.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -17,6 +18,17 @@
         <div class="book-detail-header-info">
           <div class="book-detail-header-name" th:text="${book.bookTitle}">책이름</div>
           <div class="book-rating-avg">평점 4.5</div>
+          <div class="star-ratings" th:if="${book.scoreAvg != null}">
+            <div class="star-ratings" th:if="${book.scoreAvg != null}">
+              <!-- 별 5개 고정 생성 -->
+            <!--   <i class="fa-solid fa-star" 
+                 th:each="i : ${#numbers.sequence(1, 5)}" 
+                 th:style="'color: gold; opacity: ' + (book.scoreAvg >= i ? 1 : (book.scoreAvg > i - 1 ? book.scoreAvg - (i - 1) : 0))">
+              </i> -->
+            </div>
+            
+          <p><strong>평점:</strong> <span th:text="${book.scoreAvg}">0.0</span></p>
+          
         </div>
         <div class="book-detail-header-meta">
           <div class="book-detail-header-writer">지은이 :
@@ -326,10 +338,10 @@
     </div>
   </section>
 
+
   <script th:inline="javascript">
     const pagination = /*[[${pagination}]]*/ {};
   </script>
-  <script src="/js/searchBookPage/allBook.js"></script>
   <script src="/js/searchBookPage/detailBook.js"></script>
   <script src="https://kit.fontawesome.com/5eb8a8a2db.js" crossorigin="anonymous"></script>
 </body>

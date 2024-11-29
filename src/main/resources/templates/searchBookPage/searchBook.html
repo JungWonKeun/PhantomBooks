@@ -207,7 +207,7 @@
 
 
 
-      <div th:each="book : ${bookList}" class="book-item">
+      <div th:each="book : ${bookList}" class="book-item" data-book-no="${book.bookNo}">
         <div>
           <!-- bookNo를 input 요소의 value로 저장해둠 -->
           <input type="checkbox" th:value="${book.bookNo}" class="book-checkbox" id="bookCheckbox">
@@ -234,7 +234,7 @@
             <button type="button" onclick="singleCartBtn(this)" th:if="${session.loginMember != null}">장바구니</button>
           </label>
           <label class="buttonWish">
-            <button id="addToWishList" th:if="${session.loginMember != null}">찜</button>
+            <button type="button" onclick="singleWishListBtn(this)" th:if="${session.loginMember != null}">찜</button>
           </label>
           <label class="buttonBuy">
             <button id="buyNow" th:if="${session.loginMember != null}">바로구매</button>

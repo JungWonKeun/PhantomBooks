@@ -73,13 +73,23 @@ public interface SearchBookPageMapper {
 		// 리뷰작성시 평점 수정
 		int updateScoreAvg(int bookNo);
 
+		// 리뷰 삭제시 평점 수정
 		int updateScoreAvgDelete(int reviewNo);
 
+		// 리뷰 업데이트시 평점 수정
 		int updateScoreAvgUpdate(@Param("reviewNo") int reviewNo);
 
+		// 내 정보에서 카테고리 불러오기
 		List<Integer> myCategoryBringingIn(int memberNo);
 
+		//내정보에서 취향 불러오기
 		List<Integer> myPreferenceBringingIn(int memberNo);
+
+		// 선택한 요소 찜목록로 이동
+		int putWishlist(Map<String, Object> map);
+
+		// 한개 찜 목록로 이동
+		int putSingleWishlist(@Param("memberNo") int memberNo,@Param("bookNo") int bookNo);
 
 	
 

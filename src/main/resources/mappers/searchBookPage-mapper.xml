@@ -34,11 +34,13 @@
 		BOOK_TALT,
 		BOOK_PRICE,
 		BOOK_PAGE_COUNT,
-		BOOK_YN
+		BOOK_YN,
+		SCORE_AVG
 		FROM
 		BOOK
 		WHERE
-		BOOK_NO = ${bookNo}
+		BOOK_NO =
+		${bookNo}
 	</select>
 
 
@@ -84,6 +86,26 @@
 		VALUES
 		(src.memberNo, src.bookNo, 1)
 	</update>
+
+	<!-- 상세페이지에서 장바구니 담기 -->
+	<update id="detailCart">
+		MERGE INTO CART c
+		USING (
+		SELECT #{memberNo,
+		jdbcType=INTEGER} AS memberNo, #{bookNo,
+		jdbcType=INTEGER} AS bookNo
+		FROM dual
+		) src
+		ON (c.MEMBER_NO = src.memberNo AND c.BOOK_NO =
+		src.bookNo)
+		WHEN MATCHED THEN
+		UPDATE SET c.CART_COUNT = c.CART_COUNT + 1
+		WHEN NOT MATCHED THEN
+		INSERT (MEMBER_NO, BOOK_NO, CART_COUNT)
+		VALUES
+		(src.memberNo, src.bookNo, 1)
+	</update>
+
 
 	<!-- 카테고리/옵션/쿼리 검색 -->
 
@@ -148,8 +170,10 @@
 		<if test="searchTitle != null and searchTitle != ''">
 			AND (
 			B.BOOK_TITLE LIKE '%' || #{searchTitle} || '%'
-			OR B.BOOK_WRITER LIKE '%' || #{searchTitle} || '%'
-			OR B.COMPANY_NAME LIKE '%' || #{searchTitle} || '%'
+			OR
+			B.BOOK_WRITER LIKE '%' || #{searchTitle} || '%'
+			OR B.COMPANY_NAME LIKE
+			'%' || #{searchTitle} || '%'
 			)
 		</if>
 		<choose>
@@ -163,16 +187,19 @@
 				ORDER BY (
 				SELECT COUNT(*)
 				FROM REVIEW R
-				WHERE R.BOOK_NO = B.BOOK_NO
+				WHERE R.BOOK_NO
+				= B.BOOK_NO
 				) DESC, B.BOOK_NO ASC
 			</when>
 
 			<when test="sortOption == 'fewReview'">
-					ORDER BY (
+				ORDER BY (
 				SELECT COUNT(*)
 				FROM REVIEW R
-				WHERE R.BOOK_NO = B.BOOK_NO
-				) ASC, B.BOOK_NO ASC
+				WHERE R.BOOK_NO
+				= B.BOOK_NO
+				) ASC,
+				B.BOOK_NO ASC
 			</when>
 			<when test="sortOption == 'highPrice'">
 				ORDER BY B.BOOK_PRICE DESC, B.BOOK_NO ASC
@@ -340,6 +367,7 @@
 		WHERE REVIEW_NO = #{reviewNo}
 	</delete>
 
+	<!-- 리뷰 평점 조회 -->
 	<select id="selectScoreAvg" resultType="_double">
 		SELECT
 		AVG(REVIEW_SCORE)
@@ -347,6 +375,7 @@
 		WHERE BOOK_NO = #{bookNo}
 	</select>
 
+	<!-- 평균 입력 -->
 	<update id="insertScoreAvg">
 		UPDATE BOOK
 		SET
@@ -355,7 +384,7 @@
 		#{bookNo}
 	</update>
 
-
+	<!-- 평점 업데이트 -->
 	<update id="updateScoreAvg">
 		UPDATE "BOOK" SET
 		SCORE_AVG = (
@@ -367,6 +396,7 @@
 		BOOK_NO = #{bookNo}
 	</update>
 
+	<!-- 리뷰 삭제시 평점 업데이트 -->
 	<update id="updateScoreAvgDelete">
 		UPDATE "BOOK" SET
 		SCORE_AVG = (
@@ -390,6 +420,7 @@
 		REVIEW_NO = #{reviewNo})
 	</update>
 
+	<!-- 리뷰 업데이트시 평점업데이트 -->
 	<update id="updateScoreAvgUpdate">
 		UPDATE "BOOK" SET
 		SCORE_AVG = (
@@ -413,6 +444,7 @@
 		REVIEW_NO = #{reviewNo})
 	</update>
 
+	<!-- 내 카테고리 불러오기 -->
 	<select id="myCategoryBringingIn" resultType="int">
 		SELECT
 		CATEGORY_NO
@@ -422,6 +454,7 @@
 		MEMBER_NO = #{memberNo}
 	</select>
 
+	<!-- 프리퍼런스 불러오기 -->
 	<select id="myPreferenceBringingIn" resultType="int">
 		SELECT
 		PREFERENCE_NO
@@ -430,4 +463,36 @@
 		WHERE
 		MEMBER_NO = #{memberNo}
 	</select>
+
+
+	<!-- 선택 목록 장바구니로 이동 -->
+	<insert id="putWishlist" parameterType="map">
+		MERGE INTO WISHLIST w
+		USING (
+		<foreach collection="bookNo" item="bno"
+			separator=" UNION ALL ">
+			SELECT #{memberNo} AS memberNo, #{bno} AS bookNo FROM dual
+		</foreach>
+		) src
+		ON (w.MEMBER_NO = src.memberNo AND w.BOOK_NO = src.bookNo)
+		WHEN
+		NOT MATCHED THEN
+		INSERT (MEMBER_NO, BOOK_NO)
+		VALUES (src.memberNo,
+		src.bookNo)
+	</insert>
+
+	<insert id="putSingleWishlist">
+		MERGE INTO WISHLIST w
+		USING (
+		SELECT #{memberNo} AS memberNo, #{bookNo} AS bookNo FROM dual
+		) src
+		ON (w.MEMBER_NO = src.memberNo AND w.BOOK_NO = src.bookNo)
+		WHEN NOT MATCHED THEN
+		INSERT (MEMBER_NO, BOOK_NO)
+		VALUES (src.memberNo, src.bookNo)
+	</insert>
+
+
+
 </mapper>
