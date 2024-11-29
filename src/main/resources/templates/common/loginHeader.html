@@ -3,19 +3,23 @@
         <!-- 로고 -->
         <div class="logo">
             <a href="/">
-                <img src="/images/logo.png" alt="Logo" class="logoImg">
+                <img src="/images/logo.png" alt="Logo">
             </a>
         </div>
+        
+        <!-- 로고 타이틀 -->
+        <a href="/" class="logoTitle">
+            P&nbsp;&nbsp;H&nbsp;&nbsp;A&nbsp;&nbsp;N&nbsp;&nbsp;T&nbsp;&nbsp;O&nbsp;&nbsp;M&nbsp;&nbsp;B&nbsp;&nbsp;O&nbsp;&nbsp;O&nbsp;&nbsp;K&nbsp;&nbsp;S
+        </a>
+        
         <!-- 검색 바 -->
         <div class="search-bar">
-            <a href="/" class="logoTitle">
-                P&nbsp;&nbsp;H&nbsp;&nbsp;A&nbsp;&nbsp;N&nbsp;&nbsp;T&nbsp;&nbsp;O&nbsp;&nbsp;M&nbsp;&nbsp;B&nbsp;&nbsp;O&nbsp;&nbsp;O&nbsp;&nbsp;K&nbsp;&nbsp;S<br><br><br>
-            </a>
-            <form action="/searchBookPage/searchBooks" method="get" th:value="${param.searchTitle ?: ''}">
-                <input type="text" name="searchTitle" placeholder="검색어를 입력하세요" />
+            <form action="/searchBookPage/searchBooks" method="get">
+                <input type="text" name="searchTitle" placeholder="검색어를 입력하세요" th:value="${param.searchTitle ?: ''}" />
                 <button type="submit">Search</button>
                 <input type="hidden" name="categories" id="hiddenCategories">
                 <input type="hidden" name="preferences" id="hiddenPreferences">
+                <input type="hidden" name="sortOption" id="hiddenSearchOption">
             </form>
         </div>
 
