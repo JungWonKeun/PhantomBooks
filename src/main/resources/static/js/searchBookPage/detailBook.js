@@ -228,13 +228,17 @@ document.querySelector("#submitReview").addEventListener("click", (event) => {
 
 /*-------------------------------------- 리뷰 수정 ------------------------------------------- */
 document.addEventListener('DOMContentLoaded', () => {
-    const wrap = document.querySelector('.wrap');
+    const wrap = document.querySelector('.wrap'); // 리뷰 컨테이너
+
     if (!wrap) {
-        console.error("'.wrap' 요소를 찾을 수 없습니다. HTML 구조를 확인하세요.");
+        console.error("리뷰 컨테이너가 존재하지 않습니다.");
         return;
     }
+
+    // 통합된 이벤트 핸들러 설정
     wrap.addEventListener('click', (event) => {
         const target = event.target;
+
         if (target.id === 'updateReview') {
             const reviewNo = target.getAttribute('data-review-no');
             if (!reviewNo) {
@@ -243,6 +247,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             console.log(`수정 버튼 클릭됨. 리뷰 번호: ${reviewNo}`);
             toggleEditMode(reviewNo, target);
+        } else if (target.id === 'deleteReview') {
+            const reviewNo = target.getAttribute('data-review-no');
+            if (!reviewNo) {
+                console.error('리뷰 번호를 찾을 수 없습니다.');
+                return;
+            }
+            console.log(`삭제 버튼 클릭됨. 리뷰 번호: ${reviewNo}`);
+            if (confirm('정말 이 리뷰를 삭제하시겠습니까?')) {
+                deleteReview(reviewNo);
+            }
         }
     });
 });
@@ -262,13 +276,17 @@ function toggleEditMode(reviewNo, button) {
         return;
     }
 
-    // 백업: 원래 삭제 이벤트 저장
-    const originalDeleteHandler = cancelButton.onclick;
-
     if (button.textContent === "수정") {
         console.log(`수정 모드 활성화: 리뷰 번호 ${reviewNo}`);
 
-        // 활성화
+        // 원래 값을 백업
+        const originalValues = {
+            title: titleInput.value,
+            content: contentTextarea.value,
+            rating: [...ratingInputs].find(input => input.checked)?.value,
+        };
+
+        // 수정 모드 활성화
         titleInput.removeAttribute('readonly');
         contentTextarea.removeAttribute('readonly');
         rating.classList.remove('readonly');
@@ -282,11 +300,10 @@ function toggleEditMode(reviewNo, button) {
         button.textContent = "저장";
         cancelButton.textContent = "취소";
 
-        // 삭제 버튼의 기존 이벤트 비활성화
-        cancelButton.onclick = null;
-
         // 취소 버튼 동작 설정
-        cancelButton.onclick = () => {
+        cancelButton.onclick = (event) => {
+            event.stopPropagation(); // 이벤트 전파 중단
+            console.log('수정 취소 버튼 클릭됨.');
             resetEditMode(
                 titleInput,
                 contentTextarea,
@@ -295,7 +312,8 @@ function toggleEditMode(reviewNo, button) {
                 imageInput,
                 button,
                 cancelButton,
-                originalDeleteHandler // 원래 삭제 이벤트 복구
+                reviewNo,
+                originalValues // 원래 값 전달
             );
         };
     } else if (button.textContent === "저장") {
@@ -335,7 +353,7 @@ function toggleEditMode(reviewNo, button) {
                         imageInput,
                         button,
                         cancelButton,
-                        originalDeleteHandler // 원래 삭제 이벤트 복구
+                        reviewNo
                     );
                 } else {
                     throw new Error('서버 응답 실패');
@@ -349,8 +367,15 @@ function toggleEditMode(reviewNo, button) {
 }
 
 /** 수정 취소 및 초기 상태로 복구 */
-function resetEditMode(titleInput, contentTextarea, rating, ratingInputs, imageInput, button, cancelButton, originalDeleteHandler) {
-    console.log('수정 취소. 원래 상태로 복구합니다.');
+function resetEditMode(titleInput, contentTextarea, rating, ratingInputs, imageInput, button, cancelButton, reviewNo, originalValues) {
+    console.log('수정 모드 종료. 원래 상태로 복구합니다.');
+
+    // 원래 값을 복원
+    titleInput.value = originalValues.title;
+    contentTextarea.value = originalValues.content;
+    ratingInputs.forEach(input => {
+        input.checked = input.value === originalValues.rating;
+    });
 
     // 읽기 전용 상태로 복구
     titleInput.setAttribute('readonly', true);
@@ -366,82 +391,38 @@ function resetEditMode(titleInput, contentTextarea, rating, ratingInputs, imageI
     button.textContent = "수정";
     cancelButton.textContent = "삭제";
 
-    // 원래 삭제 이벤트 복구
-    cancelButton.onclick = originalDeleteHandler;
+    // 삭제 버튼 이벤트 복구
+    cancelButton.onclick = (event) => {
+        event.stopPropagation(); // 이벤트 전파 중단
+        console.log(`삭제 버튼 클릭됨. 리뷰 번호: ${reviewNo}`);
+        if (confirm('정말 이 리뷰를 삭제하시겠습니까?')) {
+            deleteReview(reviewNo);
+        }
+    };
 }
 
-
-
-/*-------------------------------------- 리뷰 수정 end------------------------------------------- */
-
-/* -------------------------------------- 리뷰 삭제 -------------------------------------------- */
-document.addEventListener('DOMContentLoaded', () => {
-    const wrap = document.querySelector('.wrap'); // 리뷰 컨테이너
-
-    if (!wrap) {
-        console.error("리뷰 컨테이너가 존재하지 않습니다.");
-        return;
-    }
-
-    wrap.addEventListener('click', (event) => {
-        const target = event.target;
-
-        if (target.id === 'deleteReview') {
-            const reviewNo = target.getAttribute('data-review-no');
-            if (!reviewNo) {
-                console.error('리뷰 번호가 존재하지 않습니다.');
-                return;
-            }
-
-            // 삭제 확인 알림
-            if (confirm('정말 이 리뷰를 삭제하시겠습니까?')) {
-                deleteReview(reviewNo);
-            }
-        }
-    });
-});
-
-// 리뷰 삭제 요청 (DELETE 방식)
-function deleteReview(reviewNo, bookNo) {
-    fetch(`/searchBookPage/deleteReview?reviewNo=${reviewNo}` + `&bookNo=${bookNo}`, { method: 'DELETE' })
+/** 리뷰 삭제 요청 (DELETE 방식) */
+function deleteReview(reviewNo) {
+    fetch(`/searchBookPage/deleteReview?reviewNo=${reviewNo}`, { method: 'DELETE' })
         .then((response) => {
             if (response.ok) return response.text();
 
             throw new Error('리뷰 삭제에 실패했습니다.');
         })
         .then(result => {
-            if (result = 0) {
+            if (result === '0') {
                 alert('리뷰 삭제 중 문제가 발생했습니다. 다시 시도해주세요.');
+            } else {
+                alert('리뷰가 삭제되었습니다.');
+                location.reload();
             }
-            alert('리뷰가 삭제되었습니다.');
-            location.reload();
         })
         .catch((error) => {
             console.error('삭제 중 오류 발생:', error);
         });
 }
 
-
-/* -------------------------------------- 리뷰 삭제 end -------------------------------------------- */
-
-
-
-function resetEditMode(titleInput, contentTextarea, rating, ratingInputs, imageInput, button, cancelButton) {
-    console.log('수정 모드 종료.');
-
-    titleInput.setAttribute('readonly', true);
-    contentTextarea.setAttribute('readonly', true);
-    titleInput.style.border = "none";
-    contentTextarea.style.border = "none";
-
-    rating.classList.add('readonly'); // 읽기 전용 상태
-    ratingInputs.forEach(input => input.setAttribute('disabled', true));
-    if (imageInput) imageInput.setAttribute('disabled', true);
-
-    button.textContent = "수정";
-    cancelButton.textContent = "삭제";
-}
-
+/* -------------------------------------------------------------------------------------- */
 /*  리뷰 페이지 네이션 */
 document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".pagination a").forEach((item) => {
@@ -470,7 +451,6 @@ function handlePaginationClick(event) {
 
 
 
-
 /* 리뷰 작성 이미지 미리보기  start */
 const imageInput = document.getElementById('write-imageInput');
 const preview = document.querySelector('.write-review-img-thumb');
@@ -485,6 +465,7 @@ imageInput.addEventListener('change', (e) => {
         reader.readAsDataURL(file);
     }
 });
+/* 리뷰 작성 이미지 미리보기 end  */
 
 // 장바구니 담기
 function detailCart(button) {
@@ -538,10 +519,62 @@ function detailCart(button) {
 
 }
 
+/*  찜 목록 추가  */
 
-/* 리뷰 작성 이미지 미리보기 end  */
+function singleWishListBtn(button) {
+    // 클릭된 버튼의 상위 요소에서 book-item 클래스를 가진 요소를 찾습니다.
+    const bookItem = button.closest('.book-item');
 
-/*-------------------------------------- 리뷰 수정 end ------------------------------------------- */
+    if (!bookItem) {
+        console.error("bookItem 요소를 찾을 수 없습니다.");
+        return;
+    }
+
+    // data-book-no 속성에서 bookNo 가져오기
+    const bookNo = parseInt(bookItem.getAttribute('data-book-no'), 10);
+
+    if (isNaN(bookNo)) {
+        console.error("유효한 bookNo를 찾을 수 없습니다.");
+        return;
+    }
+
+    // 책 제목을 알림에 표시
+    const bookTitleElement = bookItem.querySelector('.book-detail-header-name');
+    const bookTitle = bookTitleElement ? bookTitleElement.textContent.trim() : '제목 없음';
+
+    // 서버에 bookNo를 전송
+    fetch(`/searchBookPage/singleWishlist`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ bookNo: bookNo }) // PUT 요청 본문에 bookNo를 JSON 형식으로 전송합니다.
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('찜 목록 추가에 실패했습니다.');
+            }
+            return response.text(); // 응답을 텍스트로 처리합니다.
+        })
+        .then(data => {
+            if (data === "추가 성공") {
+                alert(`"${bookTitle}"을(를) 찜 목록에 추가했습니다.`);
+            } else {
+                alert('이미 찜한 책입니다.');
+            }
+        })
+        .catch(error => console.error('에러:', error));
+}
+
+/* 찜목록 추가 끝 */
+
+
+
+
+
+
+
+
 /* 수정전 별점 JS */
 /* 
 const rateWrap = document.querySelectorAll('.rating'),
