@@ -69,12 +69,16 @@ public interface SearchBookPageMapper {
 		// 책 평점
 		Double selectScoreAvg(int bookNo);
 
-		int insertScoreAvg(@Param("bookNo") int bookNo, @Param("scoreAvg") Double scoreAvg);
+		// 리뷰 작성시 리뷰 평점
+		/*
+		 * int insertScoreAvg(@Param("bookNo") int bookNo, @Param("scoreAvg") Double
+		 * scoreAvg);
+		 */
 
-		// 리뷰작성시 평점 수정
+		// 리뷰업데이트시 평점 수정
 		int updateScoreAvg(int bookNo);
 
-		// 리뷰 삭제시 평점 수정
+		// 리뷰 삭제시
 		int updateScoreAvgDelete(int reviewNo);
 
 		// 리뷰 업데이트시 평점 수정

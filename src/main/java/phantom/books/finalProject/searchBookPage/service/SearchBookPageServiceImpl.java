@@ -257,8 +257,10 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 
 		int result = mapper.deleteReview(reviewNo);
 
-		if (result == 0)
+		if(result == 0) {
 			return 0;
+		}
+			
 
 		return mapper.updateScoreAvgDelete(reviewNo);
 	}

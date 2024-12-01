@@ -276,15 +276,18 @@ function toggleEditMode(reviewNo, button) {
         return;
     }
 
+    // 기존 데이터 저장
     if (button.textContent === "수정") {
         console.log(`수정 모드 활성화: 리뷰 번호 ${reviewNo}`);
 
-        // 원래 값을 백업
-        const originalValues = {
+        // 기존 데이터를 저장해둠
+        const originalData = {
             title: titleInput.value,
             content: contentTextarea.value,
             rating: [...ratingInputs].find(input => input.checked)?.value,
+            image: imageInput ? imageInput.value : null
         };
+        button.dataset.originalData = JSON.stringify(originalData);
 
         // 수정 모드 활성화
         titleInput.removeAttribute('readonly');
@@ -304,6 +307,26 @@ function toggleEditMode(reviewNo, button) {
         cancelButton.onclick = (event) => {
             event.stopPropagation(); // 이벤트 전파 중단
             console.log('수정 취소 버튼 클릭됨.');
+            const storedData = JSON.parse(button.dataset.originalData);
+
+            // 원래 상태로 복구
+            titleInput.value = storedData.title;
+            contentTextarea.value = storedData.content;
+
+            // 별점 복구
+            ratingInputs.forEach(input => {
+                if (input.value === storedData.rating) {
+                    input.checked = true;
+                } else {
+                    input.checked = false;
+                }
+            });
+
+            if (imageInput && storedData.image) {
+                imageInput.value = storedData.image;
+            }
+
+            // 수정 모드 종료
             resetEditMode(
                 titleInput,
                 contentTextarea,
@@ -312,8 +335,7 @@ function toggleEditMode(reviewNo, button) {
                 imageInput,
                 button,
                 cancelButton,
-                reviewNo,
-                originalValues // 원래 값 전달
+                reviewNo
             );
         };
     } else if (button.textContent === "저장") {
@@ -366,23 +388,30 @@ function toggleEditMode(reviewNo, button) {
     }
 }
 
-/** 수정 취소 및 초기 상태로 복구 */
-function resetEditMode(titleInput, contentTextarea, rating, ratingInputs, imageInput, button, cancelButton, reviewNo, originalValues) {
-    console.log('수정 모드 종료. 원래 상태로 복구합니다.');
 
-    // 원래 값을 복원
-    titleInput.value = originalValues.title;
-    contentTextarea.value = originalValues.content;
-    ratingInputs.forEach(input => {
-        input.checked = input.value === originalValues.rating;
-    });
+/** 수정 취소 및 초기 상태로 복구 */
+function resetEditMode(titleInput, contentTextarea, rating, ratingInputs, imageInput, button, cancelButton, reviewNo) {
+    console.log('수정 모드 종료. 원래 상태로 복구합니다.');
 
     // 읽기 전용 상태로 복구
     titleInput.setAttribute('readonly', true);
     contentTextarea.setAttribute('readonly', true);
     rating.classList.add('readonly');
-    ratingInputs.forEach(input => input.setAttribute('disabled', true));
-    if (imageInput) imageInput.setAttribute('disabled', true);
+    
+    // 별점 상태를 원래대로 복구
+    const storedData = JSON.parse(button.dataset.originalData);
+    ratingInputs.forEach(input => {
+        input.setAttribute('disabled', true); // 수정 모드 종료 시 별점 비활성화
+        input.checked = (input.value === storedData.rating); // 원래 체크 상태로 복구
+        if (input.checked) {
+            console.log(`별점 복구됨: ${input.value}`);
+        }
+    });
+
+    if (imageInput) {
+        imageInput.setAttribute('disabled', true);
+        imageInput.value = storedData.image; // 이미지도 원래 상태로 복구
+    }
 
     titleInput.style.border = "none";
     contentTextarea.style.border = "none";
@@ -401,6 +430,7 @@ function resetEditMode(titleInput, contentTextarea, rating, ratingInputs, imageI
     };
 }
 
+
 /** 리뷰 삭제 요청 (DELETE 방식) */
 function deleteReview(reviewNo) {
     fetch(`/searchBookPage/deleteReview?reviewNo=${reviewNo}`, { method: 'DELETE' })
@@ -411,7 +441,7 @@ function deleteReview(reviewNo) {
         })
         .then(result => {
             if (result === '0') {
-                alert('리뷰 삭제 중 문제가 발생했습니다. 다시 시도해주세요.');
+               location.reload();
             } else {
                 alert('리뷰가 삭제되었습니다.');
                 location.reload();

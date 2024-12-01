@@ -228,21 +228,6 @@ body {
 
 /* -------------------------------------------리뷰 별점 css 부분------------------------------------------------- */
 /* 전체 레이아웃 스타일 */
-.wrap {
-  height: auto;
-  min-height: 20px;
-  display: flex;
-  justify-content: left;
-  align-items: left;
-  flex-direction: column;
-  gap: 32px;
-}
-
-h1 {
-  font-size: 40px;
-  font-weight: 600;
-}
-
 .rating {
   float: none;
   width: 200px;
@@ -256,8 +241,7 @@ h1 {
 .rating__label {
   width: 20px;
   overflow: hidden;
-  /* hover 효과 제거 */
-  cursor: default;
+  cursor: pointer; /* 기본적으로 pointer로 변경 */
 }
 
 .rating__label .star-icon {
@@ -272,7 +256,7 @@ h1 {
 }
 
 .rating__label .star-icon.filled {
-  background-image: url(" https://velog.velcdn.com/images/jellykelly/post/10caf033-b0ef-4d58-804b-6e33395e4ea5/image.svg");
+  background-image: url("https://velog.velcdn.com/images/jellykelly/post/10caf033-b0ef-4d58-804b-6e33395e4ea5/image.svg");
 }
 
 .rating__label--full .star-icon {
@@ -283,6 +267,7 @@ h1 {
   background-position: left;
 }
 
+/* 수정 모드가 아닐 때만 readonly 스타일 적용 */
 .rating.readonly .rating__label {
   cursor: default; /* 클릭 불가 */
   pointer-events: none; /* 이벤트 비활성화 */
@@ -291,6 +276,7 @@ h1 {
 .rating.readonly .star-icon {
   opacity: 0.5; /* 흐리게 처리 */
 }
+
 
 
 
@@ -519,7 +505,7 @@ h1 {
 
 /* 리뷰 작성부분 css 끝 */
 
-/*  별점 Css */
+/*  리뷰 작성 별점 Css */
 .star-ratings {
   color: #aaa9a9; 
   position: relative;
