@@ -1,0 +1,137 @@
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-style: normal;
+}
+
+* {
+  font-family: 'Pretendard-Regular';
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #e9ecef;
+  color: #333;
+  line-height: 1.6;
+}
+
+.inquiryDetailContainer {
+  display: flex;
+  flex-direction: row;
+  min-height: calc(100vh - 100px);
+  gap: 20px;
+  padding: 20px;
+}
+
+.mainContent {
+  flex-grow: 1;
+  padding: 30px;
+  background: linear-gradient(to bottom, #ffffff, #f7f7f7);
+  border-radius: 15px;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+}
+
+.board-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 25px;
+  color: #333;
+  border-bottom: 2px solid #333;
+  padding-bottom: 5px;
+}
+
+.board-header {
+  display: flex;
+  justify-content: flex-end; 
+  align-items: center; 
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #f1f3f5;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  gap: 20px; 
+}
+
+.board-header p {
+  margin: 0;
+  font-size: 15px;
+  text-align: right;
+  color: #555;
+}
+
+.board-header span {
+  font-weight: 600;
+  margin-right: 5px;
+  color: #205375;
+}
+
+
+.inquiryDetail-content {
+  font-size: 16px;
+  line-height: 1.8;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.inquiryDetail-content span {
+  font-weight: bold;
+  color: #205375;
+}
+
+.notice-btn-area {
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+  gap: 15px;
+}
+
+.notice-btn-area button,
+.notice-btn-area a {
+  padding: 12px 25px;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+}
+
+.notice-btn-area .quiry-update {
+  background-color: #4caf50; 
+}
+
+.notice-btn-area .quiry-delete {
+  background-color: #e74c3c;
+}
+
+.notice-btn-area #goToListBtn {
+  background-color: #205375;
+}
+
+.notice-btn-area button:hover,
+.notice-btn-area a:hover {
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.notice-btn-area .quiry-update:hover {
+  background-color: #45a049;
+}
+
+.notice-btn-area .quiry-delete:hover {
+  background-color: #c0392b;
+}
+
+.notice-btn-area #goToListBtn:hover {
+  background-color: rgb(29,30,57);
+}
+
