@@ -20,7 +20,7 @@ import phantom.books.finalProject.chatting.service.ChattingService;
 import phantom.books.finalProject.member.dto.Member;
 
 @Controller
-@RequestMapping("chatting")
+@RequestMapping("admin/chatting")
 @RequiredArgsConstructor
 public class ChattingController {
 	

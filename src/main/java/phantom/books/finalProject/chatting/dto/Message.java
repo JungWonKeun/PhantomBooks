@@ -8,6 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Message {
+	
   private int messageNo;
   private String messageContent;
   private String readFl;
@@ -15,5 +16,4 @@ public class Message {
   private int targetNo;
   private int chattingRoomNo;
   private String sendTime;
-
 }
