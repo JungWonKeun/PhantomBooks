@@ -36,7 +36,9 @@ public class WebsocketConfig implements WebSocketConfigurer{
 				.setAllowedOriginPatterns(
 						"http://localhost/",
 						"http://127.0.0.1/",
-						"http://192.168.10.31/"
+						"http://192.168.10.19/",
+						"http://192.168.10.31/",
+						"http://192.168.10.97/"
 						)
 				// SockJS 지원 + 브라우져 호환성 증
 				.withSockJS();
