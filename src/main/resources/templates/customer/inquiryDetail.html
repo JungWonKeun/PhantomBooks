@@ -4,59 +4,59 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title th:text="*{queryTitle}">1:1 문의 내역</title>
+  <link rel="stylesheet" href="/css/customer/inquiryDetail.css">
+  <script src="https://kit.fontawesome.com/890489b5e8.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
+  <div th:replace="~{common/common}"></div>
 
-  <main>
-    <th:block th:replace="~{common/common}"></th:block>
+  <main class="inquiryDetailContainer">
 
-    <section class="board-detail" th:object="${inquiry}">
-      <!-- 제목 -->
-      <h1 class="board-title" th:text="*{queryTitle}">게시글 제목</h1>
-      <hr>
+    <div th:replace="~{common/side-menu}"></div>
 
-      <div class="board-header">
-        <div class="board-info">
+    <div class="mainContent">
+      <section class="board-detail" th:object="${inquiry}">
+        <h2 class="board-title" th:text="*{queryTitle}">게시글 제목</h2>
+        <div class="board-header">
+
+          <p>
             <span>작성일</span>
             <th:block th:text="*{queryWriteDate}"></th:block>
-          <!-- 수정한 게시글인 경우 -->
-          <th:block th:if="*{queryUpdateDate}">
-            <span>마지막 수정일</span>
-            <th:block th:text="*{queryUpdateDate}"></th:block>
-          </th:block>
-          <br>
-          <th:block>
-            <span>내용</span>
-            <p th:text="*{queryContent}"></p>
-          </th:block>
-          
-          <th:block>
-            <span>답글</span>
-            <p th:if= "${inquiry.reply != null}" th:text="*{reply}"></p> 
-            <p th:if= "${inquiry.reply == null}">작성된 답글이 없습니다.</p>
-          </th:block>
 
-          <th:block>
-            <button class="quiry-update" onclick="location.href='/customer/inquiryUpdate/${queryNo}'">수정</button>
-          </th:block>
-          <th:block>
-            <button class="quiry-delete" onclick="quiryDelete()">삭제</button>
-          </th:block>
-          <th:block>
-            <a href="/customer/inquiry">목록으로</a>
-          </th:block>
-
-
+            <th:block th:if="*{queryUpdateDate}">
+              <span>&nbsp;&nbsp;&nbsp;&nbsp;마지막 수정일</span>
+              <th:block th:text="*{queryUpdateDate}"></th:block>
+            </th:block>
+          </p>
         </div>
-      </div>
+        <div class="inquiryDetail-content" th:text="*{queryContent}">
+          내용
+        </div>
+
+        <div class="inquiryDetail-content">
+          <span>답글</span>
+          <p th:if="${inquiry.reply != null}" th:text="*{reply}"></p>
+          <p th:if="${inquiry.reply == null}">작성된 답글이 없습니다.</p>
+        </div>
+
+        <div class="notice-btn-area">
+          <button class="quiry-update" onclick="location.href='/customer/inquiryUpdate/${queryNo}'">수정</button>
+          <button class="quiry-delete" onclick="quiryDelete()">삭제</button>
+          <a href="/customer/inquiry" id="goToListBtn">목록으로</a>
+        </div>
+        
+
+      </section>
+    </div>
   </main>
 
   <div th:replace="~{common/footer}"></div>
   <script src="/js/customer/inquiryDetail.js"></script>
-  <script th:inline = "javascript">
+  <script th:inline="javascript">
     const queryNo = /*[[${inquiry.queryNo}]]*/ null;
   </script>
 </body>
+
 </html>
