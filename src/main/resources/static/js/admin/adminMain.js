@@ -309,6 +309,70 @@ const paginationAddEvent = () => {
   });
 }
 
+/**
+ *  차트 그리기
+ */
+$(document).ready(function () {
+  // 그리려고 하는 차트 canvas ID
+  let ctx = $("#memoryChart");
+
+  let data = {
+      labels: [],
+      datasets: [
+          {
+              label: '가입인원',
+              data: [],
+              borderColor: 'rgba(255, 99, 132, 1)',
+              borderWidth: 1
+          }]
+  };
+
+  let options = {
+      responsive: true,               // 반응형 , 캔버스 크기 조절
+      maintainAspectRatio: false,     // 크기 조절될때 원본 캔버스 방향 비율 유지
+      scales: {
+          x: {
+              type: 'category',
+              time: {
+                  unit: 'date'
+              },
+          },
+          y: {
+              beginAtZero: true,
+          }
+      }
+  };
+
+  let memoryChart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: options
+  });
+
+  setInterval(function () {
+      // ajax 처럼 javascript 비동기 통신 방법
+      // get 이 default
+      fetch('/admin/signUp_date')
+          .then(response => response.json())      // 서버 요청에 대한 응답이 왔을때 실행된다
+          .then(data => {                         // 실행된 응답에 대한 데이터
+
+              // 5초마다 라벨에 현재 시간을 출력한다
+              const currentTime = new Date().toLocaleTimeString();
+              memoryChart.data.labels.push(currentTime);
+
+              memoryChart.data.datasets[0].data.push(Number(data.freeMemory));
+              memoryChart.options.scales.y.max = data.totalMemory;
+
+              if (memoryChart.data.labels.length > 5) {
+                  memoryChart.data.labels.shift();
+                  memoryChart.data.datasets[0].data.shift();
+              }
+
+              memoryChart.update();
+          });
+  }, 5000); // 5초마다 실행
+});
+
 document.addEventListener("DOMContentLoaded",()=>{
   listUp(1, sortSelect.value, termSelect.value);
 })

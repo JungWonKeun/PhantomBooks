@@ -6,9 +6,10 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import edu.kh.project.chatting.dto.ChattingRoom;
-import edu.kh.project.chatting.dto.Message;
-import edu.kh.project.member.dto.Member;
+import phantom.books.finalProject.chatting.dto.ChattingRoom;
+import phantom.books.finalProject.member.dto.Member;
+
+
 
 @Mapper
 public interface ChattingMapper {
