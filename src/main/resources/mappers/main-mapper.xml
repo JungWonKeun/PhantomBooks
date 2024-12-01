@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mubatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper	namespace="phantom.book.finalProject.main.mapper.Mainmapper">
+<mapper	namespace="phantom.books.finalProject.main.mapper.MainMapper">
 
 	<!-- 오늘의 책 추천 -->
 	<select id="todayBooks" resultType="Book">
@@ -49,7 +49,7 @@
 	</select>
 
 	<!-- 일간 베스트셀러 -->
-	<select id="bestsellerBooks" parameterType = "int" resultType="book">
+	<select id="bestsellerBooks" parameterType = "int" resultType="Book">
     SELECT 
         b.BOOK_NO,
         b.BOOK_TITLE,
