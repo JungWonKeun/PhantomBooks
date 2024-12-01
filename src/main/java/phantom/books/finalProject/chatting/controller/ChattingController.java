@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
-import edu.kh.project.chatting.dto.ChattingRoom;
-import edu.kh.project.chatting.dto.Message;
-import edu.kh.project.chatting.service.ChattingService;
-import edu.kh.project.member.dto.Member;
 import lombok.RequiredArgsConstructor;
+import phantom.books.finalProject.chatting.dto.ChattingRoom;
+import phantom.books.finalProject.chatting.dto.Message;
+import phantom.books.finalProject.chatting.service.ChattingService;
+import phantom.books.finalProject.member.dto.Member;
 
 @Controller
-@RequestMapping("chatting")
+@RequestMapping("admin/chatting")
 @RequiredArgsConstructor
 public class ChattingController {
 	

@@ -7,8 +7,12 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import phantom.books.finalProject.chatting.dto.ChattingRoom;
-import phantom.books.finalProject.member.dto.Member;
 
+
+
+
+import phantom.books.finalProject.chatting.dto.Message;
+import phantom.books.finalProject.member.dto.Member;
 
 
 @Mapper

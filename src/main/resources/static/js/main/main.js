@@ -39,6 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
+  
+
   // 취향별 추천도서 스크롤 기능
   const recommendationScroller = {
     init() {
