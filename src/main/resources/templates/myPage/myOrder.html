@@ -1,73 +1,80 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <title>주문 내역 | Phantom Books</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>내 구매 내역 | Phantom Books</title>
+
+    <link rel="stylesheet" href="/css/myPage/myOrder.css">
     <link rel="stylesheet" th:href="@{/css/myPage/myPageCommon.css}">
-    <link rel="stylesheet" th:href="@{/css/myPage/myOrder.css}">
 </head>
+
 <body>
     <header th:replace="~{common/common}"></header>
 
     <main>
         <section class="content-box">
+            <!-- 사이드바 -->
             <div th:replace="~{myPage/sidebar :: sidebar}"></div>
 
-            <h2>주문 내역</h2>
-            <div class="order-container">
-                <div th:each="order : ${orders}" class="order-item">
-                    <a th:href="@{/orders/{id}(id=${order.id})}" class="order-link">
-                        <div class="order-header">
-                            <span th:text="${#temporals.format(order.orderDate, 'yyyy-MM-dd')}">주문일자</span>
-                            <span th:text="'주문번호: ' + ${order.orderNumber}">주문번호</span>
-                        </div>
-                        <div class="order-details">
-                            <div th:each="item : ${order.items}" class="order-book">
-                                <img th:src="${item.book.coverImage}" alt="책 표지">
-                                <div class="book-info">
-                                    <h3 th:text="${item.book.title}">책 제목</h3>
-                                    <p th:text="${item.book.author}">저자</p>
-                                    <p th:text="${item.quantity} + '권'">수량</p>
-                                    <p th:text="${#numbers.formatDecimal(item.price, 0, 'COMMA', 0, 'POINT')} + '원'">가격</p>
-                                </div>
+            <!-- 주른쪽 컨텐츠 영역 -->
+            <div class="right-content">
+                <!-- 헤더 영역 -->
+                <div class="mypage-header">
+                    <div class="title-area">
+                        <h1 class="welcome-title">내 구매 내역</h1>
+                        <div class="user-info">
+                            <i class="fas fa-user"></i>
+                            <span th:text="${session.loginMember?.name}">사용자명</span>
+                            <div class="user-actions">
+                                <a href="/myPage/info" class="header-btn">정보 수정</a>
+                                <a href="/myPage/changePw" class="header-btn">비밀번호 변경</a>
                             </div>
                         </div>
-                        <div class="order-footer">
-                            <span th:text="'총 결제금액: ' + ${#numbers.formatDecimal(order.totalAmount, 0, 'COMMA', 0, 'POINT')} + '원'">총 금액</span>
-                            <button class="btn-review" th:data-order-id="${order.id}">리뷰 작성</button>
-                        </div>
-                    </a>
+                    </div>
                 </div>
 
-                <!-- 테스트용 주문 아이템 -->
-                <div class="order-item">
-                    <div class="order-header">
-                        <span>2024-03-20</span>
-                        <span>주문번호: TEST-ORDER-001</span>
-                    </div>
-                    <div class="order-details">
-                        <div class="order-book">
-                            <img src="https://via.placeholder.com/150x200" alt="책 표지">
-                            <div class="book-info">
-                                <h3>테스트 책 제목</h3>
-                                <p>테스트 저자</p>
-                                <p>1권</p>
-                                <p>10,000원</p>
+                <!-- 주문 목록 -->
+                <div class="order-grid">
+                    <div th:each="purchase : ${buyList}" class="order-item">
+                        <a th:href="@{/order/afterOrder(orderNo=${purchase.orderNo})}" class="order-summary">
+                            <div class="order-title">
+                                <span th:text="${purchase.orderDate}">주문일</span>
+                                <span th:text="${purchase.bookTitle}">책 제목</span>
+                                <span th:if="${purchase.bookCount > 1}" 
+                                      th:text="| 등 총 ${purchase.bookCount}권|" 
+                                      class="book-count">등 총 2권</span>
                             </div>
-                        </div>
+                            <div class="order-price">
+                                <span th:text="|${#numbers.formatInteger(purchase.totalPrice, 0, 'COMMA')}원|">32,000원</span>
+                            </div>
+                        </a>
                     </div>
-                    <div class="order-footer">
-                        <span>총 결제금액: 10,000원</span>
-                        <button class="btn-review" data-order-id="test">리뷰 작성</button>
+                    
+                    <!-- 페이지네이션 -->
+                    <div class="pagination" th:if="${!#lists.isEmpty(buyList)}">
+                        <a href="#" th:if="${currentPage > 1}" 
+                           th:href="@{/myPage/myOrder(page=${currentPage-1})}" 
+                           class="page-link">&laquo;</a>
+
+                        <th:block th:each="pageNum : ${#numbers.sequence(1, totalPages)}">
+                            <a th:href="@{/myPage/myOrder(page=${pageNum})}" 
+                               th:text="${pageNum}"
+                               th:class="${pageNum == currentPage ? 'page-link active' : 'page-link'}">1</a>
+                        </th:block>
+
+                        <a href="#" th:if="${currentPage < totalPages}" 
+                           th:href="@{/myPage/myOrder(page=${currentPage+1})}" 
+                           class="page-link">&raquo;</a>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- 푸터 -->
-    <div th:replace="~{common/footer :: footer}"></div>
-
+    <footer th:replace="~{common/footer :: footer}"></footer>
     <script src="/js/myPage/myOrder.js"></script>
 </body>
+
 </html>

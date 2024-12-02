@@ -61,7 +61,7 @@ public class MyPageController {
 	    // 선택한 취향 이름 가져오기
 	    List <Preference> selectPreference = service.selectPreference(memberNo);
 	    
-	    // 최근 구매 내역 가져오기
+	    // 구매 내역 가져오기
 	    List <OrderBookDto> buyList = service.buyList(memberNo);
 	    
 	    // 내가 쓴 리뷰 목록 조회
@@ -83,6 +83,122 @@ public class MyPageController {
 	    model.addAttribute("queryList", queryList); // 문의 내역
 	    return "myPage/index";
 	}
+	
+	
+	/** 마이 페이지(내 주문 목록 페이지)
+	 * @return
+	 */
+	@GetMapping("myOrder")
+	public String myOrder(
+	    HttpSession session, 
+	    Model model,
+	    @RequestParam(value = "page", defaultValue = "1") int page
+	) {
+	    Member loginMember = (Member) session.getAttribute("loginMember");
+
+	    if (loginMember == null) {
+	        return "redirect:/";
+	    }
+	    
+	    int memberNo = loginMember.getMemberNo();
+	    
+	    // 전체 구매 내역 가져오기
+	    List<OrderBookDto> allBuyList = service.buyList(memberNo);
+	    
+	    // 페이징 처리
+	    int totalItems = allBuyList.size();
+	    int itemsPerPage = 5;
+	    int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
+	    
+	    // 현재 페이지에 해당하는 아이템만 추출
+	    int start = (page - 1) * itemsPerPage;
+	    int end = Math.min(start + itemsPerPage, totalItems);
+	    List<OrderBookDto> pagedBuyList = allBuyList.subList(start, end);
+	    
+	    model.addAttribute("buyList", pagedBuyList);
+	    model.addAttribute("currentPage", page);
+	    model.addAttribute("totalPages", totalPages);
+	    
+	    return "myPage/myOrder";
+	}
+	
+	/** 마이 페이지(내가 찜한 목록 페이지)
+	 * @return
+	 */
+	@GetMapping("myWishList")
+	public String myWishList(
+	    HttpSession session, 
+	    Model model,
+	    @RequestParam(value = "page", defaultValue = "1") int page
+	) {
+	    Member loginMember = (Member) session.getAttribute("loginMember");
+
+	    if (loginMember == null) {
+	        return "redirect:/";
+	    }
+	    
+	    int memberNo = loginMember.getMemberNo();
+	    
+	    // 내가 찜한 목록 조회
+	    List <Book> wishList = service.wishList(memberNo);
+	    
+	    // 페이징 처리
+	    int totalItems = wishList.size();
+	    int itemsPerPage = 5;
+	    int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
+	    
+	    // 현재 페이지에 해당하는 아이템만 추출
+	    int start = (page - 1) * itemsPerPage;
+	    int end = Math.min(start + itemsPerPage, totalItems);
+	    List<Book> pagedWishList  = wishList.subList(start, end);
+	    
+	    model.addAttribute("wishList", pagedWishList);
+	    model.addAttribute("currentPage", page);
+	    model.addAttribute("totalPages", totalPages);
+			
+		return "myPage/myWishList";
+	}
+	
+	
+
+	/** 마이 페이지(내 리뷰 페이지)
+	 * @return
+	 */
+	@GetMapping("myReview")
+	public String myReview(
+	    HttpSession session, 
+	    Model model,
+	    @RequestParam(value = "page", defaultValue = "1") int page
+	) {
+	    Member loginMember = (Member) session.getAttribute("loginMember");
+
+	    if (loginMember == null) {
+	        return "redirect:/";
+	    }
+	    
+	    int memberNo = loginMember.getMemberNo();
+	    
+	    // 내가 쓴 리뷰 목록 조회
+	    List <Review> writeReview = service.writeReview(memberNo);
+	    
+	    // 페이징 처리
+	    int totalItems = writeReview.size();
+	    int itemsPerPage = 5;
+	    int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
+	    
+	    // 현재 페이지에 해당하는 아이템만 추출
+	    int start = (page - 1) * itemsPerPage;
+	    int end = Math.min(start + itemsPerPage, totalItems);
+	    List<Review> pagedReview  = writeReview.subList(start, end);
+	    
+	    model.addAttribute("writeReview", pagedReview);
+	    model.addAttribute("currentPage", page);
+	    model.addAttribute("totalPages", totalPages);
+			
+		return "myPage/myReview";
+	}
+	
+	
 
 	/**
 	 * 비밀번호 확인
@@ -306,35 +422,7 @@ public class MyPageController {
 	}
 	
 	
-	/** 마이 페이지(내가 찜한 목록 페이지)
-	 * @return
-	 */
-	@GetMapping("myWishList")
-	public String myWishList() {
-		
-		return "myPage/myWishList";
-	}
-	
-	
-	
-	/** 마이 페이지(내 리뷰 페이지)
-	 * @return
-	 */
-	@GetMapping("myReview")
-	public String myReview() {
-		
-		return "myPage/myReview";
-	}
-	
-	
-	/** 마이 페이지(내 주문 목록 페이지)
-	 * @return
-	 */
-	@GetMapping("myOrder")
-	public String myOrder() {
-		
-		return "myPage/myOrder";
-	}
+
 	
 
 }

@@ -18,7 +18,7 @@
         <h1 class="welcome-title">마이페이지</h1>
         <div class="user-info">
           <i class="fas fa-user"></i>
-          <span th:text="${member?.name}">사용자명</span>
+          <span th:text="${session.loginMember?.name}">사용자명</span>
           <div class="user-actions">
             <a href="/myPage/info" class="header-btn">정보 수정</a>
             <a href="/myPage/changePw" class="header-btn">비밀번호 변경</a>
@@ -44,7 +44,7 @@
                 <span th:each="item, iterStat : ${category}" th:if="${iterStat.index < 6}" class="preference-tag"
                   th:text="${item.categoryName}">장르명</span>
                 <a href="/myPage/preference"><span th:if="${category.size() > 6}" class="preference-tag more-count"
-                  th:text="'+ ' + (${category.size() - 6} + '개')">+15개</span></a>
+                    th:text="'+ ' + (${category.size() - 6} + '개')">+15개</span></a>
               </div>
             </div>
             <div class="preference-category">
@@ -55,7 +55,7 @@
                 <span th:each="item, iterStat : ${preference}" th:if="${iterStat.index < 6}" class="preference-tag"
                   th:text="${item.preferenceName}">키워드</span>
                 <a href="/myPage/preference"><span th:if="${preference.size() > 6}" class="preference-tag more-count"
-                  th:text="'+ ' + (${preference.size() - 6} + '개')">+15개</span></a>
+                    th:text="'+ ' + (${preference.size() - 6} + '개')">+15개</span></a>
               </div>
             </div>
           </div>
@@ -74,18 +74,17 @@
         </div>
         <div class="card-content">
           <div class="summary-list" th:if="${!#lists.isEmpty(buyList)}">
-            <a th:each="purchase : ${buyList}" 
-               th:href="@{/order/afterOrder(orderNo=${purchase.orderNo})}" 
-               class="purchase-item">
-                <div class="purchase-title">
-                    <span th:text="${purchase.bookTitle}">책 제목</span>
-                    <span th:if="${purchase.bookCount > 1}" 
-                          th:text="| 등 총 ${purchase.bookCount}권|" 
-                          class="book-count-title">등 총 2권</span>
-                </div>
-                <div class="purchase-info">
-                    <span class="total-price" th:text="|${#numbers.formatInteger(purchase.totalPrice, 0, 'COMMA')}원|">32,000원</span>
-                </div>
+            <a th:each="purchase, iterStat : ${buyList}" th:if="${iterStat.index < 3}"
+              th:href="@{/order/afterOrder(orderNo=${purchase.orderNo})}" class="purchase-item">
+              <div class="purchase-title">
+                <span th:text="${purchase.bookTitle}">책 제목</span>
+                <span th:if="${purchase.bookCount > 1}" th:text="| 등 총 ${purchase.bookCount}권|"
+                  class="book-count-title">등 총 2권</span>
+              </div>
+              <div class="purchase-info">
+                <span class="total-price"
+                  th:text="|${#numbers.formatInteger(purchase.totalPrice, 0, 'COMMA')}원|">32,000원</span>
+              </div>
             </a>
           </div>
           <p th:if="${#lists.isEmpty(buyList)}" class="empty-message">최근 구매 내역이 없습니다.</p>
@@ -117,19 +116,24 @@
       <!-- 리뷰 섹션 -->
       <section class="card reviews">
         <div class="card-header">
-          <h2>리뷰 목록</h2>
+          <h2>최근 리뷰 목록</h2>
           <a href="/myPage/myReview" class="card-more">전체보기 →</a>
         </div>
         <div class="card-content">
           <div class="summary-list" th:if="${!#lists.isEmpty(writeReview)}">
-            <a th:each="review : ${writeReview}" 
-               th:href="@{/searchBookPage/bookDetail/{bookNo}(bookNo=${review.bookNo})}" 
-               class="review-item">
+            <a th:each="review, iterStat : ${writeReview}" th:if="${iterStat.index < 3}"
+              th:href="@{/searchBookPage/bookDetail/{bookNo}(bookNo=${review.bookNo})}" class="review-item">
+              <div class="review-book-title-area">
                 <div class="review-book-title" th:text="${review.bookTitle}">책 제목</div>
-                <div class="review-detail">
-                    <div class="review-title" th:text="${review.reviewTitle}">리뷰 제목</div>
-                    <div class="review-content" th:text="${review.reviewContent}">리뷰 내용</div>
+                <div class="review-score">
+                  <i class="fas fa-star"></i>
+                  <span th:text="${review.reviewScore}">4.5</span>
                 </div>
+              </div>
+              <div class="review-detail">
+                <div class="review-title" th:text="${review.reviewTitle}">리뷰 제목</div>
+                <div class="review-content" th:text="${review.reviewContent}">리뷰 내용</div>
+              </div>
             </a>
           </div>
           <p th:if="${#lists.isEmpty(writeReview)}" class="empty-message">작성한 리뷰가 없습니다.</p>
@@ -144,15 +148,21 @@
         </div>
         <div class="card-content">
           <div class="summary-list" th:if="${!#lists.isEmpty(wishList)}">
-            <a th:each="item : ${wishList}" 
-               th:href="@{/searchBookPage/bookDetail/{bookNo}(bookNo=${item.bookNo})}" 
-               class="wishlist-item">
+            <a th:each="item, iterStat : ${wishList}" th:if="${iterStat.index < 3}"
+              th:href="@{/searchBookPage/bookDetail/{bookNo}(bookNo=${item.bookNo})}" class="wishlist-item">
+              <div class="book-title-area">
                 <div class="book-title" th:text="${item.bookTitle}">책 제목</div>
-                <div class="book-info">
-                    <span class="book-writer" th:text="${item.bookWriter}">작가</span>
-                    <span class="book-price" th:text="|${#numbers.formatInteger(item.bookPrice, 0, 'COMMA')}원|">32,000원</span>
+                <div class="review-score">
+                  <i class="fas fa-star"></i>
+                  <span th:text="${item.scoreAvg}">4.5</span>
                 </div>
-                <div class="book-content" th:text="${item.bookContent}">책 내용</div>
+              </div>
+              <div class="book-info">
+                <span class="book-writer" th:text="${item.bookWriter}">작가</span>
+                <span class="book-price"
+                  th:text="|${#numbers.formatInteger(item.bookPrice, 0, 'COMMA')}원|">32,000원</span>
+              </div>
+              <div class="book-content" th:text="${item.bookContent}">책 내용</div>
             </a>
           </div>
           <p th:if="${#lists.isEmpty(wishList)}" class="empty-message">찜한 상품이 없습니다.</p>
@@ -162,47 +172,46 @@
       <!-- 문의 내역 요약 -->
       <section class="card inquiries">
         <div class="card-header">
-          <h2>문의 목록</h2>
+          <h2>최근 문의 목록</h2>
           <a href="/customer/inquiry" class="card-more">전체보기 →</a>
         </div>
         <div class="card-content">
-          <div class="summary-list" th:if="${!#lists.isEmpty(recentInquiries)}">
-            <a th:each="inquiry : ${recentInquiries}" 
-               th:href="@{/customer/inquiryDetail/{queryNo}(queryNo=${inquiry.queryNo})}" 
-               class="inquiry-item">
-                <div class="inquiry-header">
-                    <div class="inquiry-category">
-                        <i th:class="${
-                            inquiry.querySubject == 2 ? 'fas fa-shopping-cart' :
-                            inquiry.querySubject == 3 ? 'fas fa-truck' :
-                            inquiry.querySubject == 4 ? 'fas fa-undo' :
+          <div class="summary-list" th:if="${!#lists.isEmpty(queryList)}">
+            <a th:each="inquiry : ${queryList}"
+              th:href="@{/customer/inquiryDetail/{queryNo}(queryNo=${inquiry.queryNo})}" class="inquiry-item">
+              <div class="inquiry-header">
+                <div class="inquiry-category">
+                  <i th:class="${
+                            inquiry.querySubject == '2' ? 'fas fa-shopping-cart' :
+                            inquiry.querySubject == '3' ? 'fas fa-truck' :
+                            inquiry.querySubject == '4' ? 'fas fa-undo' :
                             'fas fa-question-circle'
                         }"></i>
-                        <span th:text="${
-                            inquiry.querySubject == 2 ? '주문관련' :
-                            inquiry.querySubject == 3 ? '배송관련' :
-                            inquiry.querySubject == 4 ? '취소/환불' :
+                  <span th:text="${
+                            inquiry.querySubject == '2' ? '주문관련' :
+                            inquiry.querySubject == '3' ? '배송관련' :
+                            inquiry.querySubject == '4' ? '취소/환불' :
                             '기타문의'
                         }">문의종류</span>
-                    </div>
-                    <div th:class="'inquiry-status status-' + ${inquiry.status}">
-                        <i th:class="${
+                </div>
+                <div th:class="'inquiry-status status-' + ${inquiry.status}">
+                  <i th:class="${
                             inquiry.status == 0 ? 'fas fa-file-alt' :
                             inquiry.status == 1 ? 'fas fa-eye' :
                             'fas fa-check-circle'
                         }"></i>
-                        <span th:text="${
+                  <span th:text="${
                             inquiry.status == 0 ? '접수완료' :
                             inquiry.status == 1 ? '관리자확인' :
                             '답변완료'
                         }">상태</span>
-                    </div>
                 </div>
-                <div class="inquiry-title" th:text="${inquiry.queryTitle}">문의 제목</div>
-                <div class="inquiry-content" th:text="${inquiry.queryContent}">문의 내용</div>
+              </div>
+              <div class="inquiry-title" th:text="${inquiry.queryTitle}">문의 제목</div>
+              <div class="inquiry-content" th:text="${inquiry.queryContent}">문의 내용</div>
             </a>
           </div>
-          <p th:if="${#lists.isEmpty(recentInquiries)}" class="empty-message">문의 내역이 없습니다.</p>
+          <p th:if="${#lists.isEmpty(queryList)}" class="empty-message">문의 내역이 없습니다.</p>
         </div>
       </section>
     </div>

@@ -1,13 +1,48 @@
 /* 전체 레이아웃 */
 .content-box {
     display: flex;
-    flex-direction: row;
-    align-items: stretch;
     gap: 20px;
-    width: 100%; 
+    padding: 20px;
     min-height: 100vh;
-    height: 100%;
-    overflow-x: hidden;
+}
+
+/* 오른쪽 컨텐츠 영역 스타일 추가 */
+.right-content {
+    flex: 1;
+    max-width: calc(100% - 270px); /* 사이드바 너비(250px) + gap(20px) 고려 */
+}
+
+/* 기존 mypage-header 스타일 유지하면서 위치 조정 */
+.mypage-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e9ecef;
+}
+
+/* title-area 수정 */
+.title-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* welcome-title 가운데 정렬 */
+.welcome-title {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    font-weight: 700;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* user-info를 오른쪽으로 정렬 */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-left: auto;
 }
 
 /* 사이드바 스타일 */
