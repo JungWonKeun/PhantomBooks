@@ -39,7 +39,9 @@ const listUp = (cp, sort, term, date) => {
       signUpDate.push(chart.signUpDate);
       memberCount.push(chart.countMember);
     });
-    
+
+
+
     
     // 차트
 
@@ -72,8 +74,11 @@ const listUp = (cp, sort, term, date) => {
         },
         options: {
             scales: {
+                x: {
+                  min : 0
+                },
                 y: {
-                    beginAtZero: true
+                    beginAtZero: false
                 }
             }
         }
@@ -203,6 +208,10 @@ const listUp = (cp, sort, term, date) => {
             if(result > 0 ) {
               alert("회원 정보를 삭제하였습니다.");
               listUp(cp, sortSelect.value);
+
+              if(myChart !== null){
+                myChart.destroy();
+              }
             }
           })
           .catch(err => console.error(err));

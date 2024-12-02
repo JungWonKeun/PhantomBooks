@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import phantom.books.finalProject.admin.dto.Chart;
+import phantom.books.finalProject.admin.dto.ChartBook;
 import phantom.books.finalProject.admin.mapper.ManagerMapper;
 import phantom.books.finalProject.pagination.Pagination;
 import phantom.books.finalProject.searchBookPage.dto.Book;
@@ -33,12 +35,15 @@ public class ManagerServiceImpl implements ManagerService {
 		RowBounds bounds = new RowBounds(offset, limit);
 		
 		List<Book> bookList = mapper.bookList(sort,text, bounds);
+		
+		List<ChartBook> chartData = mapper.chartData(sort, text, bounds);
 		log.debug("bookList : {}", bookList);
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("countBookList", countBookList);
 		map.put("pagination", pagination);
 		map.put("bookList", bookList);
+		map.put("chartData", chartData);
 		
 		
 		return map;
