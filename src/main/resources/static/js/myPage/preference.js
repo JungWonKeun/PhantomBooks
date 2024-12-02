@@ -19,7 +19,7 @@ function hasUnsavedChanges() {
   );
 
   return JSON.stringify([...currentCategoryState]) !== JSON.stringify([...initialCategoryState]) ||
-         JSON.stringify([...currentPreferenceState]) !== JSON.stringify([...initialPreferenceState]);
+    JSON.stringify([...currentPreferenceState]) !== JSON.stringify([...initialPreferenceState]);
 }
 
 // 내 정보 페이지 오픈 및 닫기
@@ -58,85 +58,85 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-document.addEventListener('DOMContentLoaded', function () {
-  const btnContainer = document.querySelector('.btn-container'); // 버튼 컨테이너 선택
-  const footer = document.querySelector('footer'); // 푸터 요소 선택
-  const scrollOffset = 10; // 위치 변경할 스크롤 값
+// document.addEventListener('DOMContentLoaded', function () {
+//   const btnContainer = document.querySelector('.btn-container'); // 버튼 컨테이너 선택
+//   const footer = document.querySelector('footer'); // 푸터 요소 선택
+//   const scrollOffset = 10; // 위치 변경할 스크롤 값
 
-  function updateBtnContainerPosition() {
-    const footerOffsetTop = footer.getBoundingClientRect().top + window.scrollY; // 푸터의 절대 위치
-    const containerHeight = btnContainer.offsetHeight;
-    const maxTop = footerOffsetTop - containerHeight; // 푸터에 닿기 전의 위치
+//   function updateBtnContainerPosition() {
+//     const footerOffsetTop = footer.getBoundingClientRect().top + window.scrollY; // 푸터의 절대 위치
+//     const containerHeight = btnContainer.offsetHeight;
+//     const maxTop = footerOffsetTop - containerHeight; // 푸터에 닿기 전의 위치
 
-    if (window.scrollY > scrollOffset) {
-      // 스크롤이 200px 넘었을 때
-      if (window.scrollY + 800 >= maxTop) {
-        // 푸터에 닿기 전에 멈추게 설정
-        btnContainer.style.position = 'absolute';
-        btnContainer.style.top = `${maxTop}px`; // 푸터 바로 위로 이동
-        btnContainer.style.right = '41%';
-      } else {
-        // 기본 고정 상태
-        btnContainer.style.position = 'fixed';
-        btnContainer.style.top = '800px';
-        btnContainer.style.right = '41%';
-      }
-    } else {
-      // 스크롤이 200px 이하일 때 기본 위치로 되돌리기
-      btnContainer.style.position = 'fixed';
-      btnContainer.style.right = '290px';
-      btnContainer.style.top = '220px';
-    }
-  }
+//     if (window.scrollY > scrollOffset) {
+//       // 스크롤이 200px 넘었을 때
+//       if (window.scrollY + 800 >= maxTop) {
+//         // 푸터에 닿기 전에 멈추게 설정
+//         btnContainer.style.position = 'absolute';
+//         btnContainer.style.top = `${maxTop}px`; // 푸터 바로 위로 이동
+//         btnContainer.style.right = '41%';
+//       } else {
+//         // 기본 고정 상태
+//         btnContainer.style.position = 'fixed';
+//         btnContainer.style.top = '800px';
+//         btnContainer.style.right = '41%';
+//       }
+//     } else {
+//       // 스크롤이 200px 이하일 때 기본 위치로 되돌리기
+//       btnContainer.style.position = 'fixed';
+//       btnContainer.style.right = '290px';
+//       btnContainer.style.top = '220px';
+//     }
+//   }
 
-  window.addEventListener('scroll', updateBtnContainerPosition);
-});
-
-
+//   window.addEventListener('scroll', updateBtnContainerPosition);
+// });
 
 
 
-document.addEventListener('DOMContentLoaded', function () {
-  const stickyCards = document.querySelectorAll('.sticky-card'); // 모든 .sticky-card 요소 선택
-  const offset = 270; // 원하는 고정 위치
-  const footer = document.querySelector('footer'); // 푸터 요소 선택
 
-  function updateStickyCardPositions() {
-    stickyCards.forEach(card => {
-      const footerOffsetTop = footer.getBoundingClientRect().top + window.scrollY; // 푸터의 절대 위치
-      const cardHeight = card.offsetHeight;
 
-      if (window.scrollY > offset) {
-        const maxAllowedHeight = footerOffsetTop - window.scrollY - 55; // 푸터와 겹치기 전 가능한 최대 높이 계산
+// document.addEventListener('DOMContentLoaded', function () {
+//   const stickyCards = document.querySelectorAll('.sticky-card'); // 모든 .sticky-card 요소 선택
+//   const offset = 270; // 원하는 고정 위치
+//   const footer = document.querySelector('footer'); // 푸터 요소 선택
 
-        if (maxAllowedHeight < cardHeight) {
-          // 푸터에 닿기 전에 카드의 높이를 조정
-          card.style.height = `${maxAllowedHeight}px`;
-        } else {
-          // 기본 고정 상태
-          setSticky(card);
-        }
-      } else {
-        resetPosition(card);
-      }
-    });
-  }
+//   function updateStickyCardPositions() {
+//     stickyCards.forEach(card => {
+//       const footerOffsetTop = footer.getBoundingClientRect().top + window.scrollY; // 푸터의 절대 위치
+//       const cardHeight = card.offsetHeight;
 
-  function resetPosition(card) {
-    card.style.position = 'static';
-    card.style.width = ''; // 원래 넓이로 되돌리기
-    card.style.height = ''; // 원래 높이로 되돌리기
-  }
+//       if (window.scrollY > offset) {
+//         const maxAllowedHeight = footerOffsetTop - window.scrollY - 55; // 푸터와 겹치기 전 가능한 최대 높이 계산
 
-  function setSticky(card) {
-    card.style.position = 'fixed';
-    card.style.top = '1px';
-    card.style.width = `${card.parentElement.offsetWidth * 0.6}px`; // 부모 요소 넓이의 45%로 설정
-    card.style.height = `${card.parentElement.offsetWidth}px`; // 부모 요소의 넓이에 비례한 유동적인 높이 설정
-  }
+//         if (maxAllowedHeight < cardHeight) {
+//           // 푸터에 닿기 전에 카드의 높이를 조정
+//           card.style.height = `${maxAllowedHeight}px`;
+//         } else {
+//           // 기본 고정 상태
+//           setSticky(card);
+//         }
+//       } else {
+//         resetPosition(card);
+//       }
+//     });
+//   }
 
-  window.addEventListener('scroll', updateStickyCardPositions);
-});
+//   function resetPosition(card) {
+//     card.style.position = 'static';
+//     card.style.width = ''; // 원래 넓이로 되돌리기
+//     card.style.height = ''; // 원래 높이로 되돌리기
+//   }
+
+//   function setSticky(card) {
+//     card.style.position = 'fixed';
+//     card.style.top = '1px';
+//     card.style.width = `${card.parentElement.offsetWidth * 0.6}px`; // 부모 요소 넓이의 45%로 설정
+//     card.style.height = `${card.parentElement.offsetWidth}px`; // 부모 요소의 넓이에 비례한 유동적인 높이 설정
+//   }
+
+//   window.addEventListener('scroll', updateStickyCardPositions);
+// });
 
 document.addEventListener('DOMContentLoaded', function () {
   // DOM 요소 선택
@@ -504,7 +504,7 @@ function addBadgeWithAnimation(badge, container) {
   badge.style.opacity = '0';
   badge.style.transform = 'scale(0.8)';
   container.appendChild(badge);
-  
+
   requestAnimationFrame(() => {
     badge.style.transition = 'all 0.3s ease';
     badge.style.opacity = '1';
@@ -517,21 +517,30 @@ function removeBadgeWithAnimation(badge) {
   badge.style.transition = 'all 0.3s ease';
   badge.style.opacity = '0';
   badge.style.transform = 'scale(0.8)';
-  
+
   setTimeout(() => badge.remove(), 300);
 }
 
 
-// 스크롤 시 스티키 요소들의 위치 조정
-function updateStickyPositions() {
-  const btnContainer = document.querySelector('.btn-container');
-  const stickyCards = document.querySelectorAll('.sticky-card');
-  const btnHeight = btnContainer.offsetHeight;
+const btnContainer = document.querySelector('.btn-container');
+const buttons = btnContainer.querySelectorAll('button');
 
-  stickyCards.forEach(card => {
-    card.style.top = `${btnHeight + 10}px`;
+// 버튼 컨테이너의 가로 길이에 맞춰 버튼 정렬
+const resizeButtons = () => {
+  let totalWidth = 0;
+
+  buttons.forEach((button) => {
+    totalWidth += button.offsetWidth + 10; // 버튼 너비와 간격(10px)
   });
-}
 
-window.addEventListener('scroll', updateStickyPositions);
-window.addEventListener('resize', updateStickyPositions);
+  if (totalWidth > window.innerWidth * 0.9) {
+    btnContainer.style.flexWrap = 'wrap';
+  } else {
+    btnContainer.style.flexWrap = 'nowrap';
+  }
+};
+
+// 초기 호출 및 윈도우 리사이즈 시 적용
+resizeButtons();
+window.addEventListener('resize', resizeButtons);
+
