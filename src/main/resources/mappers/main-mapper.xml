@@ -14,7 +14,7 @@
         JOIN BOOK USING (BOOK_NO)
         JOIN BOOK_CATEGORY USING (BOOK_NO)
         JOIN CATEGORY USING (CATEGORY_NO)
-        WHERE TRUNC(ORDER_DATE) = TRUNC(SYSDATE)
+        WHERE TRUNC(ORDER_DATE) = TRUNC(TO_DATE('2024-11-29'))
         GROUP BY BOOK_NO, CATEGORY_NO
     )
     SELECT 
@@ -48,6 +48,7 @@
     JOIN BOOK ON BOOK.BOOK_NO = MAIN.BOOK_NO
 	</select>
 
+<<<<<<< HEAD
 	<!-- 일간 베스트셀러 -->
 	<select id="getBestsellerBooks" parameterType = "int" resultType="Book">
 		WITH TEMP_TABLE AS (
@@ -96,27 +97,96 @@
 	
 	<!-- 구매한 책 리스트 가져오기 -->
 	<select id="getBoughtBooks" parameterType="int" resultType="OrderBookDto">
+=======
+	<!-- 베스트셀러 TOP 5 -->
+	<select id="getBestsellerBooks" resultType="Book">
+		SELECT
+		b.BOOK_NO,
+		b.BOOK_TITLE,
+		b.BOOK_COVER,
+		b.BOOK_WRITER,
+		b.BOOK_PRICE,
+		b.SCORE_AVG,
+		COUNT(o.ORDER_NO) AS TOTAL_COUNT
+		FROM BOOK b
+		JOIN ORDER_LIST o ON b.BOOK_NO = o.BOOK_NO
+		GROUP BY
+		b.BOOK_NO,
+		b.BOOK_TITLE,
+		b.BOOK_COVER,
+		b.BOOK_WRITER,
+		b.BOOK_PRICE,
+		b.SCORE_AVG
+		ORDER BY COUNT(o.ORDER_NO) DESC
+		FETCH FIRST 5 ROWS ONLY
 	</select>
-	
-	
-	<!-- 취향별 책 추천 -->	
-	<select id="getMyTypeBooks" resultType="Book">
-    SELECT 
-        b.BOOK_NO,
-        b.BOOK_TITLE,
-        b.BOOK_CONTENT,
-        b.SCORE_AVG
-    FROM 
-        MEMBER_PREFERENCE mp
-    JOIN 
-        BOOK_PREFERENCE bp ON mp.PREFERENCE_NO = bp.PREFERENCE_NO
-    JOIN 
-        BOOK b ON bp.BOOK_NO = b.BOOK_NO
-    WHERE 
-        mp.MEMBER_NO = #{memberNo}
+
+	<!-- 구매 이력 조회 -->
+	<select id="getBoughtBooks" parameterType="int"
+		resultType="Book">
+		SELECT
+		b.BOOK_NO,
+		b.BOOK_TITLE,
+		b.BOOK_COVER,
+		b.BOOK_WRITER,
+		b.BOOK_PRICE,
+		ol.BOOK_COUNT,
+		o.ORDER_DATE
+		FROM ORDER_LIST ol
+		JOIN "ORDER" o ON ol.ORDER_NO = o.ORDER_NO
+		JOIN BOOK b ON ol.BOOK_NO = b.BOOK_NO
+		WHERE o.MEMBER_NO = #{memberNo}
+		ORDER BY o.ORDER_DATE DESC
+>>>>>>> f8753ef4f81351198a04653d7be6462432d411d7
+	</select>
+
+
+	<!-- 취향별 책 추천 -->
+<select id="getMyTypeBooks" parameterType="int" resultType="Book">
+    WITH RANKED_BOOKS AS (
+        SELECT DISTINCT
+            B.BOOK_NO,
+            B.BOOK_TITLE,
+            B.BOOK_COVER,
+            B.BOOK_WRITER,
+            B.BOOK_PRICE,
+            B.SCORE_AVG,
+            COUNT(DISTINCT C.CATEGORY_NO) AS MATCH_COUNT
+        FROM BOOK B
+        JOIN BOOK_CATEGORY BC ON B.BOOK_NO = BC.BOOK_NO
+        JOIN CATEGORY C ON BC.CATEGORY_NO = C.CATEGORY_NO
+        WHERE EXISTS (
+            -- 사용자가 선택한 카테고리와 매칭
+            SELECT 1 
+            FROM MEMBER_CATEGORY MC 
+            WHERE MC.MEMBER_NO = #{memberNo}
+            AND MC.CATEGORY_NO = C.CATEGORY_NO
+        ) OR EXISTS (
+            -- 사용자의 취향 설정과 매칭
+            SELECT 1 
+            FROM MEMBER_PREFERENCE MP 
+            WHERE MP.MEMBER_NO = #{memberNo}
+            AND MP.PREFERENCE_NO IN (
+                SELECT PREFERENCE_NO 
+                FROM BOOK_PREFERENCE 
+                WHERE BOOK_NO = B.BOOK_NO
+            )
+        )
+        GROUP BY 
+            B.BOOK_NO,
+            B.BOOK_TITLE,
+            B.BOOK_COVER,
+            B.BOOK_WRITER,
+            B.BOOK_PRICE,
+            B.SCORE_AVG
+    )
+    SELECT *
+    FROM RANKED_BOOKS
     ORDER BY 
-        b.SCORE_AVG DESC
-    LIMIT 10
-	</select>
+        MATCH_COUNT DESC,  -- 매칭 개수가 많은 순
+        SCORE_AVG DESC,    -- 평점 높은 순
+        BOOK_NO ASC       -- 최신 도서 순
+    FETCH FIRST 10 ROWS ONLY
+</select>
 	
 </mapper>

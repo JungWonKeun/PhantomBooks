@@ -95,13 +95,20 @@
     
       <div class="content">
         <h2>매출관리</h2>
-        <div class="date-container">
-          <button>1주일</button>
-          <button>1개월</button>
-          <button>6개월</button>
-          <input type="date">
-          &nbsp;&nbsp; ~ &nbsp; &nbsp;
-          <input type="date">
+
+        <div class="sort-dropdown">
+          <select id="sortSelect">
+              <option value="sales">전체 매출</option>
+              <option value="category">카테고리</option>
+              <option value="company">출판사</option>
+          </select>
+        </div>
+        <div class="btn-container">
+          <button class="weeks">1주일</button>
+          <button class="month">1개월</button>
+          <button class="sixMonth">6개월</button>
+          <button class="dateSelect">기간 설정</button>
+          <input type="date" class="date hidden">
         </div>
       
         <div class="graph-box">
@@ -118,15 +125,7 @@
                 <div>거래액 그래프</div>
                 <div>클릭 된 버튼 / 정렬 기준</div>
                 
-                <div class="sort-dropdown">
-                  <select id="sortSelect">
-                      <option value="sales">전체 매출</option>
-                      <option value="category">카테고리</option>
-                      <option value="company">출판사</option>
-                      <option value="online">온라인</option>
-                      <option value="offline">오프라인</option>
-                  </select>
-                </div>
+                
         
     
               </div>
@@ -147,7 +146,7 @@
                     <th>수익</th>
                   </tr>
                 </thead>
-                <tbody  id="salesRank">
+                <tbody id="salesRank">
                   <tr>
                     <th>1️⃣</th>
                     <td>책이름</td>

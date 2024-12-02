@@ -135,6 +135,10 @@ const addTargetPopupLayer
  // 검색 결과 목록
  const resultArea = document.querySelector("#resultArea"); 
 
+ const chattingArea = document.querySelector(".chatting-area");
+
+ const chattingContent = document.querySelector(".chatting-content");
+
 
 // 추가버튼 클릭 시
 addTarget.addEventListener("click", () => {
@@ -153,6 +157,9 @@ targetInput.addEventListener("input", () => {
   
   // 입력된 값(공백 제거)
   const query = targetInput.value.trim();
+
+  chattingArea.classList.add("hidden");
+  chattingContent.classList.add("hidden");
   
   // 입력된 값이 없을 경우
   if(query.length === 0){ 
@@ -197,10 +204,7 @@ targetInput.addEventListener("input", () => {
 
       // 클릭 시 채팅방 입장 함수 호출
       li.addEventListener("click", chattingEnter);
-
-
     }
-
     
   })
   .catch(err => console.error(err));
@@ -217,6 +221,9 @@ const chattingEnter = (e) => {
   // data-id 값을 얻어와 저장(참여자 회원 번호)
   const targetNo = e.currentTarget.dataset.id;
   // console.log(targetNo);
+
+  chattingArea.classList.add("hidden");
+  chattingContent.classList.remove("hidden");
 
   fetch("/admin/chatting/enter", {
     method : "POST",
@@ -369,7 +376,7 @@ const roomListAddEvent = () => {
 			selectChattingNo = item.getAttribute("chat-no");
 			selectTargetNo = item.getAttribute("target-no");
 
-			selectTargetName = item.children[0].children[0].children[0].innerText;
+			selectTargetName = item.children[0].children[0].children[0];
 
 			if(item.children[0].children[0].children[0] != undefined){
 				item.children[0].children[0].children[0].remove();
@@ -402,6 +409,8 @@ const selectChattingFn = () => {
 
 		if(ul){
             ul.innerHTML = "";
+            chattingArea.classList.add("hidden");
+            chattingContent.classList.remove("hidden");
         }else{
             return;
         }
@@ -455,7 +464,7 @@ const selectChattingFn = () => {
 document.addEventListener("DOMContentLoaded", () => {
   
   // 채팅방 목록에 클릭 이벤트 추가하는 함수 호출
-  roomListAddEvent()
+  selectRoomList();
 
   // 보내기 버튼 클릭 시 메시지 보내기
   document.querySelector("#send").addEventListener("click", sendMessage);
@@ -486,11 +495,15 @@ document.addEventListener("DOMContentLoaded", () => {
     // 팝업 열기
     openPopupButton.addEventListener("click", () => {
         popup.style.display = "block";
+        selectRoomList();
+        chattingArea.classList.remove("hidden");
     });
 
     // 팝업 닫기
     closePopupButton.addEventListener("click", () => {
         popup.style.display = "none";
+
+        chattingContent.classList.add("hidden");
     });
 
     // 드래그 시작

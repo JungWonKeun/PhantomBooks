@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
+import phantom.books.finalProject.admin.dto.Chart;
 import phantom.books.finalProject.member.dto.Member;
 
 @Mapper
@@ -48,6 +49,12 @@ public interface AdminMapper {
 
 	// 계정 삭제
 	int deleteAdmin(int memberNo);
+
+	// 차트에 사용할 데이터
+	List<Chart> chartData(@Param("cp") int cp,
+												@Param("term") String term, 
+												@Param("sort") String sort,
+												@Param("date") String date);
 	
 	
 

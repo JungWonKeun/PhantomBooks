@@ -113,6 +113,8 @@
     <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 
     <script th:inline="javascript">
+      let selectedAddress = null;
+      
       document.addEventListener('DOMContentLoaded', () => {
         const defaultAddressCheckbox = document.getElementById('defaultAddressCheck');
         const zipInput = document.getElementById('userZip');
@@ -125,7 +127,7 @@
         const additionalAddressesContainer = document.getElementById('additionalAddresses');
 
 
-        let selectedAddress = {
+        selectedAddress = {
           zip: zipInput.value,
           address: addressInput.value,
           detailAddress: detailAddressInput.value,
@@ -297,7 +299,7 @@
         }
 
         document.getElementById('paymentButton').addEventListener('click', () => {
-        
+
 
           if (!selectedAddress.zip || !selectedAddress.address || !selectedAddress.detailAddress) {
             alert('배송지를 선택해주세요.');
@@ -354,9 +356,9 @@
           memberNo: memberNo,
           totalPrice: totalPrice,
           orderCount: 1,
-          userZip: userZip,
-          userAddress: userAddress,
-          userDetailAddress: userDetailAddress,
+          userZip: selectedAddress.zip || userZip,
+          userAddress: selectedAddress.address || userAddress,
+          userDetailAddress: selectedAddress.detailAddress || userDetailAddress,
           userTelNo: userTelNo,
           userName: userName,
           orderBooks: orderBooks,
@@ -369,7 +371,7 @@
           const resp = await PortOne.requestPayment({
             storeId: storeId,
             paymentId: paymentId,
-            orderName: "테스트 결제",
+            orderName: "팬텀북스",
             totalAmount: totalPrice,
             currency: "KRW",
             channelKey: channelKey,

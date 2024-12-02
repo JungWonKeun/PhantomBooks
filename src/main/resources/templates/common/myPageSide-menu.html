@@ -1,0 +1,109 @@
+<script src="https://kit.fontawesome.com/890489b5e8.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/css/fragments/myPageSide-menu.css">
+
+
+<div th:fragment="myPageSide-menu">
+  <div class="myPageSideBar">
+    <div class="text-end mb-3">
+      <button id="openBtn" class="btn btn-primary">
+        <i class="fa-solid fa-arrow-down-short-wide"></i> 열기
+      </button>
+      <button id="closeBtn" class="btn btn-danger" style="display: none; background-color: rgb(220, 53, 69);">
+        <i class="fa-solid fa-arrow-up-short-wide"></i> 닫기
+      </button>
+    </div>
+
+    <h3 class="menu">
+      <i class="fa-solid fa-users"></i>&nbsp;&nbsp;내 정보
+      <ul class="submenu">
+        <li><a href="/myPage/info">&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;내 정보 보기/변경</a></li>
+        <li><a href="/myPage/changePw">&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;비밀번호 변경</a></li>
+        <li><a href="/myPage/preference">&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;내 취향 보기</a></li>
+      </ul>
+    </h3>
+
+
+    <h3 class="menu">
+      <i class="fa-solid fa-warehouse"></i>&nbsp;&nbsp;내 활동 내역
+      <ul class="submenu">
+        <li><a href="/myPage/myOrder">&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;내 구매 내역</a></li>
+        <li><a href="/myPage/myReview">&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;내 리뷰 목록</a></li>
+        <li><a href="/myPage/myWishList">&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;내 찜 목록</a></li>
+      </ul>
+    </h3>
+
+    <h3 class="menu">
+      <i class="fa-solid fa-comments"></i>&nbsp;&nbsp;1:1 문의
+      <ul class="submenu">
+        <li><a href="/customer/query">&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;1:1 문의하기</a></li>
+        <li><a href="/customer/inquiry">&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;1:1 문의내역</a></li>
+      </ul>
+    </h3>
+
+    <h3 class="menu">
+      <a href="/customer/qna" style="text-decoration: none; color:#333;"><i class="fa-solid fa-question-circle"></i>&nbsp;&nbsp;자주 묻는 질문(FAQ)</a>
+    </h3>
+
+    <h3 class="menu">
+      <a href="/customer/notice" style="text-decoration: none; color:#333;"><i class="fa-solid fa-bullhorn"></i>&nbsp;&nbsp;공지사항</a>
+    </h3>
+
+
+
+  </div>
+  <script src="/js/fragments/myPageSide-menu.js"></script>
+</div>
+
+
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const openBtn = document.getElementById("openBtn");
+    const closeBtn = document.getElementById("closeBtn");
+    const menus = document.querySelectorAll('.menu');
+    const submenus = document.querySelectorAll('.submenu');
+
+    // 사이드바 열기/닫기 기능
+    openBtn.addEventListener('click', function () {
+      openBtn.style.display = 'none';
+      closeBtn.style.display = 'block';
+      submenus.forEach(submenu => {
+        submenu.style.maxHeight = submenu.scrollHeight + 'px'; // 모든 서브메뉴 열기
+        const menu = submenu.closest('.menu');
+        menu.style.marginBottom = submenu.scrollHeight + 'px'; // 메뉴 항목 아래로 밀기
+      });
+    });
+
+    closeBtn.addEventListener('click', function () {
+      openBtn.style.display = 'block';
+      closeBtn.style.display = 'none';
+      submenus.forEach(submenu => {
+        submenu.style.maxHeight = '0'; // 모든 서브메뉴 닫기
+        const menu = submenu.closest('.menu');
+        menu.style.marginBottom = '10px'; // 메뉴 항목 간격 초기화
+      });
+    });
+
+    // 각 메뉴 클릭 시 active 상태 토글
+    menus.forEach(menu => {
+      menu.addEventListener('click', function () {
+        this.classList.toggle('active');
+
+        const submenu = this.querySelector('.submenu');
+        if (submenu) {
+          if (submenu.style.maxHeight && submenu.style.maxHeight !== '0px') {
+            submenu.style.maxHeight = '0'; // 이미 열려 있으면 닫기
+            this.style.marginBottom = '10px'; // 메뉴 간격 초기화
+          } else {
+            submenu.style.maxHeight = submenu.scrollHeight + 'px'; // 서브메뉴 열기
+            this.style.marginBottom = submenu.scrollHeight + 'px'; // 메뉴 항목 아래로 밀기
+          }
+        }
+      });
+    });
+  });
+
+
+
+</script>

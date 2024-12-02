@@ -25,9 +25,9 @@ public class MainServiceImpl implements MainService {
     }
 
     @Override
-    public List<Book> bestsellerBooks(int memberNo) {
+    public List<Book> bestsellerBooks() {
         // 구매한 책 리스트 중 수량이 가장 많은 책을 일간 베스트셀러로 반환
-        return mapper.getBestsellerBooks(memberNo);
+        return mapper.getBestsellerBooks();
     }
 
     @Override

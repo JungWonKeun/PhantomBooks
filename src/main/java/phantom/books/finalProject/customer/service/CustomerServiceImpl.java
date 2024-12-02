@@ -36,7 +36,21 @@ public class CustomerServiceImpl implements CustomerService {
 	public List<FAQ> getFaqList() {
 		return customerMapper.getFaqList();
 	}
-
+	
+	
+	@Override
+	public Map<String, Object> getFAQPaginaion(int cp) {
+	    // FAQ 전체 개수 조회
+	    int listCount = customerMapper.countFAQList();
+	    List<FAQ> faqList = customerMapper.getFaqList();
+	    
+	    Map<String, Object> map = new HashMap<>();
+	    map.put("listCount", listCount);
+	    map.put("faqList", faqList);
+	    
+	    return map;
+	    
+	}
 	@Override
 	public String getResultInquiry(Query queryNo) {
 		return customerMapper.getresultInquiry(queryNo);
@@ -85,5 +99,10 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public int deleteInquiry(int queryNo, int memberNo) {
 		return customerMapper.deleteInquiry(queryNo, memberNo);
+	}
+	
+	@Override
+	public List<Notice> supportNoticeList() {
+		return customerMapper.supportNoticeList();
 	}
 }

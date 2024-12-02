@@ -6,6 +6,7 @@
   <title>관리자 메인페이지</title>
 
   <script src="https://kit.fontawesome.com/890489b5e8.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="stylesheet" href="/css/admin/adminMain.css">
 </head>
 <body>
@@ -127,24 +128,12 @@
                 <span>회원가입 현황</span>
                 <span>클릭 된 버튼 / 기간</span>
               </div>
+
+
               <div class="graph-section">
-                 <!-- line Chart -->
-                <div class="col-xl-4 col-lg-5">
-                  <div class="card shadow mb-4">
-                      <!-- Card Header - Dropdown -->
-                      <div class="card-header py-3">
-                          <h6 class="m-0 font-weight-bold text-primary">Memory 사용량</h6>
-                      </div>
-                      <!-- Card Body -->
-                      <div class="card-body">
-                          <div class="chart-pie pt-4">
-                              <canvas id="memoryChart"></canvas>
-                          </div>
-                      </div>
-                  </div>
-                </div>
-               
+                <canvas id="myChart" width="5px" height="5px"></canvas>
               </div>
+
             </div>
       
             <div class="memberList">
@@ -205,5 +194,6 @@
 
 
   <script src="/js/admin/adminMain.js"></script>
+  
 </body>
 </html>

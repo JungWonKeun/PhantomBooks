@@ -15,9 +15,10 @@
       <h2>오늘의 추천 도서</h2>
       <div class="book-slider" id="bookSlider">
         <div th:if="${not #lists.isEmpty(books)}" 
-             th:each="book, status : ${books}" 
+             th:each="book : ${books}" 
              class="book" 
-             th:data-index="${status.index}">
+             th:onclick="|location.href='@{/searchBookPage/bookDetail/{bookNo}(bookNo=${book.bookNo})}'|"
+             style="cursor: pointer;">
           <div class="book-cover">
             <img th:src="${book.bookCover}" th:alt="${book.bookTitle}">
           </div>
@@ -27,8 +28,8 @@
               <li th:text="${book.categoryName}">카테고리</li>
               <li th:text="${book.bookWriter}">작가</li>
               <li th:text="${book.companyName}">출판사</li>
-              <li th:text="${book.bookPrice}">가격</li>
-              <li th:text="|평점: ${book.scoreAvg}|">평점</li>
+              <li th:text="|${#numbers.formatInteger(book.bookPrice, 0, 'COMMA')}원|">가격</li>
+              <li th:text="|평점: ${#numbers.formatDecimal(book.scoreAvg, 1, 1)}|">평점</li>
             </ul>
           </div>
         </div>
@@ -40,33 +41,68 @@
 
 
       <section class="personalized">
-        <h2>오늘의 베스트셀러</h2>
-        <div th:if="${bestsellerBooks}" class="bestseller-wrapper">
-          <div th:each="book : ${bestsellerBooks}" class="bestseller-item">
-            <img th:src="${book.bookCover}" th:alt="${book.bookTitle}">
-            <h3 th:text="${book.bookTitle}">제목</h3>
-            <p th:text="${book.bookWriter}">작가</p>
-            <p th:text="${book.bookPrice}">가격</p>
-          </div>
+        <h2>월간 베스트셀러 TOP 5</h2>
+        <div class="book-slider" id="bestsellerSlider">
+            <div th:if="${not #lists.isEmpty(bestsellerBooks)}" 
+                 th:each="book, status : ${bestsellerBooks}" 
+                 class="book" 
+                 th:data-index="${status.index}"
+                 th:onclick="|location.href='@{/searchBookPage/bookDetail/{bookNo}(bookNo=${book.bookNo})}'|"
+                 style="cursor: pointer;">
+                <div class="book-cover">
+                    <img th:src="${book.bookCover}" th:alt="${book.bookTitle}">
+                </div>
+                <div class="book-info">
+                    <h3 th:text="${book.bookTitle}">책 제목</h3>
+                    <ul>
+                        <li th:text="${book.categoryName}">카테고리</li>
+                        <li th:text="${book.bookWriter}">작가</li>
+                        <li th:text="${book.companyName}">출판사</li>
+                        <li th:text="${book.bookPrice}">가격</li>
+                        <li th:text="|평점: ${book.scoreAvg}|">평점</li>
+                    </ul>
+                </div>
+            </div>
+            <div th:if="${#lists.isEmpty(bestsellerBooks)}" class="no-books">
+                현재 표시할 책이 없습니다.
+            </div>
         </div>
     </section>
 
     <section class="personalized" th:if="${session.loginMember != null}">
       <h2>취향에 맞는 추천도서</h2>
-      <div class="RecommendContainer">
-        <div class="recommendWrapperContainer">
-          <div class="recommendation-wrapper" id="scroll-container">
-            <ul class="recommendation-list">
-              <li th:each="book : ${myTypeBooks}" class="recommendation-item">
-                <a th:href="@{/book/detail/{bookNo}(bookNo=${book.bookNo})}">
-                  <img th:src="${book.bookImageURL}" th:alt="${book.bookTitle}">
-                  <h3 th:text="${book.bookTitle}">도서명</h3>
-                  <p th:text="${book.bookPrice}">가격</p>
-                  <p th:text="|평점: ${book.scoreAvg}|">평점</p>
+      <div class="book-slider" id="myTypeSlider">
+        <!-- 취향/카테고리가 설정된 경우 -->
+        <div th:if="${not #lists.isEmpty(myTypeBooks)}" 
+             th:each="book : ${myTypeBooks}" 
+             class="book"
+             th:onclick="|location.href='@{/searchBookPage/bookDetail/{bookNo}(bookNo=${book.bookNo})}'|"
+             style="cursor: pointer;">
+            <div class="book-cover">
+                <img th:src="${book.bookCover}" th:alt="${book.bookTitle}">
+            </div>
+            <div class="book-info">
+                <h3 th:text="${book.bookTitle}">도서명</h3>
+                <ul>
+                    <li th:text="${book.categoryName}">카테고리</li>
+                    <li th:text="${book.bookWriter}">작가</li>
+                    <li th:text="${book.companyName}">출판사</li>
+                    <li th:text="|${#numbers.formatInteger(book.bookPrice, 0, 'COMMA')}원|">가격</li>
+                    <li th:text="|평점: ${#numbers.formatDecimal(book.scoreAvg, 1, 1)}|">평점</li>
+                </ul>
+            </div>
+        </div>
+        <!-- 취향/카테고리가 설정되지 않은 경우 -->
+        <div th:if="${#lists.isEmpty(myTypeBooks)}" class="no-preference">
+            <div class="no-preference-content">
+                <i class="fas fa-book-reader"></i>
+                <h3>맞춤 도서 추천을 받아보세요!</h3>
+                <p>선택된 취향과 카테고리가 존재하지 않습니다.</p>
+                <p>마이페이지에서 설정 후 이용 가능합니다.</p>
+                <a th:href="@{/myPage/preference}" class="setup-button">
+                    취향 설정하러 가기
                 </a>
-              </li>
-            </ul>
-          </div>
+            </div>
         </div>
       </div>
     </section>

@@ -1,4 +1,3 @@
-
 .sideBar {
   min-width: 250px;
   height: 100vh;
@@ -94,4 +93,38 @@
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+/* 고객지원 버튼 스타일 */
+.support-btn {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    text-decoration: none;
+    gap: 10px;
+    margin-bottom: 0;
+}
+
+.support-btn:hover {
+    background-color: #969696;
+}
+
+.support-btn.active {
+    background-color: #205375;
+    color: white;
+}
+
+.support-btn.active:hover {
+    background-color: #183b54;
+}
+
+.support-btn i {
+    font-size: 20px;
+    color: inherit;
 }

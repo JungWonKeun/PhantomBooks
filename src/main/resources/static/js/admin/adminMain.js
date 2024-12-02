@@ -1,4 +1,5 @@
 const list = document.querySelector("#list");
+let myChart; // 차트영역 전역변수 선언
 
 /* 사이드바 열고 닫기 */
 document.querySelectorAll('.menu').forEach(menu => {
@@ -26,6 +27,62 @@ const listUp = (cp, sort, term, date) => {
     const countDelFl = map.countDelFl;
     const countMemberList = map.countMemberList;
     const countInactiveMembers = map.countInactiveMembers || 0;  // 6개월 이상 로그인 안한 회원이 없을때 0 반환하는 구문
+    const chartData = map.chartData;
+    
+    
+    
+    let signUpDate = new Array();
+    let memberCount = new Array();
+    
+    // forEach로 list의 값을 newArray에 추가
+    chartData.forEach(chart => {
+      signUpDate.push(chart.signUpDate);
+      memberCount.push(chart.countMember);
+    });
+
+
+
+    
+    // 차트
+
+    // 차트 생성
+    myChart = new Chart(document.getElementById("myChart").getContext('2d'), {
+      type: 'line',
+        data: {
+            labels: signUpDate,
+            datasets: [{
+                label: '가입현황',
+                data: memberCount,
+                // backgroundColor: [
+                //     'rgba(255, 99, 132, 0.2)',
+                //     'rgba(54, 162, 235, 0.2)',
+                //     'rgba(255, 206, 86, 0.2)',
+                //     'rgba(75, 192, 192, 0.2)',
+                //     'rgba(153, 102, 255, 0.2)',
+                //     'rgba(255, 159, 64, 0.2)'
+                // ],
+                // borderColor: [
+                //     'rgba(255, 99, 132, 1)',
+                //     'rgba(54, 162, 235, 1)',
+                //     'rgba(255, 206, 86, 1)',
+                //     'rgba(75, 192, 192, 1)',
+                //     'rgba(153, 102, 255, 1)',
+                //     'rgba(255, 159, 64, 1)'
+                // ],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                  min : 0
+                },
+                y: {
+                    beginAtZero: false
+                }
+            }
+        }
+    });
 
 
     // console.log("로그인 6개월 이상 회원 수:", countInactiveMembers);
@@ -151,6 +208,10 @@ const listUp = (cp, sort, term, date) => {
             if(result > 0 ) {
               alert("회원 정보를 삭제하였습니다.");
               listUp(cp, sortSelect.value);
+
+              if(myChart !== null){
+                myChart.destroy();
+              }
             }
           })
           .catch(err => console.error(err));
@@ -162,6 +223,9 @@ const listUp = (cp, sort, term, date) => {
       tr.append(td1, td2, td3, td4, td5);
     }
       list.append(tr);
+
+
+      
     })
       // 페이지네이션 출력
       const pg = document.querySelector('.pagination');
@@ -218,7 +282,7 @@ buttons.forEach(button => {
     buttons.forEach(btn => btn.classList.remove("active"));
 
     button.classList.add("active");
-
+    
     if (!button.classList.contains("dateSelect")) {
       date.classList.add("hidden");
     }
@@ -228,26 +292,41 @@ buttons.forEach(button => {
 week.addEventListener("click", () => {
   term = "weeks";
   listUp(1, sortSelect.value, term);
+  
+  if(myChart !== null){
+    myChart.destroy();
+  }
 });
 month.addEventListener("click", () => {
   term = "month";
   listUp(1, sortSelect.value, term);
+
+  if(myChart !== null){
+    myChart.destroy();
+  }
 });
 sixMonth.addEventListener("click", () => {
   term = "6month";
   listUp(1, sortSelect.value, term);
+
+  if(myChart !== null){
+    myChart.destroy();
+  }
 });
 
 dateSelect.addEventListener("click", () => {
   
   date.classList.remove('hidden');
 
-  date.addEventListener("input", ()=>{
+  date.addEventListener("change", ()=>{
 
     term = "dateSelect";
-    const date = date.value.trim();
     
-    listUp(1, sortSelect.value, term, date);
+    listUp(1, sortSelect.value, term, date.value);
+
+    if(myChart !== null){
+      myChart.destroy();
+    }
   })
 });
 
@@ -275,6 +354,10 @@ sortSelect.addEventListener('change', () => {
   } else if (selectedSort === 'unlogin') {
     listName.innerHTML = "로그인 6개월 이상";
     termSelect.classList.add('hidden');
+  }
+
+  if(myChart !== null){
+    myChart.destroy();
   }
 
   listUp(1, selectedSort, term.value, date.value)
@@ -305,73 +388,13 @@ const paginationAddEvent = () => {
       
       const cp = e.target.dataset.page;
       listUp(cp, sortSelect.value, term);
+
+      if(myChart !== null){
+        myChart.destroy();
+      }
     });
   });
 }
-
-/**
- *  차트 그리기
- */
-$(document).ready(function () {
-  // 그리려고 하는 차트 canvas ID
-  let ctx = $("#memoryChart");
-
-  let data = {
-      labels: [],
-      datasets: [
-          {
-              label: '가입인원',
-              data: [],
-              borderColor: 'rgba(255, 99, 132, 1)',
-              borderWidth: 1
-          }]
-  };
-
-  let options = {
-      responsive: true,               // 반응형 , 캔버스 크기 조절
-      maintainAspectRatio: false,     // 크기 조절될때 원본 캔버스 방향 비율 유지
-      scales: {
-          x: {
-              type: 'category',
-              time: {
-                  unit: 'date'
-              },
-          },
-          y: {
-              beginAtZero: true,
-          }
-      }
-  };
-
-  let memoryChart = new Chart(ctx, {
-      type: 'line',
-      data: data,
-      options: options
-  });
-
-  setInterval(function () {
-      // ajax 처럼 javascript 비동기 통신 방법
-      // get 이 default
-      fetch('/admin/signUp_date')
-          .then(response => response.json())      // 서버 요청에 대한 응답이 왔을때 실행된다
-          .then(data => {                         // 실행된 응답에 대한 데이터
-
-              // 5초마다 라벨에 현재 시간을 출력한다
-              const currentTime = new Date().toLocaleTimeString();
-              memoryChart.data.labels.push(currentTime);
-
-              memoryChart.data.datasets[0].data.push(Number(data.freeMemory));
-              memoryChart.options.scales.y.max = data.totalMemory;
-
-              if (memoryChart.data.labels.length > 5) {
-                  memoryChart.data.labels.shift();
-                  memoryChart.data.datasets[0].data.shift();
-              }
-
-              memoryChart.update();
-          });
-  }, 5000); // 5초마다 실행
-});
 
 document.addEventListener("DOMContentLoaded",()=>{
   listUp(1, sortSelect.value, termSelect.value);

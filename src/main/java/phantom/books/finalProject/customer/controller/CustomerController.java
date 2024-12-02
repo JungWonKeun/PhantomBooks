@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import phantom.books.finalProject.customer.dto.FAQ;
+import phantom.books.finalProject.customer.dto.Notice;
 import phantom.books.finalProject.customer.service.CustomerService;
 import phantom.books.finalProject.member.dto.Member;
+import phantom.books.finalProject.pagination.Pagination;
 import phantom.books.finalProject.query.dto.Query;
 
 @Controller
@@ -39,8 +41,21 @@ public class CustomerController {
 	 */
 	@GetMapping("/support")
 	public String customerSupportPage(Model model) {
+		
+	    // FAQ 목록 조회
+	    List<FAQ> faqList = customerService.getFaqList();
+	    log.debug("FAQ 목록: {}", faqList);  // 로그 추가
+	    // 공지사항 목록 조회
+	    List<Notice> noticeList = customerService.supportNoticeList();
+	    log.debug("공지사항 목록: {}", noticeList);  // 로그 추가
+	    
+	    model.addAttribute("faqList", faqList);
+	    model.addAttribute("noticeList", noticeList);
+	    
 		return "customer/support";
 	}
+	
+	
 
 	/**
 	 * 1:1 문의 작성 페이지로 이동
@@ -74,12 +89,37 @@ public class CustomerController {
 
 	// FAQ 데이터를 HTML 페이지로 전달하는 메서드
 	@GetMapping("/customer/qna")
-	public String faq(Model model) {
-		List<FAQ> faqList = customerService.getFaqList();
-		model.addAttribute("faqList", faqList);
-		return "customer/qna";
+	public String faq(
+	    @RequestParam(value="cp", required=false, defaultValue="1") int cp,
+	    Model model) {
+	    
+	    // 전체 FAQ 목록 조회
+	    List<FAQ> faqList = customerService.getFaqList();
+	    
+	    // 페이지네이션 정보 설정 (한 페이지당 5개)
+	    int listCount = faqList.size();
+	    Pagination pagination = new Pagination(cp, listCount, 5, 5);
+	    
+	    // 현재 페이지에 해당하는 FAQ 목록만 추출
+	    int startIndex = (pagination.getCurrentPage() - 1) * 5;
+	    int endIndex = Math.min(startIndex + 5, listCount);
+	    
+	    // 전체 목록을 그대로 전달
+	    model.addAttribute("faqList", faqList);
+	    model.addAttribute("pagination", pagination);
+	    model.addAttribute("startIndex", startIndex);
+	    model.addAttribute("endIndex", endIndex);
+	    
+	    return "customer/qna";
 	}
 
+	@GetMapping("/customer/qna/list")
+	@ResponseBody
+	public Map<String, Object> getFAQList(
+	    @RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
+	    return customerService.getFAQPaginaion(cp);
+	}
+	
 	/**
 	 * 1:1문의 내역 페이지로 이동
 	 * 
@@ -160,7 +200,7 @@ public class CustomerController {
 	@PostMapping("/customer/inquiryUpdate")
 	public String updateInquiry(@ModelAttribute Query query, @SessionAttribute("loginMember") Member loginMember) {
 		query.setMemberNo(loginMember.getMemberNo()); // 로그인된 회원 정보 추가
-		customerService.updateInquiry(query); // 서비스 호출로 업데이트 처리
+		customerService.updateInquiry(query); // 서비스 호출로 데이트 처리
 		return "redirect:/customer/inquiry"; // 수정 완료 후 목록으로 리디렉션
 	}
 

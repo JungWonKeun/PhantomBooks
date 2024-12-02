@@ -67,8 +67,10 @@ h2 {
   max-width: 800px;
   height: 410px;
   background-color: #fafafa;
-  border: 1px solid black;
+  border: 1px solid #ddd;
   border-radius: 5px;
+  padding: 20px;
+  overflow: hidden;
 }
 
 .recommend .book {
@@ -80,38 +82,63 @@ h2 {
 
 /* 개별 도서 스타일 */
 .book-cover {
-  width: 209px;
-  height: 289px;
-  background-color: #5c1a1a;
-  margin-right: 15px;
+  flex: 0 0 200px;
+  height: 280px;
+  overflow: hidden;
 }
 
-.book-info p {
-  margin-bottom: 10px;
+.book-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 책 정보 스타일 */
+.book-info {
+  flex: 1;
+  overflow: hidden;
+  padding: 10px;
+}
+
+.book-info h3 {
+  font-size: 1.2em;
+  margin-bottom: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.book-info ul {
+  list-style: none;
+  padding: 0;
+}
+
+.book-info li {
+  margin-bottom: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* 오늘의 추천 도서 슬라이더 */
 .book-slider {
   position: relative;
-  overflow: hidden;
   width: 100%;
-  height: 410px;
+  height: 340px; /* 섹션 높이에서 제목 영역 제외 */
+  overflow: hidden;
 }
 
 .book {
-  position: absolute;
-  top: 0;
-  left: 0;
+  display: none;
   width: 100%;
   height: 100%;
-  opacity: 0;
-  display: none;
-  transition: opacity 1s ease;
+  padding: 15px;
+  align-items: center;
+  gap: 20px;
 }
 
 .book.active {
-  opacity: 1;
-  display: block;
+  display: flex;
 }
 
 /* 개별 도서 목록 */
@@ -196,4 +223,108 @@ h2 {
   border-radius: 2px;
   transition: transform 0.3s ease; 
   transform: translateX(0);
+}
+
+/* 취향 추천도서 섹션 스타일 */
+#myTypeSlider .book {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#myTypeSlider .book:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+#myTypeSlider .book-info {
+    padding: 15px 20px;
+}
+
+#myTypeSlider .book-info h3 {
+    color: #333;
+    font-size: 1.4em;
+    margin-bottom: 12px;
+}
+
+#myTypeSlider .book-info ul {
+    color: #666;
+}
+
+#myTypeSlider .book-info li {
+    padding: 4px 0;
+    font-size: 1.1em;
+}
+
+/* 취향 설정이 없을 때의 스타일 */
+.no-preference {
+    background-color: white;
+    border-radius: 8px;
+    padding: 40px 20px;
+    text-align: center;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.no-preference-content {
+    max-width: 400px;
+}
+
+.no-preference i {
+    font-size: 3em;
+    color: #007bff;
+    margin-bottom: 20px;
+}
+
+.no-preference h3 {
+    color: #333;
+    font-size: 1.5em;
+    margin-bottom: 15px;
+}
+
+.no-preference p {
+    color: #666;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.setup-button {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    margin-top: 20px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.setup-button:hover {
+    background-color: #0056b3;
+    text-decoration: none;
+    color: white;
+}
+
+/* 공통 애니메이션 효과 */
+.book {
+    transition: all 0.3s ease;
+}
+
+.book.active {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

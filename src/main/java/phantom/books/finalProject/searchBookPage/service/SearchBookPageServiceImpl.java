@@ -163,36 +163,42 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 
 	// 리뷰작성
 	@Override
-	public boolean writeReview(int bookNo, String title, String content, double score, int memberNo,
-			MultipartFile file) {
-		String filePath = null;
-		String webPath = null;
+    public boolean writeReview(int bookNo, String title, String content, double score, int memberNo, MultipartFile file)  {
+        String filePath = null;
+        String webPath = null; 
 
-		// 파일 저장 처리
-		File folder = new File(reviewImageFolderPath);
-		if (!folder.exists()) {
-			folder.mkdirs();
-		}
-		if (file != null && !file.isEmpty()) {
-			String uploadDir = reviewImageFolderPath; // 고유 파일 이름 생성
-			String originalFilename = file.getOriginalFilename();
-			String newFilename = UUID.randomUUID().toString() + "_" + originalFilename;
-			filePath = uploadDir + newFilename;
-			webPath = reviewImageWebPath + newFilename;
-
-			// 파일 저장
-			try {
+        // 파일 저장 처리
+      File folder = new File(reviewImageFolderPath);
+      if (!folder.exists()) {
+          folder.mkdirs();
+      }
+        if (file != null && !file.isEmpty()) {
+            String uploadDir = reviewImageFolderPath;
+            // 고유 파일 이름 생성
+            String originalFilename = file.getOriginalFilename();
+            String newFilename = UUID.randomUUID().toString() + "_" + originalFilename;
+            filePath = uploadDir + newFilename;
+            webPath = reviewImageWebPath + newFilename;
+            
+            // 파일 저장
+            try {
 				file.transferTo(new File(filePath));
 			} catch (IllegalStateException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
+        }
 
-		// 리뷰 생성
-		Review review = Review.builder().bookNo(bookNo).memberNo(memberNo).reviewTitle(title).reviewContent(content)
-				.reviewScore(score).reviewImgNo(webPath).build();
+        // 리뷰 생성
+        Review review = Review.builder()
+                .bookNo(bookNo)
+                .memberNo(memberNo)
+                .reviewTitle(title)
+                .reviewContent(content)
+                .reviewScore(score)
+                .reviewImgNo(webPath)
+                .build();
 
 		int result = mapper.insertReview(review);
 
@@ -232,8 +238,13 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 			}
 		}
 		// Review 객체 생성
-		Review review = Review.builder().reviewNo(reviewNo).memberNo(memberNo).reviewTitle(title).reviewContent(content)
-				.reviewScore(score).reviewImgNo(webPath) // 파일 경로를 저장
+		Review review = Review.builder()
+				.reviewNo(reviewNo)
+				.memberNo(memberNo)
+				.reviewTitle(title)
+				.reviewContent(content)
+				.reviewScore(score)
+				.reviewImgNo(webPath) // 파일 경로를 저장
 				.build();
 
 		// 기존 리뷰 업데이트
@@ -248,6 +259,7 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 			return null;
 
 		return webPath;
+
 
 	}
 

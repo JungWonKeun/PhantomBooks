@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="phantom.books.finalProject.admin.mapper.AdminSalesMapper">
+
+	<select id="countSales" resultType="_int">
+		 SELECT
+		 	COUNT(BOOK_NO)
+		 FROM "ORDER"
+		 LEFT JOIN ORDER_LIST USING(ORDER_NO)
+		 LEFT JOIN BOOK USING(BOOK_NO)
+		 <choose>
+		 	<when test="sort == 'all'">
+		 		WHERE BOOK_NO IS NOT NULL	
+		 	</when>
+		 	<when test="sort == 'category'">
+		 		 LEFT JOIN BOOK_CATEGORY USING (BOOK_NO)
+				 LEFT JOIN CATEGORY USING (CATEGORY_NO)
+				 WHERE COMPANY_NAME LIKE '%%'
+				 GROUP BY BOOK_COUNT, BOOK_NO, BOOK_TITLE, CATEGORY_NO
+				 ORDER BY ORDER_PRICE DESC;
+		 	</when>
+		 	<when test="sort == 'company'">
+		 		 LEFT JOIN BOOK_CATEGORY USING (BOOK_NO)
+				 LEFT JOIN CATEGORY USING (CATEGORY_NO)
+				 WHERE COMPANY_NAME LIKE '%%'
+				 GROUP BY BOOK_COUNT, BOOK_NO, BOOK_TITLE, CATEGORY_NO
+				 ORDER BY ORDER_PRICE DESC
+		 	</when>
+		 </choose>
+	</select>
+	
+	<select id="salesList" resultType="OrderBookDto">
+		SELECT
+		 	BOOK_NO,
+		  SUM(BOOK_COUNT) AS BOOK_COUNT,
+		  SUM(ORDER_PRICE) AS ORDER_PRICE,
+			BOOK_TITLE, CATEGORY_NO, CATEGORY_NAME
+		FROM "ORDER"
+		LEFT JOIN ORDER_LIST USING(ORDER_NO)
+		LEFT JOIN BOOK USING(BOOK_NO)
+		LEFT JOIN BOOK_CATEGORY USING (BOOK_NO)
+	  LEFT JOIN CATEGORY USING (CATEGORY_NO)
+		 	WHERE BOOK_NO IS NOT NULL
+		<choose>
+		 	<when test="sort == 'all'">
+		 	</when>
+		 	<when test="sort == 'category'">
+				 AND COMPANY_NAME LIKE '%'|| #{categoryName}||'%'
+		 	</when>
+		 	<when test="sort == 'company'">
+				 AND COMPANY_NAME LIKE '%'||#{companyName}||'%'
+		 	</when>
+		 </choose>
+		 GROUP BY BOOK_COUNT, BOOK_NO, BOOK_TITLE, CATEGORY_NO, CATEGORY_NAME
+		 ORDER BY ORDER_PRICE DESC
+	</select>
+	
+</mapper>

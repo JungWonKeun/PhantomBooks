@@ -31,4 +31,8 @@ public interface CustomerService {
 
 	int deleteInquiry(int queryNo, int memberNo);
 
+	List<Notice> supportNoticeList();
+
+	Map<String, Object> getFAQPaginaion(int cp);
+
 }

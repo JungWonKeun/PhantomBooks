@@ -1,150 +1,246 @@
-.content-box {
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
-  gap: 20px;
-  width: 100%; 
-  min-height: 100vh;
-  height: 100%;
-  overflow-x: hidden;
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
 }
 
-
-/* 사이드바 css입니당 */
-.sideBar {
-  min-width: 250px;
-  height: 100vh;
-  background-color: #EFEFEF;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+* {
+  font-family: 'Pretendard-Regular';
   box-sizing: border-box;
-  flex-shrink: 0;
-}
-
-.menu {
-  margin-bottom: 50px;
-  cursor: pointer;
-  font-size: 20px;
-  font-weight: bold;
-  color: #333;
-  position: relative;
-}
-
-.menu.active {
-  color: #007bff; /* 활성화된 상태의 색상 */
-}
-
-.menu:hover {
-  color: #007bff;
-}
-
-
-.submenu {
-  list-style: none;
-  margin: 10px 0 0 15px;
+  margin: 0;
   padding: 0;
-  display: none;
 }
 
-.submenu li {
-  margin-bottom: 10px;
+body {
+  background-color: #f7f7f7;
 }
 
-.submenu li a {
-  color: #555;
-  text-decoration: none;
-  font-size: 14px;
-  transition: color 0.3s ease;
+.preferenceContainer {
+  display: flex;
+  gap: 20px;
+  min-height: calc(100vh - 100px);
 }
 
-.submenu li a:hover {
-  color: #007bff;
+.myPageSideBar {
+  max-width: 250px;  /* 사이드바 최대 너비 */
+  height: 100vh;  /* 화면 전체 높이 */
+  background-color: white;
+  border-radius: 10px;
+  box-sizing: border-box;
+  flex-shrink: 0;  /* 사이드바의 크기가 줄어들지 않도록 */
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 20px;
+  border-right: 1px solid #ddd;
 }
 
-.menu.active .submenu {
-  display: block;
+.mainContent {
+  flex-grow: 1;  /* 주 콘텐츠가 사이드바 공간을 제외한 나머지를 차지하도록 설정 */
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.content {
-  flex-grow: 1; 
+.content-box {
   display: flex;
   flex-direction: column;
   gap: 20px;
   padding: 20px;
-  background-color: #efefef;
-  border-radius: 8px;
+  flex: 1;
+  width: 100%;
+}
+
+.container {
+  background-color: #f8f9fa;
+  border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  min-width: 0; 
-  max-width: 100%;
+  padding: 20px;
+  overflow: hidden;
+  max-height: 900px !important;
+}
+
+.card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .sticky-card {
-  position: sticky;
-  top: 20px; /* 페이지 상단에서 20px 정도 아래에 고정되도록 설정 */
-  z-index: 100; /* 다른 요소 위에 렌더링되도록 설정 */
-  background: white; /* 배경색을 흰색으로 설정하여 고정될 때 겹치는 요소와 구분 */
-  padding: 1rem; /* 여백 추가로 고정될 때 자연스럽게 보이도록 */
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+  position: relative;
+  /* 일반 흐름으로 고정 */
+  margin-top: 10px;
+  /* 위 요소와 간격 추가 */
 }
 
-
-.btn-container {
-  position: sticky;
-  top: 20px;
-  z-index: 3000;
-  background: rgba(255, 255, 255, 0.9);
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  width: auto;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.selected::after {
-  content: '\f00c'; /* 폰트어썸 아이콘 체크 표시 (fa-check) */
-  font-family: 'Font Awesome 5 Free';
-  font-weight: 900; /* 폰트어썸에서 굵은 아이콘을 사용 */
-  margin-left: 8px; /* 체크 아이콘과 버튼 텍스트 사이의 여백 */
-}
-
-.badge {
-  font-size: 0.9rem;
-  padding: 8px 12px;
-  margin: 5px;
-  transition: all 0.2s ease;
-}
-
-.badge:hover {
-  background-color: #d0e7ff; /* 호버 시 배경색 변경 */
-}
-
-.badge svg {
-  cursor: pointer; /* 아이콘에 커서 변경 */
-  vertical-align: middle; /* 아이콘을 텍스트와 세로로 정렬 */
-}
-
-.card-body {
-  gap: 10px; /* 배지 간 간격 */
-}
-
-.checkbox-label {
-  pointer-events: none;
-}
-
+/* 버튼 스타일 */
 .preference {
-  transition: all 0.2s ease;
-  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 14px;
   border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  background-color: #f8f9fa;
+  margin: 4px;
 }
 
 .preference:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.preference.selected {
+  background-color: #007bff;
+  color: white;
+  border-color: #0056b3;
+}
+
+/* 뱃지 스타일 */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.75rem;
+  /* 글꼴 크기 축소 */
+  padding: 2px 6px;
+  /* 내부 여백 축소 */
+  margin: 2px;
+  /* 외부 여백 축소 */
+  background-color: none;
+  /* 배경 제거 */
+  color: #007bff;
+  /* 텍스트 색상 */
+  border: 1px solid #007bff;
+  /* 테두리 색상 */
+  border-radius: 8px;
+  /* 둥글게 처리 */
+  transition: all 0.3s ease;
+  /* 애니메이션 효과 */
+}
+
+.badge:hover {
+  background-color: #007bff;
+  /* 호버 시 배경 색상 추가 */
+  color: white;
+  /* 호버 시 텍스트 색상 변경 */
+}
+
+.badge svg {
+  margin-left: 4px;
+  /* 아이콘과 텍스트 간격 축소 */
+  cursor: pointer;
+  width: 14px;
+  /* 아이콘 크기 축소 */
+  height: 14px;
+  fill: #007bff;
+  /* 기본 색상 */
+}
+
+.badge:hover svg {
+  fill: white;
+  /* 호버 시 아이콘 색상 변경 */
+}
+
+/* 버튼 컨테이너 */
+.btn-container {
+  position: fixed; /* 항상 화면에 고정 */
+  bottom: 20px; /* 화면 하단에서 20px */
+  left: 50%; /* 수평 가운데 정렬 */
+  transform: translateX(-50%);
+  display: flex; /* 버튼 가로 배치 */
+  flex-wrap: nowrap; /* 버튼들이 한 줄에 유지되도록 설정 */
+  gap: 10px; /* 버튼 간격 */
+  padding: 10px; /* 내부 여백 */
+  background-color: white; /* 배경 색상 */
+  border: 1px solid #dee2e6; /* 테두리 */
+  border-radius: 8px; /* 모서리 둥글게 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+  z-index: 9999; /* 가장 위에 표시 */
+  height: auto; /* 버튼 높이를 자동 조정 */
+  max-height: 60px; /* 최대 높이 제한 */
+  overflow: hidden; /* 초과 내용 숨기기 */
+}
+
+
+/* 스크롤 후 고정 상태 */
+.btn-container.fixed {
+  position: fixed; /* 화면에 고정 */
+  bottom: 20px; /* 화면 하단에서 20px */
+  left: 50%; /* 수평 가운데 정렬 */
+  transform: translateX(-50%);
+}
+
+
+
+/* 배지와 텍스트 가시성 */
+.card-text {
+  display: block;
+  margin-top: 10px;
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+/* 화면 잘림 방지 */
+html,
+body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.category-container,
+.preference-container {
+  margin-bottom: 20px;
+  /* 컨테이너 간격 추가 */
+}
+
+footer {
+  margin-top: auto;
+  background-color: #f1f1f1;
+  text-align: center;
+  padding: 10px 0;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .preference {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+
+  .badge {
+    font-size: 0.7rem;
+    padding: 1px 4px;
+  }
+
+  .badge svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .btn-container {
+    flex-wrap: wrap;
+    gap: 5px;
+    padding: 8px;
+  }
+}
+
+
+/* 사이드바 닫기 및 열기 버튼 */
+#openBtn,
+#closeBtn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s ease;
+}
+
+#openBtn:hover,
+#closeBtn:hover {
+  background-color: #0056b3;
 }

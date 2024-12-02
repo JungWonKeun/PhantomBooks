@@ -1,49 +1,176 @@
-.logo{
-  display: flex;
-  justify-content: center;
-  align-items: center;
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-style: normal;
 }
 
-.logoImg{
+* {
+  font-family: 'Pretendard-Regular';
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #f8f9fa;
+}
+
+.logo {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 180px;
+  margin-top: 20px;
+}
+
+.logoImg {
+  width: 150px; /* 로고 크기 축소 */
   height: auto;
 }
 
-.red {
+h1 {
+  font-size: 1.6rem; /* 제목 크기 조정 */
   font-weight: bold;
-  color: red;
-  margin-bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  text-align: center;
+  margin-top: 15px;
+  color: #333;
 }
 
-
-/* 기본적으로 clear-btn 버튼 숨기기 */
-.clear-btn {
-  display: none;
-  position: absolute;
-  
-  top: 50%;
-  right: 35px;
-  transform: translateY(-50%);
+.required-note {
+  text-align: left;
+  color: #f16767;
+  font-weight: bold;
+  font-size: 0.85rem;
+  margin-bottom: 8px;
 }
 
+.essentialInput, .selectedInput {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  margin-bottom: 15px;
+}
 
+.form-floating {
+  position: relative;
+}
 
-/* 입력 필드의 오른쪽 여백을 늘려서 유효성 아이콘과 clear-btn이 겹치지 않도록 조정 */
+.form-floating label {
+  margin-left: 3px;
+}
+
 .form-control {
-  padding-right: 60px; /* 여유 있는 오른쪽 패딩 추가 */
+  padding-right: 50px; /* clear-btn과 겹치지 않도록 */
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  width:110%;
+  height: 40px;
+  font: size 0.9rem;
 }
 
-
-div label {
-  margin-left: 3px; /* input 깨짐 방지 */
+.form-control:focus {
+  border-color: #205375;
+  box-shadow: 0 0 4px rgba(32, 83, 117, 0.4);
+  outline: none;
 }
 
-#submitBtn{
+.form-control::placeholder {
+  color: #aaa;
+}
+
+.btn-close {
+  display: block; /* 항상 보이도록 수정 */
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  font-size: 1rem; /* 버튼 크기 조정 */
+}
+
+.form-floating:hover .btn-close,
+.form-floating input:focus ~ .btn-close {
+  color: #333; /* hover 및 focus 시 색상 변경 */
+}
+
+.clear-btn:hover {
+  color: #000; /* 버튼 hover 시 더 어두운 색 */
+}
+
+#submitBtn {
+  margin-top: 20px;
   margin-bottom: 100px;
+  padding: 12px;
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #205375 !important;
+  border-color: #205375;
+  border-radius: 8px;
+  box-shadow: 0 3px 5px rgba(32, 83, 117, 0.2);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#submitBtn:hover {
+  background-color: #173f57 !important;
+  box-shadow: 0 4px 6px rgba(23, 63, 87, 0.3);
+}
+
+.invalid-feedback {
+  font-size: 0.8rem;
+  color: #f16767;
+  margin-top: 4px;
+}
+
+span.form-text {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+#addressFindBtn,
+#addressChangeBtn {
+  margin-left: 10px;
+  font-size: 0.85rem;
+}
+
+#addressFindBtn {
+  background-color: #6c757d;
+  border-color: #6c757d;
+  color: #fff;
+}
+
+#addressChangeBtn {
+  background-color: #e63946;
+  border-color: #e63946;
+  color: #fff;
+}
+
+#addressFindBtn:hover,
+#addressChangeBtn:hover {
+  opacity: 0.9;
+}
+
+/* 폼 크기 조정 */
+#signUpForm {
+  width: 35%; /* 폼 전체 크기 축소 */
+}
+
+.form-floating.row {
+  gap: 10px; /* row 간 간격 조정 */
+}
+
+/* 비밀번호 확인, 생일 입력란 여백 제거 */
+#passwordConfirmSection{
+  margin-left: 0 !important; /* 여백 제거 */
+  padding-left: 0 !important; /* 여백 제거 */
+}
+
+/* 내부 요소 간 간격 축소 */
+.essentialInput .form-floating {
+  margin-bottom: 10px;
 }
