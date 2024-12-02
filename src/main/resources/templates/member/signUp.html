@@ -4,9 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>회원가입</title>
+  <title>팬텀북스 : 회원가입</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  
   <link rel="stylesheet" href="/css/member/signUp.css">
+  <script src="https://kit.fontawesome.com/890489b5e8.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -16,142 +18,159 @@
       <img src="/images/logo.png" alt="Logo" class="logoImg">
     </a>
   </div>
-  <h1 style="text-align: center;">회원가입</h1>
-  <form action="signUp" method="POST" name="signUpForm" id="signUpForm" class="needs-validation mx-auto mt-4" style="width: 60%;" novalidate>
+  <!-- <h1 style="text-align: center;">회원가입</h1> -->
 
+  <form action="signUp" method="POST" name="signUpForm" id="signUpForm" class="needs-validation mx-auto mt-4"
+    style="width: 35%;" novalidate>
+
+    
     <!-- 아이디 입력, 요청사항, 중복검사 버튼 -->
-    <div class="form-floating row g-3 mb-2 mt-2 position-relative">
-      <div class="red col-1">* 필수</div>
-      <div class="form-floating col-6 position-relative">
-        <input type="text" class="form-control" id="memberId" name="memberId" placeholder="" maxlength="12" autocomplete="off" required>
-        <label for="memberId">아이디</label>
-        <button type="button" id="idClearBtn" class="btn-close clear-btn" onclick="clearInput('memberId')"
-        aria-label="Clear" tabindex="-1"></button>
-        <div class="invalid-feedback">아이디를 입력해주세요.</div>
+    <div class="essentialInput">
+      <div class="required-note text-start mx-auto" style=" color: rgb(241, 103, 103); font-weight: bold; left:100px;">
+        * 필수 입력 항목입니다.
       </div>
-      <div class="col-auto">
-        <span id="idHelpLength" class="form-text">6~12자 사이로</span> <br>
-        <span id="idHelpAlphaNumeric" class="form-text">영어와 숫자만 사용</span>
+      <div class="form-floating row g-3 mb-2 mt-2 position-relative">
+        <div class="form-floating col-6 position-relative">
+          <input type="text" class="form-control" id="memberId" name="memberId" placeholder="" maxlength="12"
+            autocomplete="off" required>
+          <label for="memberId">아이디</label>
+          <button type="button" id="idClearBtn" class="btn-close clear-btn" onclick="clearInput('memberId')"
+            aria-label="Clear" tabindex="-1"></button>
+          <div class="invalid-feedback">아이디를 입력해주세요.</div>
+        </div>
+        <div class="col-auto">
+          <span id="idHelpLength" class="form-text">&nbsp;&nbsp;6~12자 사이로</span> <br>
+          <span id="idHelpAlphaNumeric" class="form-text">&nbsp;&nbsp;영어와 숫자만 사용</span>
+        </div>
+        <div class="col-auto">
+          <button type="button" id="idCheckBtn" class="btn btn-primary" style="display: none;">ID 중복확인</button>
+          <button type="button" id="idChangeBtn" class="btn btn-danger" style="display: none;">ID 변경</button>
+        </div>
       </div>
-      <div class="col-auto">
-        <button type="button" id="idCheckBtn" class="btn btn-primary" style="display: none;">ID 중복확인</button>
-        <button type="button" id="idChangeBtn" class="btn btn-danger" style="display: none;">ID 변경</button>
-      </div>
-    </div>
 
 
-    <!-- 비밀번호 입력, 요청사항 -->
-    <div class="form-floating row g-3 mb-2 mt-2 position-relative">
-      <div class="red col-1">* 필수</div>
-      <div class="form-floating col-6 position-relative">
-        <input type="password" class="form-control" id="memberPw" name="memberPw" placeholder="" maxlength="12" autocomplete="off" required>
-        <label for="memberPw">비밀번호</label>
-        <button type="button" id="passwordClearBtn" class="btn-close clear-btn" onclick="clearInput('memberPw')" aria-label="Clear"
-        tabindex="-1"></button>
-        <div class="invalid-feedback">비밀번호를 입력해주세요.</div>
+      <!-- 비밀번호 입력, 요청사항 -->
+      <div class="form-floating row g-3 mb-2 mt-2 position-relative">
+        <div class="form-floating col-6 position-relative">
+          <input type="password" class="form-control" id="memberPw" name="memberPw" placeholder="" maxlength="12"
+            autocomplete="off" required>
+          <label for="memberPw">비밀번호</label>
+          <button type="button" id="passwordClearBtn" class="btn-close clear-btn" onclick="clearInput('memberPw')"
+            aria-label="Clear" tabindex="-1"></button>
+          <div class="invalid-feedback">비밀번호를 입력해주세요.</div>
+        </div>
+        <div class="col-auto">
+          <span id="passwordHelpLength" class="form-text">&nbsp;&nbsp;8~12자 사이로</span> <br>
+          <span id="passwordHelpChars" class="form-text">&nbsp;&nbsp;문자, 특수문자, 숫자를 모두 사용</span>
+        </div>
+        <div class="col-auto">
+          <button type="button" id="passwordChangeBtn" class="btn btn-danger" style="display: none;">비밀번호 변경</button>
+        </div>
       </div>
-      <div class="col-auto">
-        <span id="passwordHelpLength" class="form-text">8~12자 사이로</span> <br>
-        <span id="passwordHelpChars" class="form-text">문자, 특수문자, 숫자를 모두 사용</span>
-      </div>
-      <div class="col-auto">
-        <button type="button" id="passwordChangeBtn" class="btn btn-danger" style="display: none;">비밀번호 변경</button>
-      </div>
-    </div>
 
-    <!-- 비밀번호 확인 입력 -->
-    <div id="passwordConfirmSection" class="form-floating row g-3 mb-2 mt-2 position-relative">
-      <div class="form-floating offset-1 col-6 position-relative">
-        <input type="password" class="form-control" id="floatingPasswordConfirm" placeholder="" maxlength="12" autocomplete="off" required>
-        <label for="floatingPasswordConfirm">비밀번호 확인</label>
-        <button type="button" class="btn-close clear-btn" onclick="clearInput('floatingPasswordConfirm')"
-          aria-label="Clear" tabindex="-1"></button>
-        <div class="invalid-feedback" id="passwordConfirmHelp">비밀번호가 일치하지 않습니다.</div>
+      <!-- 비밀번호 확인 입력 -->
+      <div id="passwordConfirmSection" class="form-floating row g-3 mb-2 mt-2 position-relative">
+        <div class="form-floating col-6 position-relative" style="margin-left: -8px;">
+          <input type="password" class="form-control" id="floatingPasswordConfirm" placeholder="" maxlength="12"
+            autocomplete="off" required>
+          <label for="floatingPasswordConfirm" style="padding-left: -8px;">비밀번호 확인</label>
+          <button type="button" class="btn-close clear-btn" onclick="clearInput('floatingPasswordConfirm')"
+            aria-label="Clear" tabindex="-1"></button>
+          <div class="invalid-feedback" id="passwordConfirmHelp">비밀번호가 일치하지 않습니다.</div>
+        </div>
+        <div class="col-auto">
+          <button type="button" id="passwordConfirmBtn" class="btn btn-primary" style="display: none; margin-left:10px">비밀번호
+            사용하기</button>
+        </div>
       </div>
-      <div class="col-auto">
-        <button type="button" id="passwordConfirmBtn" class="btn btn-primary" style="display: none;">비밀번호 사용하기</button>
-      </div>
-    </div>
 
 
-    <!-- 이름 입력, 생일 -->
-    <div class="form-floating row g-3 mb-2 mt-2 position-relative">
-      <div class="red col-1">* 필수</div>
-      <div class="form-floating col-6 position-relative">
-        <input type="text" class="form-control" id="name" name="name" placeholder="" maxlength="6" autocomplete="off" required>
-        <label for="name">이름</label>
-        <button type="button" class="btn-close clear-btn" onclick="clearInput('name')" aria-label="Clear"
+      <!-- 이름 입력, 생일 -->
+      <div class="form-floating row g-3 mb-2 mt-2 position-relative">
+        <div class="form-floating col-6 position-relative">
+          <input type="text" class="form-control" id="name" name="name" placeholder="" maxlength="6" autocomplete="off"
+            required>
+          <label for="name">이름</label>
+          <button type="button" class="btn-close clear-btn" onclick="clearInput('name')" aria-label="Clear"
+            tabindex="-1"></button>
+          <div class="invalid-feedback">이름을 입력해주세요.</div>
+        </div>
+        <div class="form-floating col-6 position-relative">
+          <input type="text" class="form-control" id="birthDate" name="birthDate" placeholder="" maxlength="8" autocomplete="off" required>
+          <label for="birthDate">생일</label>
+          <button type="button" class="btn-close clear-btn" onclick="clearInput('birthDate')" aria-label="Clear"
           tabindex="-1"></button>
-        <div class="invalid-feedback">이름을 입력해주세요.</div>
+          <div class="invalid-feedback">공란 or 숫자 8자를 입력해주세요.</div>
+        </div>
       </div>
-      <div class="form-floating offset-1 col-6 position-relative">
-        <input type="text" class="form-control" id="birthDate" name="birthDate" placeholder="" maxlength="8" autocomplete="off" required>
-        <label for="birthDate">생일 (YYYYMMDD)</label>
-        <button type="button" class="btn-close clear-btn" onclick="clearInput('birthDate')" aria-label="Clear"
-          tabindex="-1"></button>
-        <div class="invalid-feedback">공란 or 숫자 8자를 입력해주세요.</div>
-      </div>
-    </div>
 
-    <!-- 전화번호 입력, 인증 문자 발송 버튼 -->
-    <div class="form-floating row g-3 mb-2 mt-2 position-relative">
-      <div class="red col-1">* 필수</div>
-      <div class="form-floating col-6 position-relative">
-        <input type="tel" class="form-control" id="telNo" name="telNo" placeholder="" maxlength="11" autocomplete="off" required>
-        <label for="telNo">전화번호 (-없이 숫자만 작성해주세요)</label>
-        <button type="button" id="phoneClearBtn" class="btn-close clear-btn" onclick="clearInput('telNo')"
-        aria-label="Clear" tabindex="-1"></button>
-        <div class="invalid-feedback">전화번호를 입력해주세요.</div>
+      <!-- 전화번호 입력, 인증 문자 발송 버튼 -->
+      <div class="form-floating row g-3 mb-2 mt-2 position-relative">
+        <div class="form-floating col-6 position-relative">
+          <input type="tel" class="form-control" id="telNo" name="telNo" placeholder="" maxlength="11"
+            autocomplete="off" required>
+          <label for="telNo">전화번호 (-없이 숫자만 작성해주세요)</label>
+          <button type="button" id="phoneClearBtn" class="btn-close clear-btn" onclick="clearInput('telNo')"
+            aria-label="Clear" tabindex="-1"></button>
+          <div class="invalid-feedback">전화번호를 입력해주세요.</div>
+        </div>
+        <div class="col-auto">
+          <button type="button" id="phoneCheckBtn" class="btn btn-primary" style="display: none; margin-left:10px">전화번호 인증</button>
+          <button type="button" id="phoneChangeBtn" class="btn btn-danger" style="display: none; margin-left:10px">전화번호 변경</button>
+        </div>
       </div>
-      <div class="col-auto">
-        <button type="button" id="phoneCheckBtn" class="btn btn-primary" style="display: none;">전화번호 인증</button>
-        <button type="button" id="phoneChangeBtn" class="btn btn-danger" style="display: none;">전화번호 변경</button>
-      </div>
-    </div>
 
-    <!-- 인증번호 입력, 인증 버튼 -->
-    <div class="form-floating row g-3 mb-2 mt-2 position-relative" id="verificationSection" style="display: none;">
-      <div class="form-floating offset-1 col-6 position-relative">
-        <input type="text" class="form-control" id="floatingPhoneCheck" placeholder="" maxlength="4" autocomplete="off" required>
-        <label for="floatingPhoneCheck">인증번호 확인</label>
-        <button type="button" id="phoneCheckClearBtn" class="btn-close clear-btn" onclick="clearInput('floatingPhoneCheck')" aria-label="Clear"
-          tabindex="-1"></button>
-      </div>
-      <div class="col-auto">
-        <button type="button" id="phoneCertifiedBtn" class="btn btn-primary">인증번호 인증</button>
+      <!-- 인증번호 입력, 인증 버튼 -->
+      <div class="form-floating row g-3 mb-2 mt-2 position-relative" id="verificationSection" style="display: none;">
+        <div class="form-floating col-6 position-relative">
+          <input type="text" class="form-control" id="floatingPhoneCheck" placeholder="" maxlength="4"
+            autocomplete="off" required>
+          <label for="floatingPhoneCheck">인증번호 확인</label>
+          <button type="button" id="phoneCheckClearBtn" class="btn-close clear-btn"
+            onclick="clearInput('floatingPhoneCheck')" aria-label="Clear" tabindex="-1"></button>
+        </div>
+        <div class="col-auto">
+          <button type="button" id="phoneCertifiedBtn" class="btn btn-primary" style="margin-left:10px;">인증번호 인증</button>
+        </div>
       </div>
     </div>
     <br>
 
     <!-- 주소 입력란, 주소 찾기 버튼 -->
-    <div class="form-floating row g-3 mb-2 mt-2 position-relative">
-      <div class="col-3 d-flex align-items-center justify-content-center" style="font-weight: bold;">
-        * 주소 입력란 (기본 배송지)
+    <div class="selectedInput">
+      <div class="form-floating row g-3 mb-2 mt-2 position-relative">
+        <div class="col-3 d-flex align-items-center justify-content-center" 
+        style="font-weight: bold; width: 30%; min-width: 300px; margin-left: 0px; justify-content: left !important;">
+          (선택) 기본 배송지
+        </div>
+        <div class="col-auto d-flex align-items-center justify-content-center">
+          <button type="button" id="addressFindBtn" class="btn btn-secondary" onclick="findAddress()">주소 찾기</button>
+          <button type="button" id="addressChangeBtn" class="btn btn-danger" onclick="changeAddress();"
+            style="display: none;">주소 삭제하기</button>
+        </div>
       </div>
-      <div class="col-auto d-flex align-items-center justify-content-center">
-        <button type="button" id="addressFindBtn" class="btn btn-secondary" onclick="findAddress()">주소 찾기</button>
-        <button type="button" id="addressChangeBtn" class="btn btn-danger"  onclick="changeAddress();" style="display: none;">주소 삭제하기</button>
+  
+      <!-- 우편번호, 주소, 상세 주소 입력 -->
+      <div class="form-floating mb-2 mt-2 position-relative">
+        <input type="text" class="form-control" id="zip" name="zip" placeholder="" readonly style="width: 70%;">
+        <label for="zip">우편번호</label>
       </div>
-    </div>
-
-    <!-- 우편번호, 주소, 상세 주소 입력 -->
-    <div class="form-floating mb-2 mt-2 position-relative">
-      <input type="text" class="form-control" id="zip" name="zip" placeholder="" readonly>
-      <label for="zip">우편번호</label>
-    </div>
-    <div class="form-floating mb-2 mt-2 position-relative">
-      <input type="text" class="form-control" id="address" name="address" placeholder="" readonly>
-      <label for="address">주소</label>
-    </div>
-    <div class="form-floating mb-2 mt-2 position-relative">
-      <input type="text" class="form-control" id="detailAddress" name="detailAddress" maxlength="50" autocomplete="off" placeholder="" readonly>
-      <label for="detailAddress">상세 주소</label>
-      <button type="button" id="detailAddressClearBtn" class="btn-close clear-btn" onclick="clearInput('detailAddress')"
-        aria-label="Clear"></button>
+      <div class="form-floating mb-2 mt-2 position-relative">
+        <input type="text" class="form-control" id="address" name="address" placeholder="" readonly style="width: 70%;">
+        <label for="address">주소</label>
+      </div>
+      <div class="form-floating mb-2 mt-2 position-relative">
+        <input type="text" class="form-control" id="detailAddress" name="detailAddress" maxlength="50" autocomplete="off"
+          placeholder="" readonly style="width: 70%;">
+        <label for="detailAddress">상세 주소</label>
+        <button type="button" id="detailAddressClearBtn" class="btn-close clear-btn" onclick="clearInput('detailAddress')"
+          aria-label="Clear"></button>
+      </div>
     </div>
 
     <!-- 가입 버튼 -->
-    <button type="submit" id="submitBtn" class="btn btn-success w-100">가입하기</button>
+    <button type="submit" id="submitBtn" class="btn btn-success w-100"
+      style="background-color: #205375 !important; border-color: #205375; opacity: 1 !important;">가입하기</button>
   </form>
 
 
