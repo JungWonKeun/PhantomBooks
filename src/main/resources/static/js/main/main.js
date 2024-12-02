@@ -1,4 +1,14 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  // 데이터 먼저 불러오기
+  try {
+    const response = await fetch('/main');
+    if (response.ok) {
+      location.reload();  // 또는 데이터를 받아서 동적으로 화면 갱신
+    }
+  } catch (error) {
+    console.error("Error loading data:", error);
+  }
+
   // 오늘의 추천 도서 슬라이더
   const bookSlider = {
     init() {
