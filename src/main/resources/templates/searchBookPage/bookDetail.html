@@ -180,11 +180,13 @@
           </label>
         </div>
 
-        <!-- 리뷰 이미지 -->
+        <!-- 리뷰 이미지 (수정)-->
         <div class="review-img" >
           <img alt="리뷰 이미지" class="review-img-thumb"
-               th:src="${review.reviewImgNo != null ? review.reviewImgNo : '/images/고스트 코딩왕.png'}">
+           data-review-no="1" data-original-src="original_image_url_here"
+            th:src="${review.reviewImgNo != null ? review.reviewImgNo : '/images/고스트 코딩왕.png'}">
           <div th:if="${memberId != null and memberId == review.memberId}">
+            
             <label for="imageInput-${review.reviewNo}">
               <input type="file" name="profileImg" th:id="|imageInput-${review.reviewNo}|" accept="image/*" style="display: none;">
           </label>
