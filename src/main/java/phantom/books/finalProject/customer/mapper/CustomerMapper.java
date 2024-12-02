@@ -50,4 +50,6 @@ public interface CustomerMapper {
 
 	int deleteInquiry(@Param("queryNo") int queryNo,
 					  @Param("memberNo") int memberNo);
+
+	List<Notice> supportNoticeList();
 }

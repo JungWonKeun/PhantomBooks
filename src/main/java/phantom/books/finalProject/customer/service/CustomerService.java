@@ -31,4 +31,6 @@ public interface CustomerService {
 
 	int deleteInquiry(int queryNo, int memberNo);
 
+	List<Notice> supportNoticeList();
+
 }

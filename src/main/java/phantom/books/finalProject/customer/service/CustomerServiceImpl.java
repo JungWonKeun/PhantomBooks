@@ -86,4 +86,9 @@ public class CustomerServiceImpl implements CustomerService {
 	public int deleteInquiry(int queryNo, int memberNo) {
 		return customerMapper.deleteInquiry(queryNo, memberNo);
 	}
+	
+	@Override
+	public List<Notice> supportNoticeList() {
+		return customerMapper.supportNoticeList();
+	}
 }

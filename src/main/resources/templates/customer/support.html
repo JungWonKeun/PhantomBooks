@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>고객센터</title>
+  <title>고객지원</title>
   <link rel="stylesheet" href="/css/customer/support.css">
   <script src="https://kit.fontawesome.com/890489b5e8.js" crossorigin="anonymous"></script>
 </head>
@@ -17,7 +17,7 @@
     <div th:replace="~{common/side-menu}"></div>
 
     <div class="mainContent">
-      <h2 class="title">고객센터</h2>
+      <h2 class="title">고객지원</h2>
 
       <div class="tabs">
         <button class="tab active" onclick="showTab('faq')">FAQ</button>
@@ -35,14 +35,16 @@
             </a>
           </h4>
 
-
-
           <section>
-            <div class="faq-list" th:if="${faqList}">
-              <div th:each="faq, iterStat : ${faqList}" class="faq-item"
-                th:onclick="|toggleAnswer('answer-' + ${iterStat.index})|">
-                <h3 class="faq-title" th:text="${faq.title}">질문</h3>
-                <div th:id="'answer-' + ${iterStat.index}" class="faq-content" style="display: none;">
+            <div class="faq-list" th:if="${not #lists.isEmpty(faqList)}">
+              <div th:each="faq, faqStat : ${faqList}" 
+                   th:if="${faqStat.index <= 4}"
+                   class="faq-item">
+                <div class="faq-header" th:data-index="${faqStat.index}">
+                  <h3 class="faq-title" th:text="${faq.title}">질문</h3>
+                  <i class="faq-arrow fas fa-chevron-down"></i>
+                </div>
+                <div th:id="${'answer-' + faqStat.index}" class="faq-content" style="display: none;">
                   <p th:text="${faq.content}">답변</p>
                 </div>
               </div>
@@ -118,7 +120,9 @@
               + 더보기
             </a>
           </h4>
-          <div id="notice-board" class="notice-board" th:if="${noticeList}">
+          
+          <!-- 공지사항 목록 -->
+          <div class="notice-board" th:if="${not #lists.isEmpty(noticeList)}">
             <div th:each="notice : ${noticeList}" class="notice-item">
               <a th:href="@{/customer/noticeDetail/{id}(id=${notice.noticeId})}" class="notice-link">
                 <div class="notice-title" th:text="${notice.title}">공지사항 제목</div>
@@ -126,6 +130,7 @@
               </a>
             </div>
           </div>
+          
           <!-- 공지사항이 없는 경우 -->
           <div th:if="${#lists.isEmpty(noticeList)}" class="no-notice">
             <p>현재 등록된 공지사항이 없습니다.</p>
