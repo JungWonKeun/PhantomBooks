@@ -1,13 +1,11 @@
 document.addEventListener("DOMContentLoaded", function () {
   // 서버로부터 FAQ 데이터를 불러오는 함수
-  fetch('/customer/qna') // 이 URL은 FAQ 데이터를 가져오는 API 엔드포인트를 의미합니다.
-    .then(response => response.json())
-    .then(data => displayFAQ(data))
-    .catch(error => console.error('FAQ 데이터 불러오기 중 오류', error));
+  fetchFAQs(1); // 초기 페이지 로드
 });
 
 function displayFAQ(faqList) {
   const faqContainer = document.getElementById('faqList');
+  faqContainer.innerHTML = ''; // 기존 내용 초기화
 
   faqList.forEach(faq => {
     // FAQ 항목 생성
@@ -56,9 +54,6 @@ function displayFAQ(faqList) {
   });
 }
 
-
-
-// faq.js
 function toggleAnswer(answerId, itemId) {
   const answerElement = document.getElementById(answerId);
   const itemElement = document.getElementById(itemId);
@@ -70,4 +65,61 @@ function toggleAnswer(answerId, itemId) {
     answerElement.style.display = "none"; // 답변을 숨김
     itemElement.classList.remove("open");
   }
+}
+
+function fetchFAQs(cp) {
+  fetch(`/customer/qna/list?cp=${cp}`)
+    .then(response => response.json())
+    .then(data => {
+      displayFAQ(data.faqList);
+      renderPagination(data.pagination);
+    })
+    .catch(error => console.error('FAQ 데이터 불러오기 중 오류', error));
+}
+
+function createPageNo(txt, cp) {
+  const li = document.createElement("li");
+  const a = document.createElement("a");
+  a.textContent = txt;
+  a.href = "#";
+  a.dataset.cp = cp;
+  li.appendChild(a);
+  return li;
+}
+
+function renderPagination(pagination) {
+  const { startPage, endPage, prevPage, nextPage, maxPage, currentPage } = pagination;
+
+  const ul = document.querySelector(".pagination");
+  if (!ul) return;
+  ul.innerHTML = "";
+
+  ul.appendChild(createPageNo("<<", 1));
+  ul.appendChild(createPageNo("<", prevPage));
+
+  for (let i = startPage; i <= endPage; i++) {
+    const li = createPageNo(i, i);
+    if (i == currentPage) {
+      li.querySelector("a").classList.add("current");
+    }
+    ul.appendChild(li);
+  }
+
+  ul.appendChild(createPageNo(">", nextPage));
+  ul.appendChild(createPageNo(">>", maxPage));
+
+  pageNoAddClickEventHandler();
+}
+
+function pageNoAddClickEventHandler() {
+  const pageNoList = document.querySelectorAll(".pagination a");
+
+  pageNoList?.forEach(a => {
+    const cp = a.dataset.cp;
+
+    a.addEventListener("click", (e) => {
+      e.preventDefault();
+      fetchFAQs(cp);
+    });
+  });
 }

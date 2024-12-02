@@ -33,4 +33,6 @@ public interface CustomerService {
 
 	List<Notice> supportNoticeList();
 
+	Map<String, Object> getFAQPaginaion(int cp);
+
 }

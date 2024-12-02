@@ -44,6 +44,10 @@
     FETCH FIRST 5 ROWS ONLY
 </select>
 
+    <select id="countFAQList" resultType="int">
+        SELECT COUNT(*) FROM FAQ
+    </select>
+
 	<!-- FAQ 목록 조회 수정 -->
 	<select id="supportFaqList" resultType="FAQ">
         SELECT * FROM (
@@ -62,11 +66,10 @@
 	</select>
 
 	<select id="getFaqList" resultType="FAQ">
-		SELECT FAQ_ID as faqId, TITLE
-		as title, CONTENT as content, FAQ_YN as faqYn
-		FROM FAQ
-		WHERE FAQ_YN =
-		'Y'
+        SELECT * 
+        FROM FAQ
+        WHERE FAQ_YN = 'Y'
+        ORDER BY FAQ_ID DESC
 	</select>
 
 	<select id="getResultInquiry" resultType="Query">

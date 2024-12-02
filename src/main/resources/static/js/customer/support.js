@@ -6,10 +6,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // 이벤트 위임을 사용한 FAQ 아코디언
     if (faqList) {
         faqList.addEventListener('click', function(e) {
-            const title = e.target.closest('.faq-title');
-            if (!title) return;
+            const item = e.target.closest('.faq-item');
+            if (!item) return;
 
-            const item = title.closest('.faq-item');
             const content = item.querySelector('.faq-content');
             
             // 이전 활성화된 항목 닫기
