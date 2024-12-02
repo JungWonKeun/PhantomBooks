@@ -52,4 +52,9 @@ public interface CustomerMapper {
 					  @Param("memberNo") int memberNo);
 
 	List<Notice> supportNoticeList();
+
+	int countFAQList();
+
+	List<FAQ> getFAQListPaging(RowBounds bounds);
+
 }
