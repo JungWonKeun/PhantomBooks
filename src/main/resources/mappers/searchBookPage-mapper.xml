@@ -202,10 +202,10 @@
 				B.BOOK_NO ASC
 			</when>
 			<when test="sortOption == 'highPrice'">
-				ORDER BY B.BOOK_PRICE DESC, B.BOOK_NO ASC
+				ORDER BY CAST(B.BOOK_PRICE AS INT) DESC, B.BOOK_NO ASC
 			</when>
 			<when test="sortOption == 'lowPrice'">
-				ORDER BY B.BOOK_PRICE ASC, B.BOOK_NO ASC
+				ORDER BY CAST(B.BOOK_PRICE AS INT) ASC, B.BOOK_NO ASC
 			</when>
 			<otherwise>
 				ORDER BY B.BOOK_NO ASC
@@ -485,28 +485,46 @@
 	<insert id="putSingleWishlist">
 		MERGE INTO WISHLIST w
 		USING (
-		SELECT #{memberNo} AS memberNo, #{bookNo} AS bookNo FROM dual
+		SELECT #{memberNo} AS
+		memberNo, #{bookNo} AS bookNo FROM dual
 		) src
-		ON (w.MEMBER_NO = src.memberNo AND w.BOOK_NO = src.bookNo)
+		ON (w.MEMBER_NO =
+		src.memberNo AND w.BOOK_NO = src.bookNo)
 		WHEN NOT MATCHED THEN
-		INSERT (MEMBER_NO, BOOK_NO)
+		INSERT
+		(MEMBER_NO, BOOK_NO)
 		VALUES (src.memberNo, src.bookNo)
 	</insert>
-	
 
 
-	
-	<select id="buyBook">
+	<select id="reviewCheck">
 		SELECT
-			BOOK_NO,
-			BOOK_TITLE,
-			BOOK_COVER,
-			BOOK_PRICE
+			COUNT(*)
 		FROM
-			BOOK
+			REVIEW
 		WHERE
 			BOOK_NO = #{bookNo}
+		AND
+			MEMBER_NO = #{memberNo}
+	
 	</select>
-	
-	
+
+
+
+
+	<select id="buyBook">
+		SELECT
+		BOOK_NO,
+		BOOK_TITLE,
+		BOOK_COVER,
+		BOOK_PRICE
+		FROM
+		BOOK
+		WHERE
+		BOOK_NO = #{bookNo}
+	</select>
+
+
+
+
 </mapper>

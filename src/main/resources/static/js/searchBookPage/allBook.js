@@ -640,11 +640,11 @@ function singleWishListBtn(button) {
 
 /* 바로구매 버튼  */
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
     const buyNowButtons = document.querySelectorAll('#buyNow');
     
     buyNowButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', () => {
             // 가장 가까운 .book-item 요소 찾기
             const bookItem = this.closest('.book-item');
             

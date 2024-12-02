@@ -212,9 +212,11 @@ document.querySelector("#submitReview").addEventListener("click", (event) => {
             throw new Error("서버 오류 발생!");
         })
         .then((data) => {
-            if (data) {
+            if (data === "true") {
                 alert("리뷰 작성 성공!");
                 location.reload(); // 페이지 새로고침
+            } else if (data === "false") {
+                alert("리뷰는 구매 횟수에 따른 제한이 있습니다.");
             } else {
                 alert("리뷰 작성 실패!");
             }
@@ -271,6 +273,7 @@ function toggleEditMode(reviewNo, button) {
     const rating = document.querySelector(`.rating[data-review-no="${reviewNo}"]`);
     const ratingInputs = rating?.querySelectorAll('input[type="radio"]');
     const imageInput = document.querySelector(`#imageInput-${reviewNo}`);
+
     if (!titleInput || !contentTextarea || !cancelButton || !ratingInputs) {
         console.error(`리뷰 요소를 찾을 수 없습니다. 리뷰 번호: ${reviewNo}`);
         return;
@@ -278,13 +281,6 @@ function toggleEditMode(reviewNo, button) {
 
     if (button.textContent === "수정") {
         console.log(`수정 모드 활성화: 리뷰 번호 ${reviewNo}`);
-
-        // 원래 값을 백업
-        const originalValues = {
-            title: titleInput.value,
-            content: contentTextarea.value,
-            rating: [...ratingInputs].find(input => input.checked)?.value,
-        };
 
         // 수정 모드 활성화
         titleInput.removeAttribute('readonly');
@@ -304,17 +300,8 @@ function toggleEditMode(reviewNo, button) {
         cancelButton.onclick = (event) => {
             event.stopPropagation(); // 이벤트 전파 중단
             console.log('수정 취소 버튼 클릭됨.');
-            resetEditMode(
-                titleInput,
-                contentTextarea,
-                rating,
-                ratingInputs,
-                imageInput,
-                button,
-                cancelButton,
-                reviewNo,
-                originalValues // 원래 값 전달
-            );
+            // 페이지 새로고침으로 초기 상태 복구
+            location.reload();
         };
     } else if (button.textContent === "저장") {
         console.log(`저장 요청: 리뷰 번호 ${reviewNo}`);
@@ -345,16 +332,7 @@ function toggleEditMode(reviewNo, button) {
             .then(response => {
                 if (response.ok) {
                     alert('리뷰가 수정되었습니다.');
-                    resetEditMode(
-                        titleInput,
-                        contentTextarea,
-                        rating,
-                        ratingInputs,
-                        imageInput,
-                        button,
-                        cancelButton,
-                        reviewNo
-                    );
+                    location.reload(); // 저장 후 페이지 새로고침
                 } else {
                     throw new Error('서버 응답 실패');
                 }
@@ -366,41 +344,7 @@ function toggleEditMode(reviewNo, button) {
     }
 }
 
-/** 수정 취소 및 초기 상태로 복구 */
-function resetEditMode(titleInput, contentTextarea, rating, ratingInputs, imageInput, button, cancelButton, reviewNo, originalValues) {
-    console.log('수정 모드 종료. 원래 상태로 복구합니다.');
-
-    // 원래 값을 복원
-    titleInput.value = originalValues.title;
-    contentTextarea.value = originalValues.content;
-    ratingInputs.forEach(input => {
-        input.checked = input.value === originalValues.rating;
-    });
-
-    // 읽기 전용 상태로 복구
-    titleInput.setAttribute('readonly', true);
-    contentTextarea.setAttribute('readonly', true);
-    rating.classList.add('readonly');
-    ratingInputs.forEach(input => input.setAttribute('disabled', true));
-    if (imageInput) imageInput.setAttribute('disabled', true);
-
-    titleInput.style.border = "none";
-    contentTextarea.style.border = "none";
-
-    // 버튼 상태 복구
-    button.textContent = "수정";
-    cancelButton.textContent = "삭제";
-
-    // 삭제 버튼 이벤트 복구
-    cancelButton.onclick = (event) => {
-        event.stopPropagation(); // 이벤트 전파 중단
-        console.log(`삭제 버튼 클릭됨. 리뷰 번호: ${reviewNo}`);
-        if (confirm('정말 이 리뷰를 삭제하시겠습니까?')) {
-            deleteReview(reviewNo);
-        }
-    };
-}
-
+//------------------------------------------------------------------------------------------------------
 /** 리뷰 삭제 요청 (DELETE 방식) */
 function deleteReview(reviewNo) {
     fetch(`/searchBookPage/deleteReview?reviewNo=${reviewNo}`, { method: 'DELETE' })
