@@ -14,7 +14,7 @@
         JOIN BOOK USING (BOOK_NO)
         JOIN BOOK_CATEGORY USING (BOOK_NO)
         JOIN CATEGORY USING (CATEGORY_NO)
-        WHERE TRUNC(ORDER_DATE) = TRUNC(SYSDATE)
+        WHERE TRUNC(ORDER_DATE) = TRUNC(TO_DATE('2024-11-29'))
         GROUP BY BOOK_NO, CATEGORY_NO
     )
     SELECT 
@@ -83,26 +83,35 @@
     ORDER BY 
         o.ORDER_DATE DESC
 	</select>
-	
-	
-	<!-- 취향별 책 추천 -->	
-	<select id="getMyTypeBooks" resultType="Book">
-    SELECT 
-        b.BOOK_NO,
-        b.BOOK_TITLE,
-        b.BOOK_CONTENT,
-        b.SCORE_AVG
-    FROM 
-        MEMBER_PREFERENCE mp
-    JOIN 
-        BOOK_PREFERENCE bp ON mp.PREFERENCE_NO = bp.PREFERENCE_NO
-    JOIN 
-        BOOK b ON bp.BOOK_NO = b.BOOK_NO
-    WHERE 
-        mp.MEMBER_NO = #{memberNo}
-    ORDER BY 
-        b.SCORE_AVG DESC
-    LIMIT 10
+
+
+	<!-- 취향별 책 추천 -->
+	<select id="getMyTypeBooks" parameterType="int"
+		resultType="Book">
+		SELECT DISTINCT
+		B.BOOK_NO,
+		B.BOOK_TITLE,
+		B.BOOK_COVER,
+		B.BOOK_WRITER,
+		B.BOOK_PRICE,
+		B.SCORE_AVG
+		FROM BOOK B
+		JOIN BOOK_CATEGORY BC ON B.BOOK_NO = BC.BOOK_NO
+		JOIN CATEGORY C ON BC.CATEGORY_NO = C.CATEGORY_NO
+		WHERE EXISTS (
+		SELECT 1
+		FROM MEMBER_CATEGORY MC
+		WHERE MC.MEMBER_NO = #{memberNo}
+		AND MC.CATEGORY_NO = C.CATEGORY_NO
+		)
+		AND EXISTS (
+		SELECT 1
+		FROM MEMBER_PREFERENCE MP
+		WHERE MP.MEMBER_NO = #{memberNo}
+		)
+		ORDER BY B.SCORE_AVG DESC
+		FETCH FIRST 10 ROWS ONLY
 	</select>
+
 	
 </mapper>
