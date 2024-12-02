@@ -250,7 +250,7 @@ html, body {
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.date-container.hidden, .date.hidden {
+.hidden {
   visibility: hidden; 
   pointer-events: none;
 }

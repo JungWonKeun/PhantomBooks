@@ -8,51 +8,102 @@
 		 FROM "ORDER"
 		 LEFT JOIN ORDER_LIST USING(ORDER_NO)
 		 LEFT JOIN BOOK USING(BOOK_NO)
+		 LEFT JOIN BOOK_CATEGORY USING (BOOK_NO)
+		 WHERE BOOK_NO IS NOT NULL	
 		 <choose>
-		 	<when test="sort == 'all'">
-		 		WHERE BOOK_NO IS NOT NULL	
+		 	<when test="sort == 'all' and term = 'year'">
+		 		AND ORDER_DATE >= CURRENT_DATE - INTERVAL '1' YEAR
 		 	</when>
-		 	<when test="sort == 'category'">
-		 		 LEFT JOIN BOOK_CATEGORY USING (BOOK_NO)
-				 LEFT JOIN CATEGORY USING (CATEGORY_NO)
-				 WHERE COMPANY_NAME LIKE '%%'
-				 GROUP BY BOOK_COUNT, BOOK_NO, BOOK_TITLE, CATEGORY_NO
-				 ORDER BY ORDER_PRICE DESC;
+		 	<when test="sort == 'all' and term = 'weeks'">
+		 		AND ORDER_DATE  >= CURRENT_DATE - INTERVAL '7' DAY
+		 	</when>
+		 	<when test="sort == 'all' and term = 'month'">
+		 		AND ORDER_DATE >= CURRENT_DATE - INTERVAL '1' MONTH
+		 	</when>
+		 	<when test="sort == 'all' and term = '6month'">
+		 		AND ORDER_DATE >= CURRENT_DATE - INTERVAL '6' MONTH
 		 	</when>
 		 	<when test="sort == 'company'">
-		 		 LEFT JOIN BOOK_CATEGORY USING (BOOK_NO)
-				 LEFT JOIN CATEGORY USING (CATEGORY_NO)
-				 WHERE COMPANY_NAME LIKE '%%'
-				 GROUP BY BOOK_COUNT, BOOK_NO, BOOK_TITLE, CATEGORY_NO
-				 ORDER BY ORDER_PRICE DESC
+				 AND COMPANY_NAME LIKE '%%'
 		 	</when>
 		 </choose>
+		 ORDER BY ORDER_PRICE DESC
 	</select>
 	
 	<select id="salesList" resultType="OrderBookDto">
-		SELECT
-		 	BOOK_NO,
-		  SUM(BOOK_COUNT) AS BOOK_COUNT,
-		  SUM(ORDER_PRICE) AS ORDER_PRICE,
-			BOOK_TITLE, CATEGORY_NO, CATEGORY_NAME
+		SELECT 
+			BOOK_NO,
+		    BOOK_TITLE,
+		    BOOK_COUNT,
+		    SUM(ORDER_PRICE) AS ORDER_PRICE,
+		    TO_CHAR(ORDER_DATE, 'YYYY-MM-DD') AS ORDER_DATE,
+		    SUM(BOOK_PRICE) AS BOOK_PRICE,
+		    NVL(MAX(REQUEST_PRICE), MAX(BOOK_PRICE) * 0.6) AS REQUEST_PRICE
 		FROM "ORDER"
 		LEFT JOIN ORDER_LIST USING(ORDER_NO)
 		LEFT JOIN BOOK USING(BOOK_NO)
-		LEFT JOIN BOOK_CATEGORY USING (BOOK_NO)
-	  LEFT JOIN CATEGORY USING (CATEGORY_NO)
-		 	WHERE BOOK_NO IS NOT NULL
+		LEFT JOIN BOOK_REQUEST USING (BOOK_NO)
+		WHERE BOOK_NO IS NOT NULL
 		<choose>
-		 	<when test="sort == 'all'">
+		 	<when test="sort == 'all' and term = 'year'">
+		 		AND ORDER_DATE >= CURRENT_DATE - INTERVAL '1' YEAR
 		 	</when>
-		 	<when test="sort == 'category'">
-				 AND COMPANY_NAME LIKE '%'|| #{categoryName}||'%'
+		 	<when test="sort == 'all' and term = 'weeks'">
+		 		AND ORDER_DATE  >= CURRENT_DATE - INTERVAL '7' DAY
+		 	</when>
+		 	<when test="sort == 'all' and term = 'month'">
+		 		AND ORDER_DATE >= CURRENT_DATE - INTERVAL '1' MONTH
+		 	</when>
+		 	<when test="sort == 'all' and term = '6month'">
+		 		AND ORDER_DATE >= CURRENT_DATE - INTERVAL '6' MONTH
 		 	</when>
 		 	<when test="sort == 'company'">
 				 AND COMPANY_NAME LIKE '%'||#{companyName}||'%'
 		 	</when>
 		 </choose>
-		 GROUP BY BOOK_COUNT, BOOK_NO, BOOK_TITLE, CATEGORY_NO, CATEGORY_NAME
-		 ORDER BY ORDER_PRICE DESC
+			GROUP BY 
+				BOOK_NO,
+				BOOK_COUNT,
+			    BOOK_TITLE, 
+			    TO_CHAR(ORDER_DATE, 'YYYY-MM-DD')
+			ORDER BY 
+			    ORDER_PRICE DESC
+	</select>
+	
+	<select id="chartData" resultType="ChartSales">
+		SELECT 
+		    TO_CHAR(ORDER_DATE, 'YYYY-MM-DD') AS ORDER_DATE,
+		    SUM(ORDER_PRICE) AS ORDER_PRICE,	
+		    SUM(NVL(REQUEST_PRICE, BOOK_PRICE * 0.6)) AS REQUEST_PRICE,
+		    SUM(ORDER_COUNT) AS ORDER_COUNT
+		FROM "ORDER"
+		LEFT JOIN ORDER_LIST USING(ORDER_NO)
+		LEFT JOIN BOOK USING(BOOK_NO)
+		LEFT JOIN BOOK_REQUEST USING (BOOK_NO)
+		<choose>
+		 	<when test="sort == 'all' and term = 'year'">
+		 		WHERE ORDER_DATE >= CURRENT_DATE - INTERVAL '1'YEAR
+		 	</when>
+		 	<when test="term = 'weeks' and sort == 'all'">
+		 		WHERE ORDER_DATE >= CURRENT_DATE - INTERVAL '7'DAY
+		 	</when>
+		 	<when test="sort == 'all' and term = 'month'">
+		 		WHERE ORDER_DATE >= CURRENT_DATE - INTERVAL '1'MONTH
+		 	</when>
+		 	<when test="sort == 'all' and term = '6month'">
+		 		WHERE ORDER_DATE >= CURRENT_DATE - INTERVAL '6'MONTH
+		 	</when>
+		 	<when test="sort == 'all' and term = 'dateSelect'">
+		 		WHERE ORDER_DATE >= #{date}
+		 	</when>
+		 	<when test="sort == 'company'">
+				 AND COMPANY_NAME LIKE '%'||#{companyName}||'%'
+		 	</when>
+		 </choose>
+		GROUP BY 
+		    TO_CHAR(ORDER_DATE, 'YYYY-MM-DD')
+		ORDER BY 
+		    ORDER_DATE ASC
 	</select>
 	
 </mapper>
