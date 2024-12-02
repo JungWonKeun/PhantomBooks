@@ -332,8 +332,8 @@ dateSelect.addEventListener("click", () => {
 
 
 
-const sortSelect = document.querySelector('#sortSelect');
 const listName = document.querySelector("#listName");
+const sortSelect = document.querySelector('#sortSelect');
 
 sortSelect.addEventListener('change', () => {
   const selectedSort = sortSelect.value;

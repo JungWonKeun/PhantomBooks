@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import phantom.books.finalProject.admin.dto.ChartSales;
 import phantom.books.finalProject.admin.mapper.AdminSalesMapper;
 import phantom.books.finalProject.order.dto.OrderBookDto;
 import phantom.books.finalProject.pagination.Pagination;
@@ -25,9 +26,9 @@ public class AdminSalesServiceImpl implements AdminSalesService {
 	
 	// 매출 리스트 조회
 	@Override
-	public Map<String, Object> salesList(int cp, String sort, String term, String date) {
+	public Map<String, Object> salesList(int cp, String sort, String term, String date,String text) {
 
-		int countSales = mapper.countSales(sort, term, date);
+		int countSales = mapper.countSales(cp, sort, term, date, text);
 		
 		Pagination pagination = new Pagination(cp, countSales, 5, 5);
 		
@@ -36,11 +37,13 @@ public class AdminSalesServiceImpl implements AdminSalesService {
 		
 		RowBounds bounds = new RowBounds(offset, limit);
 		
-		List<OrderBookDto> salesList = mapper.salesList(sort, term, date, bounds);
+		List<ChartSales> chartData = mapper.chartData(cp, sort, term, date, text);
+		List<ChartSales> salesList = mapper.salesList(cp, sort, term, date, text, bounds);
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("salesList", salesList);
 		map.put("pagination", pagination);
+		map.put("chartData", chartData);
 		
 		return map;
 	}
