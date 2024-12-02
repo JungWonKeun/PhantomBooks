@@ -103,9 +103,14 @@
 	
 	<insert id="insertMessage"
 					parameterType="Message">
+					
+					<selectKey order="BEFORE" resultType="_int"
+										 keyProperty="messageNo">
+						SELECT SEQ_MESSAGE_NO.NEXTVAL FROM DUAL
+					</selectKey>
 		INSERT INTO "MESSAGE"
 		VALUES(
-			SEQ_MESSAGE_NO.NEXTVAL,
+			#{messageNo},
 			#{messageContent},
 			DEFAULT,
 			DEFAULT,

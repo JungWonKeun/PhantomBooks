@@ -12,6 +12,7 @@
             left: 100px;
             display: none; /* 기본적으로 숨김 */
             z-index: 1000;
+            overflow-y: auto; /* 세로 스크롤 활성화 */
         }
 
         /* 헤더 스타일 */
@@ -24,6 +25,9 @@
           background-color: #f1f1f1;
 
         }
+
+
+        .popup-layer-close{ display: none;  }
 
         .popup-header {
             background-color: #f1f1f1;
@@ -136,7 +140,14 @@
         background-color: rgba(0, 0, 0, 0.3);
       }
 
+      .hidden {
+        visibility: hidden; 
+        pointer-events: none;
+      }
 
+      .display-chatting{
+        margin-top: -370px
+      }
     
 
 
@@ -154,13 +165,13 @@
     </div>
     <button id="closePopup">ⅹ</button>
   </div>
+  
   <button id="addTarget">추가</button>
-
-		<div id="addTargetPopupLayer" class="popup-layer-close">
-			<span id="closeBtn">&times</span>
-
-			<div class="target-input-area">
-				<input type="search" id="targetInput" placeholder="닉네임 또는 이메일을 입력하세요" autocomplete="off">
+  <div id="addTargetPopupLayer" class="popup-layer-close">
+    
+    <div class="target-input-area">
+      <input type="search" id="targetInput" placeholder="닉네임 또는 이메일을 입력하세요" autocomplete="off">
+      <span id="closeBtn">&times</span>
 			</div>
 
 			<ul id="resultArea">
@@ -203,36 +214,35 @@
 					</li>
 
 				</th:block>
+      </ul>
 
-    
-    <div class="chatting-area">
-			<div class="chatting-content">
-				<ul class="display-chatting">
-					<!-- <li class="my-chat">
-						<span class="chatDate">14:01</span>
-						<p class="chat">가나다라마바사</p>
-					</li>
+    </div>
+    <div class="chatting-content">
+      <ul class="display-chatting">
+        <!-- <li class="my-chat">
+          <span class="chatDate">14:01</span>
+          <p class="chat">가나다라마바사</p>
+        </li>
 
-					<li class="target-chat">
-						<img src="/images/user.png">
+        <li class="target-chat">
+          <img src="/images/user.png">
 
-						<div>
-							<b>이번유저</b>	<br>
-							<p class="chat">
-								안녕하세요?? 반갑습니다.<br>
-								ㅎㅎㅎㅎㅎ
-							</p>
-							<span class="chatDate">14:05</span>
-						</div>
-					</li> -->
-				</ul>
+          <div>
+            <b>이번유저</b>	<br>
+            <p class="chat">
+              안녕하세요?? 반갑습니다.<br>
+              ㅎㅎㅎㅎㅎ
+            </p>
+            <span class="chatDate">14:05</span>
+          </div>
+        </li> -->
+      </ul>
 
-				<div class="input-area">
-					<textarea id="inputChatting" rows="3"></textarea>
-					<button id="send">보내기</button>
-				</div>
-			</div>
-		</div>
+      <div class="input-area">
+        <textarea id="inputChatting" rows="3"></textarea>
+        <button id="send">보내기</button>
+      </div>
+    </div>
 </div>
 
 
