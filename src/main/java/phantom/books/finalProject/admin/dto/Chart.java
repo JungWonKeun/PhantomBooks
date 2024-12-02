@@ -16,4 +16,6 @@ public class Chart {
 	// 로그인 6개월 이상 회원
 	//  & 탈퇴 신청한 회원 마지막 로그인 일자
 	private String loginDate;
+
+
 }

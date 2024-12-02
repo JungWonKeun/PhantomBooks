@@ -6,6 +6,7 @@
   <title>재고관리</title>
   
   <script src="https://kit.fontawesome.com/890489b5e8.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="stylesheet" href="/css/admin/adminManager.css">
 </head>
 <body>
@@ -117,6 +118,10 @@
               <option value="50">50개</option>
           </select>
         </label>
+
+        <div class="graph-section">
+          <canvas id="myChart" width="100px" height="20px"></canvas>
+        </div>
       </div>
   
       <div class="list">

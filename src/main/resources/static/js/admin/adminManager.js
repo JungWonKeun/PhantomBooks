@@ -1,4 +1,5 @@
 const list = document.querySelector("#bookList")
+let myChart;
 
 /* 사이드바 열고 닫기 */
 document.querySelectorAll('.menu').forEach(menu => {
@@ -19,8 +20,47 @@ const listUp = (cp, sort, view, text) => {
   .then(map => {
     console.log(map);
 
+    
     const bookList = map.bookList;
     const pagination = map.pagination;
+    const chartData = map.chartData;
+    
+    let countBook = new Array();
+    let bookTitle = new Array();
+    
+
+    // forEach로 list의 값을 newArray에 추가
+    chartData.forEach(chart => {
+      countBook.push(chart.countBook);
+      bookTitle.push(chart.bookTitle);
+    });
+
+
+    // 차트 생성
+    myChart = new Chart(document.getElementById("myChart"), {
+      type: 'bar',
+        data: {
+            labels: bookTitle,
+            datasets: [{
+                label: '재고 현황',
+                data: countBook,
+                borderWidth: 0.1
+            }]
+        },
+        options: {
+            scales: {
+              x : {
+                },
+                y: {
+                    beginAtZero: false,
+                    min : 0,
+                    max : 120,
+                }
+            }
+        }
+    });
+
+
 
     list.innerHTML = "";
 
@@ -71,6 +111,10 @@ const listUp = (cp, sort, view, text) => {
             if(result > 0 ) {
               alert("등록 완료 하였습니다.");
               listUp(cp, sortSelect.value, view, text);
+
+              if(myChart !== null){
+                myChart.destroy();
+              }
             }
           })
           .catch(err => console.error(err));
@@ -128,6 +172,10 @@ viewSelect.addEventListener("change", ()=>{
   console.log(viewSelect.value);
   
   listUp(1, sortSelect.value, viewSelect.value, text);
+  
+  if(myChart !== null){
+    myChart.destroy();
+  }
  
 })
 
@@ -136,6 +184,10 @@ searchText.hidden = true;
 
 sortSelect.addEventListener('change', () => {
   if(sortSelect.value == 'all'){
+
+    if(myChart !== null){
+      myChart.destroy();
+    }
 
     listUp(1, sortSelect.value, viewSelect.value);
     searchText.hidden = true;
@@ -147,6 +199,10 @@ sortSelect.addEventListener('change', () => {
       text = searchText.value.trim();
 
       console.log(text);
+
+      if(myChart !== null){
+        myChart.destroy();
+      }
 
       listUp(1, sortSelect.value, viewSelect.value, text);
     })
@@ -212,6 +268,10 @@ const paginationAddEvent = () => {
       
       const cp = e.target.dataset.page;
       listUp(cp, sortSelect.value, viewSelect.value);
+
+      if(myChart !== null){
+        myChart.destroy();
+      }
     });
   });
 }
@@ -221,5 +281,9 @@ const paginationAddEvent = () => {
  */
 document.addEventListener("DOMContentLoaded",()=>{
   listUp(1, sortSelect. value, 10);
+  
+  if(myChart !== null){
+    myChart.destroy();
+  }
 })
 
