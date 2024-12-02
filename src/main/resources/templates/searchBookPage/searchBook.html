@@ -207,7 +207,9 @@
 
 
 
-      <div th:each="book : ${bookList}" class="book-item" data-book-no="${book.bookNo}">
+      <div th:each="book : ${bookList}" class="book-item" 
+      data-book-no="${book.bookNo}" 
+      data-score-avg="${book.scoreAvg}">
         <div>
           <!-- bookNo를 input 요소의 value로 저장해둠 -->
           <input type="checkbox" th:value="${book.bookNo}" class="book-checkbox" id="bookCheckbox">
@@ -224,6 +226,25 @@
               <p><strong>옮긴이:</strong> <span th:text="${book.bookTalt}">옮긴이</span></p>
               <p><strong>가격:</strong> <span th:text="${book.bookPrice}">0</span>원</p>
               <p><strong>출간일:</strong> <span th:text="${book.bookDate.substring(0, 10)}">출간일</span></p>
+              <div class="stars" title="평점">
+                <!-- 배경 별 -->
+                <div class="stars-background" style='position:absolute; width:100%; overflow:hidden; color:#cdcdcd;'>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+                <!-- 실제 별 -->
+                <div class="stars-real" th:style="'width: ' + ${(book.scoreAvg / 5) * 100} + '%; position: absolute; overflow: hidden; white-space: nowrap;'">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+              </div>
+              
               <p><strong>평점:</strong> <span th:text="${book.scoreAvg}">평점</span></p>
             </div>
           </div>

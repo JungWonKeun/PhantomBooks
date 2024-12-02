@@ -355,7 +355,8 @@ function deleteReview(reviewNo) {
         })
         .then(result => {
             if (result === '0') {
-                alert('리뷰 삭제 중 문제가 발생했습니다. 다시 시도해주세요.');
+                alert(' 리뷰가 삭제되었습니다. 확인해 주세요');
+                location.reload();
             } else {
                 alert('리뷰가 삭제되었습니다.');
                 location.reload();
