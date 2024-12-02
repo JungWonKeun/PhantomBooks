@@ -261,34 +261,32 @@ a {
 }
 /* 페이지 네이션 버튼 스타일  */
 
-/* 별점 스타일  */
+
+
+
+/* 평점 스타일  */
 /* 별점 전체 컨테이너 */
-.star-ratings {
+.stars {
+  font-size: 10.5px;
   position: relative;
-  display: inline-block;
-  font-size: 2rem; /* 별 크기 */
-  line-height: 1; /* 별 간격 */
-  color: #ccc; /* 기본 별 색상 */
-  width: 5em; /* 별 5개 공간 */
+  width: 75px;
+  height: 20px;
+}
+
+.stars-background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  color: #cdcdcd;
+}
+
+.stars-real {
+  position: absolute;
+  height: 100%;
   overflow: hidden;
-}
-
-/* 채워진 별 */
-.star-ratings-fill {
-  position: absolute;
-  top: 0;
-  left: 0;
   white-space: nowrap;
-  color: gold; /* 채워진 별 색상 */
-}
-
-/* 빈 별 */
-.star-ratings-base {
-  position: absolute;
-  top: 0;
-  left: 0;
-  white-space: nowrap;
-  color: #ccc; /* 빈 별 색상 */
+  color: #ffcc00;
+  transition: width 0.3s ease-in-out;
 }
 
 /* 별점 스타일  */

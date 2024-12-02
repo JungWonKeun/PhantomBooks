@@ -174,7 +174,7 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 		String webPath = null;
 		
 		int reviewCheck = mapper.reviewCheck(bookNo, memberNo);
-		if (reviewCheck > 0) {
+		if (reviewCheck == 0) {
 			return false;
 		}
 		
