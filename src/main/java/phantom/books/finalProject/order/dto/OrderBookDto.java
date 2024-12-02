@@ -1,5 +1,7 @@
 package phantom.books.finalProject.order.dto;
 
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,5 +33,10 @@ public class OrderBookDto {
     private String address;   
     private String detailAddress; 
     private int totalPrice;  
+    
+  	private String orderDate;
+    private LocalDateTime orderDateTime; // 주문 시간
+    private String relativeTime; // 상대 시간을 저장할 필드 추가
+
 }
 

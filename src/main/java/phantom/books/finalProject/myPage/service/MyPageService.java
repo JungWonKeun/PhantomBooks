@@ -57,5 +57,5 @@ public interface MyPageService {
 
 	// 로그인한 회원의 문의 목록 불러오기
 	List<Query> queryList(int memberNo);
-	
+
 }
