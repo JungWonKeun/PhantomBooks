@@ -1,5 +1,8 @@
 package phantom.books.finalProject.admin.controller;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.OperatingSystemMXBean;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -158,5 +161,14 @@ public class AdminController {
 		
 		return service.deleteAdmin(memberNo);
 	}
+	
+	
+  @GetMapping("/signUp_date")
+  public Map<String, Double> getMemoryData() {
+
+     
+
+      return data;
+  }
 
 }
