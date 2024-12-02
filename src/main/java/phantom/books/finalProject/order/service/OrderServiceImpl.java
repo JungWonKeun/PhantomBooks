@@ -39,7 +39,7 @@ public class OrderServiceImpl implements OrderService {
             mapper.insertOrder(orderDto);
             log.debug("OrderDto after insert: {}", orderDto);
 
-            // 2. orderList 테이블에 삽입
+            // 2. 주문한 책 정보 저장
             for (OrderBookDto book : orderDto.getOrderBooks()) {
                 book.setOrderNo(orderDto.getOrderNo());
                 book.setMemberNo(orderDto.getMemberNo());
@@ -50,8 +50,7 @@ public class OrderServiceImpl implements OrderService {
                 log.debug("Inserted into ORDER_LIST: {}", book);
             }
 
-            
-            // 2. 장바구니 삭제
+            // 3. 장바구니 삭제
             List<Integer> bookNoList = orderDto.getOrderBooks().stream()
                                                .map(OrderBookDto::getBookNo)
                                                .toList();
@@ -59,23 +58,21 @@ public class OrderServiceImpl implements OrderService {
             int deletedCount = cartService.deleteSelectedCartItems(orderDto.getMemberNo(), bookNoList);
             log.debug("Deleted cart items count: {}", deletedCount);
 
-            // 3. 책 재고 차감
+            // 4. 책 재고 차감
             for (OrderBookDto book : orderDto.getOrderBooks()) {
                 int updatedRows = mapper.updateBookStock(book.getBookNo(), book.getBookCount());
                 if (updatedRows == 0) {
                     log.warn("Failed to update stock for bookNo: {}", book.getBookNo());
                 } else {
-                    log.debug("Stock updated for bookNo: {}, orderCount: {}", book.getBookNo(), book.getBookCount());
+                    log.debug("Stock updated for bookNo: {}, orderCount: {}", book.getBookCount());
                 }
             }
         } catch (Exception e) {
             log.error("Error processing order: {}", e.getMessage(), e);
-            throw e; // 트랜잭션 롤백
+            throw e; 
         }
 
         return orderDto.getOrderNo();
     }
-
-
 }
 

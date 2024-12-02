@@ -98,6 +98,9 @@ public interface SearchBookPageMapper {
 		// 바로 구매
 		Object buyBook(int bookNo, int bookPrice, String bookTitle);
 
+		// 리뷰 체크 
+		int reviewCheck(@Param("bookNo") int bookNo,@Param("memberNo") int memberNo);
+
 	
 
 

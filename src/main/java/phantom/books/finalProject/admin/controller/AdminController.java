@@ -163,12 +163,6 @@ public class AdminController {
 	}
 	
 	
-//  @GetMapping("/signUp_date")
-//  public Map<String, Double> getMemoryData() {
-//
-//     
-//
-//      return data;
-//  }
+
 
 }

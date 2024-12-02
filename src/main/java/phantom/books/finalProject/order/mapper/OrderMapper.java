@@ -13,13 +13,18 @@ import phantom.books.finalProject.order.dto.OrderDto;
 @Mapper
 public interface OrderMapper {
 
-	// 기본 배송지 얻어오기
+    // 기본 배송지 가져오기
     AddressDto getDefaultAddress(@Param("memberNo") int memberNo);
 
     // 주문 정보 저장
     int insertOrder(OrderDto order);
 
+    // 책 재고 업데이트
     int updateBookStock(@Param("bookNo") int bookNo, @Param("bookCount") int bookCount);
 
-	void insertOrderList(OrderBookDto book);
-  }
+    // 주문 상세 저장
+    void insertOrderList(OrderBookDto book);
+
+    // 특정 주문의 주문서 조회 (선택적으로 사용할 수 있음)
+    List<OrderBookDto> selectOrderBooks(@Param("orderNo") int orderNo);
+}

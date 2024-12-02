@@ -17,9 +17,28 @@
         <div class="book-detail-header">
             <div class="book-detail-header-info">
                 <div class="book-detail-header-name" th:text="${book.bookTitle}">책이름</div>
-                <p><strong>평점:</strong> <span th:text="${book.scoreAvg}">0.0</span></p>
+             <div class="perStars">
+                  <div class="stars" title="평점">
+                    <!-- 배경 별 -->
+                    <div class="stars-background" style='position:absolute; width:100%; overflow:hidden; color:#cdcdcd;'>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                    </div>
+                    <!-- 실제 별 -->
+                    <div class="stars-real" th:style="'width: ' + ${(book.scoreAvg / 5) * 100} + '%; position: absolute; overflow: hidden; white-space: nowrap;'">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                    </div>
+                  </div>
+                  <p><strong>평점:</strong> <span th:text="${book.scoreAvg}">0.0</span></p>
+             </div>
             </div>
-            <p><strong>평점:</strong> <span th:text="${book.scoreAvg}">0.0</span></p>
         </div>
         <div class="book-detail-header-meta">
             <div class="book-detail-header-writer">지은이 :
@@ -246,7 +265,7 @@
   <!-- 페이지 네이션  -->
 
   <!--  리뷰 작성 -->
-  <section class="review-write-section"  th:if="${session.loginMember != null}" >
+  <section class="review-write-section"  th:if="${session.loginMember != null}">
    
     <form id="writeReviewForm" method="post" action="/searchBookPage/writeReview" enctype="multipart/form-data">
       <input type="hidden" name="bookNo" th:value="${book.bookNo}">
