@@ -49,7 +49,7 @@
 	</select>
 
 	<!-- 일간 베스트셀러 -->
-	<select id="bestsellerBooks" parameterType = "int" resultType="Book">
+	<select id="getBestsellerBooks" parameterType = "int" resultType="Book">
     SELECT 
         b.BOOK_NO,
         b.BOOK_TITLE,

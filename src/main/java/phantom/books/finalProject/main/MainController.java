@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import phantom.books.finalProject.main.service.MainService;
 import phantom.books.finalProject.member.dto.Member;
 import phantom.books.finalProject.order.dto.OrderBookDto;
@@ -17,11 +18,12 @@ import phantom.books.finalProject.searchBookPage.dto.Book;
 @RequestMapping("/")
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class MainController {
 
 	private final MainService service;
 
-	@GetMapping("")
+	@GetMapping({"", "/"})
 	public String main() {
 		return "main/main";
 	}
@@ -33,8 +35,8 @@ public class MainController {
 	) {
 	    // 오늘의 추천 도서 (모든 사용자가 볼 수 있음)
 	    List<Book> books = service.todayBooks();
+	    log.info("조회된 오늘의 추천 도서:{}", books);
 	    model.addAttribute("books", books);
-
 	    // 로그인한 사용자만을 위한 데이터
 	    if (loginMember != null) {
 	        int memberNo = loginMember.getMemberNo();
