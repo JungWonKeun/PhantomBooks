@@ -173,7 +173,6 @@ function prevAll(element) {
 // 리뷰 작성 및 제출
 const bookNo = document.querySelector(".book-detail.book-item").dataset.bookNo;
 
-// 리뷰 작성 버튼 클릭 이벤트
 document.querySelector("#submitReview").addEventListener("click", (event) => {
     event.preventDefault(); // 기본 제출 동작 방지
 
@@ -181,13 +180,11 @@ document.querySelector("#submitReview").addEventListener("click", (event) => {
     const form = document.querySelector("#writeReviewForm");
     const formData = new FormData(form);
 
-    // 2. bookNo 추가
-    formData.append("bookNo", bookNo);
-
-    // 3. 검증
+    // 2. 검증
     const rating = formData.get("rating");
     const title = formData.get("title").trim();
     const content = formData.get("content").trim();
+    const reviewImage = document.querySelector("input[name='reviewImage']").files[0];
 
     if (!rating) {
         alert("별점을 선택해주세요.");
@@ -202,29 +199,34 @@ document.querySelector("#submitReview").addEventListener("click", (event) => {
         return;
     }
 
-    // 4. 데이터 전송
+    // 이미지가 있는 경우에만 추가
+    if (reviewImage) {
+        formData.append("reviewImage", reviewImage);
+    }
+
+    // 3. 데이터 전송
     fetch(`/searchBookPage/writeReview/${bookNo}`, {
         method: "POST",
-        body: formData,
+        body: formData
     })
         .then((response) => {
-            if (response.ok) return response.text(); // 서버 응답 처리
+            if (response.ok) return response.text(); // JSON 응답 처리
             throw new Error("서버 오류 발생!");
+
         })
         .then((data) => {
-            if (data === "true") {
-                alert("리뷰 작성 성공!");
+            if (data) {
+                alert('리뷰 작성 성공!');
                 location.reload(); // 페이지 새로고침
-            } else if (data === "false") {
-                alert("리뷰는 구매 횟수에 따른 제한이 있습니다.");
             } else {
-                alert("리뷰 작성 실패!");
+                alert('리뷰 작성 실패!');
             }
         })
-        .catch((err) => {
+        .catch(err => {
             console.error(err);
         });
 });
+/* 리뷰 작성 end */
 
 /* 리뷰 작성 end */
 
@@ -397,7 +399,7 @@ function handlePaginationClick(event) {
 
 
 /* 리뷰 작성 이미지 미리보기  start */
-const imageInput = document.getElementById('write-imageInput');
+const imageInput = document.getElementById('imageInput');
 const preview = document.querySelector('.write-review-img-thumb');
 
 imageInput.addEventListener('change', (e) => {
@@ -410,7 +412,29 @@ imageInput.addEventListener('change', (e) => {
         reader.readAsDataURL(file);
     }
 });
+
 /* 리뷰 작성 이미지 미리보기 end  */
+
+/* 리뷰 수정 이미지 미리보기 */
+// 리뷰 이미지 업로드 및 미리보기 스크립트
+document.querySelectorAll('input[type="file"][name="profileImg"]').forEach(imageInput => {
+    imageInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            const preview = imageInput.closest('.review-img').querySelector('.review-img-thumb');
+            reader.onload = () => {
+                if (preview) {
+                    preview.src = reader.result;
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+});
+
+
+/* 리뷰 수정 이미지 미리보기 */
 
 // 장바구니 담기
 function detailCart(button) {
