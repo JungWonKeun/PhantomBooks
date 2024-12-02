@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import phantom.books.finalProject.customer.dto.FAQ;
+import phantom.books.finalProject.customer.dto.Notice;
 import phantom.books.finalProject.customer.service.CustomerService;
 import phantom.books.finalProject.member.dto.Member;
 import phantom.books.finalProject.query.dto.Query;
@@ -39,6 +40,17 @@ public class CustomerController {
 	 */
 	@GetMapping("/support")
 	public String customerSupportPage(Model model) {
+		
+	    // FAQ 목록 조회
+	    List<FAQ> faqList = customerService.getFaqList();
+	    log.debug("FAQ 목록: {}", faqList);  // 로그 추가
+	    // 공지사항 목록 조회
+	    List<Notice> noticeList = customerService.supportNoticeList();
+	    log.debug("공지사항 목록: {}", noticeList);  // 로그 추가
+	    
+	    model.addAttribute("faqList", faqList);
+	    model.addAttribute("noticeList", noticeList);
+	    
 		return "customer/support";
 	}
 

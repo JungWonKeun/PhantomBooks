@@ -1,94 +1,102 @@
-document.addEventListener("DOMContentLoaded", function() {
-  loadFAQ();
-  loadNotices();
+document.addEventListener('DOMContentLoaded', function() {
+    // 전역 변수 최소화
+    const faqList = document.querySelector('.faq-list');
+    const noticeBoard = document.querySelector('.notice-board');
+
+    // 이벤트 위임을 사용한 FAQ 아코디언
+    if (faqList) {
+        faqList.addEventListener('click', function(e) {
+            const title = e.target.closest('.faq-title');
+            if (!title) return;
+
+            const item = title.closest('.faq-item');
+            const content = item.querySelector('.faq-content');
+            
+            // 이전 활성화된 항목 닫기
+            const activeContent = faqList.querySelector('.faq-content.active');
+            if (activeContent && activeContent !== content) {
+                activeContent.classList.remove('active');
+                activeContent.style.display = 'none';
+            }
+
+            // 현재 항목 토글
+            content.style.display = content.style.display === 'block' ? 'none' : 'block';
+            content.classList.toggle('active');
+        });
+    }
+
+    // 데이터 로드 함수 최적화
+    function loadFAQ() {
+        fetch('/customer/faq')
+            .then(response => response.json())
+            .then(data => {
+                if (!Array.isArray(data)) return;
+                
+                const fragment = document.createDocumentFragment();
+                data.slice(0, 5).forEach(faq => { // 한 번에 5개만 표시
+                    const faqItem = document.createElement('div');
+                    faqItem.className = 'faq-item';
+                    faqItem.innerHTML = `
+                        <div class="faq-title">${faq.title}</div>
+                        <div class="faq-content">${faq.content}</div>
+                    `;
+                    fragment.appendChild(faqItem);
+                });
+                
+                if (faqList) faqList.appendChild(fragment);
+            })
+            .catch(console.error);
+    }
+
+    function loadNotices() {
+        fetch('/customer/notice')
+            .then(response => response.json())
+            .then(data => {
+                if (!Array.isArray(data)) return;
+                
+                const fragment = document.createDocumentFragment();
+                data.slice(0, 5).forEach(notice => { // 한 번에 5개만 표시
+                    const noticeItem = document.createElement('div');
+                    noticeItem.className = 'notice-item';
+                    noticeItem.innerHTML = `
+                        <a href="/customer/notice/detail/${notice.noticeNo}" class="notice-link">
+                            <span class="notice-title">${notice.title}</span>
+                            <span class="notice-date">${new Date(notice.createDate).toLocaleDateString()}</span>
+                        </a>
+                    `;
+                    fragment.appendChild(noticeItem);
+                });
+                
+                if (noticeBoard) noticeBoard.appendChild(fragment);
+            })
+            .catch(console.error);
+    }
+
+    // 초기 데이터 로드
+    loadFAQ();
+    loadNotices();
 });
 
-function loadFAQ() {
-  fetch('/customer/faq')
-      .then(response => response.json())
-      .then(data => {
-          const faqList = document.getElementById('faq-list');
-          data.forEach(faq => {
-              const listItem = document.createElement('li');
-              listItem.textContent = `${faq.question} - ${faq.answer}`;
-              faqList.appendChild(listItem);
-          });
-      })
-      .catch(error => console.error('FAQ 로드 중 오류 발생:', error));
-}
-
-// FAQ 토글 함수
-// FAQ 토글 함수
-function toggleAnswer(answerId) {
-    const answer = document.getElementById(answerId);
-    if (answer) {
-      answer.style.display = answer.style.display === 'none' || answer.style.display === '' ? 'block' : 'none';
-    }
-  }
-  
-  
-
-function loadNotices() {
-  fetch('/customer/notice')
-      .then(response => response.json())
-      .then(data => {
-          const noticeList = document.getElementById('notice-list');
-          data.forEach(notice => {
-              const listItem = document.createElement('li');
-              listItem.textContent = `${notice.title} - ${notice.content}`;
-              noticeList.appendChild(listItem);
-          });
-      })
-      .catch(error => console.error('공지사항 로드 중 오류 발생:', error));
-}
-
-// 탭 UI 제어
 function showTab(tabId) {
-    const tabs = document.querySelectorAll('.tab');
-    const contents = document.querySelectorAll('.tabContent');
-  
-    // 모든 탭과 콘텐츠 초기화
-    tabs.forEach((tab) => tab.classList.remove('active'));
-    contents.forEach((content) => content.classList.add('hidden'));
-  
-    // 선택된 탭 활성화
-    document.querySelector(`#${tabId}`).classList.remove('hidden');
-    document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.add('active');
-  }
-  
-  // FAQ 검색
-  function searchFAQ() {
-    const query = document.getElementById('search-bar').value.toLowerCase();
-    const faqs = document.querySelectorAll('#faq-list li');
-    let found = false;
-  
-    faqs.forEach((faq) => {
-      if (faq.textContent.toLowerCase().includes(query)) {
-        faq.style.display = 'block';
-        found = true;
-      } else {
-        faq.style.display = 'none';
-      }
+    // 모든 탭 컨텐츠 숨기기
+    document.querySelectorAll('.tabContent').forEach(content => {
+        content.classList.add('hidden');
     });
-  
-    document.getElementById('noResultMessage').classList.toggle('hidden', found);
-  }
-  
-  // 1:1 문의 내역 로딩
-  function loadInquiries() {
-    document.getElementById('loadingMessage').classList.remove('hidden');
-  
-    setTimeout(() => {
-      document.getElementById('loadingMessage').classList.add('hidden');
-      const hasData = false;
-      if (!hasData) {
-        document.getElementById('noDataMessage').classList.remove('hidden');
-      }
-    }, 2000);
-  }
-  
-  // 초기화
-  document.addEventListener('DOMContentLoaded', () => {
-    loadInquiries();
-  });
+    
+    // 모든 탭 버튼 비활성화
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    
+    // 선택된 탭 컨텐츠 보이기
+    document.getElementById(tabId).classList.remove('hidden');
+    
+    // 선택된 탭 버튼 활성화
+    document.querySelector(`.tab[onclick="showTab('${tabId}')"]`).classList.add('active');
+}
+
+// 페이지 로드 시 기본 탭 표시
+document.addEventListener('DOMContentLoaded', () => {
+    showTab('faq');  // 기본적으로 FAQ 탭 표시
+});
   
