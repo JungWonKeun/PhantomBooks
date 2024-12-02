@@ -109,8 +109,6 @@ public class ChattingController {
 			@RequestBody int chattingNo,
 			@SessionAttribute("loginMember") Member loginMember){
 		
-		
-		
 		return service.updateReadFlag(chattingNo, loginMember.getMemberNo());
 	}
 }

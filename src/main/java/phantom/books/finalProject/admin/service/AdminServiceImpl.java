@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import phantom.books.finalProject.admin.dto.Chart;
 import phantom.books.finalProject.admin.mapper.AdminMapper;
 import phantom.books.finalProject.member.dto.Member;
 import phantom.books.finalProject.pagination.Pagination;
@@ -40,6 +41,9 @@ public class AdminServiceImpl implements AdminService{
 
 		// sort 조건 만족하는 회원 수 조회
 		int countMemberList = mapper.countMemberList(cp, term, sort, date);
+		
+		List<Chart> chartData = mapper.chartData(cp, term, sort, date);
+		
 		log.debug("조회된 값 : {}", countMemberList);
 		
 		Pagination pagination = new Pagination(cp, countMemberList, 10, 5);
@@ -62,6 +66,7 @@ public class AdminServiceImpl implements AdminService{
     map.put("pagination", pagination);
     
     map.put("countInactiveMembers", countInactiveMember);
+    map.put("chartData", chartData);
 		
 		return map;
 	}

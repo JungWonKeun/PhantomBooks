@@ -127,8 +127,7 @@
 		VALUES(
 		#{memberNo},
 		'admin'||#{memberId},
-		#{encPw},
-		'2')
+		#{encPw},'2')
 	</insert>
 	
 	<insert id="insertAdmin">
@@ -162,5 +161,37 @@
 		WHERE MEMBER_NO = #{memberNo}
 	</delete>
 	
+	<select id="chartData" resultType="Chart">
+ 		SELECT 
+    NVL(COUNT(SIGNUP_DATE), 0) AS COUNT_MEMBER,
+    TO_CHAR(SIGNUP_DATE, 'YYYY-MM-DD') AS SIGNUP_DATE
+		FROM MEMBER
+		WHERE MEMBER_ID NOT LIKE 'admin%'
+		<choose>
+			<when test="sort == 'signUp' and term == 'year'">
+				AND SIGNUP_DATE >= CURRENT_DATE - INTERVAL '1' YEAR
+			</when>
+			<when test="term == 'weeks' and sort == 'signUp'">
+				AND SIGNUP_DATE >= CURRENT_DATE - INTERVAL '7' DAY
+			</when>
+			<when test="term == 'month' and sort == 'signUp'">
+				AND SIGNUP_DATE >= CURRENT_DATE - INTERVAL '1' MONTH
+			</when>
+			<when test="term == 'sixMonth' and sort == 'signUp'">
+				AND SIGNUP_DATE >= CURRENT_DATE - INTERVAL '6' MONTH
+			</when>
+			<when test= "sort == 'signUp' and term =='dateSelect'">
+				AND SIGNUP_DATE >= #{date}
+			</when>
+			<when test="sort == 'delete'">
+				AND MEMBER_DEL_FL = 'Y'
+			</when>
+			<when test="sort == 'unlogin'">
+				AND MONTHS_BETWEEN(CURRENT_DATE, LOGIN_DATE) >= 6
+			</when>
+		</choose> 
+		GROUP BY TO_CHAR(SIGNUP_DATE, 'YYYY-MM-DD')
+		ORDER BY SIGNUP_DATE
+	</select>
 	
 </mapper>
