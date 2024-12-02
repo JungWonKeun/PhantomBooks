@@ -246,7 +246,7 @@
   <!-- 페이지 네이션  -->
 
   <!--  리뷰 작성 -->
-  <section class="review-write-section"  th:if="${session.loginMember != null}" >
+  <section class="review-write-section"  th:if="${session.loginMember != null}">
    
     <form id="writeReviewForm" method="post" action="/searchBookPage/writeReview" enctype="multipart/form-data">
       <input type="hidden" name="bookNo" th:value="${book.bookNo}">

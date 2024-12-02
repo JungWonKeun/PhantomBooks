@@ -165,9 +165,21 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 	@Override
 	public boolean writeReview(int bookNo, String title, String content, double score, int memberNo,
 			MultipartFile file) {
+			
+		
+		
+		
+		
 		String filePath = null;
 		String webPath = null;
-
+		
+		int reviewCheck = mapper.reviewCheck(bookNo, memberNo);
+		if (reviewCheck > 0) {
+			return false;
+		}
+		
+		
+		
 		// 파일 저장 처리
 		File folder = new File(reviewImageFolderPath);
 		if (!folder.exists()) {
@@ -191,8 +203,14 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 		}
 
 		// 리뷰 생성
-		Review review = Review.builder().bookNo(bookNo).memberNo(memberNo).reviewTitle(title).reviewContent(content)
-				.reviewScore(score).reviewImgNo(webPath).build();
+		Review review = Review.builder()
+				.bookNo(bookNo)
+				.memberNo(memberNo)
+				.reviewTitle(title)
+				.reviewContent(content)
+				.reviewScore(score)
+				.reviewImgNo(webPath)
+				.build();
 
 		int result = mapper.insertReview(review);
 
