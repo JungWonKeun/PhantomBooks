@@ -1,4 +1,32 @@
 <div th:fragment="header">
+    <style>
+        /* 로그인 버튼 기본 스타일 */
+        .btn-primary {
+            background-color: #205375;
+            border-color: #205375;
+            color: #fff;
+        }
+
+        /* 로그인 버튼 hover 스타일 */
+        .btn-primary:hover {
+            background-color: rgb(29, 30, 57);
+            border-color: rgb(29, 30, 57);
+            color: #fff;
+        }
+
+        .headerJoinBtn {
+            background-color: #205375;
+            border-color: #1a2d4f;
+            color: #e0e0e0;
+        }
+
+        .headerJoinBtn:hover {
+            background-color: rgb(29, 30, 57);
+            border-color: rgb(20, 25, 50);
+            color: #c0c0c0;
+        }
+    </style>
+
     <header class="header-container">
         <!-- 로고 -->
         <div class="logo">
@@ -6,12 +34,12 @@
                 <img src="/images/logo.png" alt="Logo">
             </a>
         </div>
-        
+
         <!-- 로고 타이틀 -->
         <a href="/" class="logoTitle">
             P&nbsp;&nbsp;H&nbsp;&nbsp;A&nbsp;&nbsp;N&nbsp;&nbsp;T&nbsp;&nbsp;O&nbsp;&nbsp;M&nbsp;&nbsp;B&nbsp;&nbsp;O&nbsp;&nbsp;O&nbsp;&nbsp;K&nbsp;&nbsp;S
         </a>
-        
+
         <!-- 검색 바 -->
         <div class="search-bar">
             <form action="/searchBookPage/searchBooks" method="get">
@@ -22,7 +50,7 @@
                 <input type="hidden" name="sortOption" id="hiddenSearchOption">
             </form>
         </div>
-        
+
 
         <!-- 사용자 메뉴 -->
         <div class="user-menu">

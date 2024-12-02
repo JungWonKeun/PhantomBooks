@@ -28,97 +28,83 @@ import phantom.books.finalProject.order.service.AfterOrderService;
 import phantom.books.finalProject.order.service.OrderService;
 
 @Slf4j
-@SessionAttributes({"loginMember"})
+@SessionAttributes({ "loginMember" })
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/order")
 public class OrderController {
 
-	
-    private final OrderService service;
+	private final OrderService service;
 
-    @Value("${portone.channelKey}")
-    private String channelKey;
+	@Value("${portone.channelKey}")
+	private String channelKey;
 
-    @Value("${portone.storeId}")
-    private String storeId;
-    
-    // 주문 페이지
-    @GetMapping("")
-    public String orderPage(
-            @SessionAttribute(value = "selectedItems", required = false) List<CartDto> selectedItems,
-            @SessionAttribute(value = "loginMember", required = false) Member loginMember,
-            Model model) {
+	@Value("${portone.storeId}")
+	private String storeId;
 
+	// 주문 페이지
+	@GetMapping("")
+	public String orderPage(@SessionAttribute(value = "selectedItems", required = false) List<CartDto> selectedItems,
+			@SessionAttribute(value = "loginMember", required = false) Member loginMember, Model model) {
 
-        if (loginMember == null) {
-            return "redirect:/";
-        }
+		if (loginMember == null) {
+			return "redirect:/";
+		}
 
-        if (selectedItems == null || selectedItems.isEmpty()) {
-            model.addAttribute("errorMessage", "선택된 주문 항목이 없습니다.");
-            return "error/error";
-        }
-        
-        
-        log.debug("Selected Items: {}", selectedItems);
+		if (selectedItems == null || selectedItems.isEmpty()) {
+			model.addAttribute("errorMessage", "선택된 주문 항목이 없습니다.");
+			return "error/error";
+		}
 
-        AddressDto defaultAddress = service.getDefaultAddress(loginMember.getMemberNo());
+		log.debug("Selected Items: {}", selectedItems);
 
-        // 금액 계산
-        int totalPrice = selectedItems.stream()
-                .mapToInt(item -> item.getBookPrice() * item.getCartCount())
-                .sum();
+		AddressDto defaultAddress = service.getDefaultAddress(loginMember.getMemberNo());
 
-        int deliveryFee = 3500;
+		// 금액 계산
+		int totalPrice = selectedItems.stream().mapToInt(item -> item.getBookPrice() * item.getCartCount()).sum();
 
-        model.addAttribute("channelKey", channelKey);
-        model.addAttribute("storeId", storeId);
-        model.addAttribute("defaultAddress", defaultAddress);
-        model.addAttribute("orderItems", selectedItems);
-        model.addAttribute("totalPrice", totalPrice);
-        model.addAttribute("deliveryFee", deliveryFee);
+		int deliveryFee = 3500;
 
-        
-        return "order/order";
-    }
+		model.addAttribute("channelKey", channelKey);
+		model.addAttribute("storeId", storeId);
+		model.addAttribute("defaultAddress", defaultAddress);
+		model.addAttribute("orderItems", selectedItems);
+		model.addAttribute("totalPrice", totalPrice);
+		model.addAttribute("deliveryFee", deliveryFee);
 
-    @PostMapping("submit")
-    @ResponseBody
-    public ResponseEntity<Map<String, Object>> submitOrder(
-        @RequestBody OrderDto orderDto,
-        @SessionAttribute(value = "loginMember", required = false) Member loginMember
-    ) {
+		return "order/order";
+	}
 
-       
+	@PostMapping("submit")
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> submitOrder(@RequestBody OrderDto orderDto,
+			@SessionAttribute(value = "loginMember", required = false) Member loginMember) {
+		try {
+			if (loginMember == null) {
+				throw new IllegalStateException("로그인이 필요합니다.");
+			}
 
-        try {
-            if (loginMember == null) {
-                throw new IllegalStateException("로그인이 필요합니다.");
-            }
+			log.debug("Received OrderDto: {}", orderDto);
 
-            orderDto.setMemberNo(loginMember.getMemberNo());
-            
-            
-            
-            int orderNo = service.saveOrder(orderDto);
+			// 배송비 설정
+			orderDto.setDeliveryFee(3500);
 
-            log.debug("orderDtO: {}", orderDto);
-            return ResponseEntity.ok(Map.of("success", true, "orderNo", orderNo));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                 .body(Map.of("success", false, "message", "주문 처리 중 오류가 발생했습니다."));
-        }
-    }
-    
-   
+			// 로그인한 회원 번호 설정
+			orderDto.setMemberNo(loginMember.getMemberNo());
 
+			// 디버깅: 전달된 배송지 정보 확인
+			log.debug("User Address Info - Zip: {}, Address: {}, Detail: {}", orderDto.getUserZip(),
+					orderDto.getUserAddress(), orderDto.getUserDetailAddress());
 
+			// 주문 저장 서비스 호출
+			int orderNo = service.saveOrder(orderDto);
 
-
-
-
-
+			return ResponseEntity.ok(Map.of("success", true, "orderNo", orderNo));
+		} catch (Exception e) {
+			log.error("Order submission error: ", e);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(Map.of("success", false, "message", "주문 처리 중 오류가 발생했습니다."));
+		}
+	}
 
 }
-
