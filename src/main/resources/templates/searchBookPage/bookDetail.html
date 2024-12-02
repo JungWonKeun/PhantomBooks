@@ -14,84 +14,85 @@
   <main>
     <!-- book-item 클래스와 data-book-no 속성 추가 -->
     <div class="book-detail book-item" th:attr="data-book-no=${book.bookNo}">
-        <div class="book-detail-header">
-            <div class="book-detail-header-info">
-                <div class="book-detail-header-name" th:text="${book.bookTitle}">책이름</div>
-             <div class="perStars">
-                  <div class="stars" title="평점">
-                    <!-- 배경 별 -->
-                    <div class="stars-background" style='position:absolute; width:100%; overflow:hidden; color:#cdcdcd;'>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                    </div>
-                    <!-- 실제 별 -->
-                    <div class="stars-real" th:style="'width: ' + ${(book.scoreAvg / 5) * 100} + '%; position: absolute; overflow: hidden; white-space: nowrap;'">
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                    </div>
-                  </div>
-                  <p><strong>평점:</strong> <span th:text="${book.scoreAvg}">0.0</span></p>
-             </div>
+      <div class="book-detail-header">
+        <div class="book-detail-header-info">
+          <div class="book-detail-header-name" th:text="${book.bookTitle}">책이름</div>
+          <div class="perStars">
+            <div class="stars" title="평점">
+              <!-- 배경 별 -->
+              <div class="stars-background" style='position:absolute; width:100%; overflow:hidden; color:#cdcdcd;'>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <!-- 실제 별 -->
+              <div class="stars-real"
+                th:style="'width: ' + ${(book.scoreAvg / 5) * 100} + '%; position: absolute; overflow: hidden; white-space: nowrap;'">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
             </div>
+            <p><strong>평점:</strong> <span th:text="${book.scoreAvg}">0.0</span></p>
+          </div>
         </div>
-        <div class="book-detail-header-meta">
-            <div class="book-detail-header-writer">지은이 :
-                <span th:text="${book.bookWriter != null ? book.bookWriter : '저자 정보 없음'}"></span>
-            </div>
-            <div class="book-detail-header-translator">옮긴이 :
-                <span th:text="${book.bookTalt}"></span>
-            </div>
-            <div class="book-detail-header-date">출간일
-                <span th:text="${book.bookDate.substring(0, 10)}"></span>
-            </div>
+      </div>
+      <div class="book-detail-header-meta">
+        <div class="book-detail-header-writer">지은이 :
+          <span th:text="${book.bookWriter != null ? book.bookWriter : '저자 정보 없음'}"></span>
         </div>
-        <div class="book-detail-body">
-            <div class="book-detail-image">
-                <img th:src="${book != null and book.bookCover != null ? book.bookCover : '/images/bookCover/default.jpg'}"
-                    alt="책 이미지">
-            </div>
-            <div class="book-detail-info">
-                <div class="book-detail-Title">
-                    <span th:text="${book.bookTitle}"></span>
-                </div>
-                <div class="book-detail-price">
-                    <span th:text="${book.bookPrice}"></span>원
-                </div>
-                <div class="book-detail-mileage">
-                    <span th:text="${T(java.lang.Math).round(5000 * 0.05)}">0</span> 마일리지
-                </div>
-                <div class="book-detail-shipping">배송비 3,500원</div>
-            </div>
+        <div class="book-detail-header-translator">옮긴이 :
+          <span th:text="${book.bookTalt}"></span>
         </div>
-        <div class="book-detail-actions">
-            <div class="book-detail-cart">
-                <!-- 라벨은 유지하고 버튼을 명확하게 유지 -->
-                <label class="book-detail-button">
-                    <button onclick="detailCart(this)" th:if="${session.loginMember != null}">장바구니</button>
-                </label>
-            </div>
-            <div class="book-detail-wishlist">
-                <!-- 라벨은 유지하고 버튼을 명확하게 유지 -->
-                <label class="book-detail-button">
-                    <button onclick="singleWishListBtn(this)" th:if="${session.loginMember != null}">찜</button>
-                </label>
-            </div>
-            <div class="book-detail-buy">
-                <!-- 라벨은 유지하고 버튼을 명확하게 유지 -->
-            
-            </div>
+        <div class="book-detail-header-date">출간일
+          <span th:text="${book.bookDate.substring(0, 10)}"></span>
         </div>
-        <div class="book-detail-content">
-            <div class="book-detail-table-of-contents" th:text="${book.bookContent}">목차</div>
+      </div>
+      <div class="book-detail-body">
+        <div class="book-detail-image">
+          <img th:src="${book != null and book.bookCover != null ? book.bookCover : '/images/bookCover/default.jpg'}"
+            alt="책 이미지">
         </div>
+        <div class="book-detail-info">
+          <div class="book-detail-Title">
+            <span th:text="${book.bookTitle}"></span>
+          </div>
+          <div class="book-detail-price">
+            <span th:text="${book.bookPrice}"></span>원
+          </div>
+          <div class="book-detail-mileage">
+            <span th:text="${T(java.lang.Math).round(5000 * 0.05)}">0</span> 마일리지
+          </div>
+          <div class="book-detail-shipping">배송비 3,500원</div>
+        </div>
+      </div>
+      <div class="book-detail-actions">
+        <div class="book-detail-cart">
+          <!-- 라벨은 유지하고 버튼을 명확하게 유지 -->
+          <label class="book-detail-button">
+            <button onclick="detailCart(this)" th:if="${session.loginMember != null}">장바구니</button>
+          </label>
+        </div>
+        <div class="book-detail-wishlist">
+          <!-- 라벨은 유지하고 버튼을 명확하게 유지 -->
+          <label class="book-detail-button">
+            <button onclick="singleWishListBtn(this)" th:if="${session.loginMember != null}">찜</button>
+          </label>
+        </div>
+        <div class="book-detail-buy">
+          <!-- 라벨은 유지하고 버튼을 명확하게 유지 -->
+
+        </div>
+      </div>
+      <div class="book-detail-content">
+        <div class="book-detail-table-of-contents" th:text="${book.bookContent}">목차</div>
+      </div>
     </div>
-</main>
+  </main>
 
 
   <section class="review-section">
@@ -103,7 +104,7 @@
 
     <!-- 리뷰 불러오기 반복 출력 -->
     <div class="wrap" th:if="${reviews != null and !reviews.isEmpty()}">
-      
+
       <div th:each="review : ${reviews}" class="review-container" th:attr="data-review-no=${review.reviewNo}">
         <!-- 리뷰 별점 -->
         <div class="rating readonly" th:attr="data-review-no=${review.reviewNo}">
@@ -180,39 +181,39 @@
         </div>
 
         <!-- 리뷰 이미지 -->
-        <div class="review-img">
+        <div class="review-img" >
           <img alt="리뷰 이미지" class="review-img-thumb"
                th:src="${review.reviewImgNo != null ? review.reviewImgNo : '/images/고스트 코딩왕.png'}">
-          <!-- 이미지 수정 레이블 (로그인 사용자 본인만 수정 가능하도록 수정 필요) -->
-          <label for="imageInput">이미지 수정
-              <input type="file" name="profileImg" th:id="|imageInput-${review.reviewNo}|" accept="image/*">
+          <div th:if="${memberId != null and memberId == review.memberId}">
+            <label for="imageInput-${review.reviewNo}">
+              <input type="file" name="profileImg" th:id="|imageInput-${review.reviewNo}|" accept="image/*" style="display: none;">
           </label>
+          </div>
       </div>
-      
-            
-            <!-- 리뷰 본문 (3/4 비율) -->
-            <div class="review-main" style="flex: 3;">
-              <div class="review-title-line">
-                
-                <!-- 작성일 및 작성자 정보 -->
-                <div class="review-meta-inline">
-                  <div>
-                    <p>작성일: <span th:text="${review.reviewWriteDate}">2024-11-20</span></p>
-                  </div>
-                  <div>
-                    <p>작성자: <span th:text="${review.memberId}">홍길동</span></p>
-                  </div>
-                </div>
+    
+        <!-- 리뷰 본문 (3/4 비율) -->
+        <div class="review-main" style="flex: 3;">
+          <div class="review-title-line">
+
+            <!-- 작성일 및 작성자 정보 -->
+            <div class="review-meta-inline">
+              <div>
+                <p>작성일: <span th:text="${review.reviewWriteDate}">2024-11-20</span></p>
               </div>
-              
-              <!-- 리뷰 제목 -->
-              <input type="text" th:value="${review.reviewTitle}" class="review-title-input" 
-              th:attr="data-review-no=${review.reviewNo}" readonly>
-              <!-- 리뷰 내용 -->
-              <div class="review-content">
-                <textarea name="content" id="content" class="review-content-textarea" th:text="${review.reviewContent}"
-                th:attr="data-review-no=${review.reviewNo}" readonly>리뷰 내용 작성 내용입니다.</textarea>
+              <div>
+                <p>작성자: <span th:text="${review.memberId}">홍길동</span></p>
               </div>
+            </div>
+          </div>
+
+          <!-- 리뷰 제목 -->
+          <input type="text" th:value="${review.reviewTitle}" class="review-title-input"
+            th:attr="data-review-no=${review.reviewNo}" readonly>
+          <!-- 리뷰 내용 -->
+          <div class="review-content">
+            <textarea name="content" id="content" class="review-content-textarea" th:text="${review.reviewContent}"
+              th:attr="data-review-no=${review.reviewNo}" readonly>리뷰 내용 작성 내용입니다.</textarea>
+          </div>
 
           <!-- 리뷰가 없을 때 -->
           <div th:if="${reviews == null or reviews.isEmpty()}">
@@ -233,7 +234,7 @@
   <!-- 리뷰 불러오기 END -->
 
   <!-- 페이지 네이션  -->
- <section>
+  <section>
     <div class="pagination-area" th:if="${pagination != null}">
       <div class="pagination-area" th:if="${pagination != null}">
         <ul class="pagination" th:object="${pagination}">
@@ -264,8 +265,8 @@
   <!-- 페이지 네이션  -->
 
   <!--  리뷰 작성 -->
-  <section class="review-write-section"  th:if="${session.loginMember != null}">
-   
+  <section class="review-write-section" th:if="${session.loginMember != null}">
+
     <form id="writeReviewForm" method="post" action="/searchBookPage/writeReview" enctype="multipart/form-data">
       <input type="hidden" name="bookNo" th:value="${book.bookNo}">
 
@@ -321,7 +322,7 @@
               <!-- 이미지 업로드 -->
               <div class="write-review-image-container">
                 <img alt="리뷰 이미지" class="write-review-img-thumb">
-                <label for="imageInput">이미지 수정
+                <label for="imageInput">이미지 추가
                   <input type="file" name="reviewImage" id="imageInput" accept="image/*">
                 </label>
               </div>

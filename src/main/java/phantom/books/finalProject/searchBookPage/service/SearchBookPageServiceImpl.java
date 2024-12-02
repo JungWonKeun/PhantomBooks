@@ -238,8 +238,13 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 			}
 		}
 		// Review 객체 생성
-		Review review = Review.builder().reviewNo(reviewNo).memberNo(memberNo).reviewTitle(title).reviewContent(content)
-				.reviewScore(score).reviewImgNo(webPath) // 파일 경로를 저장
+		Review review = Review.builder()
+				.reviewNo(reviewNo)
+				.memberNo(memberNo)
+				.reviewTitle(title)
+				.reviewContent(content)
+				.reviewScore(score)
+				.reviewImgNo(webPath) // 파일 경로를 저장
 				.build();
 
 		// 기존 리뷰 업데이트
@@ -254,6 +259,7 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 			return null;
 
 		return webPath;
+
 
 	}
 

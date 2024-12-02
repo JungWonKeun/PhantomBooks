@@ -289,10 +289,14 @@ function toggleEditMode(reviewNo, button) {
         contentTextarea.removeAttribute('readonly');
         rating.classList.remove('readonly');
         ratingInputs.forEach(input => input.removeAttribute('disabled'));
-        if (imageInput) imageInput.removeAttribute('disabled');
 
         titleInput.style.border = "1px solid #ccc";
         contentTextarea.style.border = "1px solid #ccc";
+
+        // 이미지 파일 선택 요소 보이도록 설정
+        if (imageInput) {
+            imageInput.style.display = "block";
+        }
 
         // 버튼 상태 변경
         button.textContent = "저장";
@@ -345,6 +349,31 @@ function toggleEditMode(reviewNo, button) {
             });
     }
 }
+
+
+
+
+// ------------------------------------------------------------------------------
+/** 리뷰 삭제 요청 (DELETE 방식) */
+/* function deleteReview(reviewNo) {
+    fetch(`/searchBookPage/deleteReview?reviewNo=${reviewNo}`, { method: 'DELETE' })
+        .then((response) => {
+            if (response.ok) return response.text();
+
+            throw new Error('리뷰 삭제에 실패했습니다.');
+        })
+        .then(result => {
+            if (result === '0') {
+                alert('리뷰 삭제 중 문제가 발생했습니다. 다시 시도해주세요.');
+            } else {
+                alert('리뷰가 삭제되었습니다.');
+                location.reload();
+            }
+        })
+        .catch((error) => {
+            console.error('삭제 중 오류 발생:', error);
+        });
+} */
 
 //------------------------------------------------------------------------------------------------------
 /** 리뷰 삭제 요청 (DELETE 방식) */
@@ -415,26 +444,26 @@ imageInput.addEventListener('change', (e) => {
 
 /* 리뷰 작성 이미지 미리보기 end  */
 
-/* 리뷰 수정 이미지 미리보기 */
-// 리뷰 이미지 업로드 및 미리보기 스크립트
-document.querySelectorAll('input[type="file"][name="profileImg"]').forEach(imageInput => {
-    imageInput.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            const preview = imageInput.closest('.review-img').querySelector('.review-img-thumb');
-            reader.onload = () => {
-                if (preview) {
-                    preview.src = reader.result;
-                }
-            };
-            reader.readAsDataURL(file);
-        }
-    });
+/* 리뷰 수정 이미지 미리보기  시작*/
+
+ const reviewImageInput = document.getElementById('reviewImageInput');
+const previewImage = document.getElementById(`preview-${review.reviewNo}`);
+
+reviewImageInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+            previewImage.src = reader.result;
+        };
+        reader.readAsDataURL(file);
+    }
 });
+ 
 
 
-/* 리뷰 수정 이미지 미리보기 */
+
+/* 리뷰 수정 이미지 미리보기 끝 */
 
 // 장바구니 담기
 function detailCart(button) {
