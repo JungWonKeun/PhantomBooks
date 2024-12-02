@@ -84,9 +84,7 @@
             </div>
             <div class="book-detail-buy">
                 <!-- 라벨은 유지하고 버튼을 명확하게 유지 -->
-                <label class="book-detail-button">
-                    <button th:if="${session.loginMember != null}">바로 구매</button>
-                </label>
+            
             </div>
         </div>
         <div class="book-detail-content">
@@ -181,15 +179,16 @@
           </label>
         </div>
 
-        <!-- 리뷰 본문 -->
+        <!-- 리뷰 이미지 -->
         <div class="review-img">
           <img alt="리뷰 이미지" class="review-img-thumb"
-          th:if="${review.reviewImgNo != null}" th:src="${review.reviewImgNo}">
+               th:src="${review.reviewImgNo != null ? review.reviewImgNo : '/images/고스트 코딩왕.png'}">
           <!-- 이미지 수정 레이블 (로그인 사용자 본인만 수정 가능하도록 수정 필요) -->
           <label for="imageInput">이미지 수정
-            <input type="file" name="profileImg" th:id="|imageInput-${review.reviewNo}|" accept="image/*">
+              <input type="file" name="profileImg" th:id="|imageInput-${review.reviewNo}|" accept="image/*">
           </label>
-        </div>
+      </div>
+      
             
             <!-- 리뷰 본문 (3/4 비율) -->
             <div class="review-main" style="flex: 3;">
@@ -322,8 +321,8 @@
               <!-- 이미지 업로드 -->
               <div class="write-review-image-container">
                 <img alt="리뷰 이미지" class="write-review-img-thumb">
-                <label for="write-imageInput">이미지 수정
-                  <input type="file" name="write-reviewImage" id="write-imageInput" accept="image/*">
+                <label for="imageInput">이미지 수정
+                  <input type="file" name="reviewImage" id="imageInput" accept="image/*">
                 </label>
               </div>
 
