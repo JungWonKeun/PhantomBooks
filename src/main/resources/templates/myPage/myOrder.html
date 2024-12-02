@@ -4,28 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>내 구매 내역 | Phantom Books</title>
+    <title>내 구매 내역 </title>
 
     <link rel="stylesheet" href="/css/myPage/myOrder.css">
     <link rel="stylesheet" th:href="@{/css/myPage/myPageCommon.css}">
 </head>
 
 <body>
-    <header th:replace="~{common/common}"></header>
+    <div th:replace="~{common/common}"></div>
 
-    <main>
-        <section class="content-box">
-            <!-- 사이드바 -->
-            <div th:replace="~{myPage/sidebar :: sidebar}"></div>
+    <main class="myOrderContainer">
 
-            <!-- 주른쪽 컨텐츠 영역 -->
+        <div th:replace="~{common/myPageSide-menu}"></div>
+        <div class="mainContent">
+
             <div class="right-content">
-                <!-- 헤더 영역 -->
                 <div class="mypage-header">
                     <div class="title-area">
-                        <h1 class="welcome-title">내 구매 내역</h1>
+                        <h2 class="title">내 구매내역</h2>
                         <div class="user-info">
-                            <i class="fas fa-user"></i>
+                            <i class="fas fa-user" style="color: #205375;"></i>
                             <span th:text="${session.loginMember?.name}">사용자명</span>
                             <div class="user-actions">
                                 <a href="/myPage/info" class="header-btn">정보 수정</a>
@@ -34,43 +32,43 @@
                         </div>
                     </div>
                 </div>
+                <section class="content-box">
 
-                <!-- 주문 목록 -->
-                <div class="order-grid">
-                    <div th:each="purchase : ${buyList}" class="order-item">
-                        <a th:href="@{/order/afterOrder(orderNo=${purchase.orderNo})}" class="order-summary">
-                            <div class="order-title">
-                                <span th:text="${purchase.orderDate}">주문일</span>
-                                <span th:text="${purchase.bookTitle}">책 제목</span>
-                                <span th:if="${purchase.bookCount > 1}" 
-                                      th:text="| 등 총 ${purchase.bookCount}권|" 
-                                      class="book-count">등 총 2권</span>
-                            </div>
-                            <div class="order-price">
-                                <span th:text="|${#numbers.formatInteger(purchase.totalPrice, 0, 'COMMA')}원|">32,000원</span>
-                            </div>
-                        </a>
+
+                    <!-- 주문 목록 -->
+                    <div class="order-grid">
+                        <div th:each="purchase : ${buyList}" class="order-item">
+                            <a th:href="@{/order/afterOrder(orderNo=${purchase.orderNo})}" class="order-summary">
+                                <div class="order-title">
+                                    <span th:text="${purchase.orderDate}">주문일</span>
+                                    <span th:text="${purchase.bookTitle}" class="orderBookTitle">책 제목</span>
+                                    <span th:if="${purchase.bookCount > 1}" th:text="|등  총 ${purchase.bookCount}권|"
+                                        class="book-count"> 총 2권</span>
+                                </div>
+                                <div class="order-price">
+                                    <span
+                                        th:text="|${#numbers.formatInteger(purchase.totalPrice, 0, 'COMMA')}원|">32,000원</span>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- 페이지네이션 -->
+                        <div class="pagination" th:if="${!#lists.isEmpty(buyList)}">
+                            <a href="#" th:if="${currentPage > 1}" th:href="@{/myPage/myOrder(page=${currentPage-1})}"
+                                class="page-link" style="padding: 0px;">&laquo;</a>
+
+                            <th:block th:each="pageNum : ${#numbers.sequence(1, totalPages)}">
+                                <a th:href="@{/myPage/myOrder(page=${pageNum})}" th:text="${pageNum}"
+                                    th:class="${pageNum == currentPage ? 'page-link active' : 'page-link'}">1</a>
+                            </th:block>
+
+                            <a href="#" th:if="${currentPage < totalPages}"
+                                th:href="@{/myPage/myOrder(page=${currentPage+1})}" class="page-link">&raquo;</a>
+                        </div>
                     </div>
-                    
-                    <!-- 페이지네이션 -->
-                    <div class="pagination" th:if="${!#lists.isEmpty(buyList)}">
-                        <a href="#" th:if="${currentPage > 1}" 
-                           th:href="@{/myPage/myOrder(page=${currentPage-1})}" 
-                           class="page-link">&laquo;</a>
-
-                        <th:block th:each="pageNum : ${#numbers.sequence(1, totalPages)}">
-                            <a th:href="@{/myPage/myOrder(page=${pageNum})}" 
-                               th:text="${pageNum}"
-                               th:class="${pageNum == currentPage ? 'page-link active' : 'page-link'}">1</a>
-                        </th:block>
-
-                        <a href="#" th:if="${currentPage < totalPages}" 
-                           th:href="@{/myPage/myOrder(page=${currentPage+1})}" 
-                           class="page-link">&raquo;</a>
-                    </div>
-                </div>
             </div>
-        </section>
+            </section>
+        </div>
     </main>
 
     <footer th:replace="~{common/footer :: footer}"></footer>
