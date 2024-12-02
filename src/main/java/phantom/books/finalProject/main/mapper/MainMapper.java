@@ -15,7 +15,7 @@ public interface MainMapper {
     List<Book> todayBooks();
 
     // 구매한 책 리스트에서 수량이 가장 많은 책(일간 베스트셀러)
-    List<Book> getBestsellerBooks(int memberNo);
+    List<Book> getBestsellerBooks();
 
     // 회원 구매한 책 리스트
     List<OrderBookDto> getBoughtBooks(int memberNo);

@@ -11,7 +11,7 @@ public interface MainService {
 	List<Book> todayBooks();
 
 	// 일간 베스트셀러
-	List<Book> bestsellerBooks(int memberNo);
+	List<Book> bestsellerBooks();
 
 	// 취향별 추천 도서
 	List<OrderBookDto> getBoughtBooks(int memberNo);

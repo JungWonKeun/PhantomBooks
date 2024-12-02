@@ -17,7 +17,9 @@
         <div th:if="${not #lists.isEmpty(books)}" 
              th:each="book, status : ${books}" 
              class="book" 
-             th:data-index="${status.index}">
+             th:data-index="${status.index}"
+             th:onclick="|location.href='@{/searchBookPage/bookDetail/{bookNo}(bookNo=${book.bookNo})}'|"
+             style="cursor: pointer;">
           <div class="book-cover">
             <img th:src="${book.bookCover}" th:alt="${book.bookTitle}">
           </div>
@@ -41,13 +43,30 @@
 
       <section class="personalized">
         <h2>오늘의 베스트셀러</h2>
-        <div th:if="${bestsellerBooks}" class="bestseller-wrapper">
-          <div th:each="book : ${bestsellerBooks}" class="bestseller-item">
-            <img th:src="${book.bookCover}" th:alt="${book.bookTitle}">
-            <h3 th:text="${book.bookTitle}">제목</h3>
-            <p th:text="${book.bookWriter}">작가</p>
-            <p th:text="${book.bookPrice}">가격</p>
-          </div>
+        <div class="book-slider" id="bestsellerSlider">
+            <div th:if="${not #lists.isEmpty(bestsellerBooks)}" 
+                 th:each="book, status : ${bestsellerBooks}" 
+                 class="book" 
+                 th:data-index="${status.index}"
+                 th:onclick="|location.href='@{/searchBookPage/bookDetail/{bookNo}(bookNo=${book.bookNo})}'|"
+                 style="cursor: pointer;">
+                <div class="book-cover">
+                    <img th:src="${book.bookCover}" th:alt="${book.bookTitle}">
+                </div>
+                <div class="book-info">
+                    <h3 th:text="${book.bookTitle}">책 제목</h3>
+                    <ul>
+                        <li th:text="${book.categoryName}">카테고리</li>
+                        <li th:text="${book.bookWriter}">작가</li>
+                        <li th:text="${book.companyName}">출판사</li>
+                        <li th:text="${book.bookPrice}">가격</li>
+                        <li th:text="|평점: ${book.scoreAvg}|">평점</li>
+                    </ul>
+                </div>
+            </div>
+            <div th:if="${#lists.isEmpty(bestsellerBooks)}" class="no-books">
+                현재 표시할 책이 없습니다.
+            </div>
         </div>
     </section>
 
@@ -58,7 +77,9 @@
         <div th:if="${not #lists.isEmpty(myTypeBooks)}" 
              th:each="book, status : ${myTypeBooks}" 
              class="book" 
-             th:data-index="${status.index}">
+             th:data-index="${status.index}"
+             th:onclick="|location.href='@{/searchBookPage/bookDetail/{bookNo}(bookNo=${book.bookNo})}'|"
+             style="cursor: pointer;">
           <a th:href="@{/searchBookPage/bookDetail/{bookNo}(bookNo=${book.bookNo})}">
             <div class="book-cover">
               <img th:src="${book.bookCover}" th:alt="${book.bookTitle}">

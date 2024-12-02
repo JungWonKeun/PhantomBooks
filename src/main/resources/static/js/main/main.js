@@ -9,49 +9,49 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.error("Error loading data:", error);
   }
 
-  // 오늘의 추천 도서 슬라이더
-  const bookSlider = {
-    init() {
-      this.books = document.querySelectorAll(".book");
-      // 책이 존재하는지 확인
-      if (this.books && this.books.length > 0) {
-        this.currentIndex = 0;
-        this.showCurrentBook();
-        this.startAutoSlide();
-      } else {
-        console.log("조회되는 책 엄쪄용");
-      }
-    },
-
-    showCurrentBook() {
-      if (!this.books || this.books.length === 0) return;
-      
-      this.books.forEach((book, index) => {
-        if (index === this.currentIndex) {
-          book.classList.add("active");
-        } else {
-          book.classList.remove("active");
+  // 슬라이더 초기화 함수
+  function initializeSlider(sliderId, interval, delay) {
+    const slider = {
+      init() {
+        this.books = document.querySelectorAll(`#${sliderId} .book`);
+        if (this.books && this.books.length > 0) {
+          this.currentIndex = 0;
+          this.showCurrentBook();
+          setTimeout(() => {
+            this.startAutoSlide(interval);
+          }, delay);
         }
-      });
-    },
+      },
 
-    nextBook() {
-      if (!this.books || this.books.length === 0) return;
-      
-      this.currentIndex = (this.currentIndex + 1) % this.books.length;
-      this.showCurrentBook();
-    },
+      showCurrentBook() {
+        if (!this.books || this.books.length === 0) return;
+        
+        this.books.forEach((book, index) => {
+          if (index === this.currentIndex) {
+            book.classList.add("active");
+          } else {
+            book.classList.remove("active");
+          }
+        });
+      },
 
-    startAutoSlide() {
-      if (!this.books || this.books.length <= 1) return; // 책이 1개 이하면 슬라이드 불필요
-      
-      setInterval(() => this.nextBook(), 5000);
-    }
-  };
+      nextBook() {
+        if (!this.books || this.books.length === 0) return;
+        
+        this.currentIndex = (this.currentIndex + 1) % this.books.length;
+        this.showCurrentBook();
+      },
 
-  
+      startAutoSlide(interval) {
+        if (!this.books || this.books.length <= 1) return;
+        setInterval(() => this.nextBook(), interval);
+      }
+    };
 
-  // 취향별 추천도서 스크롤 기능
+    return slider;
+  }
+
+  // 취향별 추천도서 스크롤 기능 (기존 코드 유지)
   const recommendationScroller = {
     init() {
       this.container = document.getElementById('scroll-container');
@@ -97,94 +97,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   };
 
-  // 기존의 bookSlider 객체와 유사한 bestsellerSlider 객체 추가
-  const bestsellerSlider = {
-    init() {
-      this.books = document.querySelectorAll("#bestsellerSlider .book");
-      if (this.books && this.books.length > 0) {
-        this.currentIndex = 0;
-        this.showCurrentBook();
-        this.startAutoSlide();
-      }
-    },
-
-    showCurrentBook() {
-      if (!this.books || this.books.length === 0) return;
-      
-      this.books.forEach((book, index) => {
-        if (index === this.currentIndex) {
-          book.classList.add("active");
-        } else {
-          book.classList.remove("active");
-        }
-      });
-    },
-
-    nextBook() {
-      if (!this.books || this.books.length === 0) return;
-      
-      this.currentIndex = (this.currentIndex + 1) % this.books.length;
-      this.showCurrentBook();
-    },
-
-    startAutoSlide() {
-      if (!this.books || this.books.length <= 1) return;
-      
-      setInterval(() => this.nextBook(), 5000);
-    }
-  };
-
-  // 취향별 추천도서 슬라이더
-  const myTypeSlider = {
-    init() {
-      this.slider = document.querySelector("#myTypeSlider");
-      this.books = this.slider ? this.slider.querySelectorAll(".book") : null;
-      if (this.books && this.books.length > 0) {
-        this.currentIndex = 0;
-        this.showCurrentBook();
-        this.startAutoSlide();
-      }
-    },
-
-    showCurrentBook() {
-      if (!this.books || this.books.length === 0) return;
-      
-      this.books.forEach((book, index) => {
-        if (index === this.currentIndex) {
-          book.classList.add("active");
-        } else {
-          book.classList.remove("active");
-        }
-      });
-    },
-
-    nextBook() {
-      if (!this.books || this.books.length === 0) return;
-      
-      this.currentIndex = (this.currentIndex + 1) % this.books.length;
-      this.showCurrentBook();
-    },
-
-    startAutoSlide() {
-      if (!this.books || this.books.length <= 1) return;
-      
-      setInterval(() => this.nextBook(), 5500);  // 5.5초
-    }
-  };
-
   // 초기화
   try {
-    const todaySlider = Object.create(bookSlider);
-    const topFiveSlider = Object.create(bestsellerSlider);
-    const typeSlider = Object.create(myTypeSlider);
+    const todaySlider = initializeSlider('bookSlider', 4000, 0);
+    const bestsellerSlider = initializeSlider('bestsellerSlider', 4000, 350);
+    const myTypeSlider = initializeSlider('myTypeSlider', 4000, 550);
     
     todaySlider.init();
-    setTimeout(() => {
-      topFiveSlider.init();
-    }, 2000);
-    setTimeout(() => {
-      typeSlider.init();
-    }, 3500);  // 3.5초 후에 취향별 슬라이더 시작
+    bestsellerSlider.init();
+    myTypeSlider.init();
     
     recommendationScroller.init();
   } catch (error) {

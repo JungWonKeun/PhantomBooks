@@ -23,12 +23,8 @@ public class MainController {
 
 	private final MainService service;
 
-	@GetMapping({"", "/"})
-	public String main() {
-		return "main/main";
-	}
 
-	@GetMapping("/main")
+	@GetMapping({"/main", ""})
 	public String getCategoryBookList(
 	    Model model,
 	    @SessionAttribute(value = "loginMember", required = false) Member loginMember
@@ -37,15 +33,15 @@ public class MainController {
 	    List<Book> books = service.todayBooks();
 	    log.info("조회된 오늘의 추천 도서:{}", books);
 	    model.addAttribute("books", books);
+	    List<Book> bestsellerBooks = service.bestsellerBooks();
+	    model.addAttribute("bestsellerBooks", bestsellerBooks);
 	    // 로그인한 사용자만을 위한 데이터
 	    if (loginMember != null) {
 	        int memberNo = loginMember.getMemberNo();
 	        
-	        List<Book> bestsellerBooks = service.bestsellerBooks(memberNo);
 	        List<OrderBookDto> boughtBooks = service.getBoughtBooks(memberNo);
 	        List<Book> myTypeBooks = service.getMyTypeBooks(memberNo);
 	        
-	        model.addAttribute("bestsellerBooks", bestsellerBooks);
 	        model.addAttribute("boughtBooks", boughtBooks);
 	        model.addAttribute("myTypeBooks", myTypeBooks);
 	    }
