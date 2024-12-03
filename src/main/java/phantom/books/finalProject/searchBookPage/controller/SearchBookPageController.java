@@ -199,9 +199,9 @@ public class SearchBookPageController {
 			@SessionAttribute("loginMember") Member loginMember, // 로그인한 사용자 정보
 			@RequestParam("rating") double score, @RequestParam("title") String title,
 			@RequestParam("content") String content,
-			@RequestParam(value = "reviewImage", required = false) MultipartFile file, RedirectAttributes ra) { // 서비스
-																												// 호출
-
+			@RequestParam(value = "reviewImage", required = false) MultipartFile file, 
+			RedirectAttributes ra) { 
+		
 		return service.writeReview(bookNo, title, content, score, loginMember.getMemberNo(), file);
 
 	}
@@ -213,9 +213,11 @@ public class SearchBookPageController {
 			@SessionAttribute("loginMember") Member loginMember, // 로그인한 사용자 정보
 			@RequestParam("rating") double score, @RequestParam("reviewTitle") String title,
 			@RequestParam("reviewContent") String content,
-			@RequestParam(value = "image", required = false) MultipartFile file, RedirectAttributes ra) {
+			@RequestParam(value = "image", required = false) MultipartFile file, 
+			RedirectAttributes ra) {
 
-		return service.updateReview(reviewNo, title, content, score, loginMember.getMemberNo(), file);
+		return service.updateReview(reviewNo, title, content, score, 
+									loginMember.getMemberNo(), file);
 
 	}
 
