@@ -267,26 +267,35 @@ a {
 /* 평점 스타일  */
 /* 별점 전체 컨테이너 */
 .stars {
-  font-size: 11.8px;
+  font-size: 17.8px;
   position: relative;
-  width: 75px;
+  width: 100px;
   height: 20px;
+  display: flex;
 }
 
-.stars-background {
+.stars-background, .stars-real {
   position: absolute;
   width: 100%;
   height: 100%;
+  display: flex;
+  gap: 0;
+}
+
+.stars-background {
   color: #cdcdcd;
 }
 
 .stars-real {
-  position: absolute;
-  height: 100%;
   overflow: hidden;
   white-space: nowrap;
   color: #ffcc00;
   transition: width 0.3s ease-in-out;
+  width: 83%; 
+}
+
+.stars-background i, .stars-real i {
+  margin-right: 0;
 }
 
 /* 별점 스타일  */

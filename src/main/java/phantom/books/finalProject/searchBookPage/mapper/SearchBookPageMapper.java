@@ -17,10 +17,13 @@ public interface SearchBookPageMapper {
 
 	
 	// 책 제목/옵션 조회
-	List<Book> searchBooksByTitle(@Param("query") String query,@Param("sortOption") String sortOption, @Param("cp") int cp);
+	List<Book> searchBooksByTitle(@Param("query") String query,
+			@Param("sortOption") String sortOption,
+			@Param("cp") int cp);
 
 	// 제목의 책 조회
-	int searchBooksByTitle(@Param("query") String query,@Param("sortOption") String sortOption);
+	int searchBooksByTitle(@Param("query") String query,
+			@Param("sortOption") String sortOption);
 	
 	// 책 상세 조회
 	Book bookDetail(int bookNo);
@@ -100,6 +103,9 @@ public interface SearchBookPageMapper {
 
 		// 리뷰 체크 
 		int reviewCheck(@Param("bookNo") int bookNo,@Param("memberNo") int memberNo);
+
+		// 리뷰 작성 제한
+		int reviewCp(int bookNo);
 
 	
 

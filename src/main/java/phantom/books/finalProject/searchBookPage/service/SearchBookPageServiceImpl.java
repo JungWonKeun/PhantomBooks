@@ -140,12 +140,17 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 	@Override
 	public Map<String, Object> getReviewsByBookNo(int bookNo, int cp) {
 
+		/*
+		 * int reviewCp = mapper.reviewCp(bookNo);
+		 * 
+		 * if (reviewCp == 0) { return null; }
+		 */
 		Map<String, Object> map = new HashMap<>();
 
 		int countReview = mapper.countReview(bookNo);
 
 		// Pagination 객체 생성
-		Pagination pagination = new Pagination(cp, countReview);
+		Pagination pagination = new Pagination(cp, countReview, 10 ,5);
 
 		// RowBounds로 limit, offset 지정
 		int limit = pagination.getLimit();
@@ -163,7 +168,10 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 
 	// 리뷰작성
 	@Override
-    public boolean writeReview(int bookNo, String title, String content, double score, int memberNo, MultipartFile file)  {
+    public boolean writeReview(int bookNo, 
+    		String title, String content, 
+    		double score, int memberNo, 
+    		MultipartFile file)  {
         String filePath = null;
         String webPath = null; 
         
@@ -183,7 +191,9 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
             String uploadDir = reviewImageFolderPath;
             // 고유 파일 이름 생성
             String originalFilename = file.getOriginalFilename();
-            String newFilename = UUID.randomUUID().toString() + "_" + originalFilename;
+            String newFilename = UUID.randomUUID()
+            		.toString()
+            		+ "_" + originalFilename;
             filePath = uploadDir + newFilename;
             webPath = reviewImageWebPath + newFilename;
             
@@ -231,7 +241,9 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 			String uploadDir = reviewImageFolderPath;
 			// 고유 파일 이름 생성
 			String originalFilename = file.getOriginalFilename();
-			String newFilename = UUID.randomUUID().toString() + "_" + originalFilename;
+			String newFilename = UUID.randomUUID()
+					.toString() 
+					+ "_" + originalFilename;
 			filePath = uploadDir + newFilename;
 			webPath = reviewImageWebPath + newFilename;
 
