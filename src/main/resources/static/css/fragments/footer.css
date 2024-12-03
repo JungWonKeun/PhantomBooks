@@ -14,7 +14,7 @@
   background-color: #bfbfbf; /* 푸터 배경색 */
   color: #333; /* 푸터 글자색 */
   width: 100%; /* 화면 전체 너비를 차지하도록 설정 */
-  padding: 20px; /* 내부 여백 */
+  padding: 15px; /* 내부 여백 */
   box-sizing: border-box; /* padding을 포함한 전체 너비 계산 */
   height: 277px; /* 푸터 높이 */
   z-index: 2500; /* 다른 요소 위에 나타나도록 설정 */
