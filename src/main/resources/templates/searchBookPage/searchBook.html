@@ -168,12 +168,13 @@
 
 
     <form action="/addBooks" method="PUT" id="bookForm">
-      <!-- 검색 결과 및 옵션 -->
+
       <div class="search-result-container">
         <div class="search-result">
           <p>검색결과 (<span th:text="${totalCount}">0</span>건)</p>
         </div>
-        <div class="options">
+
+        <div class="options-and-apply">
           <select name="searchOption" id="searchOptionSelect">
             <option value="none">=== 선택 ===</option>
             <option value="highScore">평점 높은순</option>
@@ -185,66 +186,102 @@
           </select>
           <button type="button" id="applyOption">적용</button>
         </div>
+
+
         <div class="check-toGo">
-          <button type="button" id="selectAllButton" th:if="${session.loginMember != null}">전체선택</button>
-          <button type="button" onclick="ifChecked('cart')" th:if="${session.loginMember != null}">장바구니</button>
-          <button type="button" onclick="ifChecked('wishlist')" th:if="${session.loginMember != null}">찜</button>
+          <label class="allCheck">
+            <button type="button" id="selectAllButton" th:if="${session.loginMember != null}"><i
+                class="fas fa-check-square"></i> 전체선택</button>
+          </label>
+          <label class="check-bagButton">
+            <button type="button" onclick="ifChecked('cart')" th:if="${session.loginMember != null}">
+              <i class="fas fa-shopping-cart"></i> 장바구니
+            </button></label>
+          <label class="check-wishListButton">
+            <button type="button" onclick="ifChecked('wishlist')" th:if="${session.loginMember != null}">
+              <i class="fas fa-heart"></i> 찜
+            </button>
+          </label>
         </div>
       </div>
 
-      <!-- 책 리스트 -->
+
+
       <div th:each="book : ${bookList}" class="book-item" data-book-no="${book.bookNo}"
         data-score-avg="${book.scoreAvg}">
-        <!-- 선택 박스 -->
-        <input type="checkbox" th:value="${book.bookNo}" class="book-checkbox" id="bookCheckbox">
-
-        <!-- 책 이미지 및 상세정보 -->
-        <!-- <a th:href="@{/searchBookPage/bookDetail/{bookNo}(bookNo=${book.bookNo})}" class="book-link"> -->
-
-          <div class="book-item-image">
-            <img th:src="${book.bookCover != null ? book.bookCover : '/images/bookCover/default.jpg'}" alt="책 이미지">
-          </div>
-          
-          <!-- 책 상세 정보 -->
+        <div class="checkbox-wrapper-39">
+          <label>
+            <input type="checkbox" 
+                   th:value="${book.bookNo}" 
+                   class="book-checkbox" 
+                   id="bookCheckbox">
+            <span class="checkbox"></span>
+          </label>
+        </div>
+        
+        <div class="book-item-image">
+          <img th:src="${book.bookCover != null ? book.bookCover : '/images/bookCover/default.jpg'}" alt="책 이미지">
+        </div>
+        <a th:href="@{/searchBookPage/bookDetail/{bookNo}(bookNo=${book.bookNo})}" class="bookItemAtag">
           <div class="book-item-details">
-            <p><strong>제목:</strong> <span th:text="${book.bookTitle}">책 제목</span></p>
-            <p><strong>지은이:</strong> <span th:text="${book.bookWriter}">지은이</span></p>
-            <p><strong>출판사:</strong> <span th:text="${book.companyName}">출판사</span></p>
-            <p><strong>옮긴이:</strong> <span th:text="${book.bookTalt != null ? book.bookTalt : '없음'}"></span></p>
-            <p><strong>가격:</strong> <span th:text="${book.bookPrice}">0</span>원</p>
-            <p><strong>출간일:</strong> <span th:text="${book.bookDate.substring(0, 10)}">출간일</span></p>
-            
-            <div class="perStars">
-              <div class="stars" title="평점">
-                <!-- 배경 별 -->
-                <div class="stars-background" style='position:absolute; width:100%; overflow:hidden; color:#cdcdcd;'>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
+            <div class="book-item-info">
+              <p>
+                <span class="book-title" th:text="${book.bookTitle}">책 제목</span>
+              </p>
+
+              <div class="perStars">
+                <div class="stars" title="평점">
+                  <!-- 배경 별 -->
+                  <div class="stars-background" style='position:absolute; width:100%; overflow:hidden; color:#cdcdcd;'>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                  </div>
+                  <!-- 실제 별 -->
+                  <div class="stars-real"
+                    th:style="'width: ' + ${(book.scoreAvg / 5) * 100} + '%; position: absolute; overflow: hidden; white-space: nowrap;'">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                  </div>
                 </div>
-                <!-- 실제 별 -->
-                <div class="stars-real"
-                  th:style="'width: ' + ${(book.scoreAvg / 5) * 100} + '%; position: absolute; overflow: hidden; white-space: nowrap;'">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                </div>
+                <p>평점: <span th:text="${book.scoreAvg}">0.0</span>
+                </p>
+
+                <p>지은이:
+                  <span th:text="${book.bookWriter}">지은이</span>
+                </p>
+                <p>출판사:
+                  <span th:text="${book.companyName}">출판사</span>
+                </p>
+                <p>옮긴이:
+                  <span th:text="${book.bookTalt != null ? book.bookTalt : '없음'}"></span>
+                </p>
+                <p>가격:
+                  <span th:text="${book.bookPrice}">0</span>원
+                </p>
+                <p>출간일: <span th:text="${book.bookDate.substring(0, 10)}">출간일</span></p>
               </div>
-              <p><strong>평점:</strong> <span th:text="${book.scoreAvg}">0.0</span></p>
+
             </div>
           </div>
         </a>
-
-        <!-- 액션 버튼 -->
         <div class="book-item-actions">
-          <button type="button" onclick="singleCartBtn(this)" th:if="${session.loginMember != null}">장바구니</button>
-          <button type="button" onclick="singleWishListBtn(this)" th:if="${session.loginMember != null}">찜</button>
+          <label class="buttonBag">
+            <i class="fas fa-shopping-cart" id="shoppingCartId" onclick="singleCartBtn(this)" th:if="${session.loginMember != null}" title="장바구니" style="cursor: pointer; color: #f39c12;"></i>
+          </label>
+        
+          <label class="buttonWish">
+            <i class="fas fa-heart" id="heartId" onclick="singleWishListBtn(this)" th:if="${session.loginMember != null}" title="찜" style="cursor: pointer; color: #e74c3c;"></i>
+          </label>
         </div>
       </div>
+      </div>
+
     </form>
 
     <!-- 페이지네이션 -->

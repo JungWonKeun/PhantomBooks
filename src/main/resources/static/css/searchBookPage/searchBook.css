@@ -24,6 +24,67 @@ main {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* 공통 flex 정렬 */
+.flex-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 공통 버튼 및 select 스타일 */
+button,
+select {
+  font-family: 'Pretendard-Regular';
+  font-size: 14px;
+  border-radius: 8px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s;
+}
+
+button {
+  border: 1px solid #205375;
+  border-radius: 8px;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button i {
+  margin-right: 5px;
+  font-size: 16px;
+}
+
+#applyOption {
+  background-color: #205375;
+  border: 1px solid #205375;
+  border-radius: 8px;
+  color: white;
+}
+
+#selectAllButton {
+  background-color: #0e67c5;
+  border: 1px solid #0e67c5;
+  border-radius: 8px;
+  color: white;
+}
+
+.check-bagButton button {
+  background-color: #f39c12;
+  border: 1px solid #f39c12;
+  border-radius: 8px;
+  color: white;
+}
+
+.check-wishListButton button {
+  background-color: #e74c3c;
+  border: 1px solid #e74c3c;
+  border-radius: 8px;
+  color: white;
+}
+
 /* 필터 섹션 스타일 */
 .filter-section {
   display: flex;
@@ -44,9 +105,6 @@ main {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
   z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
 }
 
 .selected-popup h3 {
@@ -54,12 +112,6 @@ main {
   font-weight: bold;
   color: #205375;
   margin-bottom: 10px;
-}
-
-
-.filter-buttons {
-  display: flex;
-  gap: 15px;
 }
 
 .filter-btn {
@@ -76,17 +128,9 @@ main {
 }
 
 .filter-btn:hover {
-  background-color: rgb(29,30,57);
+  background-color: rgb(29, 30, 57);
   transform: translateY(-2px);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-#myPreferenceBringingInBtn , #myCategoryBringingInBtn{
-  background-color: #205375;
-  border-color: #205375;
-  color: #ddd;
-  border-radius: 8px;
-  margin-left: 25%;
 }
 
 /* 선택된 값 스타일 */
@@ -95,8 +139,6 @@ main {
   padding: 15px;
   border: 1px solid #cfe2ff;
   border-radius: 8px;
-  font-size: 14px;
-  line-height: 1.6;
   color: #004085;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -104,41 +146,22 @@ main {
 /* 카테고리 및 취향 팝업 */
 .checkbox-category {
   position: fixed;
-  top: 20px; /* 화면 위쪽에서 약간 떨어짐 */
-  right: 30%; /* 화면 오른쪽에서 약간 떨어짐 */
-  width: 400px; /* 팝업 너비 */
+  top: 20px;
+  right: 30%;
+  width: 400px;
   background-color: #ffffff;
   border: 1px solid #ddd;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   padding: 20px;
-  display: none; /* 기본적으로 숨김 */
-  z-index: 2000; /* 다른 요소 위에 표시 */
+  display: none;
+  z-index: 2000;
   animation: fadeIn 0.3s ease-in-out;
 }
 
 .checkbox-category.visible {
-  display: block; /* 팝업 보이기 */
+  display: block;
 }
-
-.checkbox-categoryList > *:not(:first-child),
-.checkbox-preferenceList > *:not(:first-child){
-  display: grid;
-  grid-template-rows: repeat(4, 1fr) ; /* 두 열로 배치 */
-  gap: 10px; 
-}
-
-.checkbox-categoryList label,
-.checkbox-preferenceList label {
-  display: flex;
-  align-items: center;
-  gap: 10px; /* 체크박스와 글씨 사이 간격 */
-  font-size: 14px;
-  color: #555;
-}
-
-
-
 
 .checkbox-category label {
   display: flex;
@@ -149,79 +172,185 @@ main {
 }
 
 .checkbox-category input[type="checkbox"] {
-  accent-color: #007bff;
+  accent-color: #333;
+}
+
+#myPreferenceBringingInBtn, #myCategoryBringingInBtn{
+  border: 2px solid #205375;
+  background-color: white;
+  border-radius: 8px;
 }
 
 /* 검색 결과 컨테이너 */
 .search-result-container {
-  text-align: center;
-  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.search-result {
+  flex: 0 0 auto;
+  margin-right: 20px;
+}
+
+.search-result>p {
+  margin-top: 15px;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.options-and-apply {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.check-toGo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
 }
 
 
+/* 책 아이템 스타일 */
 
 
+.checkbox-wrapper-39 *,
+.checkbox-wrapper-39 *::before,
+.checkbox-wrapper-39 *::after {
+  box-sizing: border-box;
+}
 
+.checkbox-wrapper-39 label {
+  display: block;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}
 
+.checkbox-wrapper-39 input {
+  visibility: hidden;
+  display: none;
+}
 
+.checkbox-wrapper-39 input:checked~.checkbox {
+  transform: rotate(45deg);
+  width: 14px;
+  margin-left: 12px;
+  border-color: #e74c3c;
+  border-top-color: transparent;
+  border-left-color: transparent;
+  border-radius: 0;
+}
 
-
-
+.checkbox-wrapper-39 .checkbox {
+  display: block;
+  width: inherit;
+  height: inherit;
+  border: 3px solid #434343;
+  border-radius: 6px;
+  transition: all 0.3s;
+}
 
 
 
 .book-item {
   display: flex;
-  flex-direction: row; /* 가로 레이아웃 */
-  align-items: flex-start; /* 상단 정렬 */
-  gap: 20px; /* 이미지와 텍스트 사이 간격 */
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 20px;
   background-color: #ffffff;
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-bottom: 15px;
-}
-
-.book-item-image {
-  flex-shrink: 0; /* 이미지 크기 고정 */
+  margin-top: 30px;
+  max-height: 250px;
 }
 
 .book-item-image img {
-  width: 120px; /* 이미지 너비 고정 */
-  height: auto; /* 비율 유지 */
+  width: 120px;
+  height: auto;
   border-radius: 8px;
 }
 
 .book-item-details {
   display: flex;
-  flex-direction: column; /* 텍스트 세로 정렬 */
-  flex-grow: 1; /* 텍스트 영역 확장 */
+  flex-direction: column;
+  flex-grow: 1;
 }
 
+.book-item-actions i {
+  font-size: 24px;
+  margin-right: 10px;
+  transition: transform 0.2s, color 0.2s;
 
+  border-radius: 8px;
+  padding: 5px;
+}
 
+.bookItemAtag {
+  text-decoration: none !important;
+  text-decoration-line: none !important;
+}
 
-
-.book-link{
+.book-item-info > p{
   text-decoration: none;
   text-decoration-line: none;
+  color: #333;
+  font-family: 'Pretendard-Regular';
+  font-weight: 500;
+  font-size: 20px;
 }
 
+
+#shoppingCartId {
+  border: 2px solid #f39c12;
+  border-radius: 8px;
+}
+
+#heartId {
+  border: 2px solid #e74c3c;
+  border-radius: 8px;
+}
+
+.book-item-actions i:hover {
+  transform: scale(1.2);
+}
+
+
+.perStars > p{
+  margin: 0;
+  text-decoration: none;
+  text-decoration-line: none;
+  color: #333;
+  font-family: 'Pretendard-Regular';
+}
+
+
 /* 페이지네이션 */
+.pagination-area {
+  margin-top: 40px;
+}
+
 .pagination {
   display: flex;
   justify-content: center;
   gap: 8px;
+
 }
 
 .pagination a {
   text-decoration: none;
-  color: #007bff;
+  color: #205375;
   padding: 8px 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
   transition: background-color 0.2s;
+  font-weight: bolder;
 }
 
 .pagination a:hover {
@@ -229,9 +358,9 @@ main {
 }
 
 .pagination a.current {
-  background-color: #007bff;
+  background-color: #205375;
   color: white;
-  border-color: #007bff;
+  border-color: #205375;
 }
 
 /* 팝업 애니메이션 */
@@ -240,41 +369,14 @@ main {
     opacity: 0;
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/* 별점 스타일 */
 .stars {
   font-size: 17.8px;
   position: relative;
@@ -283,12 +385,12 @@ main {
   display: flex;
 }
 
-.stars-background, .stars-real {
+.stars-background,
+.stars-real {
   position: absolute;
   width: 100%;
   height: 100%;
   display: flex;
-  gap: 0;
 }
 
 .stars-background {
@@ -300,9 +402,4 @@ main {
   white-space: nowrap;
   color: #ffcc00;
   transition: width 0.3s ease-in-out;
-  width: 83%; 
-}
-
-.stars-background i, .stars-real i {
-  margin-right: 0;
 }
