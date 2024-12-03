@@ -184,7 +184,8 @@
         <div class="review-img" >
           <img alt="리뷰 이미지" class="review-img-thumb"
            data-review-no="1" data-original-src="original_image_url_here"
-            th:src="${review.reviewImgNo != null ? review.reviewImgNo : '/images/고스트 코딩왕.png'}">
+            th:src="${review.reviewImgNo != null ? review.reviewImgNo : '/images/고스트 코딩왕.png'}"
+            th:id="|reviewImageInput-${review.reviewNo}|">
           <div th:if="${memberId != null and memberId == review.memberId}">
             
             <label for="imageInput-${review.reviewNo}">
