@@ -28,7 +28,7 @@ body {
   background-color: white;
   border-radius: 10px;
   box-sizing: border-box;
-  flex-shrink: 0;  /* 사이드바의 크기가 줄어들지 않도록 */
+  flex-shrink: 0; 
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -39,6 +39,8 @@ body {
 .mainContent {
   flex-grow: 1;  /* 주 콘텐츠가 사이드바 공간을 제외한 나머지를 차지하도록 설정 */
   padding: 30px;
+  padding-top: 0;
+  padding-left: 0;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -62,12 +64,14 @@ body {
   max-height: 900px !important;
 }
 
+
 .card {
   background-color: #ffffff;
   border-radius: 10px;
   padding: 15px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
 
 .sticky-card {
   position: relative;
@@ -80,7 +84,7 @@ body {
 .preference {
   padding: 8px 12px;
   font-size: 14px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #333;
   border-radius: 6px;
   transition: all 0.2s ease;
   background-color: #f8f9fa;

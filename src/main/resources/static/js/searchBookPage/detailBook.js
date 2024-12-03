@@ -309,6 +309,7 @@ function toggleEditMode(reviewNo, button) {
             // 페이지 새로고침으로 초기 상태 복구
             location.reload();
         };
+
     } else if (button.textContent === "저장") {
         console.log(`저장 요청: 리뷰 번호 ${reviewNo}`);
         const updatedTitle = titleInput.value.trim();
@@ -349,7 +350,6 @@ function toggleEditMode(reviewNo, button) {
             });
     }
 }
-
 
 
 
@@ -445,20 +445,35 @@ imageInput.addEventListener('change', (e) => {
 /* 리뷰 작성 이미지 미리보기 end  */
 
 /* 리뷰 수정 이미지 미리보기  시작*/
+document.addEventListener('DOMContentLoaded', () => {
+    // 파일 입력 요소를 모두 선택합니다.
+    const imageInputs = document.querySelectorAll('[id^="imageInput-"]'); // ID가 imageInput-로 시작하는 요소들
 
- const reviewImageInput = document.getElementById('reviewImageInput');
-const previewImage = document.getElementById(`preview-${review.reviewNo}`);
+    imageInputs.forEach((imageInput) => {
+        // 파일 입력 요소에서 리뷰 번호를 추출합니다.
+        const reviewNo = imageInput.id.split('-')[1];
+        
+        // 해당 리뷰 번호를 사용하여 미리보기 이미지를 선택합니다.
+        const preview = document.getElementById(`reviewImageInput-${reviewNo}`);
 
-reviewImageInput.addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = () => {
-            previewImage.src = reader.result;
-        };
-        reader.readAsDataURL(file);
-    }
+        // 파일 입력에 이벤트 리스너를 추가합니다.
+        imageInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    if (preview) {
+                        preview.src = reader.result;
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    });
 });
+
+
+
  
 
 
@@ -518,7 +533,6 @@ function detailCart(button) {
 }
 
 /*  찜 목록 추가  */
-
 function singleWishListBtn(button) {
     // 클릭된 버튼의 상위 요소에서 book-item 클래스를 가진 요소를 찾습니다.
     const bookItem = button.closest('.book-item');
@@ -563,6 +577,9 @@ function singleWishListBtn(button) {
         })
         .catch(error => console.error('에러:', error));
 }
+
+
+
 
 /* 찜목록 추가 끝 */
 

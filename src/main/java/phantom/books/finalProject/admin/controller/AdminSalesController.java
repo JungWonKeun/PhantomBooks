@@ -26,9 +26,10 @@ public class AdminSalesController {
 	public Map<String, Object> salesList(
 			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
 			@RequestParam(value = "sort", required = false, defaultValue = "all") String sort,
-			@RequestParam(value = "term", required = false) String term,
-			@RequestParam(value = "date", required = false) String date
+			@RequestParam(value = "term", required = false, defaultValue = "year") String term,
+			@RequestParam(value = "date", required = false) String date,
+			@RequestParam(value = "text", required = false) String text
 			) {
-		return service.salesList(cp, sort, term, date);
+		return service.salesList(cp, sort, term, date, text);
 	}
 }

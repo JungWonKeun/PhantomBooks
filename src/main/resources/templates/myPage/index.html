@@ -13,57 +13,65 @@
   <header th:replace="~{common/common}"></header>
 
   <main class="mypage-container">
-    <div class="mypage-header">
-      <div class="title-area">
-        <h1 class="welcome-title">마이페이지</h1>
-        <div class="user-info">
-          <i class="fas fa-user"></i>
-          <span th:text="${session.loginMember?.name}">사용자명</span>
-          <div class="user-actions">
-            <a href="/myPage/info" class="header-btn">정보 수정</a>
-            <a href="/myPage/changePw" class="header-btn">비밀번호 변경</a>
+
+    <div th:replace="~{common/myPageSide-menu}"></div>
+
+
+    <div class="mypage-main">
+      <div class="mypage-header">
+        <div class="title-area">
+          <h2 class="welcome-title">마이페이지</h2>
+          <div class="user-info">
+            <i class="fas fa-user"></i>
+            <div class="user-name">
+              <span th:text="${session.loginMember?.name}">사용자명</span>
+            </div>
+            <div class="user-actions">
+              <a href="/myPage/info" class="header-btn">정보 수정</a>
+              <a href="/myPage/changePw" class="header-btn">비밀번호 변경</a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="card-grid">
-      <!-- 선호 취향 섹션 -->
-      <section class="card preferences">
-        <div class="card-header">
-          <h2><i class="fas fa-heart"></i> 내 취향</h2>
-          <a href="/myPage/preference" class="card-more">이동하기 →</a>
-        </div>
-        <div class="card-content">
-          <div class="preferences-list" th:if="${!#lists.isEmpty(preference) || !#lists.isEmpty(category)}">
-            <div class="preference-category">
-              <div class="category-header">
-                <h3>선호 카테고리</h3>
-              </div>
-              <div class="tag-container">
-                <span th:each="item, iterStat : ${category}" th:if="${iterStat.index < 6}" class="preference-tag"
-                  th:text="${item.categoryName}">장르명</span>
-                <a href="/myPage/preference"><span th:if="${category.size() > 6}" class="preference-tag more-count"
-                    th:text="'+ ' + (${category.size() - 6} + '개')">+15개</span></a>
-              </div>
-            </div>
-            <div class="preference-category">
-              <div class="category-header">
-                <h3>관심 키워드</h3>
-              </div>
-              <div class="tag-container">
-                <span th:each="item, iterStat : ${preference}" th:if="${iterStat.index < 6}" class="preference-tag"
-                  th:text="${item.preferenceName}">키워드</span>
-                <a href="/myPage/preference"><span th:if="${preference.size() > 6}" class="preference-tag more-count"
-                    th:text="'+ ' + (${preference.size() - 6} + '개')">+15개</span></a>
-              </div>
-            </div>
+
+      <div class="card-grid">
+        <!-- 선호 취향 섹션 -->
+        <section class="card preferences">
+          <div class="card-header">
+            <h2><i class="fas fa-heart"></i> 내 취향</h2>
+            <a href="/myPage/preference" class="card-more">이동하기 →</a>
           </div>
-          <p th:if="${#lists.isEmpty(preference) && #lists.isEmpty(category)}" class="empty-message">
-            선호 취향이 설정되지 않았습니다.
-          </p>
-          <a href="/myPage/preference" class="more-btn">취향 설정하기 →</a>
-        </div>
+          <div class="card-content">
+            <div class="preferences-list" th:if="${!#lists.isEmpty(preference) || !#lists.isEmpty(category)}">
+              <div class="preference-category">
+                <div class="category-header">
+                  <h3>선호 카테고리</h3>
+                </div>
+                <div class="tag-container">
+                  <span th:each="item, iterStat : ${category}" th:if="${iterStat.index < 6}" class="preference-tag"
+                    th:text="${item.categoryName}">장르명</span>
+                  <a href="/myPage/preference"><span th:if="${category.size() > 6}" class="preference-tag more-count"
+                      th:text="'+ ' + (${category.size() - 6} + '개')">+15개</span></a>
+                </div>
+              </div>
+              <div class="preference-category">
+                <div class="category-header">
+                  <h3>관심 키워드</h3>
+                </div>
+                <div class="tag-container">
+                  <span th:each="item, iterStat : ${preference}" th:if="${iterStat.index < 6}" class="preference-tag"
+                    th:text="${item.preferenceName}">키워드</span>
+                  <a href="/myPage/preference"><span th:if="${preference.size() > 6}" class="preference-tag more-count"
+                      th:text="'+ ' + (${preference.size() - 6} + '개')">+15개</span></a>
+                </div>
+              </div>
+            </div>
+            <p th:if="${#lists.isEmpty(preference) && #lists.isEmpty(category)}" class="empty-message">
+              선호 취향이 설정되지 않았습니다.
+            </p>
+            <a href="/myPage/preference" class="more-btn">취향 설정하기 →</a>
+          </div>
       </section>
 
       <!-- 구매 내역 섹션 -->
@@ -215,6 +223,7 @@
         </div>
       </section>
     </div>
+  </div>
   </main>
 
   <footer th:replace="~{common/footer :: footer}"></footer>

@@ -36,8 +36,8 @@ public class Request {
   private String requestDate; 		// 발주요청일
   
 	/* 출판사 정보 */
-  private String Email;    // 출판사 이메일
-  private String tel;				// 출판사 전화번호
+  private String Email;    				// 출판사 이메일
+  private String tel;							// 출판사 전화번호
   
   // 신간 등록 : request DTO로 받아와서
   // 						 신규 책 등록(newBookRequest)에 저장

@@ -1,11 +1,36 @@
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  * {
+    font-family: 'Pretendard-Regular';
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    background-color: #f7f7f7;
+  }
+
 .mypage-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
+    display: flex;
+    gap: 20px; /* 위아래 간격 */
+    min-height: calc(100vh - 100px);
+}
+
+.mypage-main {
+    flex-grow: 1; /* 사이드바를 제외한 영역 채우기 */
+    display: flex;
+    flex-direction: column; /* 헤더와 카드 그리드 세로 배치 */
+    gap: 20px;
 }
 
 .welcome-title {
-    font-size: 2.5rem;
+    font-size: 2.0rem;
     margin-bottom: 0.5rem;
     color: #2c3e50;
     font-weight: 700;
@@ -19,16 +44,18 @@
 
 .card-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(3, 1fr); /* 한 줄에 3개씩 */
+    gap: 1.5rem; /* 카드 간격 */
+    width: 95%;
 }
 
 .card {
     background: #fff;
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-    padding: 1.5rem;
+    padding: 1.2rem;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    height: 100%; 
 }
 
 .card:hover {
@@ -61,10 +88,12 @@
 }
 
 .card-content {
-    min-height: 180px;
-    position: relative;
-    margin-top: 1rem;
-    padding: 0 0.5rem;
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
 }
 
 /* 내 정보 섹션 스타일 */
