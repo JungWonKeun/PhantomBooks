@@ -178,10 +178,10 @@
 		</if>
 		<choose>
 			<when test="sortOption == 'highScore'">
-				ORDER BY B.SCORE_AVG DESC, B.BOOK_NO ASC
+				ORDER BY NVL(B.SCORE_AVG, 0.0) DESC, B.BOOK_NO ASC
 			</when>
 			<when test="sortOption == 'lowScore'">
-				ORDER BY B.SCORE_AVG ASC, B.BOOK_NO ASC
+				ORDER BY NVL(B.SCORE_AVG, 0.0) ASC, B.BOOK_NO ASC
 			</when>
 			<when test="sortOption == 'manyReview'">
 				ORDER BY (
@@ -503,7 +503,8 @@
 		(
 		SELECT COUNT(*)
 		FROM ORDER_LIST
-		WHERE MEMBER_NO = #{memberNo}
+		WHERE MEMBER_NO
+		= #{memberNo}
 		AND BOOK_NO = #{bookNo}
 		) -
 		(
@@ -534,12 +535,12 @@
 
 	<select id="reviewCp">
 		SELECT
-			COUNT(*)
-		FROM	
-			REVIEW
-		WHERE 
-			BOOK_NO = #{bookNo}
-	
+		COUNT(*)
+		FROM
+		REVIEW
+		WHERE
+		BOOK_NO = #{bookNo}
+
 	</select>
 
 
