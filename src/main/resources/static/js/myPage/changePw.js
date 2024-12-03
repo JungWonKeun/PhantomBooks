@@ -275,6 +275,46 @@ function toggleSubmitButton() {
       });
     }
 
+    // 타이머 인터벌 변수 선언
+    let timerInterval;
+
+    // 타이머 시작 함수
+    // duration: 타이머 시간(초)
+    function startTimer(duration) {
+      const timerDisplay = document.getElementById('timer');
+      let timer = duration;
+
+      // 이전 타이머가 있다면 제거
+      if (timerInterval) {
+        clearInterval(timerInterval);
+      }
+
+      // 1초마다 타이머 업데이트
+      timerInterval = setInterval(function () {
+        // 분과 초 계산
+        const minutes = parseInt(timer / 60, 10);
+        const seconds = parseInt(timer % 60, 10);
+
+        // 시간 형식 포맷팅 (MM:SS)
+        const displayMinutes = minutes < 10 ? "0" + minutes : minutes;
+        const displaySeconds = seconds < 10 ? "0" + seconds : seconds;
+
+        // 타이머 표시
+        timerDisplay.textContent = displayMinutes + ":" + displaySeconds;
+
+        // 타이머 종료 조건
+        if (--timer < 0) {
+          clearInterval(timerInterval);
+          timerDisplay.textContent = "시간 만료";
+          // 시간 만료 시 처리
+          alert("인증 시간이 만료되었습니다. 다시 시도해주세요.");
+          document.getElementById('verificationSection').style.display = 'none';
+          phoneInput.value = '';
+          phoneInput.focus();
+        }
+      }, 1000);
+    }
+
     // 전화번호 인증 코드 요청 함수
     // 사용자가 입력한 전화번호로 인증 코드를 요청하고, 인증 섹션을 보여줌
     if (phoneCheckBtn) {
@@ -294,16 +334,25 @@ function toggleSubmitButton() {
         })
           .then(response => response.json()) // 서버의 응답을 텍스트 형태로 처리
           .then(data => {
+             /* if (data === 'success') { // 인증 코드 요청 성공시 
+            alert(data); // 응답 메시지를 사용자에게 표시 */
             if (data.status === 'success') { // 인증 코드 요청 성공시
+              // 3분(180초) 타이머 시작
+              startTimer(179);
               alert(`인증 코드가 전송되었습니다: ${data.verificationCode}`); // 성공 메시지와 인증 코드 출력
-              /* if (data === 'success') { // 인증 코드 요청 성공시 
-              alert(data); // 응답 메시지를 사용자에게 표시 */
+
               if (phoneCheckInput) phoneCheckInput.value = data.verificationCode;
+              if (phoneCheckBtn) phoneCheckBtn.style.display = 'none';
               document.getElementById('verificationSection').style.display = 'flex'; // 인증번호 입력 섹션을 화면에 표시
               if (phoneCheckInput) phoneCheckInput.focus();
+
             }
           })
           .catch(error => {
+            // 타이머 중지
+            if (timerInterval) {
+              clearInterval(timerInterval);
+            }
             console.error('Error:', error); // 오류 발생 시 콘솔에 출력
           });
       });
@@ -333,6 +382,12 @@ function toggleSubmitButton() {
             }
           })
           .then(data => {
+            // 타이머 중지
+            if (timerInterval) {
+              clearInterval(timerInterval);
+              document.getElementById('timer').textContent = '인증완료';
+            }
+
             phoneInput.setAttribute('readonly', 'readonly');
             if (phoneClearBtn) phoneClearBtn.style.display = 'none';
             document.getElementById('verificationSection').style.display = 'none';

@@ -189,3 +189,13 @@ div label {
 #findIdBtn::before{
   background-color: #205375;
 }
+
+.timer-text {
+  position: absolute;
+  right: 40px;  /* clear 버튼 왼쪽에 위치 */
+  top: 50%;
+  transform: translateY(-50%);
+  color: #dc3545;  /* 빨간색 */
+  font-size: 0.9rem;
+  font-weight: bold;
+}

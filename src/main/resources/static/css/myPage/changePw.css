@@ -74,3 +74,13 @@ div label {
 #submitBtn{
   margin-bottom: 100px;
 }
+
+.timer-text {
+  position: absolute;
+  right: 40px;  /* clear 버튼 왼쪽에 위치 */
+  top: 50%;
+  transform: translateY(-50%);
+  color: #dc3545;  /* 빨간색 */
+  font-size: 0.9rem;
+  font-weight: bold;
+}

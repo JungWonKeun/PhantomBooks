@@ -96,7 +96,7 @@ body {
 .preference.selected {
   background-color: #205375;
   color: white;
-  border-color: #0056b3;
+  border-color: #205375;
 }
 
 /* 선택된 버튼의 호버 스타일 추가 */
@@ -108,34 +108,39 @@ body {
   box-shadow: 0 4px 8px rgba(32, 83, 117, 0.3);
 }
 
+.badge-container {
+  min-height: 240px;
+}
+
 /* 뱃지 스타일 */
 .badge {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  font-size: 0.75rem;
-  padding: 2px 6px;
-  margin: 2px;
-  background-color: none;
+  width: auto;
+  padding: 4px 8px;
+  margin: 3px;
   color: #007bff;
   border: 1px solid #007bff;
-  border-radius: 8px;
+  border-radius: 7px;
   transition: all 0.3s ease;
-  gap: 4px;
+}
+
+.badge span {
+  margin-right: 8px;
   white-space: nowrap;
+}
+
+.badge svg {
+  width: 18px;
+  height: 18px;
+  fill: #007bff;
+  cursor: pointer;
+  margin-left: auto;
 }
 
 .badge:hover {
   background-color: #007bff;
   color: white;
-}
-
-.badge svg {
-  cursor: pointer;
-  width: 14px;
-  height: 14px;
-  fill: #007bff;
-  flex-shrink: 0;
 }
 
 .badge:hover svg {
@@ -186,7 +191,7 @@ body {
   display: block;
   margin-top: 10px;
   color: #6c757d;
-  font-size: 0.9rem;
+  font-size: 1.5rem;
 }
 
 /* 화면 잘림 방지 */

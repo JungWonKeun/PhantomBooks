@@ -73,7 +73,7 @@
                       </div>
                     </div>
 
-                    <!-- 인증번호 력, 인증 버튼 -->
+                    <!-- 인증번호 입력, 인증 버튼 -->
                     <div class="form-floating row g-3 mb-2 mt-2 position-relative" id="verificationSection"
                       style="display: none;">
                       <div class="form-floating col-7 position-relative">
@@ -82,6 +82,7 @@
                         <label for="floatingPhoneCheck">인증번호 확인</label>
                         <button type="button" id="phoneCheckClearBtn" class="btn-close clear-btn"
                           onclick="clearInput('floatingPhoneCheck')" aria-label="Clear" tabindex="-1"></button>
+                        <span id="timer" class="timer-text"></span>
                       </div>
                       <div class="col-auto">
                         <button type="button" id="phoneCertifiedBtn" class="btn btn-primary" style="background-color: #205375; border-color: #205375;">인증번호 인증</button>

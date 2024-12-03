@@ -41,20 +41,15 @@ const changeinfoForm = document.querySelector("#changeinfoForm");
 
 // 회원 정보 변경
 changeinfoForm.addEventListener("submit", e => {
-  if(confirm("회원 정보를 수정하시겠습니까?")){
-  if (submitButton.disabled) {
-    console.log(memberId.value);
-    console.log(memberPw.value);
-    console.log(telNo.value);
-    console.log(birthDate.value);
-    e.preventDefault();
-    alert('모든 필드를 올바르게 입력하고 인증 절차를 완료해야 합니다.');
-  } else {
+  if (confirm("회원 정보를 수정하시겠습니까?")) {
     // 서버에 폼을 제출
-      changeinfoForm.submit();
-    };
-  };
-})
+    changeinfoForm.submit();
+  } else {
+    // 폼 제출을 막기 위해 기본 동작 방지
+    e.preventDefault();
+    alert("회원 정보 수정을 취소하였습니다.");
+  }
+});
 
 
 
@@ -271,6 +266,45 @@ let isPhoneVerified = true;
       });
     }
 
+    // 타이머 인터벌 변수 선언
+    let timerInterval;
+
+    // 타이머 시작 함수
+    // duration: 타이머 시간(초)
+    function startTimer(duration) {
+      const timerDisplay = document.getElementById('timer');
+      let timer = duration;
+
+      // 이전 타이머가 있다면 제거
+      if (timerInterval) {
+        clearInterval(timerInterval);
+      }
+
+      // 1초마다 타이머 업데이트
+      timerInterval = setInterval(function () {
+        // 분과 초 계산
+        const minutes = parseInt(timer / 60, 10);
+        const seconds = parseInt(timer % 60, 10);
+
+        // 시간 형식 포맷팅 (MM:SS)
+        const displayMinutes = minutes < 10 ? "0" + minutes : minutes;
+        const displaySeconds = seconds < 10 ? "0" + seconds : seconds;
+
+        // 타이머 표시
+        timerDisplay.textContent = displayMinutes + ":" + displaySeconds;
+
+        // 타이머 종료 조건
+        if (--timer < 0) {
+          clearInterval(timerInterval);
+          timerDisplay.textContent = "시간 만료";
+          // 시간 만료 시 처리
+          alert("인증 시간이 만료되었습니다. 다시 시도해주세요.");
+          document.getElementById('verificationSection').style.display = 'none';
+          phoneInput.value = '';
+          phoneInput.focus();
+        }
+      }, 1000);
+    }
 
     // 전화번호 인증 코드 요청 함수
     // 사용자가 입력한 전화번호로 인증 코드를 요청하고, 인증 섹션을 보여줌
@@ -291,11 +325,15 @@ let isPhoneVerified = true;
         })
           .then(response => response.json()) // 서버의 응답을 텍스트 형태로 처리
           .then(data => {
+            /* if (data === 'success') { // 인증 코드 요청 성공시 
+            alert(data); // 응답 메시지를 사용자에게 표시 */
             if (data.status === 'success') { // 인증 코드 요청 성공시
+              // 3분(180초) 타이머 시작
+              startTimer(179);
               alert(`인증 코드가 전송되었습니다: ${data.verificationCode}`); // 성공 메시지와 인증 코드 출력
-              /* if (data === 'success') { // 인증 코드 요청 성공시 
-              alert(data); // 응답 메시지를 사용자에게 표시 */
+
               if (phoneCheckInput) phoneCheckInput.value = data.verificationCode;
+              if (phoneCheckBtn) phoneCheckBtn.style.display = 'none';
               document.getElementById('verificationSection').style.display = 'flex'; // 인증번호 입력 섹션을 화면에 표시
               if (phoneCheckInput) phoneCheckInput.focus();
             }
@@ -332,22 +370,37 @@ let isPhoneVerified = true;
           }
           ) // 서버의 응답을 텍스트 형태로 처리
           .then(data => {
-            if (confirm("인증이 성공했습니다. 해당 번호로 가입을 진행하시겠습니까?")) {
-              phoneInput.setAttribute('readonly', 'readonly'); // 전화번호 입력 필드 비활성화
-              if (phoneClearBtn) phoneClearBtn.style.display = 'none';
-              document.getElementById('verificationSection').style.display = 'none'; // 인증번호 입력 섹션 숨기기
-              if (phoneCheckBtn) phoneCheckBtn.style.display = 'none';
-              isPhoneVerified = true; // 인증 성공 시 인증 상태를 true로 변경
-              toggleSubmitButton();
-            } else {
-              document.getElementById('verificationSection').style.display = 'none';
-              clearInput('telNo');
-              phoneInput.focus();
-              isPhoneVerified = false; // 인증 취소 시 상태 초기화
-              toggleSubmitButton();
+            if (data.status === 'success') {
+              if (confirm("인증이 성공했습니다. 해당 번호로 변경하시겠습니까?")) {
+                // 타이머 중지
+                if (timerInterval) {
+                  clearInterval(timerInterval);
+                  document.getElementById('timer').textContent = '인증완료';
+                }
+
+                phoneInput.setAttribute('readonly', 'readonly'); // 전화번호 입력 필드 비활성화
+                if (phoneClearBtn) phoneClearBtn.style.display = 'none';
+                document.getElementById('verificationSection').style.display = 'none'; // 인증번호 입력 섹션 숨기기
+                if (phoneCheckBtn) phoneCheckBtn.style.display = 'none';
+                isPhoneVerified = true; // 인증 성공 시 인증 상태를 true로 변경
+                phoneChangeBtn.style.display = 'inline-block'; // 전화번호 변경 버튼을 화면에 표시
+                toggleSubmitButton();
+              } else {
+                document.getElementById('verificationSection').style.display = 'none';
+                // 타이머 중지
+                if (timerInterval) {
+                  clearInterval(timerInterval);
+                }
+                clearInput('telNo');
+                phoneInput.focus();
+              }
             }
           })
           .catch(error => {
+            // 타이머 중지
+            if (timerInterval) {
+              clearInterval(timerInterval);
+            }
             console.error('Error:', error); // 오류 발생 시 콘솔에 출력
           });
       });
@@ -376,7 +429,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const zip = document.getElementById('zip');
   const addZip = document.getElementById('addZip');
 
-  if (zip.value === '') {      
+  if (zip.value === '') {
     document.getElementById("addressFindBtn").style.display = 'block';
     document.getElementById("addressChangeBtn").style.display = 'none';
   }
@@ -414,7 +467,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// 입력값 변경 감지를 위한 초기값 저장
+// ��력값 변경 감지를 위한 초기값 저장
 const initialValues = {
   name: document.getElementById('name')?.value || '',
   birthDate: document.getElementById('birthDate')?.value || '',
@@ -473,27 +526,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // 페이지 이탈 시 변경사항 확인을 위한 함수 선언
 function checkFormChanges(e) {
-    const currentValues = {
-        name: document.getElementById('name')?.value,
-        birthDate: document.getElementById('birthDate')?.value,
-        telNo: document.getElementById('telNo')?.value,
-        address: document.getElementById('address')?.value,
-        detailAddress: document.getElementById('detailAddress')?.value,
-        addAddress: document.getElementById('addAddress')?.value,
-        addDetailAddress: document.getElementById('addDetailAddress')?.value
-    };
+  const currentValues = {
+    name: document.getElementById('name')?.value,
+    birthDate: document.getElementById('birthDate')?.value,
+    telNo: document.getElementById('telNo')?.value,
+    address: document.getElementById('address')?.value,
+    detailAddress: document.getElementById('detailAddress')?.value,
+    addAddress: document.getElementById('addAddress')?.value,
+    addDetailAddress: document.getElementById('addDetailAddress')?.value
+  };
 
-    // 값이 변경되었는지 확인
-    const hasChanges = Object.keys(initialValues).some(key => 
-        initialValues[key] !== currentValues[key]
-    );
+  // 값이 변경되었는지 확인
+  const hasChanges = Object.keys(initialValues).some(key =>
+    initialValues[key] !== currentValues[key]
+  );
 
-    // 변경사항이 있는 경우
-    if (hasChanges) {
-        const message = '저장되지 않은 변경사항이 있습니다. 정말로 페이지를 떠나시겠습니까?';
-        e.returnValue = message;
-        return message;
-    }
+  // 변경사항이 있는 경우
+  if (hasChanges) {
+    const message = '저장되지 않은 변경사항이 있습니다. 정말로 페이지를 떠나시겠습니까?';
+    e.returnValue = message;
+    return message;
+  }
 }
 
 // beforeunload 이벤트에 함수 등록
@@ -502,9 +555,9 @@ window.addEventListener('beforeunload', checkFormChanges);
 // form submit 시에는 경고 메시지가 표시되지 않도록 처리
 const form = document.getElementById('changeinfoForm');
 if (form) {
-    form.addEventListener('submit', () => {
-        window.removeEventListener('beforeunload', checkFormChanges);
-    });
+  form.addEventListener('submit', () => {
+    window.removeEventListener('beforeunload', checkFormChanges);
+  });
 }
 
 
