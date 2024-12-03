@@ -687,4 +687,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+document.getElementById("applyOption").addEventListener("click", () => {
+    // 검색 폼의 검색 버튼을 선택합니다.
+    const searchButton = document.querySelector('.search-bar form button[type="submit"]');
+    
+    // 검색 버튼 클릭
+    if (searchButton) {
+        searchButton.click();
+    }
+});
 

@@ -192,6 +192,9 @@
             <option value="lowPrice">가격 낮은순</option>
           </select>
         </div>
+        <div>
+          <button type="button" id="applyOption">적용</button>
+        </div>
         <div class="check-toGo">
           <label class="allCheck">
             <button type="button" id="selectAllButton" th:if="${session.loginMember != null}">전체선택</button>
@@ -226,26 +229,29 @@
               <p><strong>옮긴이:</strong> <span th:text="${book.bookTalt}">옮긴이</span></p>
               <p><strong>가격:</strong> <span th:text="${book.bookPrice}">0</span>원</p>
               <p><strong>출간일:</strong> <span th:text="${book.bookDate.substring(0, 10)}">출간일</span></p>
-              <div class="stars" title="평점">
-                <!-- 배경 별 -->
-                <div class="stars-background" style='position:absolute; width:100%; overflow:hidden; color:#cdcdcd;'>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
+              <div class="perStars">
+                <div class="stars" title="평점">
+                  <!-- 배경 별 -->
+                  <div class="stars-background" style='position:absolute; width:100%; overflow:hidden; color:#cdcdcd;'>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                  </div>
+                  <!-- 실제 별 -->
+                  <div class="stars-real"
+                    th:style="'width: ' + ${(book.scoreAvg / 5) * 100} + '%; position: absolute; overflow: hidden; white-space: nowrap;'">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                  </div>
                 </div>
-                <!-- 실제 별 -->
-                <div class="stars-real" th:style="'width: ' + ${(book.scoreAvg / 5) * 100} + '%; position: absolute; overflow: hidden; white-space: nowrap;'">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                </div>
+                <p><strong>평점:</strong> <span th:text="${book.scoreAvg}">0.0</span></p>
               </div>
               
-              <p><strong>평점:</strong> <span th:text="${book.scoreAvg}">평점</span></p>
             </div>
           </div>
         </a>
