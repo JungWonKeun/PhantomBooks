@@ -27,4 +27,6 @@ public interface AdminNoticeMapper {
 	// 공지사항 삭제
 	int deleteNotice(int noticeId);
 
+	int updateStatus(int noticeId);
+
 }

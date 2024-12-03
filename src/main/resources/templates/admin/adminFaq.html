@@ -102,18 +102,12 @@
         <option value="Y">노출</option>
         <option value="N">비노출</option>
       </select>
-      <button id="all">전체 선택 해제</button>
-      <button id="selectUpdate">선택한 내용 상태 변경</button>
-      <button id="selectDelete">선택한 내용 삭제</button>
 
 
     
       <table class="faq-box">
         <thead class="faq">
           <tr>
-            <th class="checkbox">
-              <input type="checkbox" id="allSelectBtn"></input> 
-            </th>
             <th class="faqNo">글 번호</th>
             <th class="title">제목</th>
             <th class="content">내용</th>
@@ -133,12 +127,6 @@
             <tr th:each= "faq:${faqList}"
                 th:object="${faq}">  
               
-              <td>
-                <input type="checkbox"
-                       th:id="'faq'+${faqId}"
-                       th:value="*{faqId}" 
-                       id="selectFaq" >
-              </td>
 
               <td th:text="*{faqId}" th:name="*{faqId}">
                 FAQ 번호
@@ -155,6 +143,9 @@
               <td>
                 <button class="updateBtn" th:value="*{faqId}">
                   노출 상태 변경
+                </button>
+                <button class="deleteBtn" th:value="*{faqId}">
+                  삭제
                 </button>
                 
               </td>
