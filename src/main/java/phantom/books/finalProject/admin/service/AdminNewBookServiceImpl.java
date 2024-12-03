@@ -90,4 +90,10 @@ public class AdminNewBookServiceImpl implements AdminNewBookService {
 			
 		return result;
 	}
+	
+	// 요청 삭제
+	@Override
+	public int deleteRequest(int requestNo) {
+		return mapper.deleteRequest(requestNo);
+	}
 }

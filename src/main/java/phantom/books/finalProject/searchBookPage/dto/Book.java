@@ -45,7 +45,7 @@ public class Book {
 	    /*장바구니에 집어 넣을 회원 번호*/
 	    private int memberNo;
 	    
-	    private String Email;    // 출판사 이메일
+	    private String email;    // 출판사 이메일
 	    private String tel;				// 출판사 전화번호
 	    private int requestPrice;
 
