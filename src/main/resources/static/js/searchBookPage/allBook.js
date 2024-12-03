@@ -274,7 +274,7 @@ function updateSelectedValues(modal, displayDiv) {
     }
 
     // 선택된 항목이 있을 경우 업데이트
-    displayDiv.innerHTML = "선택한 항목: "; // 기존 내용을 초기화
+    displayDiv.innerHTML = "선택한 항목 "; // 기존 내용을 초기화
     selectedCheckboxes.forEach((checkbox) => {
         const labelText = checkbox.parentElement.textContent.trim(); // label 텍스트 가져오기
         const itemDiv = document.createElement("div");
@@ -697,3 +697,24 @@ document.getElementById("applyOption").addEventListener("click", () => {
     }
 });
 
+
+// 팝업 열기 및 닫기 제어
+document.getElementById("categoryButton").addEventListener("click", function () {
+    const categoryPopup = document.getElementById("checkboxCategory");
+    categoryPopup.style.display = categoryPopup.style.display === "block" ? "none" : "block";
+  });
+  
+  document.getElementById("preferenceButton").addEventListener("click", function () {
+    const preferencePopup = document.getElementById("checkboxPreference");
+    preferencePopup.style.display = preferencePopup.style.display === "block" ? "none" : "block";
+  });
+  
+  // 적용 버튼 클릭 시 팝업 닫기
+  document.getElementById("applyCategoryButton").addEventListener("click", function () {
+    document.getElementById("checkboxCategory").style.display = "none";
+  });
+  
+  document.getElementById("applyPreferenceButton").addEventListener("click", function () {
+    document.getElementById("checkboxPreference").style.display = "none";
+  });
+  
