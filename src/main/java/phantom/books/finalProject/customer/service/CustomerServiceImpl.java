@@ -69,7 +69,7 @@ public class CustomerServiceImpl implements CustomerService {
 		int countQueryList = customerMapper.countQueryList(cp, memberNo, status, startDate, endDate, project);
 
 		// 페이지네이션
-		Pagination pagination = new Pagination(cp, countQueryList, 10, 5);
+		Pagination pagination = new Pagination(cp, countQueryList, 5, 5);
 
 		int limit = pagination.getLimit();
 		int offset = (cp - 1) * limit;

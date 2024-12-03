@@ -94,7 +94,7 @@ body {
 .inquiry-button-area {
   width: 90%;
   margin: 20px 0;
-  text-align: right;
+  text-align: center;
 }
 
 
@@ -113,7 +113,7 @@ body {
   margin-right: 1px;
   font-size: 14px;
   position: absolute;
-  left: 68%;
+  left: 55%;
 }
 
 .inquiry-tabs nav ul {
