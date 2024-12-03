@@ -215,10 +215,13 @@ document.querySelector("#submitReview").addEventListener("click", (event) => {
 
         })
         .then((data) => {
-            if (data) {
+            if (data === "true") {
                 alert('리뷰 작성 성공!');
                 location.reload(); // 페이지 새로고침
-            } else {
+            } else if (data === "false") {
+                alert('1회 구매당 1회 리뷰 작성이 가능합니다');
+            }
+             else {
                 alert('리뷰 작성 실패!');
             }
         })
@@ -242,6 +245,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // 통합된 이벤트 핸들러 설정
     wrap.addEventListener('click', (event) => {
         const target = event.target;
+
+   
 
         if (target.id === 'updateReview') {
             const reviewNo = target.getAttribute('data-review-no');
@@ -269,6 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function toggleEditMode(reviewNo, button) {
     console.log(`toggleEditMode 실행. 리뷰 번호: ${reviewNo}`);
 
+
     const titleInput = document.querySelector(`input[data-review-no="${reviewNo}"]`);
     const contentTextarea = document.querySelector(`textarea[data-review-no="${reviewNo}"]`);
     const cancelButton = document.querySelector(`button[data-review-no="${reviewNo}"][id="deleteReview"]`);
@@ -283,6 +289,9 @@ function toggleEditMode(reviewNo, button) {
 
     if (button.textContent === "수정") {
         console.log(`수정 모드 활성화: 리뷰 번호 ${reviewNo}`);
+
+        
+    alert("이미지 미 선택시 기본이미지로 대체됩니다.");
 
         // 수정 모드 활성화
         titleInput.removeAttribute('readonly');

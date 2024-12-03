@@ -166,6 +166,13 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
     public boolean writeReview(int bookNo, String title, String content, double score, int memberNo, MultipartFile file)  {
         String filePath = null;
         String webPath = null; 
+        
+        
+        int reviewCheck = mapper.reviewCheck(bookNo, memberNo);
+		if (reviewCheck < 0) {
+			return false;
+		}
+		
 
         // 파일 저장 처리
       File folder = new File(reviewImageFolderPath);
