@@ -1,3 +1,53 @@
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+* {
+  font-family: 'Pretendard-Regular';
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #f7f7f7;
+}
+
+.infoContainer {
+  display: flex;
+  gap: 20px;
+  min-height: calc(100vh - 100px);
+}
+
+/* 필수 항목 표시 스타일 */
+.red {
+  font-weight: bold;
+  color: red;
+  margin-bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mainContent {
+  flex-grow: 1;  /* 주 콘텐츠가 사이드바 공간을 제외한 나머지를 차지하도록 설정 */
+  padding: 30px;
+  padding-top: 0;
+  padding-left: 0;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.content-box {
+  display: block;
+  padding: 20px;
+  width: 100%;
+}
+
 
 /* 기본적으로 clear-btn 버튼 숨기기 */
 .clear-btn {
@@ -24,3 +74,4 @@ div label {
 #submitBtn{
   margin-bottom: 100px;
 }
+

@@ -7,154 +7,165 @@
   <title>비밀번호 변경 | Phantom Books</title>
 
   <link rel="stylesheet" href="/css/myPage/changePw.css">
-  <link rel="stylesheet" th:href="@{/css/myPage/myPageCommon.css}">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+  <!-- <link rel="stylesheet" th:href="@{/css/myPage/myPageCommon.css}"> -->
 </head>
 
 <body>
-  <header th:replace="~{common/common}"></header>
+  <div th:replace="~{common/common}"></div>
 
-  <main>
-    <section class="content-box">
-      <div th:replace="~{myPage/sidebar :: sidebar}"></div>
-        
+  <main class="changePwContainer">
 
-      <div class="category-container container mt-3 mb-3 pb-3 pt-3 bg-light rounded shadow" id="phoneCheckSection">
-        <div class="row mb-3">
-          <div class="col-12">
-            <div class="card sticky-card max-width">
-              <div class="card-header">
-                <h2 style="font-weight: bold;">비밀번호 변경</h2>
-              </div>
-              <div class="d-flex flex-wrap gap-2 col-12 ">
-                <div class="card-body">
-                  <form action="checkTelNo" method="POST" name="checkTelNoForm" id="checkTelNoForm"
-                    class="needs-validation mx-auto mt-4" style="width: 60%;" novalidate>
+    <div th:replace="~{common/myPageSide-menu}"></div>
 
-                    <!-- 전화번호 입력, 인증 문자 발송 버튼 -->
-                    <div class="form-floating row g-3 mb-2 mt-2 position-relative">
-                      <div class="form-floating col-7 position-relative">
-                        <input type="tel" class="form-control" id="telNo" name="telNo" placeholder="" maxlength="11"
-                          autocomplete="off" required>
-                        <label for="telNo">전화번호 (-없이 숫자만 작성해주세요)</label>
-                        <button type="button" id="phoneClearBtn" class="btn-close clear-btn"
-                          onclick="clearInput('telNo')" aria-label="Clear" tabindex="-1"></button>
-                        <div class="invalid-feedback">전화번호를 입력해주세요.</div>
+    <div class="mainContent">
+
+      <section class="content-box">
+
+
+        <div class="category-container container mt-3 mb-3 pb-3 pt-3 bg-light rounded shadow" id="phoneCheckSection">
+          <div class="row mb-3">
+            <div class="col-12">
+              <div class="card sticky-card max-width">
+                <div class="card-header">
+                  <h2 style="font-weight: bold;">비밀번호 변경</h2>
+                </div>
+                <div class="d-flex flex-wrap gap-2 col-12 ">
+                  <div class="card-body">
+                    <form action="checkTelNo" method="POST" name="checkTelNoForm" id="checkTelNoForm"
+                      class="needs-validation mx-auto mt-4" style="width: 60%;" novalidate>
+
+                      <!-- 전화번호 입력, 인증 문자 발송 버튼 -->
+                      <div class="form-floating row g-3 mb-2 mt-2 position-relative">
+                        <div class="form-floating col-7 position-relative">
+                          <input type="tel" class="form-control" id="telNo" name="telNo" placeholder="" maxlength="11"
+                            autocomplete="off" required>
+                          <label for="telNo">전화번호 (-없이 숫자만 작성해주세요)</label>
+                          <button type="button" id="phoneClearBtn" class="btn-close clear-btn"
+                            onclick="clearInput('telNo')" aria-label="Clear" tabindex="-1"></button>
+                          <div class="invalid-feedback">전화번호를 입력해주세요.</div>
+                        </div>
+                        <div class="col-auto">
+                          <button type="button" id="phoneCheckBtn" class="btn btn-primary" style="display: none;">전화번호
+                            인증</button>
+                          <button type="button" id="phoneChangeBtn" class="btn btn-danger" style="display: none;">전화번호
+                            변경</button>
+                        </div>
                       </div>
-                      <div class="col-auto">
-                        <button type="button" id="phoneCheckBtn" class="btn btn-primary" style="display: none;">전화번호
-                          인증</button>
-                        <button type="button" id="phoneChangeBtn" class="btn btn-danger" style="display: none;">전화번호
-                          변경</button>
-                      </div>
-                    </div>
 
-                    <!-- 인증번호 입력, 인증 버튼 -->
-                    <div class="form-floating row g-3 mb-2 mt-2 position-relative" id="verificationSection"
-                      style="display: none;">
-                      <div class="form-floating col-7 position-relative">
-                        <input type="text" class="form-control" id="floatingPhoneCheck" placeholder="" maxlength="4"
-                          autocomplete="off" required>
-                        <label for="floatingPhoneCheck">인증번호 확인</label>
-                        <button type="button" id="phoneCheckClearBtn" class="btn-close clear-btn"
-                          onclick="clearInput('floatingPhoneCheck')" aria-label="Clear" tabindex="-1"></button>
+                      <!-- 인증번호 입력, 인증 버튼 -->
+                      <div class="form-floating row g-3 mb-2 mt-2 position-relative" id="verificationSection"
+                        style="display: none;">
+                        <div class="form-floating col-7 position-relative">
+                          <input type="text" class="form-control" id="floatingPhoneCheck" placeholder="" maxlength="4"
+                            autocomplete="off" required>
+                          <label for="floatingPhoneCheck">인증번호 확인</label>
+                          <button type="button" id="phoneCheckClearBtn" class="btn-close clear-btn"
+                            onclick="clearInput('floatingPhoneCheck')" aria-label="Clear" tabindex="-1"></button>
+                        </div>
+                        <div class="col-auto">
+                          <button type="button" id="phoneCertifiedBtn" class="btn btn-primary">인증번호 인증</button>
+                        </div>
                       </div>
-                      <div class="col-auto">
-                        <button type="button" id="phoneCertifiedBtn" class="btn btn-primary">인증번호 인증</button>
-                      </div>
-                    </div>
 
 
-                    <!-- 인증 버튼 -->
-                    <button id="phoneSubmitBtnDanger" class="btn btn-danger col-10" disabled>전화번호 인증 절차을
-                      완료해주세요</button>
-                    <button type="submit" id="phoneSubmitBtnSuccess" class="btn btn-success col-10"
-                      style="display: none;">전화번호 인증</button>
-                  </form>
+                      <!-- 인증 버튼 -->
+                      <button id="phoneSubmitBtnDanger" class="btn btn-danger col-10" disabled style="width: 60%;">전화번호 인증 절차을
+                        완료해주세요</button>
+                      <button type="submit" id="phoneSubmitBtnSuccess" class="btn btn-success col-10"
+                        style="display: none; background-color: #205375; border-color: #205375; width: 60%;">전화번호 인증</button>
+                    </form>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="category-container container mt-3 mb-3 pb-3 pt-3 bg-light rounded shadow" id="changePwSection" style="display: none;">
-        <div class="row mb-3">
-          <div class="col-12">
-            <div class="card sticky-card max-width">
-              <div class="card-header">
-                <h2 style="font-weight: bold;">비밀번호 변경</h2>
-              </div>
-              <div class="d-flex flex-wrap gap-2 col-12 ">
-                <div class="card-body">
-                  <form action="changePw" method="POST" name="changePwForm" id="changePwForm"
-                    class="needs-validation mx-auto mt-4" style="width: 60%;" novalidate>
+        <div class="category-container container mt-3 mb-3 pb-3 pt-3 bg-light rounded shadow" id="changePwSection"
+          style="display: none;">
+          <div class="row mb-3">
+            <div class="col-12">
+              <div class="card sticky-card max-width">
+                <div class="card-header">
+                  <h2 style="font-weight: bold;">비밀번호 변경</h2>
+                </div>
+                <div class="d-flex flex-wrap gap-2 col-12 ">
+                  <div class="card-body">
+                    <form action="changePw" method="POST" name="changePwForm" id="changePwForm"
+                      class="needs-validation mx-auto mt-4" style="width: 60%;" novalidate>
 
-                    <!-- 기존 비밀번호 입력 -->
-                    <div class="form-floating row g-3 mb-2 mt-2 position-relative">
-                      <div class="form-floating col-7 position-relative">
-                        <input type="password" class="form-control" id="currentPw" name="currentPw" placeholder=""
-                          maxlength="12" autocomplete="off" required>
-                        <label for="currentPw">현재 비밀번호</label>
-                        <button type="button" id="currentPasswordClearBtn" class="btn-close clear-btn"
-                          onclick="clearInput('currentPw')" aria-label="Clear" tabindex="-1"></button>
+                      <!-- 기존 비밀번호 입력 -->
+                      <div class="form-floating row g-3 mb-2 mt-2 position-relative">
+                        <div class="form-floating col-7 position-relative">
+                          <input type="password" class="form-control" id="currentPw" name="currentPw" placeholder=""
+                            maxlength="12" autocomplete="off" required>
+                          <label for="currentPw">현재 비밀번호</label>
+                          <button type="button" id="currentPasswordClearBtn" class="btn-close clear-btn"
+                            onclick="clearInput('currentPw')" aria-label="Clear" tabindex="-1"></button>
+                        </div>
                       </div>
-                    </div>
 
-                    <div style="height: 30px;"></div>
+                      <div style="height: 30px;"></div>
 
-                    <!-- 새로운 비밀번호 입력, 요청사항 -->
-                    <div class="form-floating row g-3 mb-2 mt-2 position-relative">
-                      <div class="form-floating col-7 position-relative">
-                        <input type="password" class="form-control" id="memberPw" name="memberPw" placeholder=""
-                          maxlength="12" autocomplete="off" required>
-                        <label for="memberPw">변경할 비밀번호</label>
-                        <button type="button" id="passwordClearBtn" class="btn-close clear-btn"
-                          onclick="clearInput('memberPw')" aria-label="Clear" tabindex="-1"></button>
-                        <div class="invalid-feedback">변경할 비밀번호를 입력해주세요.</div>
+                      <!-- 새로운 비밀번호 입력, 요청사항 -->
+                      <div class="form-floating row g-3 mb-2 mt-2 position-relative">
+                        <div class="form-floating col-7 position-relative">
+                          <input type="password" class="form-control" id="memberPw" name="memberPw" placeholder=""
+                            maxlength="12" autocomplete="off" required>
+                          <label for="memberPw">변경할 비밀번호</label>
+                          <button type="button" id="passwordClearBtn" class="btn-close clear-btn"
+                            onclick="clearInput('memberPw')" aria-label="Clear" tabindex="-1"></button>
+                          <div class="invalid-feedback">변경할 비밀번호를 입력해주세요.</div>
+                        </div>
+                        <div class="col-auto">
+                          <span id="passwordHelpLength" class="form-text">8~12자 사이로</span> <br>
+                          <span id="passwordHelpChars" class="form-text">문자, 특수문자, 숫자를 모두 사용</span>
+                        </div>
+                        <div class="col-auto">
+                          <button type="button" id="passwordChangeBtn" class="btn btn-danger"
+                            style="display: none;">비밀번호
+                            변경</button>
+                        </div>
                       </div>
-                      <div class="col-auto">
-                        <span id="passwordHelpLength" class="form-text">8~12자 사이로</span> <br>
-                        <span id="passwordHelpChars" class="form-text">문자, 특수문자, 숫자를 모두 사용</span>
-                      </div>
-                      <div class="col-auto">
-                        <button type="button" id="passwordChangeBtn" class="btn btn-danger" style="display: none;">비밀번호
-                          변경</button>
-                      </div>
-                    </div>
 
-                    <!-- 새로운 비밀번호 확인 입력 -->
-                    <div id="passwordConfirmSection" class="form-floating row g-3 mb-2 mt-2 position-relative">
-                      <div class="form-floating col-7 position-relative">
-                        <input type="password" class="form-control" id="floatingPasswordConfirm" placeholder=""
-                          maxlength="12" autocomplete="off" required>
-                        <label for="floatingPasswordConfirm">변경할 비밀번호 확인</label>
-                        <button type="button" class="btn-close clear-btn"
-                          onclick="clearInput('floatingPasswordConfirm')" aria-label="Clear" tabindex="-1"></button>
-                        <div class="invalid-feedback" id="passwordConfirmHelp">비밀번호가 일치하지 않습니다.</div>
+                      <!-- 새로운 비밀번호 확인 입력 -->
+                      <div id="passwordConfirmSection" class="form-floating row g-3 mb-2 mt-2 position-relative">
+                        <div class="form-floating col-7 position-relative">
+                          <input type="password" class="form-control" id="floatingPasswordConfirm" placeholder=""
+                            maxlength="12" autocomplete="off" required>
+                          <label for="floatingPasswordConfirm">변경할 비밀번호 확인</label>
+                          <button type="button" class="btn-close clear-btn"
+                            onclick="clearInput('floatingPasswordConfirm')" aria-label="Clear" tabindex="-1"></button>
+                          <div class="invalid-feedback" id="passwordConfirmHelp">비밀번호가 일치하지 않습니다.</div>
+                        </div>
+                        <div class="col-auto">
+                          <button type="button" id="passwordConfirmBtn" class="btn btn-primary"
+                            style="display: none;">비밀번호 사용하기</button>
+                        </div>
                       </div>
-                      <div class="col-auto">
-                        <button type="button" id="passwordConfirmBtn" class="btn btn-primary"
-                          style="display: none;">비밀번호 사용하기</button>
-                      </div>
-                    </div>
 
-                    <!-- 변경 버튼 -->
-                    <button id="passwordSubmitBtnDanger" class="btn btn-danger col-10" disabled>새로운 비밀번호를 입력해주세요</button>
-                    <button type="submit" id="passwordSubmitBtnSuccess" class="btn btn-success col-10"
-                      style="display: none;">변경하기</button>
-                  </form>
+                      <!-- 변경 버튼 -->
+                      <button id="passwordSubmitBtnDanger" class="btn btn-danger col-10" disabled>새로운 비밀번호를
+                        입력해주세요</button>
+                      <button type="submit" id="passwordSubmitBtnSuccess" class="btn btn-success col-10"
+                        style="display: none; background-color: #205375; border-color: #205375; width: 60%;">변경하기</button>
+                    </form>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   </main>
+
+
+
 
   <footer th:replace="~{common/footer :: footer}"></footer>
   <script src="/js/myPage/changePw.js"></script>
-  <script src="https://kit.fontawesome.com/5eb8a8a2db.js" crossorigin="anonymous"></script>
 </body>
 
 </html>

@@ -66,3 +66,24 @@
   background-color: #969696;
   border-radius: 8px;
 }
+
+.text-end {
+  position: relative;
+  height: 40px; 
+}
+
+#openBtn,
+#closeBtn {
+  position: absolute; 
+  top: 0; 
+  right: 0; 
+  opacity: 1; 
+  visibility: visible;
+  transition: opacity 0.3s ease, visibility 0.3s ease; 
+}
+
+#openBtn.hidden,
+#closeBtn.hidden {
+  opacity: 0; 
+  visibility: hidden; 
+}

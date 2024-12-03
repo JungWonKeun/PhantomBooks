@@ -16,11 +16,12 @@ body {
   background-color: #f7f7f7;
 }
 
-.changePwContainer {
+.checkPwContainer {
   display: flex;
   gap: 20px;
   min-height: calc(100vh - 100px);
 }
+
 
 
 .mainContent {
@@ -37,40 +38,4 @@ body {
   display: block;
   padding: 20px;
   width: 100%;
-}
-
-.red {
-  font-weight: bold;
-  color: red;
-  margin-bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-
-/* 기본적으로 clear-btn 버튼 숨기기 */
-.clear-btn {
-  display: none;
-  position: absolute;
-  
-  top: 50%;
-  right: 35px;
-  transform: translateY(-50%);
-}
-
-
-
-/* 입력 필드의 오른쪽 여백을 늘려서 유효성 아이콘과 clear-btn이 겹치지 않도록 조정 */
-.form-control {
-  padding-right: 60px; /* 여유 있는 오른쪽 패딩 추가 */
-}
-
-
-div label {
-  margin-left: 3px; /* input 깨짐 방지 */
-}
-
-#submitBtn{
-  margin-bottom: 100px;
 }

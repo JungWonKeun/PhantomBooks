@@ -1,3 +1,54 @@
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  * {
+    font-family: 'Pretendard-Regular';
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    background-color: #f7f7f7;
+  }
+  
+  .myReviewContainer {
+    display: flex;
+    gap: 20px;
+    min-height: calc(100vh - 100px);
+  }
+  
+  /* 필수 항목 표시 스타일 */
+  .red {
+    font-weight: bold;
+    color: red;
+    margin-bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .mainContent {
+    flex-grow: 1;  
+    padding: 30px;
+    padding-top: 0;
+    padding-left: 0;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .content-box {
+    display: block;
+    padding: 20px;
+    width: 100%;
+  }
+
+
 .mypage-container {
     max-width: 1200px;
     margin: 0 auto;
@@ -17,7 +68,7 @@
 }
 
 .welcome-title {
-    font-size: 2.5rem;
+    font-size: 2.0rem;
     color: #2c3e50;
     font-weight: 700;
 }
@@ -30,7 +81,7 @@
 
 .user-info i {
     font-size: 1.2rem;
-    color: #3498db;
+    color: #205375;
 }
 
 .user-info span {
@@ -61,88 +112,154 @@
     color: #fff;
 }
 
-.review-container {
-    background: #fff;
+/* 리뷰 항목 컨테이너 */
+.review-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* 최소 300px 크기 */
+    gap: 20px;
+    margin-top: 20px;
+    justify-content: start; /* 왼쪽부터 정렬 */
+}
+
+/* 리뷰 항목 스타일 */
+.review-item {
+    background-color: #ffffff;
     border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    padding: 2rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 300px; /* 고정된 너비 */
+    height: 180px; /* 고정된 높이 */
 }
 
-/* 반응형 디자인 */
-@media (max-width: 768px) {
-    .mypage-container {
-        padding: 1rem;
-    }
-
-    .title-area {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
-    }
-
-    .user-info {
-        flex-wrap: wrap;
-    }
-
-    .user-actions {
-        margin-left: 0;
-        margin-top: 0.5rem;
-    }
-
-    .welcome-title {
-        font-size: 2rem;
-    }
+.review-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-.order-item {
-    border: 1px solid #ddd;
-    border-radius: 8px;
+/* 리뷰 요약 링크 스타일 */
+.review-summary {
+    display: block;
     padding: 20px;
-    background-color: white;
+    text-decoration: none;
+    color: inherit;
+    width: 100%; /* 부모 크기와 맞추기 */
+    height: 100%; /* 부모 크기와 맞추기 */
 }
 
-.order-header {
-    display: flex;
-    justify-content: space-between;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #eee;
-    margin-bottom: 15px;
+/* 리뷰 책 제목 */
+.review-book-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
 }
 
-.order-details {
+/* 리뷰 상세 정보 */
+.review-detail {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 10px;
 }
 
-.order-book {
-    display: flex;
-    gap: 20px;
-    padding: 10px;
-    background-color: #f9f9f9;
-    border-radius: 4px;
-}
-
-.order-book img {
-    width: 100px;
-    height: 150px;
-    object-fit: cover;
-}
-
-.book-info {
-    flex-grow: 1;
-}
-
-.order-footer {
+/* 리뷰 헤더 (제목, 점수) */
+.review-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 15px;
-    padding-top: 15px;
-    border-top: 1px solid #eee;
+    margin-bottom: 10px;
 }
 
-.btn-review {
-    background-color: #4CAF50;
-} 
+/* 리뷰 제목 */
+.review-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333333;
+}
 
+/* 리뷰 점수 */
+.review-score {
+    display: flex; 
+    align-items: center;
+    gap: 5px;
+    font-size: 1rem;
+    color: #f39c12;
+}
+
+.review-score i {
+    font-size: 1.2rem;
+}
+
+/* 리뷰 내용 */
+.review-content {
+    font-size: 0.95rem;
+    color: #666666;
+    line-height: 1.6;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* 최대 3줄까지 표시 */
+    -webkit-box-orient: vertical;
+}
+
+/* 페이지네이션 */
+.pagination {
+    display: flex;
+    justify-content: center; /* 중앙 정렬 */
+    align-items: center;
+    margin-top: 40px; /* 리뷰 목록과 간격 */
+    padding: 10px 0;
+    position: sticky; /* 고정 위치 */
+    bottom: 0;
+    background: #fff;
+    z-index: 10;
+    border-top: 1px solid #e9ecef;
+}
+
+/* 페이지네이션 링크 */
+.page-link {
+    padding: 10px 16px;
+    background-color: #f1f3f5;
+    color: #333 !important;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.page-link:hover {
+    background-color: #205375;
+    color: #fff;
+    border-color: #205375;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 활성 페이지 */
+.page-link.active {
+    background-color: #205375 !important;
+    border: 1px solid #205375 !important;
+    color: #fff !important;
+    font-weight: bold;
+    pointer-events: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+    .pagination {
+        margin-top: 20px; /* 간격 조정 */
+    }
+
+    .page-link {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+
+    .review-item {
+        width: auto; /* 반응형으로 너비 조정 */
+        height: auto; /* 반응형으로 높이 조정 */
+    }
+}

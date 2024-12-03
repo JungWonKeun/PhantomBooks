@@ -66,13 +66,6 @@
     position: relative;
 }
 
-.menu.active {
-    color: #007bff;
-}
-
-.menu:hover {
-    color: #007bff;
-}
 
 /* 서브메뉴 스타일 */
 .submenu {

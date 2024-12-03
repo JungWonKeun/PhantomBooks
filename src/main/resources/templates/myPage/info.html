@@ -5,154 +5,172 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>내 정보 | Phantom Books</title>
-
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="/css/myPage/info.css">
-  <link rel="stylesheet" th:href="@{/css/myPage/myPageCommon.css}">
 </head>
 
 <body>
   <header th:replace="~{common/common}"></header>
+  <main class="infoContainer">
 
-  <main>
-    <section class="content-box">
-      <div th:replace="~{myPage/sidebar :: sidebar}"></div>
+    <div th:replace="~{common/myPageSide-menu}"></div>
+    <div class="mainContent">
+      <section class="content-box">
 
-      <div class="category-container container mt-3 mb-3 pb-3 pt-3 bg-light rounded shadow">
-        <div class="row mb-3">
-          <div class="col-12">
-            <div class="card sticky-card max-width">
-              <div class="card-header">
-                <h2 style="font-weight: bold;">내 정보 조회/변경</h2>
-              </div>
-              <div class="d-flex flex-wrap gap-2 col-12 ">
-                <div class="card-body">
-                  <form action="changeInfo" method="POST" name="changeinfoForm" id="changeinfoForm" class="needs-validation mx-auto mt-4" style="width: 60%;" novalidate>
-                    
-                    <!-- 이름 입력, 생일 -->
-                    <div class="form-floating row g-3 mb-2 mt-2 position-relative">
-                      <div class="red col-1">* 필수</div>
-                      <div class="form-floating col-6 position-relative">
-                        <input type="text" class="form-control" id="name" name="name" placeholder="" maxlength="6" autocomplete="off" required
-                        th:value="${session.loginMember.name}">
-                        <label for="name">이름</label>
-                        <button type="button" class="btn-close clear-btn" onclick="clearInput('name')" aria-label="Clear"
-                          tabindex="-1"></button>
-                        <div class="invalid-feedback">이름을 입력해주세요.</div>
-                      </div>
-                      <div class="form-floating offset-1 col-6 position-relative">
-                        <input type="text" class="form-control" id="birthDate" name="birthDate" placeholder="" maxlength="8" autocomplete="off" required
-                        th:value="${session.loginMember.birthDate}">
-                        <label for="birthDate">생일 (YYYYMMDD)</label>
-                        <button type="button" class="btn-close clear-btn" onclick="clearInput('birthDate')" aria-label="Clear"
-                          tabindex="-1"></button>
-                        <div class="invalid-feedback">공란 or 숫자 8자를 입력해주세요.</div>
-                      </div>
-                    </div>
-                
-                    <!-- 전화번호 입력, 인증 문자 발송 버튼 -->
-                    <div class="form-floating row g-3 mb-2 mt-2 position-relative">
-                      <div class="red col-1">* 필수</div>
-                      <div class="form-floating col-6 position-relative">
-                        <input type="tel" class="form-control" id="telNo" name="telNo" placeholder="" maxlength="11" autocomplete="off" required readonly
-                        th:value="${session.loginMember.telNo}">
-                        <label for="telNo">전화번호 (-없이 숫자만 작성해주세요)</label>
-                        <button type="button" id="phoneClearBtn" class="btn-close clear-btn" onclick="clearInput('telNo')"
-                        aria-label="Clear" tabindex="-1" style="display: none;"></button>
-                        <div class="invalid-feedback">전화번호를 입력해주세요.</div>
-                      </div>
-                      <div class="col-auto">
-                        <button type="button" id="phoneCheckBtn" class="btn btn-primary" style="display: none;">전화번호 인증</button>
-                        <button type="button" id="phoneChangeBtn" class="btn btn-danger">전화번호 변경</button>
-                      </div>
-                    </div>
-                
-                    <!-- 인증번호 입력, 인증 버튼 -->
-                    <div class="form-floating row g-3 mb-2 mt-2 position-relative" id="verificationSection" style="display: none;">
-                      <div class="form-floating offset-1 col-6 position-relative">
-                        <input type="text" class="form-control" id="floatingPhoneCheck" placeholder="" maxlength="4" autocomplete="off" required>
-                        <label for="floatingPhoneCheck">인증번호 확인</label>
-                        <button type="button" id="phoneCheckClearBtn" class="btn-close clear-btn" onclick="clearInput('floatingPhoneCheck')" aria-label="Clear"
-                          tabindex="-1"></button>
-                      </div>
-                      <div class="col-auto">
-                        <button type="button" id="phoneCertifiedBtn" class="btn btn-primary">인증번호 인증</button>
-                      </div>
-                    </div>
-                    <br>
-                
-                    <!-- 주소 입력란, 주소 찾기 버튼 -->
-                    <div class="form-floating g-3 mb-2 mt-2 position-relative">
-                      <div class="col-auto d-flex">
-                        <div class="col-3 d-flex align-items-center justify-content-center" style="font-weight: bold;">* 기본 배송지</div>
-                        <button type="button" id="addressFindBtn" class="btn btn-secondary" onclick="findAddress()" style="display: none;">주소 찾기</button>
-                        <button type="button" id="addressChangeBtn" class="btn btn-danger"  onclick="changeAddress();">주소 삭제하기</button>
-                      </div>
-                    </div>
-                
-                    <!-- 우편번호, 주소, 상세 주소 입력 -->
-                    <div class="form-floating mb-2 mt-2 position-relative">
-                      <input type="text" class="form-control" id="zip" name="zip" placeholder="" readonly
-                      th:value="${session.loginMember.zip}">
-                      <label for="zip">우편번호</label>
-                    </div>
-                    <div class="form-floating mb-2 mt-2 position-relative">
-                      <input type="text" class="form-control" id="address" name="address" placeholder="" readonly
-                      th:value="${session.loginMember.address}">
-                      <label for="address">주소</label>
-                    </div>
-                    <div class="form-floating mb-2 mt-2 position-relative">
-                      <input type="text" class="form-control" id="detailAddress" name="detailAddress" maxlength="50" autocomplete="off" placeholder="" readonly
-                      th:value="${session.loginMember.detailAddress}">
-                      <label for="detailAddress">상세 주소</label>
-                      <button type="button" id="detailAddressClearBtn" class="btn-close clear-btn" onclick="clearInput('detailAddress')"
-                        aria-label="Clear"></button>
-                    </div>
+        <div class="category-container container mt-3 mb-3 pb-3 pt-3 bg-light rounded shadow">
+          <div class="row mb-3">
+            <div class="col-12">
+              <div class="card sticky-card max-width">
+                <div class="card-header">
+                  <h2 style="font-weight: bold;">내 정보 조회/변경</h2>
+                </div>
+                <div class="d-flex flex-wrap gap-2 col-12 ">
+                  <div class="card-body">
+                    <form action="changeInfo" method="POST" name="changeinfoForm" id="changeinfoForm"
+                      class="needs-validation mx-auto mt-4" style="width: 60%;" novalidate>
 
-
-                    <!-- 추가 주소 입력란, 추가 주소 찾기 버튼 -->
-                    <div class="form-floating g-3 mb-2 mt-2 position-relative">
-                      <div class="col-auto d-flex">
-                        <div class="col-3 d-flex align-items-center justify-content-center" style="font-weight: bold;">* 추가 배송지</div>
-                        <button type="button" id="addAddressFindBtn" class="btn btn-secondary col-auto" onclick="findAddAddress()" style="display: none;">주소 찾기</button>
-                        <button type="button" id="addAddressChangeBtn" class="btn btn-danger col-auto"  onclick="changeAddAddress();">주소 삭제하기</button>
-                        <button type="button" id="addAddressAddBtn" class="btn btn-primary ms-auto" onclick="addAddressToDefault();">
-                          기본 배송지로 변경하기<i class="fa-solid fa-rotate"></i>
-                        </button>
+                      <!-- 이름 입력, 생일 -->
+                      <div class="form-floating row g-3 mb-2 mt-2 ml-50 position-relative">
+                        <div class="red col-1"> * 필수&nbsp;&nbsp; </div>
+                        <div class="form-floating col-6 position-relative">
+                          <input type="text" class="form-control" id="name" name="name" placeholder="" maxlength="6"
+                            autocomplete="off" required th:value="${session.loginMember.name}">
+                          <label for="name">이름</label>
+                          <button type="button" class="btn-close clear-btn" onclick="clearInput('name')"
+                            aria-label="Clear" tabindex="-1"></button>
+                          <div class="invalid-feedback">이름을 입력해주세요.</div>
+                        </div>
+                        <div class="form-floating offset-1 col-6 position-relative">
+                          <input type="text" class="form-control" id="birthDate" name="birthDate" placeholder=""
+                            maxlength="8" autocomplete="off" required th:value="${session.loginMember.birthDate}">
+                          <label for="birthDate">생일 (YYYYMMDD)</label>
+                          <button type="button" class="btn-close clear-btn" onclick="clearInput('birthDate')"
+                            aria-label="Clear" tabindex="-1"></button>
+                          <div class="invalid-feedback">공란 or 숫자 8자를 입력해주세요.</div>
+                        </div>
                       </div>
-                    </div>
-                
-                    <!-- 우편번호, 주소, 상세 주소 입력 -->
-                    <div class="form-floating mb-2 mt-2 position-relative">
-                      <input type="text" class="form-control" id="addZip" name="addZip" placeholder="" readonly
-                      th:value="${session.loginMember.addZip}">
-                      <label for="addZip">우편번호</label>
-                    </div>
-                    <div class="form-floating mb-2 mt-2 position-relative">
-                      <input type="text" class="form-control" id="addAddress" name="addAddress" placeholder="" readonly
-                      th:value="${session.loginMember.addAddress}">
-                      <label for="addAddress">주소</label>
-                    </div>
-                    <div class="form-floating mb-2 mt-2 position-relative">
-                      <input type="text" class="form-control" id="addDetailAddress" name="addDetailAddress" maxlength="50" autocomplete="off" placeholder="" readonly
-                      th:value="${session.loginMember.addDetailAddress}">
-                      <label for="addDetailAddress">상세 주소</label>
-                      <button type="button" id="addDetailAddressClearBtn" class="btn-close clear-btn" onclick="clearInput('addDetailAddress')"
-                        aria-label="Clear"></button>
-                    </div>
-                
-                    <!-- 가입 버튼 -->
-                    <button type="submit" id="submitBtn" class="btn btn-success w-100" style="display: none;">변경하기</button>
-                  </form>
+
+                      <!-- 전화번호 입력, 인증 문자 발송 버튼 -->
+                      <div class="form-floating row g-3 mb-2 mt-2 position-relative">
+                        <div class="red col-1">* 필수 </div>
+                        <div class="form-floating col-6 position-relative">
+                          <input type="tel" class="form-control" id="telNo" name="telNo" placeholder="" maxlength="11"
+                            autocomplete="off" required readonly th:value="${session.loginMember.telNo}">
+                          <label for="telNo">전화번호 (-없이 숫자만 작성해주세요)</label>
+                          <button type="button" id="phoneClearBtn" class="btn-close clear-btn"
+                            onclick="clearInput('telNo')" aria-label="Clear" tabindex="-1"
+                            style="display: none;"></button>
+                          <div class="invalid-feedback">전화번호를 입력해주세요.</div>
+                        </div>
+                        <div class="col-auto">
+                          <button type="button" id="phoneCheckBtn" class="btn btn-primary" style="display: none;">전화번호
+                            인증</button>
+                          <button type="button" id="phoneChangeBtn" class="btn btn-danger">전화번호 변경</button>
+                        </div>
+                      </div>
+
+                      <!-- 인증번호 입력, 인증 버튼 -->
+                      <div class="form-floating row g-3 mb-2 mt-2 position-relative" id="verificationSection"
+                        style="display: none;">
+                        <div class="form-floating offset-1 col-6 position-relative">
+                          <input type="text" class="form-control" id="floatingPhoneCheck" placeholder="" maxlength="4"
+                            autocomplete="off" required>
+                          <label for="floatingPhoneCheck">인증번호 확인</label>
+                          <button type="button" id="phoneCheckClearBtn" class="btn-close clear-btn"
+                            onclick="clearInput('floatingPhoneCheck')" aria-label="Clear" tabindex="-1"></button>
+                        </div>
+                        <div class="col-auto">
+                          <button type="button" id="phoneCertifiedBtn" class="btn btn-primary">인증번호 인증</button>
+                        </div>
+                      </div>
+                      <br>
+
+                      <!-- 주소 입력란, 주소 찾기 버튼 -->
+                      <div class="form-floating g-3 mb-2 mt-2 position-relative">
+                        <div class="col-auto d-flex" style="width: 50%;">
+                          <div class="col-3 d-flex align-items-center justify-content-left" style="font-weight: bold;">*
+                            기본 배송지</div>
+                          <button type="button" id="addressFindBtn" class="btn btn-secondary" onclick="findAddress()"
+                            style="display: none;">주소 찾기</button>
+                          <button type="button" id="addressChangeBtn" class="btn btn-danger" onclick="changeAddress();"
+                            style="display: flex; margin-left: 40px;">주소 삭제하기</button>
+                        </div>
+                      </div>
+
+                      <!-- 우편번호, 주소, 상세 주소 입력 -->
+                      <div class="form-floating mb-2 mt-2 position-relative">
+                        <input type="text" class="form-control" id="zip" name="zip" placeholder="" readonly
+                          th:value="${session.loginMember.zip}" style="width: 58%;">
+                        <label for="zip">우편번호</label>
+                      </div>
+                      <div class="form-floating mb-2 mt-2 position-relative">
+                        <input type="text" class="form-control" id="address" name="address" placeholder="" readonly
+                          th:value="${session.loginMember.address}" style="width: 58%;">
+                        <label for="address">주소</label>
+                      </div>
+                      <div class="form-floating mb-2 mt-2 position-relative">
+                        <input type="text" class="form-control" id="detailAddress" name="detailAddress" maxlength="50"
+                          autocomplete="off" placeholder="" readonly th:value="${session.loginMember.detailAddress}"
+                          style="width: 58%;">
+                        <label for="detailAddress">상세 주소</label>
+                        <button type="button" id="detailAddressClearBtn" class="btn-close clear-btn"
+                          onclick="clearInput('detailAddress')" aria-label="Clear"></button>
+                      </div>
+
+                      <br>
+                      <!-- 추가 주소 입력란, 추가 주소 찾기 버튼 -->
+                      <div class="form-floating g-3 mb-2 mt-2 position-relative">
+                        <div class="col-auto d-flex">
+                          <div class="col-3 d-flex align-items-center justify-content-left" style="font-weight: bold;">*
+                            추가 배송지</div>
+                          <button type="button" id="addAddressFindBtn" class="btn btn-secondary col-auto"
+                            onclick="findAddAddress()" style="display: none;">주소 찾기</button>
+                          <button type="button" id="addAddressChangeBtn" class="btn btn-danger col-auto"
+                            onclick="changeAddAddress();">주소 삭제하기</button>
+                          <button type="button" id="addAddressAddBtn" class="btn btn-primary ms-auto"
+                            onclick="addAddressToDefault();">
+                            기본 배송지로 변경하기<i class="fa-solid fa-rotate"></i>
+                          </button>
+                        </div>
+                      </div>
+
+                      <!-- 우편번호, 주소, 상세 주소 입력 -->
+                      <div class="form-floating mb-2 mt-2 position-relative">
+                        <input type="text" class="form-control" id="addZip" name="addZip" placeholder="" readonly
+                          th:value="${session.loginMember.addZip}" style="width: 58%;">
+                        <label for="addZip">우편번호</label>
+                      </div>
+                      <div class="form-floating mb-2 mt-2 position-relative">
+                        <input type="text" class="form-control" id="addAddress" name="addAddress" placeholder=""
+                          readonly th:value="${session.loginMember.addAddress}" style="width: 58%;">
+                        <label for="addAddress">주소</label>
+                      </div>
+                      <div class="form-floating mb-2 mt-2 position-relative">
+                        <input type="text" class="form-control" id="addDetailAddress" name="addDetailAddress"
+                          maxlength="50" autocomplete="off" placeholder="" readonly
+                          th:value="${session.loginMember.addDetailAddress}" style="width: 58%;">
+                        <label for="addDetailAddress">상세 주소</label>
+                        <button type="button" id="addDetailAddressClearBtn" class="btn-close clear-btn"
+                          onclick="clearInput('addDetailAddress')" aria-label="Clear"></button>
+                      </div>
+                      <br>
+                      <!-- 가입 버튼 -->
+                      <button type="submit" id="submitBtn" class="btn btn-success w-100"
+                        style="display: none; background-color: #205375; border-color: #205375;">변경하기</button>
+                    </form>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   </main>
 
   <footer th:replace="~{common/footer :: footer}"></footer>
+  <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
   <script src="/js/myPage/info.js"></script>
   <script src="https://kit.fontawesome.com/5eb8a8a2db.js" crossorigin="anonymous"></script>
 </body>

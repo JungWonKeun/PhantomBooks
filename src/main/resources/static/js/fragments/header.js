@@ -34,7 +34,6 @@ modalLoginForm.addEventListener("submit", function (event) {
       return response.json();  // JSON으로 파싱
     })
     .then(data => {
-      alert("로그인 성공!");
       const modalElement = document.getElementById("modalLogin");
       const modal = bootstrap.Modal.getInstance(modalElement);
       if (data.authority != 1) {

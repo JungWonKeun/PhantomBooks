@@ -1,78 +1,79 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>내 리뷰 목록 | Phantom Books</title>
-    
+
     <link rel="stylesheet" href="/css/myPage/myReview.css">
-    <link rel="stylesheet" th:href="@{/css/myPage/myPageCommon.css}">
 </head>
+
 <body>
-    <header th:replace="~{common/common}"></header>
+    <div th:replace="~{common/common}"></div>
+    
+    <main class="myReviewContainer">
 
-    <main>
-        <section class="content-box">
-            <!-- 사이드바 -->
-            <div th:replace="~{myPage/sidebar :: sidebar}"></div>
+        <div th:replace="~{common/myPageSide-menu}"></div>
+        <div class="mainContent">
+            <section class="content-box">
 
-            <!-- 주른쪽 컨텐츠 영역 -->
-            <div class="right-content">
-                <!-- 헤더 영역 -->
-                <div class="mypage-header">
-                    <div class="title-area">
-                        <h1 class="welcome-title">내 리뷰 목록</h1>
-                        <div class="user-info">
-                            <i class="fas fa-user"></i>
-                            <span th:text="${session.loginMember?.name}">사용자명</span>
-                            <div class="user-actions">
-                                <a href="/myPage/info" class="header-btn">정보 수정</a>
-                                <a href="/myPage/changePw" class="header-btn">비밀번호 변경</a>
+    
+                <div class="right-content">
+                    <!-- 헤더 영역 -->
+                    <div class="mypage-header">
+                        <div class="title-area">
+                            <h1 class="welcome-title">내 리뷰 목록</h1>
+                            <div class="user-info">
+                                <i class="fas fa-user"></i>
+                                <span th:text="${session.loginMember?.name}">사용자명</span>
+                                <div class="user-actions">
+                                    <a href="/myPage/info" class="header-btn">정보 수정</a>
+                                    <a href="/myPage/changePw" class="header-btn">비밀번호 변경</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- 컨텐츠 영역 -->
-                <div class="review-grid">
-                    <div th:each="review : ${writeReview}" class="review-item">
-                        <a th:href="@{/searchBookPage/bookDetail/{bookNo}(bookNo=${review.bookNo})}" class="review-summary">
-                            <div class="review-book-title" th:text="${review.bookTitle}">책 제목</div>
-                            <div class="review-detail">
-                                <div class="review-header">
-                                    <div class="review-title" th:text="${review.reviewTitle}">리뷰 제목</div>
-                                    <div class="review-score">
-                                        <i class="fas fa-star"></i>
-                                        <span th:text="${review.reviewScore}">4.5</span>
+    
+                    <!-- 컨텐츠 영역 -->
+                    <div class="review-grid">
+                        <div th:each="review : ${writeReview}" class="review-item">
+                            <a th:href="@{/searchBookPage/bookDetail/{bookNo}(bookNo=${review.bookNo})}"
+                                class="review-summary">
+                                <div class="review-book-title" th:text="${review.bookTitle}">책 제목</div>
+                                <div class="review-detail">
+                                    <div class="review-header">
+                                        <div class="review-title" th:text="${review.reviewTitle}">리뷰 제목</div>
+                                        <div class="review-score">
+                                            <i class="fas fa-star"></i>
+                                            <span th:text="${review.reviewScore}">4.5</span>
+                                        </div>
                                     </div>
+                                    <div class="review-content" th:text="${review.reviewContent}">리뷰 내용</div>
                                 </div>
-                                <div class="review-content" th:text="${review.reviewContent}">리뷰 내용</div>
-                            </div>
-                        </a>
+                            </a>
+                        </div>
                     </div>
-                    
                     <!-- 페이지네이션 -->
                     <div class="pagination" th:if="${!#lists.isEmpty(writeReview)}">
-                        <a href="#" th:if="${currentPage > 1}" 
-                           th:href="@{/myPage/myReview(page=${currentPage-1})}" 
-                           class="page-link">&laquo;</a>
+                        <a href="#" th:if="${currentPage > 1}" th:href="@{/myPage/myReview(page=${currentPage-1})}"
+                            class="page-link">&laquo;</a>
 
                         <th:block th:each="pageNum : ${#numbers.sequence(1, totalPages)}">
-                            <a th:href="@{/myPage/myReview(page=${pageNum})}" 
-                               th:text="${pageNum}"
-                               th:class="${pageNum == currentPage ? 'page-link active' : 'page-link'}">1</a>
+                            <a th:href="@{/myPage/myReview(page=${pageNum})}" th:text="${pageNum}"
+                                th:class="${pageNum == currentPage ? 'page-link active' : 'page-link'}">1</a>
                         </th:block>
 
-                        <a href="#" th:if="${currentPage < totalPages}" 
-                           th:href="@{/myPage/myReview(page=${currentPage+1})}" 
-                           class="page-link">&raquo;</a>
+                        <a href="#" th:if="${currentPage < totalPages}"
+                            th:href="@{/myPage/myReview(page=${currentPage+1})}" class="page-link">&raquo;</a>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </div>
     </main>
 
     <footer th:replace="~{common/footer :: footer}"></footer>
     <script src="/js/myPage/myReview.js"></script>
 </body>
+
 </html>

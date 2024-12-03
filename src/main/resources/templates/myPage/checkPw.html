@@ -1,44 +1,50 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>비밀번호 확인 | Phantom Books</title>
-    <link rel="stylesheet" href="/css/myPage/info.css">
-    <link rel="stylesheet" th:href="@{/css/myPage/myPageCommon.css}">
+    <!-- <link rel="stylesheet" th:href="@{/css/myPage/myPageCommon.css}"> -->
+     <link rel="stylesheet" href="/css/myPage/checkPw.css">
 </head>
-<body>
-    <header th:replace="~{common/common}"></header>
 
-    <main>
-        <section class="content-box">
-          <div th:replace="~{myPage/sidebar :: sidebar}"></div>
-          
-            <!-- 비밀번호 확인 폼 -->
-            <div class="category-container container mt-3 mb-3 pb-3 pt-3 bg-light rounded shadow">
-                <div class="row mb-3">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h2 style="font-weight: bold;">비밀번호 확인</h2>
-                            </div>
-                            <div class="card-body">
-                                <form id="checkPwForm" class="needs-validation mx-auto" style="max-width: 400px;">
-                                    <div class="mb-3">
-                                        <label for="memberPw" class="form-label">비밀번호를 입력해주세요</label>
-                                        <input type="password" class="form-control" id="memberPw" required autocomplete="off">
-                                    </div>
-                                    <button type="submit" class="btn btn-primary w-100">확인</button>
-                                </form>
+<body>
+    <div th:replace="~{common/common}"></div>
+    <main class="checkPwContainer">
+
+        <div th:replace="~{common/myPageSide-menu}"></div>
+        <div class="mainContent">
+
+            <section class="content-box">
+
+                <!-- 비밀번호 확인 폼 -->
+                <div class="container ">
+                        <div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h2 style="font-weight: bold;">비밀번호 확인</h2>
+                                </div>
+                                <div class="card-body">
+                                    <form id="checkPwForm" class="needs-validation mx-auto" style="max-width: 400px;">
+                                        <div class="mb-3">
+                                            <label for="memberPw" class="form-label">비밀번호를 입력해주세요</label>
+                                            <input type="password" class="form-control" id="memberPw" required
+                                                autocomplete="off">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary w-100" style="background-color: #205375; border: 1px solid #205375;">확인</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </div>
     </main>
 
     <footer th:replace="~{common/footer :: footer}"></footer>
     <script src="/js/myPage/checkPw.js"></script>
 </body>
-</html> 
+
+</html>
