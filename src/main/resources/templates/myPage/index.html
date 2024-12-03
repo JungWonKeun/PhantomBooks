@@ -19,10 +19,10 @@
 
     <div class="mypage-main">
       <div class="mypage-header">
-        <div class="title-area">
+        <div class="title-area" style="margin-top: 30px;">
           <h2 class="welcome-title">마이페이지</h2>
           <div class="user-info">
-            <i class="fas fa-user"></i>
+            <i class="fas fa-user" style="color: #205375;"></i>
             <div class="user-name">
               <span th:text="${session.loginMember?.name}">사용자명</span>
             </div>
@@ -52,12 +52,12 @@
                   <span th:each="item, iterStat : ${category}" th:if="${iterStat.index < 6}" class="preference-tag"
                     th:text="${item.categoryName}">장르명</span>
                   <a href="/myPage/preference"><span th:if="${category.size() > 6}" class="preference-tag more-count"
-                      th:text="'+ ' + (${category.size() - 6} + '개')">+15개</span></a>
+                      th:text="'+ ' + (${category.size() - 6} + '개')">+15개<br></span></a>
                 </div>
               </div>
               <div class="preference-category">
                 <div class="category-header">
-                  <h3>관심 키워드</h3>
+                  <h3><br>관심 키워드</h3>
                 </div>
                 <div class="tag-container">
                   <span th:each="item, iterStat : ${preference}" th:if="${iterStat.index < 6}" class="preference-tag"
@@ -82,16 +82,15 @@
         </div>
         <div class="card-content">
           <div class="summary-list" th:if="${!#lists.isEmpty(buyList)}">
-            <a th:each="purchase, iterStat : ${buyList}" th:if="${iterStat.index < 3}"
+            <a th:each="purchase, iterStat : ${buyList}" th:if="${iterStat.index < 4}"
               th:href="@{/order/afterOrder(orderNo=${purchase.orderNo})}" class="purchase-item">
               <div class="purchase-title">
-                <span th:text="${purchase.bookTitle}">책 제목</span>
-                <span th:if="${purchase.bookCount > 1}" th:text="| 등 총 ${purchase.bookCount}권|"
-                  class="book-count-title">등 총 2권</span>
-              </div>
-              <div class="purchase-info">
-                <span class="total-price"
-                  th:text="|${#numbers.formatInteger(purchase.totalPrice, 0, 'COMMA')}원|">32,000원</span>
+                <div class="title-info">
+                  <span th:text="${purchase.bookTitle}" class="purchaseBookTitle">책 제목</span>
+                  <span th:if="${purchase.bookCount > 1}" th:text="| 등 총 ${purchase.bookCount}권|"
+                        class="book-count-title">등 총 2권</span>
+                </div>
+                <span class="total-price" th:text="|${#numbers.formatInteger(purchase.totalPrice, 0, 'COMMA')}원|">32,000원</span>
               </div>
             </a>
           </div>
@@ -188,6 +187,19 @@
             <a th:each="inquiry : ${queryList}"
               th:href="@{/customer/inquiryDetail/{queryNo}(queryNo=${inquiry.queryNo})}" class="inquiry-item">
               <div class="inquiry-header">
+                
+                <div th:class="'inquiry-status status-' + ${inquiry.status}">
+                  <i th:class="${
+                            inquiry.status == 0 ? 'fas fa-file-alt' :
+                            inquiry.status == 1 ? 'fas fa-eye' :
+                            'fas fa-check-circle'
+                        }"></i>
+                  <span th:text="${
+                            inquiry.status == 0 ? '접수완료' :
+                            inquiry.status == 1 ? '관리자확인' :
+                            '답변완료'
+                        }">상태</span>
+                </div>
                 <div class="inquiry-category">
                   <i th:class="${
                             inquiry.querySubject == '2' ? 'fas fa-shopping-cart' :
@@ -201,18 +213,6 @@
                             inquiry.querySubject == '4' ? '취소/환불' :
                             '기타문의'
                         }">문의종류</span>
-                </div>
-                <div th:class="'inquiry-status status-' + ${inquiry.status}">
-                  <i th:class="${
-                            inquiry.status == 0 ? 'fas fa-file-alt' :
-                            inquiry.status == 1 ? 'fas fa-eye' :
-                            'fas fa-check-circle'
-                        }"></i>
-                  <span th:text="${
-                            inquiry.status == 0 ? '접수완료' :
-                            inquiry.status == 1 ? '관리자확인' :
-                            '답변완료'
-                        }">상태</span>
                 </div>
               </div>
               <div class="inquiry-title" th:text="${inquiry.queryTitle}">문의 제목</div>

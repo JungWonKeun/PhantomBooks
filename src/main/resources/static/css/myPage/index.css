@@ -19,7 +19,7 @@
 .mypage-container {
     display: flex;
     gap: 20px; /* 위아래 간격 */
-    min-height: calc(100vh - 100px);
+    min-height: calc(100vh + 100px);
 }
 
 .mypage-main {
@@ -45,8 +45,10 @@
 .card-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 한 줄에 3개씩 */
-    gap: 1.5rem; /* 카드 간격 */
-    width: 95%;
+    gap: 2.5rem; /* 카드 간격 */
+    width: 90%;
+    margin-bottom: 100px;
+    margin-left: 1.5rem;
 }
 
 .card {
@@ -88,12 +90,18 @@
 }
 
 .card-content {
+    margin-top: 10px;
     min-height: 150px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center;
+    align-items: right;
     text-align: center;
+    margin-right: 10%;
+}
+
+i.fas.fa-heart::before{
+    color: crimson;
 }
 
 /* 내 정보 섹션 스타일 */
@@ -144,11 +152,9 @@
 .summary-list {
     display: flex;
     flex-direction: column;
-    gap: 0.8rem;
 }
 
 .summary-item {
-    padding: 1rem;
     background: #f8f9fa;
     border-radius: 8px;
     transition: background 0.2s ease;
@@ -174,30 +180,41 @@
 
 /* 바로가기 링크 스타일 */
 .quick-links .card-content {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 1rem;
+    display: flex;
+    flex-direction: column; 
+    gap: 1rem; 
+    width: 90%; 
+    margin: 0 auto; 
+    margin-top: 10px;
+    align-items: center;
 }
 
 .quick-link {
+    margin-top: 10px;
     display: flex;
     align-items: center;
-    gap: 0.8rem;
-    padding: 1rem;
-    background: #f8f9fa;
-    border-radius: 10px;
-    text-decoration: none;
-    color: #495057;
-    transition: all 0.2s ease;
+    justify-content: center;
+    gap: 1rem; 
+    padding: 1rem 1.5rem;
+    width: 70%; 
+    border: 2px solid #205375; 
+    border-radius: 12px; 
+    background: linear-gradient(135deg, #f8f9fa, #eef2f7); 
+    color: #205375; 
+    font-weight: bold;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    text-decoration: none; 
 }
 
 .quick-link i {
     font-size: 1.2rem;
-    color: #3498db;
+    color: #205375;
 }
 
 .quick-link:hover {
-    background: #3498db;
+    background: #205375;
     color: #fff;
 }
 
@@ -231,6 +248,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-right: 10%;
 }
 
 .user-info {
@@ -241,7 +259,7 @@
 
 .user-info i {
     font-size: 1.2rem;
-    color: #3498db;
+    color: #205375;
 }
 
 .user-info span {
@@ -268,7 +286,7 @@
 }
 
 .header-btn:hover {
-    background: #3498db;
+    background: #205375;
     color: #fff;
 }
 
@@ -287,6 +305,10 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 0.8rem;
+}
+
+.category-header{
+    margin-top: 10px;
 }
 
 .preference-category h3 {
@@ -385,7 +407,7 @@ a .more-count {
 /* 카드 더보기 버튼 스타일 */
 .card-more {
     font-size: 0.9rem;
-    color: #3498db;
+    color: #333;
     transition: color 0.2s ease;
 }
 
@@ -399,9 +421,8 @@ a .more-count {
     text-decoration: none !important;
     padding: 1rem;
     background: #f8f9fa;
-    border-radius: 8px;
     transition: background 0.2s ease;
-    margin-bottom: 0.8rem;
+    border-radius: 8px;
 }
 
 .review-item:last-child {
@@ -410,16 +431,17 @@ a .more-count {
 
 .review-book-title-area {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* 제목은 왼쪽, 별점은 오른쪽 */
     align-items: center;
     margin-bottom: 0.5rem;
 }
 
 .review-book-title {
     font-weight: 600;
-    color: #3498db;
-    font-size: 1rem;
-    flex-grow: 1;
+    color: #333;
+    font-size: 1.2rem;
+    flex-grow: 1; /* 제목이 남은 공간을 채우도록 설정 */
+    text-align: left; /* 제목을 왼쪽 정렬 */
 }
 
 .review-score {
@@ -431,7 +453,19 @@ a .more-count {
     padding-left: 1rem;
     border-left: 1px solid #dee2e6;
     white-space: nowrap;
+    justify-content: flex-end; /* 별점을 오른쪽 정렬 */
 }
+
+.review-detail {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* 내용도 왼쪽 정렬 */
+    margin-top: 0.5rem;
+    padding-bottom: 10px;
+}
+
+
+
 
 .review-score i {
     color: #f39c12;
@@ -447,8 +481,10 @@ a .more-count {
 
 .review-title {
     font-weight: 500;
-    color: #2c3e50;
-    font-size: 0.95rem;
+    color: #333;
+    font-size: 1.15rem;
+    text-align: left; /* 제목을 왼쪽 정렬 */
+    margin-bottom: 0.3rem;
 }
 
 .review-content {
@@ -461,6 +497,7 @@ a .more-count {
     line-clamp: 2;  /* 표준 속성 추가 */
     -webkit-box-orient: vertical;
     line-height: 1.4;
+    text-align: left;
 }
 
 .review-item:hover {
@@ -477,6 +514,7 @@ a .more-count {
     border-radius: 8px;
     transition: background 0.2s ease;
     margin-bottom: 0.8rem;
+    width: 110%;
 }
 
 .purchase-item:last-child {
@@ -494,10 +532,14 @@ a .more-count {
     font-weight: 500;
     color: #2c3e50;
     font-size: 0.95rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: 70%;
+    max-width: 90%;
+}
+
+.title-info {
+    display: flex;
+    gap: 4px;
+    white-space: nowrap; 
 }
 
 .book-count-title {
@@ -514,10 +556,14 @@ a .more-count {
     align-items: center;
 }
 
+
 .total-price {
     font-weight: 600;
-    color: #3498db;
-    font-size: 0.95rem;
+    color: #333;
+    font-size: 1rem;
+    text-align: right;
+    white-space: nowrap;
+    flex-shrink: 0; 
 }
 
 .purchase-item:hover {
@@ -529,26 +575,30 @@ a .more-count {
 .wishlist-item {
     display: flex;
     flex-direction: column;
-    padding: 1rem;
+    padding: 0.5rem;
     background: #f8f9fa;
     border-radius: 8px;
-    margin-bottom: 0.8rem;
+    margin-bottom: 0.4rem;
     transition: background 0.2s ease;
     text-decoration: none;
     color: inherit;
+    width: 107%;
+    margin-top: 10px;;
 }
 
 .book-title-area {
     display: flex;
+    justify-content: space-between; /* 제목은 왼쪽, 별점은 오른쪽 */
     align-items: center;
-    gap: 1rem;
+    margin-bottom: 0.5rem;
 }
 
 .book-title {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-weight: 600;
-    color: #2c3e50;
-    flex-grow: 1;
+    color: #333;
+    flex-grow: 1; /* 제목이 남은 공간을 차지 */
+    text-align: left; /* 제목을 왼쪽 정렬 */
 }
 
 .review-score {
@@ -557,16 +607,32 @@ a .more-count {
     gap: 0.3rem;
     color: #f39c12;
     font-size: 0.9rem;
+    justify-content: flex-end; 
     padding-left: 1rem;
-    border-left: 1px solid #dee2e6;
+    white-space: nowrap;
 }
 
 .book-info {
     display: flex;
-    gap: 1rem;
+    justify-content: space-between; /* 작가와 가격을 양쪽 정렬 */
+    align-items: center; /* 세로 가운데 정렬 */
     margin-top: 0.5rem;
-    color: #666;
+}
+
+.book-writer {
     font-size: 0.9rem;
+    color: #666;
+    text-align: left;
+    flex-grow: 1; /* 작가 정보가 더 많은 공간 차지 */
+}
+
+.book-price {
+    font-size: 1.0rem;
+    font-weight: 600;
+    color: #333;
+    text-align: right;
+    flex-shrink: 0; /* 가격이 작가 정보에 밀리지 않도록 설정 */
+    margin-left: 1rem; /* 작가와 가격 사이에 여백 추가 */
 }
 
 .book-content {
@@ -576,10 +642,15 @@ a .more-count {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;  /* 표준 속성 추가 */
+    -webkit-line-clamp: 2; /* 2줄까지만 표시 */
+    line-clamp: 2; /* 표준 속성 추가 */
     -webkit-box-orient: vertical;
+    text-align: left; /* 내용도 왼쪽 정렬 */
+    padding-bottom: 10px;
 }
+
+
+
 
 .wishlist-item:hover {
     background: #e9ecef;
@@ -593,7 +664,7 @@ a .more-count {
     background: #f8f9fa;
     border-radius: 8px;
     transition: background 0.2s ease;
-    margin-bottom: 0.8rem;
+    margin-top: 0px;
 }
 
 .inquiry-item:last-child {
@@ -602,15 +673,15 @@ a .more-count {
 
 .inquiry-header {
     display: flex;
-    justify-content: space-between;
+    justify-content:left;
     align-items: center;
     margin-bottom: 0.8rem;
 }
 
 .inquiry-category, .inquiry-status {
     display: flex;
-    align-items: center;
-    gap: 0.4rem;
+    align-items: center; /* 세로 가운데 정렬 */
+    gap: 0.4rem; /* 아이콘과 텍스트 간 간격 */
     padding: 0.3rem 0.8rem;
     border-radius: 20px;
     font-size: 0.85rem;
@@ -619,6 +690,7 @@ a .more-count {
 .inquiry-category {
     background-color: #e3f2fd;
     color: #1976d2;
+    margin-left: 5px;
 }
 
 .inquiry-category i {
@@ -628,6 +700,7 @@ a .more-count {
 /* 상태별 스타일 */
 .inquiry-status {
     font-weight: 500;
+    margin-left: -3px;
 }
 
 .status-0 {  /* 접수완료 */
@@ -648,18 +721,21 @@ a .more-count {
 .inquiry-title {
     font-weight: 500;
     color: #2c3e50;
-    font-size: 0.95rem;
+    font-size: 1.2rem;
+    text-align: left; /* 왼쪽 정렬 */
     margin-bottom: 0.5rem;
+    font-size: 1.2rem;;
 }
 
 .inquiry-content {
     color: #666;
     font-size: 0.9rem;
+    text-align: left; /* 왼쪽 정렬 */
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;  /* 표준 속성 추가 */
+    -webkit-line-clamp: 2; /* 최대 2줄 */
+    line-clamp: 2; /* 표준 속성 */
     -webkit-box-orient: vertical;
     line-height: 1.4;
 }
@@ -668,3 +744,4 @@ a .more-count {
     background: #e9ecef;
     cursor: pointer;
 }
+

@@ -68,11 +68,10 @@
 
 .title-area {
     display: flex;
-    width: 80%;
-    justify-content: space-between;
+    width: 70%;
     align-items: center;
-    margin-top: 20px;
     margin-left: 20px;
+    margin-right:20px
 }
 
 .welcome-title {
@@ -89,7 +88,7 @@
 
 .user-info i {
     font-size: 1.2rem;
-    color: #3498db;
+    color: #205375;
 }
 
 .user-info span {
@@ -109,7 +108,7 @@
     background: #f1f3f5;
     border-radius: 6px;
     text-decoration: none;
-    color: #495057;
+    color: #205375;
     font-size: 0.9rem;
     font-weight: 500;
     transition: all 0.2s ease;
