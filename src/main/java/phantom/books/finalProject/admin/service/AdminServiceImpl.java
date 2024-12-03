@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.management.Query;
+
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,7 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 import phantom.books.finalProject.admin.dto.Chart;
 import phantom.books.finalProject.admin.mapper.AdminMapper;
 import phantom.books.finalProject.member.dto.Member;
+import phantom.books.finalProject.order.dto.OrderBookDto;
 import phantom.books.finalProject.pagination.Pagination;
+import phantom.books.finalProject.searchBookPage.dto.Review;
 
 @Service
 @RequiredArgsConstructor
@@ -128,4 +132,81 @@ public class AdminServiceImpl implements AdminService{
 		}
 		return result;
 	}
+	
+	// 회원정보 조회
+	@Override
+	public Member memberInfo(int memberNo) {
+		return mapper.memberInfo(memberNo);
+	}
+	
+	// 회원 등급 변경
+	@Override
+	public int updateMemberRank(int memberNo, String rankName) {
+		return mapper.updateMemberRank(memberNo, rankName);
+	}
+	
+	// 구매목록 받아오기
+	@Override
+	public Map<String, Object> selectOrderList(int cp, int memberNo) {
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		int countOrderList = mapper.countOrderList(memberNo);
+		Pagination pagination = new Pagination(cp, countOrderList, 5, 5);
+		
+		int limit = pagination.getLimit();
+		int offset = (cp-1) * limit;
+		
+		RowBounds bounds = new RowBounds(offset, limit);
+		
+		List<OrderBookDto> orderList = mapper.selectOrderList(bounds, memberNo);
+		map.put("orderList", orderList);
+		map.put("pagination", pagination);
+		
+		return map;
+	}
+	
+	@Override
+	public Map<String, Object> selectReviewList(int cp, int memberNo) {
+
+		Map<String, Object> map = new HashMap<>();
+		
+		int countReview = mapper.countReview(memberNo);
+		
+		Pagination pagination = new Pagination(cp, countReview, 5, 5);
+		
+		int limit = pagination.getLimit();
+		int offset = (cp-1) * limit;
+		
+		RowBounds bounds = new RowBounds(offset, limit);
+		
+		List<Review> reviewList = mapper.selectReviewList(bounds, memberNo);
+		map.put("reviewList", reviewList);
+		map.put("pagination", pagination);
+		
+		return map;
+	}
+	
+	// 문의 내역
+	@Override
+	public Map<String, Object> selectQueryList(int cp, int memberNo) {
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		int countQuery = mapper.countQuery(memberNo);
+		
+		Pagination pagination = new Pagination(cp, countQuery, 5, 5);
+		
+		int limit = pagination.getLimit();
+		int offset = (cp-1) * limit;
+		
+		RowBounds bounds = new RowBounds(offset, limit);
+		
+		List<Query> queryList = mapper.selectQueryList(bounds, memberNo);
+		map.put("queryList", queryList);
+		map.put("pagination", pagination);
+		
+		return map;
+	}
+	
 }

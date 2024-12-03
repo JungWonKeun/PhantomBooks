@@ -12,6 +12,8 @@
         #{bookNo},
         #{currentCount},
         #{bookPrice},
+        DEFAULT,
+        DEFAULT,
         DEFAULT
     )
 	</insert>
@@ -53,6 +55,21 @@
         'N'
 		)
 	</insert>
+	
+	<insert id="updateCompany">
+		INSERT INTO COMPANY
+		(COMPANY_NAME, EMAIL)
+		VALUES(
+			#{companyName},
+			#{email}
+		)
+	</insert>
+	
+	<update id="updateEmail">
+		UPDATE COMPANY (EMAIL))
+		VALUES(#{email})
+		WHERE COMPANY_NAME = #{companyName}
+	</update>
 	
 	
 </mapper>

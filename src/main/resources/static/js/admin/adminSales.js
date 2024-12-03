@@ -105,9 +105,8 @@ const listUp = (cp, sort, term, date, text) => {
       }
     });
 
-
     salesList.forEach(sales => {
-      
+
       const tr = document.createElement("tr");
 
       const th1 = document.createElement("th");
@@ -126,6 +125,21 @@ const listUp = (cp, sort, term, date, text) => {
       
       salesRank.append(tr);
     })
+    const sales = document.querySelector(".sales");
+
+      sales.innerHTML = '';
+
+      const div1 = document.createElement("div");
+      const div2 = document.createElement("div");
+      const div3 = document.createElement("div");
+      
+      div1.innerHTML = "기간 내 판매 금액 : " + map.totalOrderPrice +"원";
+      div2.innerHTML = "기간 내 발주금액 : "  + map.totalRequestPrice + "원";
+      div3.innerHTML = "순 수익 : " + map.salesPrice + "원";
+
+      sales.appendChild(div1);
+      sales.appendChild(div2);
+      sales.appendChild(div3);
 
     // 페이지네이션 출력
     const pg = document.querySelector('.pagination');
@@ -248,6 +262,7 @@ sortSelect.addEventListener('change', () => {
 
   if (selectedSort === 'sales') {
     termSelect.classList.remove('hidden');
+    text.classList.add("hidden");
   } else if (selectedSort === 'company') {
     termSelect.classList.add('hidden');
     text.classList.remove("hidden");

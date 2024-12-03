@@ -3,7 +3,10 @@ package phantom.books.finalProject.admin.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.domain.jaxb.SpringDataJaxb.OrderDto;
+
 import phantom.books.finalProject.member.dto.Member;
+import phantom.books.finalProject.order.dto.OrderBookDto;
 
 public interface AdminService {
 
@@ -36,6 +39,21 @@ public interface AdminService {
 
 	// 계정 삭제
 	int deleteAdmin(int memberNo);
+
+	// 회원 정보 조회
+	Member memberInfo(int memberNo);
+
+	// 회원 등급 변경
+	int updateMemberRank(int memberNo, String rankName);
+
+	// 구매목록 받아오기
+	Map<String, Object> selectOrderList(int cp, int memberNo);
+
+	// 리뷰 리스트
+	Map<String, Object> selectReviewList(int cp, int memberNo);
+
+	// 문의 내역
+	Map<String, Object> selectQueryList(int cp, int memberNo);
 
 	
 	

@@ -194,4 +194,91 @@
 		ORDER BY SIGNUP_DATE
 	</select>
 	
+	<select id="memberInfo" resultType="Member">
+		SELECT
+		    M.MEMBER_ID,
+		    M.MEMBER_DEL_FL,
+		    M.RANK_NAME,
+		    SUM(O.TOTAL_PRICE) AS TOTAL_PRICE
+		FROM 
+		    "MEMBER" M
+		LEFT JOIN "ORDER" O ON M.MEMBER_NO = O.MEMBER_NO
+		WHERE 
+		    M.MEMBER_NO = #{memberNo}
+		GROUP BY 
+		    M.MEMBER_ID,
+		    M.MEMBER_DEL_FL,
+		    M.RANK_NAME
+	</select>
+	
+	<update id="updateMemberRank">
+		UPDATE "MEMBER"
+		SET RANK_NAME = #{rankName}
+		WHERE MEMBER_NO =#{memberNo}
+	</update>
+	
+	<select id="countOrderList" resultType="_int"> 
+		SELECT
+			COUNT(*)
+		FROM "ORDER"
+		LEFT JOIN ORDER_LIST USING (ORDER_NO)
+		LEFT JOIN BOOK USING (BOOK_NO)
+		WHERE ORDER_NO IN (
+						SELECT ORDER_NO 
+						FROM "ORDER" 
+						WHERE MEMBER_NO =#{memberNo}
+					)
+	</select>
+	
+	<select id="selectOrderList" resultType="OrderBookDto">
+		SELECT
+			ORDER_NO,
+			ORDER_DATE,
+			ORDER_COUNT,
+			TOTAL_PRICE,
+			BOOK_TITLE
+		FROM "ORDER"
+		LEFT JOIN ORDER_LIST USING (ORDER_NO)
+		LEFT JOIN BOOK USING (BOOK_NO)
+		WHERE ORDER_NO IN (
+						SELECT ORDER_NO 
+						FROM "ORDER" 
+						WHERE MEMBER_NO =#{memberNo}
+					)
+	</select>
+	
+	<select id="countReview" resultType="_int">
+		SELECT COUNT(*)
+		FROM REVIEW
+		WHERE MEMBER_NO = #{memberNo}
+	</select>
+	
+	<select id="selectReviewList" resultType="Review">
+		SELECT
+		 REVIEW_NO,
+		 BOOK_TITLE,
+		 REVIEW_TITLE,
+		 REVIEW_CONTENT
+		FROM REVIEW
+		LEFT JOIN BOOK USING (BOOK_NO)
+		WHERE MEMBER_NO = #{memberNo}
+	</select>
+	
+	<select id="countQuery" resultType="_int">
+		SELECT
+			COUNT(*)
+		FROM QUERY
+		WHERE MEMBER_NO = #{memberNo}
+	</select>
+	
+	<select id="selectQueryList" resultType="Query">
+		SELECT 
+			QUERY_NO,
+			QUERY_TITLE,
+			QUERY_CONTENT,
+			STATUS
+		FROM QUERY
+		WHERE MEMBER_NO = #{memberNo}
+	</select>
+	
 </mapper>

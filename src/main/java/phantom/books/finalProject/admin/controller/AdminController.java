@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.domain.jaxb.SpringDataJaxb.OrderDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import phantom.books.finalProject.admin.service.AdminService;
 import phantom.books.finalProject.member.dto.Member;
+import phantom.books.finalProject.order.dto.OrderBookDto;
 import retrofit2.http.PUT;
 
 @Controller
@@ -162,7 +164,52 @@ public class AdminController {
 		return service.deleteAdmin(memberNo);
 	}
 	
+	@GetMapping("memberInfo")
+	@ResponseBody
+	public Member memberInfo(
+			@RequestParam("memberNo") int memberNo) {
+		
+		return service.memberInfo(memberNo);
+	}
 	
-
-
+	// 회원 등급 변경
+	@PutMapping("memberUpdate")
+	@ResponseBody
+	public int updateMemberRank(
+			@RequestBody Member member) {
+		int memberNo = member.getMemberNo();
+		String rankName = member.getRankName();
+		
+		return service.updateMemberRank(memberNo, rankName);
+	}
+	
+	// 주문 내역
+	@GetMapping("orderList")
+	@ResponseBody
+	public Map<String, Object> orderList(
+			@RequestParam("cp") int cp,
+			@RequestParam("memberNo") int memberNo) {
+		
+		return service.selectOrderList(cp, memberNo);
+	}
+	
+	// 리뷰 내역
+	@GetMapping("reviewList")
+	@ResponseBody
+	public Map<String, Object> reviewList(
+			@RequestParam("cp") int cp,
+			@RequestParam("memberNo") int memberNo) {
+		
+		return service.selectReviewList(cp, memberNo);
+	}
+	
+	// 문의 내역
+	@GetMapping("queryList")
+	@ResponseBody
+	public Map<String, Object> queryList(
+			@RequestParam("cp") int cp,
+			@RequestParam("memberNo") int memberNo) {
+		
+		return service.selectQueryList(cp, memberNo);
+	}
 }

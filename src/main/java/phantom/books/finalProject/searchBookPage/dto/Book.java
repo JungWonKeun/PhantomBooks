@@ -47,7 +47,7 @@ public class Book {
 	    
 	    private String Email;    // 출판사 이메일
 	    private String tel;				// 출판사 전화번호
-	    
+	    private int requestPrice;
 
 	
 }

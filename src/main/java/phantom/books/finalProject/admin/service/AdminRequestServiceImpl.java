@@ -52,6 +52,8 @@ public class AdminRequestServiceImpl implements AdminRequestService {
 				
 				String email = book.getEmail();
 				
+				mapper.updateEmail(email, book.getCompanyName());
+				
 				helper.setTo(email); // 받는 사람 이메일 세팅
 				helper.setSubject(emailTitle); // 이메일 제목 세팅
 				
@@ -111,6 +113,7 @@ public class AdminRequestServiceImpl implements AdminRequestService {
 			
 			if(result > 0) {
 				try {
+					mapper.updateCompany(request);
 					
 					String emailTitle = "[PhantomBooks] "+request.getBookTitle()+" 발주 요청 이메일 입니다."; // 발송되는 이메일 제목
 					

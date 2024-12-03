@@ -36,5 +36,7 @@ public class Member {
 	// 관리자 정보
 	private String    adminName;				// 관리자 이름
 	private String    adminEmail;				// 관리자 이메일
+	
+	private int 			totalPrice;				// 전체 가격
 	}
 

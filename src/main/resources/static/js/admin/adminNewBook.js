@@ -22,7 +22,7 @@ updateBtn.forEach((button) => {
     })
     .then(result => {
       if(result > 0) {
-        console.log(requestNo);
+        console.log(result);
         alert(`등록 하였습니다. ${bookNo}번 책을 재고 추가하세요.`);
         location.reload();
       }
