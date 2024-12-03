@@ -31,6 +31,23 @@ updateBtn.forEach((button) => {
   })
 })
 
+const deleteBtn = document.querySelector(".deleteBtn");
+
+deleteBtn.addEventListener("click", () => {
+  const requestNo = deleteBtn.value;
+  const alarm = confirm(`${requestNo}번 책 요청을 삭제하시겠습니까?`);
+
+  if(alarm){
+    fetch("/admin/newBook?requestNo="+requestNo, {method : "delete"})
+    .then(response => {if(response.ok) return response.text();})
+    .then(result => { if(result > 0) {
+      alert(`${requestNo} 요청을 삭제하였습니다.`);
+      location.reload();
+      }
+    })
+  }
+})
+
 
 
 

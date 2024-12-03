@@ -52,8 +52,6 @@ public class AdminRequestServiceImpl implements AdminRequestService {
 				
 				String email = book.getEmail();
 				
-				mapper.updateEmail(email, book.getCompanyName());
-				
 				helper.setTo(email); // 받는 사람 이메일 세팅
 				helper.setSubject(emailTitle); // 이메일 제목 세팅
 				

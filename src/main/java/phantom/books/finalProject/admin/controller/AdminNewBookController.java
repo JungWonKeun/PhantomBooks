@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,5 +57,14 @@ public class AdminNewBookController {
 		
 		return service.insertRequest(bookNo);
 	}
+	
+	@DeleteMapping("")
+	@ResponseBody
+	public int deleteRequest(
+			@RequestParam("requestNo") int requestNo) {
+		
+		return service.deleteRequest(requestNo);
+	}
+	
 	
 }

@@ -117,4 +117,9 @@
 		WHERE REQUEST_NO = #{requestNo}
 	</update>
 	
+	<delete id="deleteRequest">
+		DELETE FROM BOOK_REQUEST
+		WHERE REQUEST_NO = #{requestNo}
+	</delete>
+	
 </mapper>

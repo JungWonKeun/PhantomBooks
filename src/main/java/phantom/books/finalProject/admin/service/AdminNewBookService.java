@@ -10,4 +10,7 @@ public interface AdminNewBookService {
 	// 새 책 요청 삽입
 	int insertRequest(int bookNo);
 
+	// 요청 삭제
+	int deleteRequest(int requestNo);
+
 }

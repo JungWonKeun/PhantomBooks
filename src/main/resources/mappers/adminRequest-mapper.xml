@@ -66,8 +66,8 @@
 	</insert>
 	
 	<update id="updateEmail">
-		UPDATE COMPANY (EMAIL))
-		VALUES(#{email})
+		UPDATE COMPANY 
+		SET EMAIL=#{email}
 		WHERE COMPANY_NAME = #{companyName}
 	</update>
 	
