@@ -17,7 +17,7 @@
       <div class="category-container container mt-3 mb-3 pb-3 pt-3 bg-light rounded shadow">
 
         <div class="button-section" id="buttonSection">
-          <button type="button" id="findIdBtn" class="btn btn-primary active">아이디 찾기</button>
+          <button type="button" id="findIdBtn" class="btn btn-primary active" style="background-color: rgb(29,30,57); border-color: rgb(29,30,57);">아이디 찾기</button>
           <button type="button" id="findPwBtn" class="btn btn-outline-secondary active">비밀번호 찾기</button>
         </div>
 
@@ -26,19 +26,19 @@
             <ol class="breadcrumb">
               <li class="breadcrumb-item" id="stepPhone">
                 <i class="bi bi-phone"></i>
-                전화번호 인증
+                전화번호 인증&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               </li>
               <li class="breadcrumb-item" id="stepResult">
-                <i class="bi bi-check-circle"></i>
-                아이디 결과
+                &nbsp;&nbsp;&nbsp;<i class="bi bi-check-circle"></i>
+                아이디 결과&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               </li>
               <li class="breadcrumb-item" id="stepId">
-                <i class="bi bi-person"></i>
-                아이디 확인
+                &nbsp;&nbsp;&nbsp;<i class="bi bi-person"></i>
+                아이디 확인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               </li>
               <li class="breadcrumb-item" id="stepPassword">
-                <i class="bi bi-key"></i>
-                비밀번호 변경
+                &nbsp;&nbsp;&nbsp;&nbsp;<i class="bi bi-key"></i>
+                비밀번호 변경&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               </li>
             </ol>
           </nav>
@@ -66,7 +66,7 @@
                         <div class="invalid-feedback">전화번호를 입력해주세요.</div>
                       </div>
                       <div class="col-auto">
-                        <button type="button" id="phoneCheckBtn" class="btn btn-primary" style="display: none;">전화번호
+                        <button type="button" id="phoneCheckBtn" class="btn btn-primary" style="display: none; background-color: #205375; border-color: #205375;">전화번호
                           인증</button>
                         <button type="button" id="phoneChangeBtn" class="btn btn-danger" style="display: none;">전화번호
                           변경</button>
@@ -84,16 +84,16 @@
                           onclick="clearInput('floatingPhoneCheck')" aria-label="Clear" tabindex="-1"></button>
                       </div>
                       <div class="col-auto">
-                        <button type="button" id="phoneCertifiedBtn" class="btn btn-primary">인증번호 인증</button>
+                        <button type="button" id="phoneCertifiedBtn" class="btn btn-primary" style="background-color: #205375; border-color: #205375;">인증번호 인증</button>
                       </div>
                     </div>
 
 
                     <!-- 인증 버튼 -->
-                    <button id="phoneSubmitBtnDanger" class="btn btn-danger col-10" disabled>전화번호 인증 절차을
+                    <button id="phoneSubmitBtnDanger" class="btn btn-danger col-10" disabled style="width: 57.5%;">전화번호 인증 절차을
                       완료해주세요</button>
                     <button type="submit" id="phoneSubmitBtnSuccess" class="btn btn-success col-10"
-                      style="display: none;">전화번호 인증</button>
+                      style="display: none; width: 57.5%;">전화번호 인증</button>
                   </form>
                 </div>
               </div>
@@ -127,7 +127,7 @@
                           onclick="clearInput('memberId')" aria-label="Clear" tabindex="-1"></button>
                       </div>
                       <div class="col-auto">
-                        <button type="submit" class="btn btn-primary">아이디 확인</button>
+                        <button type="submit" class="btn btn-primary" style="background-color: #205375; border-color: #205375;">아이디 확인</button>
                       </div>
                     </div>
                   </form>
@@ -193,15 +193,15 @@
                       </div>
                       <div class="col-auto">
                         <button type="button" id="passwordConfirmBtn" class="btn btn-primary"
-                          style="display: none;">비밀번호 사용하기</button>
+                          style="display: none; background-color: #205375; border-color: #205375;">비밀번호 사용하기</button>
                       </div>
                     </div>
 
                     <!-- 변경 버튼 -->
-                    <button id="passwordSubmitBtnDanger" class="btn btn-danger col-10" disabled>새로운 비밀번호를
+                    <button id="passwordSubmitBtnDanger" class="btn btn-danger col-10" disabled style="width: 57.5%;">새로운 비밀번호를
                       입력해주세요</button>
                     <button type="submit" id="passwordSubmitBtnSuccess" class="btn btn-success col-10"
-                      style="display: none;">변경하기</button>
+                      style="display: none; width: 57.5%;">변경하기</button>
                   </form>
                 </div>
               </div>

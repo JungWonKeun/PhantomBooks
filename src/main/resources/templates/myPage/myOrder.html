@@ -4,10 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>내 구매 내역 </title>
+    <title>내 구매 내역 | Phantom Books</title>
 
     <link rel="stylesheet" href="/css/myPage/myOrder.css">
-    <link rel="stylesheet" th:href="@{/css/myPage/myPageCommon.css}">
 </head>
 
 <body>
@@ -18,22 +17,28 @@
         <div th:replace="~{common/myPageSide-menu}"></div>
         <div class="mainContent">
 
-            <div class="right-content" >
-                <div class="mypage-header" >
-                    <div class="title-area" >
-                        <h2 class="title">내 구매내역</h2>
-                        <div class="user-info">
-                            <i class="fas fa-user" style="color: #205375;"></i>
-                            <span th:text="${session.loginMember?.name}">사용자명</span>
-                            <div class="user-actions">
-                                <a href="/myPage/info" class="header-btn">정보 수정</a>
-                                <a href="/myPage/changePw" class="header-btn">비밀번호 변경</a>
+            <section class="content-box">
+
+                <div class="right-content">
+
+                    <div class="mypage-header">
+                        <div class="title-area">
+                            <h1 class="welcome-title">내 구매내역</h1>
+                            <div class="user-info">
+                                <div class="order-total-price">
+                                    총 구매 금액 : 
+                                    <span id="orderTotalPrice">0원</span>
+                                </div>
+                                <i class="fas fa-user"></i>
+                                <span th:text="${session.loginMember?.name}">사용자명</span>
+                                <div class="user-actions">
+                                    <a href="/myPage/info" class="header-btn">정보 수정</a>
+                                    <a href="/myPage/changePw" class="header-btn">비밀번호 변경</a>
+                                </div>
                             </div>
                         </div>
+                        
                     </div>
-                </div>
-                <section class="content-box">
-
 
                     <!-- 주문 목록 -->
                     <div class="order-grid">
@@ -47,7 +52,8 @@
                                 </div>
                                 <div class="order-price">
                                     <span
-                                        th:text="|${#numbers.formatInteger(purchase.totalPrice, 0, 'COMMA')}원|">32,000원</span>
+                                        th:text="${#numbers.formatInteger(purchase.totalPrice, 0, 'COMMA')}"
+                                        class="total-price">32,000</span>원
                                 </div>
                             </a>
                         </div>
@@ -66,13 +72,14 @@
                                 th:href="@{/myPage/myOrder(page=${currentPage+1})}" class="page-link">&raquo;</a>
                         </div>
                     </div>
-            </div>
+                </div>
             </section>
         </div>
     </main>
 
     <footer th:replace="~{common/footer :: footer}"></footer>
     <script src="/js/myPage/myOrder.js"></script>
+   
 </body>
 
 </html>

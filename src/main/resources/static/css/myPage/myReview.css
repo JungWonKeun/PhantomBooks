@@ -172,7 +172,7 @@
 
 /* 리뷰 제목 */
 .review-title {
-    font-size: 1.2rem;
+    font-size: 1.0rem;
     font-weight: 600;
     color: #333333;
 }
@@ -198,7 +198,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 2; /* 최대 3줄까지 표시 */
     -webkit-box-orient: vertical;
 }
 
