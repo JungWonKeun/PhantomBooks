@@ -62,5 +62,10 @@
 			FAQ_YN = DECODE(FAQ_YN, 'Y', 'N', 'Y')
 		WHERE FAQ_ID = #{faqId}
 	</update>
+	
+	<delete id="deleteFaq">
+		DELETE FROM FAQ
+		WHERE FAQ_ID = #{faqId}
+	</delete>
 
 </mapper>

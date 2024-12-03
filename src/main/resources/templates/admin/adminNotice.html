@@ -119,7 +119,7 @@
           </tr>
         </thead>
 
-        <tbody class="nticeContent"> 
+        <tbody class="noticeContent"> 
           <th:block th:if= "${#lists.isEmpty(noticeList)}">
             <tr>
               <th colspan="6">공지사항으로 등록된 자료가 없습니다.</th>
@@ -132,7 +132,7 @@
               <th>
                 <input type="checkbox" th:value="*{noticeId}">
               </th>
-              <td th:text="*{noticeId}" >
+              <td  th:text="*{noticeId}" >
                 FAQ 번호
               </td>
               <td th:text="*{title}">
@@ -144,11 +144,18 @@
               <td th:text="*{view}">
                 N
               </td>
-              <td th:text="*{status}">
-                N
-              </td>
+              <th:block th:if= "${notice.status == 0}">
+                <td>
+                  비활성화
+                </td>
+              </th:block>
+              <th:block th:if= "${notice.status == 1}">
+                <td>
+                  활성화
+                </td>
+              </th:block>
               <td>
-                <button class="changeBtn">
+                <button class="changeBtn" th:value="*{noticeId}">
                   노출 상태 변경<input type="text" th:value="*{noticeId}" class="updateId" hidden>
                 </button>
               </td>

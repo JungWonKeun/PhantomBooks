@@ -18,4 +18,6 @@ public interface AdminNoticeService {
 	// 공지사항 삭제
 	int deleteNotice(int noticeId);
 
+	int updateStatus(int noticeId);
+
 }

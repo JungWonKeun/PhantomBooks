@@ -57,4 +57,10 @@ public class AdminFaqServiceImpl implements AdminFaqService {
 		return mapper.updateFaq(faqId);
 	}
 	
+	// 삭제
+	@Override
+	public int deleteFaq(int faqId) {
+		return mapper.deleteFaq(faqId);
+	}
+	
 }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import oracle.jdbc.proxy.annotation.Post;
 import phantom.books.finalProject.admin.service.AdminNoticeService;
 import phantom.books.finalProject.customer.dto.Notice;
 import phantom.books.finalProject.member.dto.Member;
@@ -45,9 +46,18 @@ public class AdminNoticeController {
 		model.addAttribute("noticeList", noticeList);
 		model.addAttribute("pagination", pagination);
 		
-		log.debug("공지사항 리스트 : {}", noticeList.get(0));
+		log.debug("공지사항 리스트 : {}", noticeList);
 		
 		return "admin/adminNotice";
+	}
+	
+	@GetMapping("noticeList")
+	@ResponseBody
+	public Map<String, Object> noticeList(
+			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
+			@RequestParam(value = "key", required = false, defaultValue = "all") String key
+			){
+		return service.notice(cp, key);
 	}
 	
 	// 공지사항 작성
@@ -62,9 +72,7 @@ public class AdminNoticeController {
 	@PostMapping("")
 	@ResponseBody
 	public int updateNotice(
-			@RequestParam("noticeId") int noticeId,
 			@RequestBody Notice notice) {
-		notice.setNoticeId(noticeId);
 		
 		return service.updateNotice(notice);
 	}
@@ -77,4 +85,12 @@ public class AdminNoticeController {
 		
 		return service.deleteNotice(noticeId);
 	}
+	
+	@PostMapping("status")
+	@ResponseBody
+	public int changeStatus(
+			@RequestParam("noticeId") int noticeId) {
+		return service.updateStatus(noticeId);
+	}
+	
 }

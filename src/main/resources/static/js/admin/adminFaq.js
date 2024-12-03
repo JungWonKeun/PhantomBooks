@@ -107,6 +107,27 @@ updateBtn.forEach((button) => {
   })
 });
 
+const deleteBtn = document.querySelectorAll(".deleteBtn");
+
+deleteBtn.forEach((button) => {
+  button.addEventListener("click", () => {
+    const faqId = button.value;
+
+    const alarm = `${faqId}를 삭제 하시겠습니까?`;
+
+    if(alarm){
+      fetch("/admin/faq?faqId="+faqId, {method:"DELETE"})
+      .then(response => {if(response.ok) return response.text();})
+      .then(result => {
+        if(result>0){
+          alert(`${faqId}를 삭제하였습니다. `);
+          location.reload();
+        }
+      })
+    }
+  })
+})
+
 
 
 const pageNoList = document.querySelectorAll(".pagination a");

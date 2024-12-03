@@ -24,7 +24,8 @@
 			TITLE,
 			CONTENT,
 			TO_CHAR(CREATE_DATE,'YYYY-MM-DD')AS CREATE_DATE,
-			"VIEW"
+			"VIEW",
+			STATUS
 		FROM NOTICE
 		
 		<choose>
@@ -62,8 +63,14 @@
 		WHERE NOTICE_ID = #{noticeId}
 	</update>
 
-	<update id="deleteNotice" >
+	<delete id="deleteNotice" >
 		DELETE FROM NOTICE
+		WHERE NOTICE_ID = #{noticeId}
+	</delete>
+	
+	<update id="updateStatus">
+		UPDATE NOTICE
+		SET STATUS = DECODE(STATUS , 1, 0, 1)
 		WHERE NOTICE_ID = #{noticeId}
 	</update>
 </mapper>

@@ -7,9 +7,17 @@ document.querySelectorAll('.menu').forEach(menu => {
   });
 });
 
-const updateBtn = document.querySelector("#updateBtn");
-const insertBtn = document.querySelector("#insertBtn");
-const deleteBtn = document.querySelector("#deleteBtn");
+const changeBtn = document.querySelectorAll(".changeBtn");
+
+changeBtn.forEach((button)=> {
+  button.addEventListener("click", () => {
+
+    const noticeId = button.value;
+    fetch("/admin/notice/status?noticeId="+noticeId,{method : "POST"})
+    .then(response => { if(response.ok) return response.text();})
+    .then(result => { if(result > 0) return alert("변경 완료");})
+  })
+})
 
 // 팝업 / 내용
 const addPopupLayer = document.querySelector("#addPopupLayer");
@@ -107,10 +115,11 @@ updateBtn.addEventListener("click", () => {
       return;
     }
 
-    fetch("/admin/notice?noticeId="+noticeId, {
+    fetch("/admin/notice", {
       method : "POST",
       headers : {"Content-Type" : "application/json"},
       body : JSON.stringify({
+        noticeId : noticeId,
         title : title.value.trim(),
         content : content.value.trim()
       })

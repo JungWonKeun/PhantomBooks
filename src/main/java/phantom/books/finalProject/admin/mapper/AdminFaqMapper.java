@@ -23,6 +23,9 @@ public interface AdminFaqMapper {
 
 	// 노출 상태 변경
 	int updateFaq(int faqId);
+
+	//  삭제
+	int deleteFaq(int faqId);
 	
 	
 }
