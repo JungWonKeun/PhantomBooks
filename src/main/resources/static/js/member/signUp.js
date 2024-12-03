@@ -9,18 +9,14 @@ const signUpForm = document.querySelector("#signUpForm");
 
 // 회원가입
 signUpForm.addEventListener("submit", e => {
-    if (submitButton.disabled) {
-      console.log(memberId.value);
-      console.log(memberPw.value);
-      console.log(telNo.value);
-      console.log(birthDate.value);
-      e.preventDefault();
-      alert('모든 필드를 올바르게 입력하고 인증 절차를 완료해야 합니다.');
-    } else {
-      // 서버에 폼을 제출
-      signUpForm.submit();
-    }
-  })
+  if (confirm("회원가입을 진행하시겠습니까?")) {
+    // 서버에 폼을 제출
+    signUpForm.submit();
+  } else {
+    e.preventDefault();
+    alert("회원가입을 취소하였습니다.");
+  }
+});
 
 
 
@@ -29,19 +25,19 @@ signUpForm.addEventListener("submit", e => {
 function clearInput(inputId) {
   document.getElementById(inputId).value = '';
 
-}
+};
 
 // 사용자가 주소 찾기를 클릭했을 때 팝업을 여는 함수
 function openAddressPopup() {
   alert("주소 찾기 팝업이 열립니다.");
   // 실제 주소 찾기 팝업 기능을 추가하세요
-}
+};
 
 /* 다음 주소 API로 주소 검색하기 */
 function findAddress() {
-const zip = document.getElementById('zip');
-const mainAddress = document.getElementById('address');
-const detailAddress = document.getElementById('detailAddress');
+  const zip = document.getElementById('zip');
+  const mainAddress = document.getElementById('address');
+  const detailAddress = document.getElementById('detailAddress');
 
   new daum.Postcode({
     oncomplete: function (data) {
@@ -150,7 +146,7 @@ function toggleSubmitButton() {
 
   if (!memberId || !passwordInput || !phoneInput || !nameInput) {
     console.log("요소들이 존재하지 않습니다.");
-    
+
     return;
   }
 
@@ -397,12 +393,12 @@ function toggleSubmitButton() {
     function startTimer(duration) {
       const timerDisplay = document.getElementById('timer');
       let timer = duration;
-      
+
       // 이전 타이머가 있다면 제거
       if (timerInterval) {
         clearInterval(timerInterval);
       }
-      
+
       // 1초마다 타이머 업데이트
       timerInterval = setInterval(function () {
         // 분과 초 계산
@@ -459,7 +455,7 @@ function toggleSubmitButton() {
               if (phoneCheckBtn) phoneCheckBtn.style.display = 'none';
               document.getElementById('verificationSection').style.display = 'flex'; // 인증번호 입력 섹션을 화면에 표시
               if (phoneCheckInput) phoneCheckInput.focus();
-              
+
             }
           })
           .catch(error => {
@@ -494,20 +490,22 @@ function toggleSubmitButton() {
           }
           ) // 서버의 응답을 텍스트 형태로 처리
           .then(data => {
-            if (confirm("인증이 성공했습니다. 해당 번호로 가입을 진행하시겠습니까?")) {
-              // 타이머 중지
-              if (timerInterval) {
-                clearInterval(timerInterval);
-                document.getElementById('timer').textContent = '인증완료';
+            if (data.status === 'success') {
+              if (confirm("인증이 성공했습니다. 해당 번호로 가입을 진행하시겠습니까?")) {
+                // 타이머 중지
+                if (timerInterval) {
+                  clearInterval(timerInterval);
+                  document.getElementById('timer').textContent = '인증완료';
+                }
+
+                phoneInput.setAttribute('readonly', 'readonly'); // 전화번호 입력 필드 비활성화
+                if (phoneClearBtn) phoneClearBtn.style.display = 'none';
+                document.getElementById('verificationSection').style.display = 'none'; // 인증번호 입력 섹션 숨기기
+                if (phoneCheckBtn) phoneCheckBtn.style.display = 'none';
+                isPhoneVerified = true; // 인증 성공 시 인증 상태를 true로 변경
+                phoneChangeBtn.style.display = 'inline-block'; // 전화번호 변경 버튼을 화면에 표시
+                toggleSubmitButton();
               }
-              
-              phoneInput.setAttribute('readonly', 'readonly'); // 전화번호 입력 필드 비활성화
-              if (phoneClearBtn) phoneClearBtn.style.display = 'none';
-              document.getElementById('verificationSection').style.display = 'none'; // 인증번호 입력 섹션 숨기기
-              if (phoneCheckBtn) phoneCheckBtn.style.display = 'none';
-              isPhoneVerified = true; // 인증 성공 시 인증 상태를 true로 변경
-              phoneChangeBtn.style.display = 'inline-block'; // 전화번호 변경 버튼을 화면에 표시
-              toggleSubmitButton();
             } else {
               document.getElementById('verificationSection').style.display = 'none';
               // 타이머 중지
@@ -543,7 +541,7 @@ function toggleSubmitButton() {
 // 각 입력 필드에 Clear 버튼을 추가하여 내용 초기화 기능을 제공
 document.addEventListener("DOMContentLoaded", () => {
   const inputs = document.querySelectorAll(".form-control");
-  
+
   // 각 입력 필드에 Clear 버튼을 추가하여 내용 초기화 기능을 제공
   inputs.forEach(input => {
     const clearButton = input.parentElement.querySelector(".clear-btn");
@@ -567,7 +565,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (event.key === "Escape" && !input.hasAttribute('readonly')) { // readonly가 아닐 때만 실행
         input.value = "";
         if (clearButton) {
-          clearButton.style.display = "none"; 
+          clearButton.style.display = "none";
         }
       }
     });

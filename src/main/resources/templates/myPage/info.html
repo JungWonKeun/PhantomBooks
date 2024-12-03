@@ -78,6 +78,7 @@
                           <label for="floatingPhoneCheck">인증번호 확인</label>
                           <button type="button" id="phoneCheckClearBtn" class="btn-close clear-btn"
                             onclick="clearInput('floatingPhoneCheck')" aria-label="Clear" tabindex="-1"></button>
+                          <div id="timer" class="timer-text"></div>
                         </div>
                         <div class="col-auto">
                           <button type="button" id="phoneCertifiedBtn" class="btn btn-primary">인증번호 인증</button>
@@ -87,13 +88,13 @@
 
                       <!-- 주소 입력란, 주소 찾기 버튼 -->
                       <div class="form-floating g-3 mb-2 mt-2 position-relative">
-                        <div class="col-auto d-flex" style="width: 50%;">
+                        <div class="col-7 d-flex">
                           <div class="col-3 d-flex align-items-center justify-content-left" style="font-weight: bold;">*
                             기본 배송지</div>
-                          <button type="button" id="addressFindBtn" class="btn btn-secondary" onclick="findAddress()"
-                            style="display: none;">주소 찾기</button>
-                          <button type="button" id="addressChangeBtn" class="btn btn-danger" onclick="changeAddress();"
-                            style="display: flex; margin-left: 40px;">주소 삭제하기</button>
+                          <button type="button" id="addressFindBtn" class="btn btn-secondary col-auto"
+                            onclick="findAddress()" style="display: none;">주소 찾기</button>
+                          <button type="button" id="addressChangeBtn" class="btn btn-danger col-auto"
+                            onclick="changeAddress();">주소 삭제하기</button>
                         </div>
                       </div>
 
@@ -120,7 +121,7 @@
                       <br>
                       <!-- 추가 주소 입력란, 추가 주소 찾기 버튼 -->
                       <div class="form-floating g-3 mb-2 mt-2 position-relative">
-                        <div class="col-auto d-flex">
+                        <div class="col-7 d-flex">
                           <div class="col-3 d-flex align-items-center justify-content-left" style="font-weight: bold;">*
                             추가 배송지</div>
                           <button type="button" id="addAddressFindBtn" class="btn btn-secondary col-auto"

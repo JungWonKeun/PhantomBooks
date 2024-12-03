@@ -190,9 +190,9 @@ document.addEventListener('DOMContentLoaded', function () {
       if (checkbox) checkbox.checked = false;
     } else {
       const badge = document.createElement('span');
-      badge.className = 'badge text-primary-emphasis bg-primary-subtle gap-1 border border-primary-subtle rounded-pill';
+      badge.className = 'badge text-primary-emphasis ms-1 col-auto bg-primary-subtle gap-1 border border-primary-subtle rounded-pill';
       badge.innerHTML = `
-        <span style="font-size: 15px;">${badgeText}</span>
+        <span style="font-size: 18px;">${badgeText}</span>
         <svg class="bi ms-1 remove-badge" width="20" height="20">
           <use xlink:href="#x-circle-fill"></use>
         </svg>`;
@@ -216,9 +216,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
       if (!existingBadge) {
         const badge = document.createElement('span');
-        badge.className = 'badge text-primary-emphasis bg-primary-subtle gap-1 border border-primary-subtle rounded-pill';
+        badge.className = 'badge text-primary-emphasis ms-1 col-auto bg-primary-subtle gap-1 border border-primary-subtle rounded-pill';
         badge.innerHTML = `
-          <span style="font-size: 15px;">${badgeText}</span>
+          <span style="font-size: 18px;">${badgeText}</span>
           <svg class="bi ms-1 remove-badge" width="20" height="20">
             <use xlink:href="#x-circle-fill"></use>
           </svg>`;

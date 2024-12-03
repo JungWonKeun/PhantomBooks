@@ -49,15 +49,15 @@
                 <div class="col-12">
                   <div class="card sticky-card">
                     <div class="card-header">
-                      <h5>내 카테고리</h5>
                       <div class="d-flex flex-wrap gap-2 col-12">
-                        <button id="saveCategory" class="btn btn-primary mt-3">저장하기</button>
+                        <h4 class="col-3">내 카테고리</h4>
+                        <button id="saveCategory" class="btn btn-primary offset-2 mt-3">저장하기</button>
                         <button id="loadCategory" class="btn btn-secondary mt-3">불러오기</button>
                         <button id="plusCategory" class="btn btn-success mt-3">전부 담기</button>
                         <button id="minusCategory" class="btn btn-danger mt-3">전부 빼기</button>
                       </div>
                     </div>
-                    <div class="card-body gap-1 py-5">
+                    <div class="card-body badge-container gap-3 py-5">
                       <p class="card-text">관심 있는 카테고리를 선택하세요.</p>
                     </div>
 
@@ -65,9 +65,9 @@
                       <div class="col-12">
                         <div class="card">
 
-                          <div class="card-body py-1 d-flex flex-wrap justify-content-center">
+                          <div class="card-body py-1 gap-2 d-flex flex-wrap justify-content-center">
                             <!-- 카테고리 버튼들 -->
-                            <button class="btn btn-light preference" th:each="category : ${categoryList}"
+                            <button class="btn btn-light col-2 preference" th:each="category : ${categoryList}"
                               style="border: 1px solid #333;">
                               <label class="checkbox-label d-flex align-items-center">
                                 <input type="checkbox" name="categoryNo" class="category-checkbox"
@@ -92,25 +92,25 @@
                 <div class="col-12">
                   <div class="card sticky-card">
                     <div class="card-header">
-                      <h5>내 취향</h5>
                       <div class="d-flex flex-wrap gap-2 col-12">
-                        <button id="savePreference" class="btn btn-primary mt-3">저장하기</button>
+                        <h4 class="col-2">내 취향</h4>
+                        <button id="savePreference" class="btn btn-primary offset-3 mt-3">저장하기</button>
                         <button id="loadPreference" class="btn btn-secondary mt-3">불러오기</button>
                         <button id="plusPreference" class="btn btn-success mt-3">전부 담기</button>
                         <button id="minusPreference" class="btn btn-danger mt-3">전부 빼기</button>
                       </div>
                     </div>
-                    <div class="card-body gap-2 py-5">
+                    <div class="card-body badge-container gap-3 py-5">
                       <p class="card-text">관심 있는 테마를 선택하세요.</p>
                     </div>
                     <div class="row">
                       <div class="col-12">
                         <div class="card">
 
-                          <div class="card-body py-1 d-flex flex-wrap justify-content-center">
+                          <div class="card-body py-1 gap-2 d-flex flex-wrap justify-content-center">
                             <!-- 취향 버튼들 -->
-                            <button class="btn btn-light preference" th:each="preference : ${preferenceList}"
-                              style="border: 1px solid #333;">
+                            <button class="btn btn-light col-2 preference" th:each="preference : ${preferenceList}"
+                              style="border: 1px solid #205375;">
                               <label class="checkbox-label d-flex align-items-center">
                                 <input type="checkbox" name="preferenceNo" class="preference-checkbox"
                                   th:value="${preference.preferenceNo}" style="display: none;">
