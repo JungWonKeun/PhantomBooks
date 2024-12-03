@@ -86,7 +86,7 @@ body {
 
 .notice-btn-area {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   margin-top: 25px;
   gap: 15px;
 }
@@ -106,8 +106,13 @@ body {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
 }
 
+.left-buttons{
+  display: flex;
+  justify-content: space-between;
+  width: 168px;
+}
 .notice-btn-area .quiry-update {
-  background-color: #4caf50; 
+  background-color: #666666; 
 }
 
 .notice-btn-area .quiry-delete {
@@ -124,7 +129,7 @@ body {
 }
 
 .notice-btn-area .quiry-update:hover {
-  background-color: #45a049;
+  background-color: #666666;
 }
 
 .notice-btn-area .quiry-delete:hover {

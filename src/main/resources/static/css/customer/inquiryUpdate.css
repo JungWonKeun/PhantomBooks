@@ -1,0 +1,79 @@
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-style: normal;
+}
+
+* {
+  font-family: 'Pretendard-Regular';
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #e9ecef;
+  color: #333;
+  line-height: 1.6;
+}
+
+.inquiryUpdateContainer {
+  display: flex;
+  flex-direction: row;
+  min-height: calc(100vh - 100px);
+  gap: 20px;
+  padding: 20px;
+}
+
+
+.mainContent {
+  flex-grow: 1;
+  padding: 30px;
+  background: linear-gradient(to bottom, #ffffff, #f7f7f7);
+  border-radius: 15px;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+}
+
+
+h1 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 10px;
+}
+
+h4 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+input[type="text"],
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+}
+
+.inquiryUpdate-btn {
+  padding: 12px 30px;
+  background-color: #666666;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.inquiryUpdate-btn:hover {
+  background-color: #555555;
+}
+
+#queryTitle{
+  width: 50%;
+}
+
+.inquiry-content {
+  height: 200px;
+}

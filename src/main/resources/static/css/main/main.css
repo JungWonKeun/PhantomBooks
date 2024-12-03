@@ -81,10 +81,40 @@ h2 {
 }
 
 /* 개별 도서 스타일 */
-.book-cover {
-  flex: 0 0 200px;
-  height: 280px;
+.book-slider {
+  position: relative;
+  width: 100%;
   overflow: hidden;
+}
+
+.book {
+  display: none; /* 기본적으로 모든 책을 숨김 */
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  opacity: 0;
+  position: absolute; /* 절대 위치로 설정 */
+  left: 0;
+  top: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.book.active {
+  display: flex; /* active 클래스가 있을 때만 보이게 함 */
+  opacity: 1;
+  z-index: 1; /* 다른 책들 위에 표시 */
+}
+
+/* 첫 번째 책의 높이를 기준으로 슬라이더 높이 설정 */
+#bookSlider, #bestsellerSlider, #myTypeSlider {
+  min-height: 350px; /* 적절한 높이로 조정하세요 */
+  position: relative;
+}
+
+.book-cover {
+  width: 200px;
+  height: 300px;
+  margin-right: 20px;
 }
 
 .book-cover img {
@@ -93,11 +123,8 @@ h2 {
   object-fit: cover;
 }
 
-/* 책 정보 스타일 */
 .book-info {
   flex: 1;
-  overflow: hidden;
-  padding: 10px;
 }
 
 .book-info h3 {
@@ -118,27 +145,6 @@ h2 {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-/* 오늘의 추천 도서 슬라이더 */
-.book-slider {
-  position: relative;
-  width: 100%;
-  height: 340px; /* 섹션 높이에서 제목 영역 제외 */
-  overflow: hidden;
-}
-
-.book {
-  display: none;
-  width: 100%;
-  height: 100%;
-  padding: 15px;
-  align-items: center;
-  gap: 20px;
-}
-
-.book.active {
-  display: flex;
 }
 
 /* 개별 도서 목록 */

@@ -77,23 +77,27 @@ body {
 
 
 .inquiry-search {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
+  width: 81%;
   background-color: #f9f9f9;
   border: 1px solid #e0e0e0;
-  width: 81%;
+  border-radius: 5px;
 }
 
 .filter-area {
   display: flex;
-  gap: 10px;
+  gap: 20px;
   align-items: center;
+  padding-top: 20px;
+  padding-left: 20px;
 }
 
 .inquiry-button-area {
-  align-self: center;
+  width: 90%;
+  margin: 20px 0;
+  text-align: right;
 }
+
+
 
 #searchButton,
 #inquiryButton {
@@ -108,6 +112,8 @@ body {
 #searchButton{
   margin-right: 1px;
   font-size: 14px;
+  position: absolute;
+  left: 68%;
 }
 
 .inquiry-tabs nav ul {
@@ -129,9 +135,17 @@ body {
   margin-bottom: 10px;
 }
 
-.inquiry-list table {
+.inquiry-list {
   width: 81%;
+  display: flex;
+  flex-direction: column;
+}
+
+.inquiry-list table {
+  width: 100%;
   border-collapse: collapse;
+  table-layout: fixed;
+  margin-bottom: 20px;
 }
 
 .inquiry-list th,
@@ -141,27 +155,44 @@ body {
   text-align: center;
 }
 
-.inquiry-list th,
+/* 글번호 열 */
+.inquiry-list th:nth-child(1),
 .inquiry-list td:nth-child(1) {
-  width:50px;
-}
-.inquiry-list th,
-.inquiry-list td:nth-child(2) {
-  width: 200px;
-}
-.inquiry-list th,
-.inquiry-list td:nth-child(3) {
-  width: 300px;
-}
-.inquiry-list th,
-.inquiry-list td:nth-child(4) {
-  width: 200px;
-}
-.inquiry-list th,
-.inquiry-list td:nth-child(5) {
-  width: 300px;
+  width: 10%;
 }
 
+/* 문의 유형 열 */
+.inquiry-list th:nth-child(2),
+.inquiry-list td:nth-child(2) {
+  width: 15%;
+}
+
+/* 제목 열 */
+.inquiry-list th:nth-child(3),
+.inquiry-list td:nth-child(3) {
+  width: 40%;
+  text-align: center; /* 제목은 좌측 정렬 */
+  padding-left: 20px;
+}
+
+/* 작성일 열 */
+.inquiry-list th:nth-child(4),
+.inquiry-list td:nth-child(4) {
+  width: 15%;
+}
+
+/* 처리 상태 열 */
+.inquiry-list th:nth-child(5),
+.inquiry-list td:nth-child(5) {
+  width: 20%;
+}
+
+/* 테이블 헤더 스타일 */
+.inquiry-list th {
+  background-color: #f5f5f5;
+  font-weight: bold;
+  color: #333;
+}
 
 .inquiry-list td .queryName {
   font-weight: bold;
@@ -171,10 +202,14 @@ body {
 
 
 .empty-message {
-  margin-top: 30px;
+  width: 100%;
+  padding: 40px 0;
   text-align: center;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
   color: #999;
   font-size: 1.2em;
+  margin: 0;
 }
 
 
@@ -208,14 +243,18 @@ body {
 }
 
 .date{
-  width: 800px;
+  width: 750px;
   height:auto;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  font-size:20px;
+  font-size: 15px;
+}
 
+.date label {
+  margin-right: 10px;
+  white-space: nowrap;
 }
 
 #startDate, #endDate{
@@ -236,7 +275,7 @@ body {
   background-size: 12px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
-
+  margin: 0 20px;
 }
 
 .date > button, input {
@@ -247,23 +286,20 @@ body {
 
 .inquiry-button-area{
   margin-top: -49px;
+  position: relative;
 }
 #inquiryButton{
-  margin-left:70%;
-
+  position: absolute;
+  right: -102px;
+  top: 15px;
 }
-
-
-
-
-
-
 
 .pagination {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
-  margin-right: 20%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .pagination a {
@@ -307,5 +343,23 @@ body {
 
 .queryName {
   cursor: pointer;
+}
+
+.notice-btn-area {
+  display: flex;
+  justify-content: space-between;  /* 양쪽 끝으로 버튼들을 분리 */
+  margin-top: 25px;
+  gap: 15px;
+}
+
+/* 수정/삭제 버튼을 감싸는 왼쪽 그룹 */
+.notice-btn-area .left-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+/* 목록으로 버튼을 오른쪽으로 */
+.notice-btn-area #goToListBtn {
+  margin-left: auto;  /* 오른쪽으로 밀기 */
 }
 
