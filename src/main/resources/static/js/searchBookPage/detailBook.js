@@ -445,6 +445,33 @@ imageInput.addEventListener('change', (e) => {
 /* 리뷰 작성 이미지 미리보기 end  */
 
 /* 리뷰 수정 이미지 미리보기  시작*/
+document.addEventListener('DOMContentLoaded', () => {
+    // 파일 입력 요소를 모두 선택합니다.
+    const imageInputs = document.querySelectorAll('[id^="imageInput-"]'); // ID가 imageInput-로 시작하는 요소들
+
+    imageInputs.forEach((imageInput) => {
+        // 파일 입력 요소에서 리뷰 번호를 추출합니다.
+        const reviewNo = imageInput.id.split('-')[1];
+        
+        // 해당 리뷰 번호를 사용하여 미리보기 이미지를 선택합니다.
+        const preview = document.getElementById(`reviewImageInput-${reviewNo}`);
+
+        // 파일 입력에 이벤트 리스너를 추가합니다.
+        imageInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    if (preview) {
+                        preview.src = reader.result;
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    });
+});
+
 
 
  
@@ -506,107 +533,51 @@ function detailCart(button) {
 }
 
 /*  찜 목록 추가  */
+function singleWishListBtn(button) {
+    // 클릭된 버튼의 상위 요소에서 book-item 클래스를 가진 요소를 찾습니다.
+    const bookItem = button.closest('.book-item');
 
-function toggleEditMode(reviewNo, button) {
-    console.log(`toggleEditMode 실행. 리뷰 번호: ${reviewNo}`);
-
-    const titleInput = document.querySelector(`input[data-review-no="${reviewNo}"]`);
-    const contentTextarea = document.querySelector(`textarea[data-review-no="${reviewNo}"]`);
-    const cancelButton = document.querySelector(`button[data-review-no="${reviewNo}"][id="deleteReview"]`);
-    const rating = document.querySelector(`.rating[data-review-no="${reviewNo}"]`);
-    const ratingInputs = rating?.querySelectorAll('input[type="radio"]');
-    const imageInput = document.querySelector(`#imageInput-${reviewNo}`);
-    const previewImage = document.querySelector(`.review-img-thumb[data-review-no="${reviewNo}"]`);
-
-    if (!titleInput || !contentTextarea || !cancelButton || !ratingInputs) {
-        console.error(`리뷰 요소를 찾을 수 없습니다. 리뷰 번호: ${reviewNo}`);
+    if (!bookItem) {
+        console.error("bookItem 요소를 찾을 수 없습니다.");
         return;
     }
 
-    if (button.textContent === "수정") {
-        console.log(`수정 모드 활성화: 리뷰 번호 ${reviewNo}`);
+    // data-book-no 속성에서 bookNo 가져오기
+    const bookNo = parseInt(bookItem.getAttribute('data-book-no'), 10);
 
-        // 수정 모드 활성화
-        titleInput.removeAttribute('readonly');
-        contentTextarea.removeAttribute('readonly');
-        rating.classList.remove('readonly');
-        ratingInputs.forEach(input => input.removeAttribute('disabled'));
-
-        titleInput.style.border = "1px solid #ccc";
-        contentTextarea.style.border = "1px solid #ccc";
-
-        // 이미지 파일 선택 요소 보이도록 설정
-        if (imageInput) {
-            imageInput.style.display = "block";
-        }
-
-        // 이미지 변경 이벤트 핸들러 추가
-        if (imageInput) {
-            imageInput.addEventListener('change', (e) => {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = () => {
-                        // 이미지 미리보기 업데이트
-                        previewImage.src = reader.result;
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
-        }
-
-        // 버튼 상태 변경
-        button.textContent = "저장";
-        cancelButton.textContent = "취소";
-
-        // 취소 버튼 동작 설정
-        cancelButton.onclick = (event) => {
-            event.stopPropagation(); // 이벤트 전파 중단
-            console.log('수정 취소 버튼 클릭됨.');
-            // 페이지 새로고침으로 초기 상태 복구
-            location.reload();
-        };
-
-    } else if (button.textContent === "저장") {
-        console.log(`저장 요청: 리뷰 번호 ${reviewNo}`);
-        const updatedTitle = titleInput.value.trim();
-        const updatedContent = contentTextarea.value.trim();
-        const updatedRating = [...ratingInputs].find(input => input.checked)?.value;
-        const updatedImage = imageInput?.files[0];
-
-        if (!updatedTitle || !updatedContent || !updatedRating) {
-            alert("제목, 내용, 별점을 모두 입력해주세요.");
-            return;
-        }
-
-        // 서버로 데이터 전송
-        const formData = new FormData();
-        formData.append('reviewNo', reviewNo);
-        formData.append('reviewTitle', updatedTitle);
-        formData.append('reviewContent', updatedContent);
-        formData.append('rating', updatedRating);
-        if (updatedImage) {
-            formData.append('image', updatedImage);
-        }
-
-        fetch(`/searchBookPage/updateReview/${reviewNo}`, {
-            method: 'POST',
-            body: formData
-        })
-            .then(response => {
-                if (response.ok) {
-                    alert('리뷰가 수정되었습니다.');
-                    location.reload(); // 저장 후 페이지 새로고침
-                } else {
-                    throw new Error('서버 응답 실패');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('리뷰 수정 중 문제가 발생했습니다. 다시 시도해주세요.');
-            });
+    if (isNaN(bookNo)) {
+        console.error("유효한 bookNo를 찾을 수 없습니다.");
+        return;
     }
+
+    // 책 제목을 알림에 표시
+    const bookTitleElement = bookItem.querySelector('.book-detail-header-name');
+    const bookTitle = bookTitleElement ? bookTitleElement.textContent.trim() : '제목 없음';
+
+    // 서버에 bookNo를 전송
+    fetch(`/searchBookPage/singleWishlist`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ bookNo: bookNo }) // PUT 요청 본문에 bookNo를 JSON 형식으로 전송합니다.
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('찜 목록 추가에 실패했습니다.');
+            }
+            return response.text(); // 응답을 텍스트로 처리합니다.
+        })
+        .then(data => {
+            if (data === "추가 성공") {
+                alert(`"${bookTitle}"을(를) 찜 목록에 추가했습니다.`);
+            } else {
+                alert('이미 찜한 책입니다.');
+            }
+        })
+        .catch(error => console.error('에러:', error));
 }
+
 
 
 
