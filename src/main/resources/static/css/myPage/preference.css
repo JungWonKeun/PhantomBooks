@@ -47,11 +47,8 @@ body {
 }
 
 .content-box {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  display: block;
   padding: 20px;
-  flex: 1;
   width: 100%;
 }
 
@@ -97,54 +94,60 @@ body {
 }
 
 .preference.selected {
-  background-color: #007bff;
+  background-color: #205375;
   color: white;
   border-color: #0056b3;
+}
+
+/* 선택된 버튼의 호버 스타일 추가 */
+.preference.selected:hover {
+  background-color: #1a456e;  /* 더 진한 파란색 */
+  color: white;
+  border-color: #004494;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(32, 83, 117, 0.3);
 }
 
 /* 뱃지 스타일 */
 .badge {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   font-size: 0.75rem;
-  /* 글꼴 크기 축소 */
   padding: 2px 6px;
-  /* 내부 여백 축소 */
   margin: 2px;
-  /* 외부 여백 축소 */
   background-color: none;
-  /* 배경 제거 */
   color: #007bff;
-  /* 텍스트 색상 */
   border: 1px solid #007bff;
-  /* 테두리 색상 */
   border-radius: 8px;
-  /* 둥글게 처리 */
   transition: all 0.3s ease;
-  /* 애니메이션 효과 */
+  gap: 4px;
+  white-space: nowrap;
 }
 
 .badge:hover {
   background-color: #007bff;
-  /* 호버 시 배경 색상 추가 */
   color: white;
-  /* 호버 시 텍스트 색상 변경 */
 }
 
 .badge svg {
-  margin-left: 4px;
-  /* 아이콘과 텍스트 간격 축소 */
   cursor: pointer;
   width: 14px;
-  /* 아이콘 크기 축소 */
   height: 14px;
   fill: #007bff;
-  /* 기본 색상 */
+  flex-shrink: 0;
 }
 
 .badge:hover svg {
   fill: white;
-  /* 호버 시 아이콘 색상 변경 */
+}
+
+/* 배지 내부 텍스트 정렬 */
+.badge span {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+  vertical-align: middle;
 }
 
 /* 버튼 컨테이너 */
@@ -195,8 +198,7 @@ body {
 
 .category-container,
 .preference-container {
-  margin-bottom: 20px;
-  /* 컨테이너 간격 추가 */
+  height: 100%;
 }
 
 footer {
@@ -228,6 +230,10 @@ footer {
     gap: 5px;
     padding: 8px;
   }
+
+  .col-md-6 {
+    margin-bottom: 20px;
+  }
 }
 
 
@@ -247,4 +253,14 @@ footer {
 #openBtn:hover,
 #closeBtn:hover {
   background-color: #0056b3;
+}
+
+.checkbox-label {
+  cursor: pointer;
+  pointer-events: none; /* 라벨의 클릭 이벤트를 비활성화 */
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

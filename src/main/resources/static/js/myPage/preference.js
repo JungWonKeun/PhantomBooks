@@ -285,15 +285,43 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // 버튼 이벤트 리스너 등록
   categoryButtons.forEach(button => {
-    button.addEventListener('click', () => {
+    // 버튼 전체에 대한 클릭 이벤트
+    button.addEventListener('click', function(e) {
+      // 라벨이나 체크박스를 클릭한 경우는 무시
+      if (e.target.closest('.checkbox-label') || e.target.closest('input[type="checkbox"]')) {
+        return;
+      }
       toggleBadge(button, categoryBadgeContainer, categoryText);
     });
+
+    // 라벨에 대한 클릭 이벤트
+    const label = button.querySelector('.checkbox-label');
+    if (label) {
+      label.addEventListener('click', function(e) {
+        e.stopPropagation(); // 이벤트 버블링 중지
+        toggleBadge(button, categoryBadgeContainer, categoryText);
+      });
+    }
   });
 
   preferenceButtons.forEach(button => {
-    button.addEventListener('click', () => {
+    // 버튼 전체에 대한 클릭 이벤트
+    button.addEventListener('click', function(e) {
+      // 라벨이나 체크박스를 클릭한 경우는 무시
+      if (e.target.closest('.checkbox-label') || e.target.closest('input[type="checkbox"]')) {
+        return;
+      }
       toggleBadge(button, preferenceBadgeContainer, preferenceText);
     });
+
+    // 라벨에 대한 클릭 이벤트
+    const label = button.querySelector('.checkbox-label');
+    if (label) {
+      label.addEventListener('click', function(e) {
+        e.stopPropagation(); // 이벤트 버블링 중지
+        toggleBadge(button, preferenceBadgeContainer, preferenceText);
+      });
+    }
   });
 
   plusCategoryButton.addEventListener('click', () =>
@@ -540,7 +568,7 @@ const resizeButtons = () => {
   }
 };
 
-// 초기 호출 및 윈도우 리사이즈 시 적용
+// 초기 호출 �� 윈도우 리사이즈 시 적용
 resizeButtons();
 window.addEventListener('resize', resizeButtons);
 

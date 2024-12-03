@@ -54,7 +54,7 @@ h1 {
 
 .form-floating {
   position: relative;
-}
+} 
 
 .form-floating label {
   margin-left: 3px;
@@ -86,8 +86,6 @@ h1 {
   top: 50%;
   right: 15px;
   transform: translateY(-50%);
-  background: none;
-  border: none;
   color: #666;
   cursor: pointer;
   font-size: 1rem; /* 버튼 크기 조정 */
@@ -98,9 +96,6 @@ h1 {
   color: #333; /* hover 및 focus 시 색상 변경 */
 }
 
-.clear-btn:hover {
-  color: #000; /* 버튼 hover 시 더 어두운 색 */
-}
 
 #submitBtn {
   margin-top: 20px;
@@ -173,4 +168,14 @@ span.form-text {
 /* 내부 요소 간 간격 축소 */
 .essentialInput .form-floating {
   margin-bottom: 10px;
+}
+
+.timer-text {
+  position: absolute;
+  right: 40px;  /* clear 버튼 왼쪽에 위치 */
+  top: 50%;
+  transform: translateY(-50%);
+  color: #dc3545;  /* 빨간색 */
+  font-size: 0.9rem;
+  font-weight: bold;
 }
