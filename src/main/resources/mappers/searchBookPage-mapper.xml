@@ -532,6 +532,15 @@
 	</select>
 
 
+	<select id="reviewCp">
+		SELECT
+			COUNT(*)
+		FROM	
+			REVIEW
+		WHERE 
+			BOOK_NO = #{bookNo}
+	
+	</select>
 
 
 </mapper>

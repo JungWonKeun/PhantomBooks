@@ -237,40 +237,43 @@
   <!-- 리뷰 불러오기 END -->
 
   <!-- 페이지 네이션  -->
-  <section>
+  <section th:if="${reviews != null and !#lists.isEmpty(reviews)}">
     <div class="pagination-area" th:if="${pagination != null}">
-      <div class="pagination-area" th:if="${pagination != null}">
-        <ul class="pagination" th:object="${pagination}">
-          <li th:if="*{currentPage > 1}">
-            <a th:href="@{|/bookDetail/${book.bookNo}?cp=1|}">&lt;&lt;</a>
+      <ul class="pagination" th:object="${pagination}">
+        <li th:if="*{currentPage > 1}">
+          <a th:href="@{|/bookDetail/${book.bookNo}?cp=1|}">&lt;&lt;</a>
+        </li>
+        <li th:if="*{currentPage > 1}">
+          <a th:href="@{|/bookDetail/${book.bookNo}?cp=${currentPage - 1}|}">&lt;</a>
+        </li>
+        <th:block th:each="i : *{#numbers.sequence(startPage, endPage)}">
+          <li th:if="${i == pagination.currentPage}">
+            <a class="current" th:text="${i}"></a>
           </li>
-          <li th:if="*{currentPage > 1}">
-            <a th:href="@{|/bookDetail/${book.bookNo}?cp=${currentPage - 1}|}">&lt;</a>
+          <li th:unless="${i == pagination.currentPage}">
+            <a th:href="@{/bookDetail/{bookNo}(bookNo=${book.bookNo}, cp=${i})}"
+             th:text="${i}"></a>
           </li>
-          <th:block th:each="i : *{#numbers.sequence(startPage, endPage)}">
-            <li th:if="${i == pagination.currentPage}">
-              <a class="current" th:text="${i}"></a>
-            </li>
-            <li th:unless="${i == pagination.currentPage}">
-              <a th:href="@{/bookDetail/{bookNo}(bookNo=${book.bookNo}, cp=${i})}" th:text="${i}"></a>
-            </li>
-          </th:block>
-          <li th:if="*{currentPage < maxPage}">
-            <a th:href="@{|/bookDetail/${book.bookNo}?cp=${currentPage + 1}|}">&gt;</a>
-          </li>
-          <li th:if="*{currentPage < maxPage}">
-            <a th:href="@{|/bookDetail/${book.bookNo}?cp=${maxPage}|}">&gt;&gt;</a>
-          </li>
-        </ul>
-      </div>
+        </th:block>
+        <li th:if="*{currentPage < maxPage}">
+          <a th:href="@{|/bookDetail/${book.bookNo}?cp=${currentPage + 1}|}">
+            &gt;</a>
+        </li>
+        <li th:if="*{currentPage < maxPage}">
+          <a th:href="@{|/bookDetail/${book.bookNo}?cp=${maxPage}|}">
+            &gt;&gt;</a>
+        </li>
+      </ul>
     </div>
   </section>
+  
   <!-- 페이지 네이션  -->
 
   <!--  리뷰 작성 -->
   <section class="review-write-section" th:if="${session.loginMember != null}">
 
-    <form id="writeReviewForm" method="post" action="/searchBookPage/writeReview" enctype="multipart/form-data">
+    <form id="writeReviewForm" method="post"
+     action="/searchBookPage/writeReview" enctype="multipart/form-data">
       <input type="hidden" name="bookNo" th:value="${book.bookNo}">
 
       <div class="write-review-border">
