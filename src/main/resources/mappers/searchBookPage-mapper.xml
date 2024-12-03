@@ -144,7 +144,7 @@
 					separator="," close=")">
 					#{category}
 				</foreach>
-				OR
+				AND
 				BP.PREFERENCE_NO IN
 				<foreach item="preference" collection="preferences" open="("
 					separator="," close=")">

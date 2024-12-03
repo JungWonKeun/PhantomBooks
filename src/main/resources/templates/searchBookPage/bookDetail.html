@@ -46,7 +46,8 @@
           <span th:text="${book.bookWriter != null ? book.bookWriter : '저자 정보 없음'}"></span>
         </div>
         <div class="book-detail-header-translator">옮긴이 :
-          <span th:text="${book.bookTalt}"></span>
+          <span th:text="${book.bookTalt != null ? book.bookTalt : '없음'}"></span>
+
         </div>
         <div class="book-detail-header-date">출간일
           <span th:text="${book.bookDate.substring(0, 10)}"></span>

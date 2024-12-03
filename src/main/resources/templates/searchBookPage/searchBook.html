@@ -223,11 +223,20 @@
           </div>
           <div class="book-item-details">
             <div class="book-item-info">
-              <p><strong>제목:</strong> <span class="book-title" th:text="${book.bookTitle}">책 제목</span></p>
-              <p><strong>지은이:</strong> <span th:text="${book.bookWriter}">지은이</span></p>
-              <p><strong>출판사:</strong> <span th:text="${book.companyName}">출판사</span></p>
-              <p><strong>옮긴이:</strong> <span th:text="${book.bookTalt}">옮긴이</span></p>
-              <p><strong>가격:</strong> <span th:text="${book.bookPrice}">0</span>원</p>
+              <p><strong>제목:</strong>
+                 <span class="book-title" th:text="${book.bookTitle}">책 제목</span>
+                </p>
+              <p><strong>지은이:</strong>
+                 <span th:text="${book.bookWriter}">지은이</span>
+                </p>
+              <p><strong>출판사:</strong>
+                 <span th:text="${book.companyName}">출판사</span>
+                </p>
+              <p><strong>옮긴이:</strong>
+                 <span th:text="${book.bookTalt != null ? book.bookTalt : '없음'}"></span>
+              </p>
+              <p><strong>가격:</strong> <span th:text="${book.bookPrice}">0</span>원
+              </p>
               <p><strong>출간일:</strong> <span th:text="${book.bookDate.substring(0, 10)}">출간일</span></p>
               <div class="perStars">
                 <div class="stars" title="평점">
