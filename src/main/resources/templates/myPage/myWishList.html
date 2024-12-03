@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>내 찜 목록 | Phantom Books</title>
-    
+
     <link rel="stylesheet" href="/css/myPage/myWishList.css">
 </head>
+
 <body>
     <div th:replace="~{common/common}"></div>
 
@@ -15,7 +17,7 @@
         <div th:replace="~{common/myPageSide-menu}"></div>
         <div class="mainContent">
             <section class="content-box">
-    
+
                 <!-- 주른쪽 컨텐츠 영역 -->
                 <div class="right-content">
                     <!-- 헤더 영역 -->
@@ -32,40 +34,44 @@
                             </div>
                         </div>
                     </div>
-    
+
                     <!-- 컨텐츠 영역 -->
                     <div class="wishlist-grid">
                         <div th:each="item : ${wishList}" class="wishlist-item">
-                            <a th:href="@{/searchBookPage/bookDetail/{bookNo}(bookNo=${item.bookNo})}" class="wishlist-summary">
-                                <div class="book-title" th:text="${item.bookTitle}">책 제목</div>
+                            <a th:href="@{/searchBookPage/bookDetail/{bookNo}(bookNo=${item.bookNo})}"
+                                class="wishlist-summary">
+                                
+                                <div class="book-title-wrapper">
+                                    <div class="book-title" th:text="${item.bookTitle}">책 제목</div>
+                                    <i class="fas fa-heart book-heart"></i>
+                                </div>
                                 <div class="review-score">
                                     <i class="fas fa-star"></i>
                                     <span th:text="${item.scoreAvg}">4.5</span>
                                 </div>
                                 <div class="book-info">
                                     <span class="book-writer" th:text="${item.bookWriter}">작가</span>
-                                    <span class="book-price" th:text="|${#numbers.formatInteger(item.bookPrice, 0, 'COMMA')}원|">32,000원</span>
+                                    <span class="book-price"
+                                        th:text="|${#numbers.formatInteger(item.bookPrice, 0, 'COMMA')}원|">32,000원</span>
                                 </div>
                                 <div class="book-content" th:text="${item.bookContent}">책 내용</div>
                             </a>
+
                         </div>
-                        
-                        <!-- 페이지네이션 -->
-                        <div class="pagination" th:if="${!#lists.isEmpty(wishList)}">
-                            <a href="#" th:if="${currentPage > 1}" 
-                               th:href="@{/myPage/myWishList(page=${currentPage-1})}" 
-                               class="page-link">&laquo;</a>
-    
-                            <th:block th:each="pageNum : ${#numbers.sequence(1, totalPages)}">
-                                <a th:href="@{/myPage/myWishList(page=${pageNum})}" 
-                                   th:text="${pageNum}"
-                                   th:class="${pageNum == currentPage ? 'page-link active' : 'page-link'}">1</a>
-                            </th:block>
-    
-                            <a href="#" th:if="${currentPage < totalPages}" 
-                               th:href="@{/myPage/myWishList(page=${currentPage+1})}" 
-                               class="page-link">&raquo;</a>
-                        </div>
+
+                    </div>
+                    <!-- 페이지네이션 -->
+                    <div class="pagination" th:if="${!#lists.isEmpty(wishList)}">
+                        <a href="#" th:if="${currentPage > 1}"
+                            th:href="@{/myPage/myWishList(page=${currentPage-1})}" class="page-link">&laquo;</a>
+
+                        <th:block th:each="pageNum : ${#numbers.sequence(1, totalPages)}">
+                            <a th:href="@{/myPage/myWishList(page=${pageNum})}" th:text="${pageNum}"
+                                th:class="${pageNum == currentPage ? 'page-link active' : 'page-link'}">1</a>
+                        </th:block>
+
+                        <a href="#" th:if="${currentPage < totalPages}"
+                            th:href="@{/myPage/myWishList(page=${currentPage+1})}" class="page-link">&raquo;</a>
                     </div>
                 </div>
             </section>
@@ -75,4 +81,5 @@
     <footer th:replace="~{common/footer :: footer}"></footer>
     <script src="/js/myPage/myWishList.js"></script>
 </body>
+
 </html>

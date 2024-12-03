@@ -144,7 +144,7 @@ public class MyPageController {
 	    
 	    // 페이징 처리
 	    int totalItems = wishList.size();
-	    int itemsPerPage = 8;
+	    int itemsPerPage = 5;
 	    int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
 	    
 	    // 현재 페이지에 해당하는 아이템만 추출
