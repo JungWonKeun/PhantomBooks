@@ -131,8 +131,10 @@ const listUp = (cp, sort, view, text) => {
 
         th11.append(book.currentCount);
         th12.append(book.basicCount);
+
         const input1 = document.createElement("input");
         th10.append( input1 );
+        input1.value = book.requestPrice;
 
         const input2 = document.createElement("input");
         th13.append( input2 );
@@ -183,7 +185,7 @@ const listUp = (cp, sort, view, text) => {
                 companyName : book.companyName,
                 insertDate : today 
               })
-              })
+            })
             .then(response => {
               if(response.ok) return response.text();
               throw new Error("전송 실패");

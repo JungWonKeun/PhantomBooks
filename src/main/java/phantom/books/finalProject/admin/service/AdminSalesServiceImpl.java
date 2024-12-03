@@ -37,13 +37,31 @@ public class AdminSalesServiceImpl implements AdminSalesService {
 		
 		RowBounds bounds = new RowBounds(offset, limit);
 		
-		List<ChartSales> chartData = mapper.chartData(cp, sort, term, date, text);
 		List<ChartSales> salesList = mapper.salesList(cp, sort, term, date, text, bounds);
+		List<ChartSales> chartData = mapper.chartData(cp, sort, term, date, text);
+		
+		int totalOrderPrice = 0;
+		int totalRequestPrice = 0;
+		int salesPrice = 0;
+		
+		for (ChartSales sales : chartData) {
+			totalOrderPrice += sales.getOrderPrice();
+			totalRequestPrice += sales.getRequestPrice();
+			salesPrice += (sales.getOrderPrice() - sales.getRequestPrice());
+		}
+		
+		log.debug("totalOrderPrice : {}", totalOrderPrice);
+		log.debug("totalRequestPrice : {}", totalRequestPrice);
+		log.debug("salesPrice : {}", salesPrice);
+		log.debug("chartData : {}", chartData);
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("salesList", salesList);
 		map.put("pagination", pagination);
 		map.put("chartData", chartData);
+		map.put("totalOrderPrice", totalOrderPrice);
+		map.put("totalRequestPrice", totalRequestPrice);
+		map.put("salesPrice", salesPrice);
 		
 		return map;
 	}
