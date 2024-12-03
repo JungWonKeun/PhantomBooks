@@ -13,10 +13,15 @@ document.addEventListener('DOMContentLoaded', async () => {
   function initializeSlider(sliderId, interval, delay) {
     const slider = {
       init() {
+        this.slider = document.getElementById(sliderId);
         this.books = document.querySelectorAll(`#${sliderId} .book`);
+        
         if (this.books && this.books.length > 0) {
           this.currentIndex = 0;
-          this.showCurrentBook();
+          // 첫 번째 책을 활성화
+          this.books[0].classList.add('active');
+          
+          // 자동 슬라이드 시작
           setTimeout(() => {
             this.startAutoSlide(interval);
           }, delay);
@@ -26,18 +31,20 @@ document.addEventListener('DOMContentLoaded', async () => {
       showCurrentBook() {
         if (!this.books || this.books.length === 0) return;
         
-        this.books.forEach((book, index) => {
-          if (index === this.currentIndex) {
-            book.classList.add("active");
-          } else {
-            book.classList.remove("active");
-          }
-        });
+        // 모든 책의 active 클래스 제거
+        this.books.forEach(book => book.classList.remove('active'));
+        
+        // 현재 인덱스의 책에 active 클래스 추가
+        this.books[this.currentIndex].classList.add('active');
       },
 
       nextBook() {
         if (!this.books || this.books.length === 0) return;
         
+        // 현재 책의 active 클래스 제거
+        this.books[this.currentIndex].classList.remove('active');
+        
+        // 다음 인덱스로 이동
         this.currentIndex = (this.currentIndex + 1) % this.books.length;
         this.showCurrentBook();
       },

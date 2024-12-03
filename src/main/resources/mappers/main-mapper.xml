@@ -57,6 +57,15 @@
 		b.BOOK_WRITER,
 		b.BOOK_PRICE,
 		b.SCORE_AVG,
+		b.COMPANY_NAME,
+		(
+			SELECT
+				LISTAGG(CATEGORY_NAME, ',') WITHIN GROUP (ORDER BY CT.CATEGORY_NO)
+			FROM BOOK SUB
+			JOIN BOOK_CATEGORY BCT ON (SUB.BOOK_NO = BCT.BOOK_NO)
+			JOIN CATEGORY CT ON (BCT.CATEGORY_NO = CT.CATEGORY_NO)
+			WHERE SUB.BOOK_NO = b.BOOK_NO
+		) AS CATEGORY_NAME,
 		COUNT(o.ORDER_NO) AS TOTAL_COUNT
 		FROM BOOK b
 		JOIN ORDER_LIST o ON b.BOOK_NO = o.BOOK_NO
@@ -66,7 +75,8 @@
 		b.BOOK_COVER,
 		b.BOOK_WRITER,
 		b.BOOK_PRICE,
-		b.SCORE_AVG
+		b.SCORE_AVG,
+		b.COMPANY_NAME
 		ORDER BY COUNT(o.ORDER_NO) DESC
 		FETCH FIRST 5 ROWS ONLY
 	</select>
@@ -100,6 +110,15 @@
             B.BOOK_WRITER,
             B.BOOK_PRICE,
             B.SCORE_AVG,
+            B.COMPANY_NAME,
+            (
+                SELECT
+                    LISTAGG(CATEGORY_NAME, ',') WITHIN GROUP (ORDER BY CT.CATEGORY_NO)
+                FROM BOOK SUB
+                JOIN BOOK_CATEGORY BCT ON (SUB.BOOK_NO = BCT.BOOK_NO)
+                JOIN CATEGORY CT ON (BCT.CATEGORY_NO = CT.CATEGORY_NO)
+                WHERE SUB.BOOK_NO = B.BOOK_NO
+            ) AS CATEGORY_NAME,
             COUNT(DISTINCT C.CATEGORY_NO) AS MATCH_COUNT
         FROM BOOK B
         JOIN BOOK_CATEGORY BC ON B.BOOK_NO = BC.BOOK_NO
@@ -127,7 +146,8 @@
             B.BOOK_COVER,
             B.BOOK_WRITER,
             B.BOOK_PRICE,
-            B.SCORE_AVG
+            B.SCORE_AVG,
+            B.COMPANY_NAME
     )
     SELECT *
     FROM RANKED_BOOKS
@@ -135,7 +155,6 @@
         MATCH_COUNT DESC,  -- 매칭 개수가 많은 순
         SCORE_AVG DESC,    -- 평점 높은 순
         BOOK_NO ASC       -- 최신 도서 순
-    FETCH FIRST 10 ROWS ONLY
+    FETCH FIRST 15 ROWS ONLY
 </select>
-	
 </mapper>

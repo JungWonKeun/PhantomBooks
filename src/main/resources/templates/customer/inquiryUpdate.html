@@ -1,27 +1,32 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${query.queryTitle}">1:1 문의 수정</title>
     <link rel="stylesheet" href="/css/customer/inquiryUpdate.css">
 </head>
+
 <body>
     <th:block th:replace="~{common/common}"></th:block>
-    <th:block th:replace="~{common/side-menu}"></th:block>
-    <main>
-        <section>
-            <h1>1:1 문의 수정</h1>
-            <form th:action="@{/customer/inquiryUpdate}" method="post" th:object="${query}">
-                <input type="hidden" th:field="*{queryNo}"/> 
-                <h4>제목</h4>
-                <input type="text" th:field="*{queryTitle}" placeholder="제목" required/>
-                <h4>내용</h4>
-                <textarea th:field="*{queryContent}" placeholder="내용" required></textarea>
-                <button type="submit">수정</button>
-            </form>
-        </section>
+    <main class="inquiryUpdateContainer">
+        <th:block th:replace="~{common/side-menu}"></th:block>
+        <div class="mainContent">
+            <section>
+                <h1>1:1 문의 수정</h1>
+                <form th:action="@{/customer/inquiryUpdate}" method="post" th:object="${query}">
+                    <input type="hidden" th:field="*{queryNo}" />
+                    <h4>제목</h4>
+                    <input type="text" th:field="*{queryTitle}" placeholder="제목" class="input-title" />
+                    <h4>내용</h4>
+                    <textarea th:field="*{queryContent}" placeholder="내용" class="inquiry-content"></textarea>
+                    <button class="inquiryUpdate-btn" type="submit">수정</button>
+                </form>
+            </section>
+        </div>
     </main>
     <div th:replace="~{common/footer}"></div>
 </body>
+
 </html>
