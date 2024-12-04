@@ -451,7 +451,8 @@ const chartData = (cp, sort, term, date) => {
           datasets: [{
               label: '가입현황',
               data: memberCount,
-              borderWidth: 2
+              borderWidth: 2,
+              borderColor: '#205375',
           }]
       },
       options: {
