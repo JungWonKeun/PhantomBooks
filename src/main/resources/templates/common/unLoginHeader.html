@@ -25,6 +25,26 @@
             border-color: rgb(20, 25, 50);
             color: #c0c0c0;
         }
+
+        /* 검색 아이콘 스타일 */
+        .search-bar .search-icon {
+            position: relative;
+            right: 35px;
+            color: #205375;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .search-bar .search-icon:hover {
+            color: rgb(29, 30, 57);
+        }
+
+        @media screen and (max-width: 1600px) {
+            .search-bar .search-icon {
+                right: 30px;
+                font-size: 14px;
+            }
+        }
     </style>
 
     <header class="header-container">
@@ -44,7 +64,7 @@
         <div class="search-bar">
             <form action="/searchBookPage/searchBooks" method="get">
                 <input type="text" name="searchTitle" placeholder="검색어를 입력하세요" th:value="${param.searchTitle ?: ''}" />
-                <button type="submit">Search</button>
+                <i class="fas fa-search search-icon" onclick="this.closest('form').submit()"></i>
                 <input type="hidden" name="categories" id="hiddenCategories">
                 <input type="hidden" name="preferences" id="hiddenPreferences">
                 <input type="hidden" name="sortOption" id="hiddenSearchOption">

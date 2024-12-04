@@ -19,7 +19,7 @@
     <div class="mainContent">
       <h2 class="title">FAQ</h2>
 
-      <div class="faq-list" id="faqList">
+      <div class="faq-list">
         <div th:each="faq, iterStat : ${faqList}" class="faq-item" id="faq-item-[[${iterStat.index}]]"
              th:onclick="|toggleAnswer('answer-' + ${iterStat.index}, 'faq-item-' + ${iterStat.index})|">
       

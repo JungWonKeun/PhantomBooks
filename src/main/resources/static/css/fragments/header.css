@@ -64,19 +64,7 @@
   width: 280px;
 }
 
-.search-bar button {
-  padding: 8px 16px;
-  font-size: 14px;
-  background-color: #205375;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
 
-.search-bar button:hover {
-  background-color: rgb(29, 30, 57);
-}
 
 /* 사용자 메뉴 */
 .user-menu {
@@ -94,7 +82,8 @@
   color: #fff;
   border: none;
   border-radius: 7px;
-  width: 80px;
+  width: 85px;
+  height: 30px;
 }
 
 
@@ -158,9 +147,9 @@
     font-size: 12px;
   }
 
-  .search-bar button {
-    padding: 8px 15px;
-    font-size: 12px;
+  .search-bar .search-icon {
+    right: 30px;
+    font-size: 14px;
   }
 
   .user-menu {
@@ -171,9 +160,9 @@
 
   .user-menu .btn {
     font-size: 10px;
-    height: 25px;
+    height: 30px;
     border-radius: 3px;
-    width: 45px;
+    width: 50px;
     padding-top: 6px;
     padding-left: 0px;
     padding-right: 0px;
@@ -218,5 +207,18 @@
 
 .popup-content button {
   min-width: 80px;
+}
+
+/* 검색 아이콘 스타일 */
+.search-bar .search-icon {
+  position: relative;
+  right: 35px;
+  color: #205375;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.search-bar .search-icon:hover {
+  color: rgb(29, 30, 57);
 }
 
