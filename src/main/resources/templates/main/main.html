@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Welcome to PhantomBooks</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="/css/main/main.css">
 </head>
 
@@ -13,24 +17,33 @@
   <main>
     <a href="/thunder.html" style="text-decoration: none; text-decoration-line: none;">.</a>
     <section class="recommend">
-      <h2>오늘의 추천 도서</h2>
+      <h2><i class="fas fa-book-open me-2"></i>오늘의 추천 도서</h2>
       <div class="book-slider" id="bookSlider">
-        <div th:if="${not #lists.isEmpty(books)}" th:each="book : ${books}" class="book"
-          th:onclick="|location.href='@{/searchBookPage/bookDetail/{bookNo}(bookNo=${book.bookNo})}'|"
-          style="cursor: pointer;">
-          <div class="book-cover">
-            <img th:src="${book.bookCover}" th:alt="${book.bookTitle}">
+        <div class="slider-track">
+          <div th:if="${not #lists.isEmpty(books)}" th:each="book : ${books}" class="book"
+            th:onclick="|location.href='@{/searchBookPage/bookDetail/{bookNo}(bookNo=${book.bookNo})}'|">
+            <div class="book-cover">
+              <img th:src="${book.bookCover}" th:alt="${book.bookTitle}">
+            </div>
+            <div class="book-info">
+              <h3 th:text="${book.bookTitle}">책 제목</h3>
+              <ul>
+                <li><i class="fas fa-tags me-2"></i><span th:text="${book.categoryName}"></span></li>
+                <li><i class="fas fa-user-edit me-2"></i><span th:text="${book.bookWriter}"></span></li>
+                <li><i class="fas fa-building me-2"></i><span th:text="${book.companyName}"></span></li>
+                <li><i class="fas fa-won-sign me-2"></i><span th:text="|${#numbers.formatInteger(book.bookPrice, 0, 'COMMA')}원|"></span></li>
+                <li><i class="fas fa-star text-warning me-2"></i><span th:text="|${#numbers.formatDecimal(book.scoreAvg, 1, 1)}|"></span></li>
+              </ul>
+            </div>
           </div>
-          <div class="book-info">
-            <h3 th:text="${book.bookTitle}">책 제목</h3>
-            <ul>
-              <li th:text="${book.categoryName}">카테고리</li>
-              <li th:text="${book.bookWriter}">작가</li>
-              <li th:text="${book.companyName}">출판사</li>
-              <li th:text="|${#numbers.formatInteger(book.bookPrice, 0, 'COMMA')}원|">가격</li>
-              <li th:text="|평점: ${#numbers.formatDecimal(book.scoreAvg, 1, 1)}|">평점</li>
-            </ul>
+        </div>
+        <div class="slider-controls">
+          <div class="slider-pagination">
+            <span class="current-page">1</span>
+            <span class="total-pages">/ <span th:text="${#lists.size(books)}"></span></span>
           </div>
+          <button class="slider-btn prev-btn"><i class="fas fa-chevron-left"></i></button>
+          <button class="slider-btn next-btn"><i class="fas fa-chevron-right"></i></button>
         </div>
         <div th:if="${#lists.isEmpty(books)}" class="no-books">
           현재 표시할 책이 없습니다.
@@ -105,6 +118,7 @@
 
   <!-- 푸터 조각 삽입 -->
   <footer th:replace="~{common/footer :: footer}"></footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="/js/main/main.js"></script>
 </body>
 

@@ -42,8 +42,13 @@ modalLoginForm.addEventListener("submit", function (event) {
       }
       modal.hide();
       
-      // categoryYn 체크 후 팝업 또는 새로고침
-      if (data.categoryYn === 'N') {
+      // URL에서 장바구니 리다이렉트 파라미터 확인
+      const urlParams = new URLSearchParams(window.location.search);
+      const fromCart = urlParams.get('fromCart') === 'true';
+
+      if (fromCart) {
+        window.location.href = '/cart'; // 장바구니 페이지로 리다이렉트
+      } else if (data.categoryYn === 'N') {
         showPreferencePopup();
       } else {
         window.location.reload(); // categoryYn이 'N'이 아닐 때만 새로고침
@@ -119,4 +124,11 @@ async function updateCategoryYn() {
     console.error('Error:', error);
     alert('처리 중 오류가 발생했습니다.');
   }
+}
+
+// 장바구니 클릭 시 로그인 체크 함수
+function checkLoginForCart() {
+    alert("로그인 회원만 이용 가능합니다. 로그인 후 이용 바랍니다.");
+    const modalLogin = new bootstrap.Modal(document.getElementById('modalLogin'));
+    modalLogin.show();
 }

@@ -1,52 +1,101 @@
 document.addEventListener('DOMContentLoaded', async () => {
-  // 데이터 먼저 불러오기
-  try {
-    const response = await fetch('/main');
-    if (!response.ok) {
-      console.error("Failed to load data");
-    }
-  } catch (error) {
-    console.error("Error loading data:", error);
-  }
-
   // 슬라이더 초기화 함수
   function initializeSlider(sliderId, interval, delay) {
     const slider = {
       init() {
         this.slider = document.getElementById(sliderId);
-        this.books = document.querySelectorAll(`#${sliderId} .book`);
+        this.books = this.slider.querySelectorAll('.book');
+        this.prevBtn = this.slider.querySelector('.prev-btn');
+        this.nextBtn = this.slider.querySelector('.next-btn');
+        this.currentPageEl = this.slider.querySelector('.current-page');
+        this.totalPagesEl = this.slider.querySelector('.total-pages');
         
-        if (this.books && this.books.length > 0) {
+        // total-pages 업데이트
+        if (this.totalPagesEl && this.books) {
+          this.totalPagesEl.textContent = `/ ${this.books.length}`;
+        }
+        
+        // 오늘의 추천도서 슬라이더인 경우
+        if (sliderId === 'bookSlider') {
+          this.sliderTrack = this.slider.querySelector('.slider-track');
           this.currentIndex = 0;
-          // 첫 번째 책을 활성화
-          this.books[0].classList.add('active');
           
-          // 자동 슬라이드 시작
-          setTimeout(() => {
-            this.startAutoSlide(interval);
-          }, delay);
+          // 첫 번째 책을 마지막에도 복제하여 추가
+          if (this.books.length > 0) {
+            const firstBookClone = this.books[0].cloneNode(true);
+            this.sliderTrack.appendChild(firstBookClone);
+          }
+          
+          this.updateSliderPosition();
+        } else {
+          if (this.books && this.books.length > 0) {
+            this.currentIndex = 0;
+            this.books[0].classList.add('active');
+          }
+        }
+        
+        if (this.prevBtn && this.nextBtn) {
+          this.prevBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.prevBook();
+          });
+          
+          this.nextBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.nextBook();
+          });
+        }
+        
+        setTimeout(() => {
+          this.startAutoSlide(interval);
+        }, delay);
+      },
+
+      updateSliderPosition() {
+        if (this.slider.id === 'bookSlider') {
+          const offset = -this.currentIndex * 100;
+          this.sliderTrack.style.transform = `translateX(${offset}%)`;
+        } else {
+          this.books.forEach(book => book.classList.remove('active'));
+          this.books[this.currentIndex].classList.add('active');
+        }
+        
+        if (this.currentPageEl) {
+          this.currentPageEl.textContent = (this.currentIndex % this.books.length) + 1;
         }
       },
 
-      showCurrentBook() {
+      prevBook() {
         if (!this.books || this.books.length === 0) return;
         
-        // 모든 책의 active 클래스 제거
-        this.books.forEach(book => book.classList.remove('active'));
-        
-        // 현재 인덱스의 책에 active 클래스 추가
-        this.books[this.currentIndex].classList.add('active');
+        this.currentIndex = (this.currentIndex - 1 + this.books.length) % this.books.length;
+        this.updateSliderPosition();
       },
 
       nextBook() {
         if (!this.books || this.books.length === 0) return;
         
-        // 현재 책의 active 클래스 제거
-        this.books[this.currentIndex].classList.remove('active');
+        if (this.slider.id === 'bookSlider') {
+          if (this.currentIndex === this.books.length) {
+            this.sliderTrack.style.transition = 'none';
+            this.currentIndex = 0;
+            this.updateSliderPosition();
+            
+            this.sliderTrack.offsetHeight;
+            
+            this.sliderTrack.style.transition = 'transform 0.5s ease';
+          } else {
+            this.currentIndex++;
+            this.updateSliderPosition();
+          }
+        } else {
+          this.currentIndex = (this.currentIndex + 1) % this.books.length;
+          this.updateSliderPosition();
+        }
         
-        // 다음 인덱스로 이동
-        this.currentIndex = (this.currentIndex + 1) % this.books.length;
-        this.showCurrentBook();
+        if (this.currentPageEl) {
+          this.currentPageEl.textContent = (this.currentIndex % this.books.length) + 1;
+        }
       },
 
       startAutoSlide(interval) {
@@ -58,53 +107,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     return slider;
   }
 
-  // 취향별 추천도서 스크롤 기능 (기존 코드 유지)
-  const recommendationScroller = {
-    init() {
-      this.container = document.getElementById('scroll-container');
-      if (!this.container) {
-        console.log("Scroll container not found");
-        return;
-      }
-      
-      this.isDragging = false;
-      this.startX = 0;
-      this.scrollLeft = 0;
-      
-      this.setupEventListeners();
-    },
-
-    setupEventListeners() {
-      if (!this.container) return;
-      
-      this.container.addEventListener('mousedown', (e) => this.startDragging(e));
-      this.container.addEventListener('mousemove', (e) => this.drag(e));
-      this.container.addEventListener('mouseup', () => this.stopDragging());
-      this.container.addEventListener('mouseleave', () => this.stopDragging());
-    },
-
-    startDragging(e) {
-      this.isDragging = true;
-      this.container.classList.add('grabbing');
-      this.startX = e.pageX - this.container.offsetLeft;
-      this.scrollLeft = this.container.scrollLeft;
-    },
-
-    drag(e) {
-      if (!this.isDragging) return;
-      e.preventDefault();
-      const x = e.pageX - this.container.offsetLeft;
-      const walk = (x - this.startX) * 2;
-      this.container.scrollLeft = this.scrollLeft - walk;
-    },
-
-    stopDragging() {
-      this.isDragging = false;
-      this.container.classList.remove('grabbing');
-    }
-  };
-
-  // 초기화
+  // 취기화
   try {
     const todaySlider = initializeSlider('bookSlider', 4000, 0);
     const bestsellerSlider = initializeSlider('bestsellerSlider', 4000, 350);
@@ -113,8 +116,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     todaySlider.init();
     bestsellerSlider.init();
     myTypeSlider.init();
-    
-    recommendationScroller.init();
   } catch (error) {
     console.error("Error initializing components:", error);
   }

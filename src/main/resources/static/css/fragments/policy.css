@@ -1,0 +1,132 @@
+/* 전체 컨테이너 스타일 */
+.policy-container {
+    padding: 40px 0;
+    background-color: #f8f9fa;
+    min-height: calc(100vh - 300px);
+}
+
+/* 정책 제목 스타일 */
+.policy-title {
+    color: #205375;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 1rem;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.policy-title:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background-color: #205375;
+}
+
+/* 최종 수정일 스타일 */
+.last-updated {
+    text-align: center;
+    color: #6c757d;
+    margin-bottom: 3rem;
+    font-size: 0.9rem;
+}
+
+/* 정책 내용 스타일 */
+.policy-content {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.policy-section {
+    margin-bottom: 20px;
+}
+
+.policy-section:last-child {
+    margin-bottom: 0;
+}
+
+.policy-section h2 {
+    color: #205375;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.policy-section p {
+    color: #495057;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.policy-section ul,
+.policy-section ol {
+    color: #495057;
+    padding-left: 20px;
+    margin-bottom: 1rem;
+}
+
+.policy-section li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+}
+
+/* 강조 텍스트 스타일 */
+.highlight {
+    background-color: #e8f4f8;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 15px 0;
+}
+
+/* 표 스타일 */
+.policy-table {
+    width: 100%;
+    margin-bottom: 1rem;
+    border-collapse: collapse;
+}
+
+.policy-table th,
+.policy-table td {
+    padding: 12px;
+    border: 1px solid #dee2e6;
+}
+
+.policy-table th {
+    background-color: #f8f9fa;
+    color: #205375;
+    font-weight: 600;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .policy-content {
+        padding: 15px;
+    }
+    
+    .policy-section h2 {
+        font-size: 1.3rem;
+    }
+    
+    .policy-table {
+        display: block;
+        overflow-x: auto;
+    }
+}
+
+/* 링크 스타일 */
+.policy-content a {
+    color: #205375;
+    text-decoration: none;
+    border-bottom: 1px solid #205375;
+}
+
+.policy-content a:hover {
+    color: #1a4460;
+    border-bottom-color: #1a4460;
+}

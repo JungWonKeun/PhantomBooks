@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>환불 정책 - PHANTOM BOOKS</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/fragments/policy.css}">
+</head>
+<body>
+    <!-- 헤더 영역 -->
+    <div th:replace="~{common/common}"></div>
+    
+    <div class="policy-container">
+        <div class="container">
+            <h1 class="policy-title">환불 정책</h1>
+            <div class="last-updated">최종 수정일: 2024년 03월 01일</div>
+            
+            <div class="policy-content">
+                <section class="policy-section">
+                    <h2>1. 환불 신청 기준</h2>
+                    <p>구매하신 전자책에 대한 환불은 다음과 같은 기준에 따라 처리됩니다.</p>
+                    <ul>
+                        <li>구매 후 24시간 이내 열람하지 않은 경우</li>
+                        <li>전자책 파일에 심각한 하자가 있는 경우</li>
+                        <li>결제 오류로 인한 중복 결제의 경우</li>
+                    </ul>
+                </section>
+
+                <section class="policy-section">
+                    <h2>2. 환불 처리 절차</h2>
+                    <ol>
+                        <li>고객센터를 통한 환불 신청</li>
+                        <li>환불 사유 확인</li>
+                        <li>환불 승인 및 처리</li>
+                    </ol>
+                </section>
+
+                <!-- 추가 섹션들... -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 푸터 영역 -->
+    <div th:replace="~{common/footer}"></div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

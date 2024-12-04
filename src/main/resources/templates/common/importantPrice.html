@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>도서 정가제 안내 - PHANTOM BOOKS</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/fragments/policy.css}">
+</head>
+<body>
+    <!-- 헤더 영역 -->
+    <div th:replace="~{common/common}"></div>
+    
+    <div class="policy-container">
+        <div class="container">
+            <h1 class="policy-title">도서 정가제 안내</h1>
+            <div class="last-updated">최종 수정일: 2024년 03월 01일</div>
+            
+            <div class="policy-content">
+                <section class="policy-section">
+                    <h2>1. 도서 정가제란?</h2>
+                    <p>도서 정가제는 출판문화산업 진흥법에 따라 도서의 정가를 정하고 그 가격대로 판매하도록 하는 제도입니다.</p>
+                </section>
+
+                <section class="policy-section">
+                    <h2>2. 전자책 정가제 적용</h2>
+                    <p>전자책의 경우 다음과 같은 기준으로 정가제가 적용됩니다:</p>
+                    <ul>
+                        <li>종이책 정가의 최대 90%까지 정가 책정 가능</li>
+                        <li>최대 15%까지 할인 가능</li>
+                        <li>정가제 적용 예외 사항</li>
+                    </ul>
+                </section>
+
+                <!-- 추가 섹션들... -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 푸터 영역 -->
+    <div th:replace="~{common/footer}"></div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

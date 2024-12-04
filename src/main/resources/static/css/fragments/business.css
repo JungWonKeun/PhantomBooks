@@ -1,0 +1,190 @@
+/* 전체 컨테이너 스타일 */
+.business-container {
+    padding: 60px 0;
+    background-color: #f8f9fa;
+}
+
+/* 섹션 제목 스타일 */
+.section-title {
+    color: #205375;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.section-title:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background-color: #205375;
+}
+
+/* 서비스 카드 스타일 */
+.service-card {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    transition: transform 0.3s ease;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.service-card:hover {
+    transform: translateY(-10px);
+}
+
+.service-card i {
+    font-size: 2.5rem;
+    color: #205375;
+    margin-bottom: 20px;
+}
+
+.service-card h3 {
+    color: #205375;
+    margin-bottom: 15px;
+}
+
+.service-card ul {
+    list-style: none;
+    padding-left: 0;
+    text-align: left;
+}
+
+.service-card ul li {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.service-card ul li:last-child {
+    border-bottom: none;
+}
+
+/* 도입 절차 스타일 */
+.process-section {
+    margin: 60px 0;
+}
+
+.process-steps {
+    display: flex;
+    justify-content: space-between;
+    margin: 40px 0;
+    position: relative;
+}
+
+.process-steps:before {
+    content: '';
+    position: absolute;
+    top: 35px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #e0e0e0;
+    z-index: 1;
+}
+
+.step {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    padding: 0 15px;
+}
+
+.step-number {
+    width: 70px;
+    height: 70px;
+    background: #205375;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin: 0 auto 20px;
+}
+
+/* 문의 양식 스타일 */
+.inquiry-form-section {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    margin: 50px 0;
+}
+
+.inquiry-form label {
+    font-weight: 500;
+    color: #205375;
+    margin-bottom: 8px;
+}
+
+.inquiry-form .form-control,
+.inquiry-form .form-select {
+    border: 1px solid #dee2e6;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+.inquiry-form .form-control:focus,
+.inquiry-form .form-select:focus {
+    border-color: #205375;
+    box-shadow: 0 0 0 0.2rem rgba(32, 83, 117, 0.25);
+}
+
+/* 버튼 스타일 */
+.btn-primary {
+    background-color: #205375;
+    border-color: #205375;
+    padding: 12px 30px;
+    font-weight: 500;
+}
+
+.btn-primary:hover {
+    background-color: #1a4460;
+    border-color: #1a4460;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .process-steps {
+        flex-direction: column;
+    }
+    
+    .process-steps:before {
+        display: none;
+    }
+    
+    .step {
+        margin-bottom: 30px;
+    }
+    
+    .inquiry-form-section {
+        padding: 20px;
+    }
+    
+    .service-card {
+        margin-bottom: 20px;
+    }
+}
+
+/* 애니메이션 효과 */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 0.6s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

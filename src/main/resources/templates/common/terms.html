@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이용약관 - PHANTOM BOOKS</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/fragments/policy.css}">
+</head>
+<body>
+    <!-- 헤더 영역 -->
+    <div th:replace="~{common/common}"></div>
+    
+    <div class="policy-container">
+        <div class="container">
+            <h1 class="policy-title">이용약관</h1>
+            <div class="last-updated">최종 수정일: 2024년 03월 01일</div>
+            
+            <div class="policy-content">
+                <section class="policy-section">
+                    <h2>제1조 (목적)</h2>
+                    <p>이 약관은 PHANTOM BOOKS(이하 "회사")가 제공하는 전자책 서비스 및 관련 제반 서비스의 이용과 관련하여 회사와 회원과의 권리, 의무 및 책임사항, 기타 필요한 사항을 규정함을 목적으로 합니다.</p>
+                </section>
+
+                <section class="policy-section">
+                    <h2>제2조 (정의)</h2>
+                    <ol>
+                        <li>"서비스"란 회사가 제공하는 전자책 서비스 및 관련 제반 서비스를 의미합니다.</li>
+                        <li>"회원"이란 회사와 서비스 이용계약을 체결하고 회사가 제공하는 서비스를 이용하는 자를 의미합니다.</li>
+                        <li>"콘텐츠"란 회사가 제공하는 전자책, 오디오북 등 모든 형태의 디지털 콘텐츠를 의미합니다.</li>
+                    </ol>
+                </section>
+
+                <section class="policy-section">
+                    <h2>제3조 (약관의 게시와 개정)</h2>
+                    <ol>
+                        <li>회사는 이 약관의 내용을 회원이 쉽게 알 수 있도록 서비스 초기 화면에 게시합니다.</li>
+                        <li>회사는 필요한 경우 관련 법령을 위배하지 않는 범위에서 이 약관을 개정할 수 있습니다.</li>
+                        <li>회사가 약관을 개정할 경우에는 적용일자 및 개정사유를 명시하여 현행약관과 함께 서비스 초기화면에 그 적용일자 7일 이전부터 공지합니다.</li>
+                    </ol>
+                </section>
+
+                <!-- 추가 조항들... -->
+                
+                <section class="policy-section">
+                    <h2>제15조 (준거법 및 관할법원)</h2>
+                    <p>이 약관의 해석 및 회사와 회원간의 분쟁에 대하여는 대한민국의 법을 적용하며, 분쟁이 발생한 경우 서울중앙지방법원을 제1심 관할법원으로 합니다.</p>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- 푸터 영역 -->
+    <div th:replace="~{common/footer}"></div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
