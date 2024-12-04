@@ -58,7 +58,7 @@ public class MyPageServiceImpl implements MyPageService {
 	public List<Query> queryList(int memberNo) {
 		return mapper.queryList(memberNo);
 	}
-	
+
 	/**
 	 * 카테고리 전체 목록 불러오기
 	 *
@@ -124,10 +124,30 @@ public class MyPageServiceImpl implements MyPageService {
 
 	@Override
 	public Member changeInfo(Member inputMember) {
+		// 정보 변경 처리
 		mapper.changeInfo(inputMember);
 
-		return mapper.loginMemberByMemberNo(inputMember.getMemberNo());
+		// 변경된 회원 정보 조회
+		Member updatedMember = mapper.loginMemberByMemberNo(inputMember.getMemberNo());
 
+		// 생년월일 데이터 가공
+		if (updatedMember != null) {
+			String birthDate = updatedMember.getBirthDate();
+			if (birthDate != null) {
+				updatedMember.setBirthDate(formatBirthDate(birthDate));
+			} else {
+				updatedMember.setBirthDate(""); // 기본값 설정
+			}
+		}
+		return updatedMember;
+	}
+
+	// formatBirthDate 메서드 추가
+	private String formatBirthDate(String birthDate) {
+		if (birthDate == null) {
+			return ""; // 기본값 설정
+		}
+		return birthDate.replaceAll("-", "/");
 	}
 
 	@Override

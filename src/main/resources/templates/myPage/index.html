@@ -72,158 +72,159 @@
             </p>
             <a href="/myPage/preference" class="more-btn">취향 설정하기 →</a>
           </div>
-      </section>
+        </section>
 
-      <!-- 구매 내역 섹션 -->
-      <section class="card purchase-history">
-        <div class="card-header">
-          <h2>최근 구매 내역</h2>
-          <a href="/myPage/myOrder" class="card-more">전체보기 →</a>
-        </div>
-        <div class="card-content">
-          <div class="summary-list" th:if="${!#lists.isEmpty(buyList)}">
-            <a th:each="purchase, iterStat : ${buyList}" th:if="${iterStat.index < 4}"
-              th:href="@{/order/afterOrder(orderNo=${purchase.orderNo})}" class="purchase-item">
-              <div class="purchase-title">
-                <div class="title-info">
-                  <span th:text="${purchase.bookTitle}" class="purchaseBookTitle">책 제목</span>
-                  <span th:if="${purchase.bookCount > 1}" th:text="| 등 총 ${purchase.bookCount}권|"
-                        class="book-count-title">등 총 2권</span>
+        <!-- 구매 내역 섹션 -->
+        <section class="card purchase-history">
+          <div class="card-header">
+            <h2>최근 구매 내역</h2>
+            <a href="/myPage/myOrder" class="card-more">전체보기 →</a>
+          </div>
+          <div class="card-content">
+            <div class="summary-list" th:if="${!#lists.isEmpty(buyList)}">
+              <a th:each="purchase, iterStat : ${buyList}" th:if="${iterStat.index < 4}"
+                th:href="@{/order/afterOrder(orderNo=${purchase.orderNo})}" class="purchase-item">
+                <div class="purchase-title">
+                  <div class="title-info">
+                    <span th:text="${purchase.bookTitle}" class="purchaseBookTitle">책 제목</span>
+                    <span th:if="${purchase.bookCount > 1}" th:text="| 등 총 ${purchase.bookCount}권|"
+                      class="book-count-title">등 총 2권</span>
+                  </div>
+                  <span class="total-price"
+                    th:text="|${#numbers.formatInteger(purchase.totalPrice, 0, 'COMMA')}원|">32,000원</span>
                 </div>
-                <span class="total-price" th:text="|${#numbers.formatInteger(purchase.totalPrice, 0, 'COMMA')}원|">32,000원</span>
-              </div>
+              </a>
+            </div>
+            <p th:if="${#lists.isEmpty(buyList)}" class="empty-message">최근 구매 내역이 없습니다.</p>
+          </div>
+        </section>
+
+        <!-- 바로가기 링크 -->
+        <section class="card quick-links">
+          <div class="card-header">
+            <h2>고객지원</h2>
+            <a href="/support" class="card-more">이동하기 →</a>
+          </div>
+          <div class="card-content">
+            <a href="/customer/query" class="quick-link">
+              <i class="fas fa-pencil-alt"></i>
+              1:1 문의하기
+            </a>
+            <a href="/customer/qna" class="quick-link">
+              <i class="fas fa-question-circle"></i>
+              자주 묻는 질문
+            </a>
+            <a href="/customer/notice" class="quick-link">
+              <i class="fas fa-bullhorn"></i>
+              공지사항
             </a>
           </div>
-          <p th:if="${#lists.isEmpty(buyList)}" class="empty-message">최근 구매 내역이 없습니다.</p>
-        </div>
-      </section>
+        </section>
 
-      <!-- 바로가기 링크 -->
-      <section class="card quick-links">
-        <div class="card-header">
-          <h2>고객지원</h2>
-          <a href="/support" class="card-more">이동하기 →</a>
-        </div>
-        <div class="card-content">
-          <a href="/customer/query" class="quick-link">
-            <i class="fas fa-pencil-alt"></i>
-            1:1 문의하기
-          </a>
-          <a href="/customer/qna" class="quick-link">
-            <i class="fas fa-question-circle"></i>
-            자주 묻는 질문
-          </a>
-          <a href="/customer/notice" class="quick-link">
-            <i class="fas fa-bullhorn"></i>
-            공지사항
-          </a>
-        </div>
-      </section>
-
-      <!-- 리뷰 섹션 -->
-      <section class="card reviews">
-        <div class="card-header">
-          <h2>최근 리뷰 목록</h2>
-          <a href="/myPage/myReview" class="card-more">전체보기 →</a>
-        </div>
-        <div class="card-content">
-          <div class="summary-list" th:if="${!#lists.isEmpty(writeReview)}">
-            <a th:each="review, iterStat : ${writeReview}" th:if="${iterStat.index < 3}"
-              th:href="@{/searchBookPage/bookDetail/{bookNo}(bookNo=${review.bookNo})}" class="review-item">
-              <div class="review-book-title-area">
-                <div class="review-book-title" th:text="${review.bookTitle}">책 제목</div>
-                <div class="review-score">
-                  <i class="fas fa-star"></i>
-                  <span th:text="${review.reviewScore}">4.5</span>
-                </div>
-              </div>
-              <div class="review-detail">
-                <div class="review-title" th:text="${review.reviewTitle}">리뷰 제목</div>
-                <div class="review-content" th:text="${review.reviewContent}">리뷰 내용</div>
-              </div>
-            </a>
+        <!-- 리뷰 섹션 -->
+        <section class="card reviews">
+          <div class="card-header">
+            <h2>최근 리뷰 목록</h2>
+            <a href="/myPage/myReview" class="card-more">전체보기 →</a>
           </div>
-          <p th:if="${#lists.isEmpty(writeReview)}" class="empty-message">작성한 리뷰가 없습니다.</p>
-        </div>
-      </section>
-
-      <!-- 찜 목록 요약 -->
-      <section class="card wishlist">
-        <div class="card-header">
-          <h2>찜 목록</h2>
-          <a href="/myPage/myWishList" class="card-more">전체보기 →</a>
-        </div>
-        <div class="card-content">
-          <div class="summary-list" th:if="${!#lists.isEmpty(wishList)}">
-            <a th:each="item, iterStat : ${wishList}" th:if="${iterStat.index < 3}"
-              th:href="@{/searchBookPage/bookDetail/{bookNo}(bookNo=${item.bookNo})}" class="wishlist-item">
-              <div class="book-title-area">
-                <div class="book-title" th:text="${item.bookTitle}">책 제목</div>
-                <div class="review-score">
-                  <i class="fas fa-star"></i>
-                  <span th:text="${item.scoreAvg}">4.5</span>
+          <div class="card-content">
+            <div class="summary-list" th:if="${!#lists.isEmpty(writeReview)}">
+              <a th:each="review, iterStat : ${writeReview}" th:if="${iterStat.index < 3}"
+                th:href="@{/searchBookPage/bookDetail/{bookNo}(bookNo=${review.bookNo})}" class="review-item">
+                <div class="review-book-title-area">
+                  <div class="review-book-title" th:text="${review.bookTitle}">책 제목</div>
+                  <div class="review-score">
+                    <i class="fas fa-star"></i>
+                    <span th:text="${review.reviewScore}">4.5</span>
+                  </div>
                 </div>
-              </div>
-              <div class="book-info">
-                <span class="book-writer" th:text="${item.bookWriter}">작가</span>
-                <span class="book-price"
-                  th:text="|${#numbers.formatInteger(item.bookPrice, 0, 'COMMA')}원|">32,000원</span>
-              </div>
-              <div class="book-content" th:text="${item.bookContent}">책 내용</div>
-            </a>
+                <div class="review-detail">
+                  <div class="review-title" th:text="${review.reviewTitle}">리뷰 제목</div>
+                  <div class="review-content" th:text="${review.reviewContent}">리뷰 내용</div>
+                </div>
+              </a>
+            </div>
+            <p th:if="${#lists.isEmpty(writeReview)}" class="empty-message">작성한 리뷰가 없습니다.</p>
           </div>
-          <p th:if="${#lists.isEmpty(wishList)}" class="empty-message">찜한 상품이 없습니다.</p>
-        </div>
-      </section>
+        </section>
 
-      <!-- 문의 내역 요약 -->
-      <section class="card inquiries">
-        <div class="card-header">
-          <h2>최근 문의 목록</h2>
-          <a href="/customer/inquiry" class="card-more">전체보기 →</a>
-        </div>
-        <div class="card-content">
-          <div class="summary-list" th:if="${!#lists.isEmpty(queryList)}">
-            <a th:each="inquiry : ${queryList}"
-              th:href="@{/customer/inquiryDetail/{queryNo}(queryNo=${inquiry.queryNo})}" class="inquiry-item">
-              <div class="inquiry-header">
-                
-                <div th:class="'inquiry-status status-' + ${inquiry.status}">
-                  <i th:class="${
+        <!-- 찜 목록 요약 -->
+        <section class="card wishlist">
+          <div class="card-header">
+            <h2>찜 목록</h2>
+            <a href="/myPage/myWishList" class="card-more">전체보기 →</a>
+          </div>
+          <div class="card-content">
+            <div class="summary-list" th:if="${!#lists.isEmpty(wishList)}">
+              <a th:each="item, iterStat : ${wishList}" th:if="${iterStat.index < 3}"
+                th:href="@{/searchBookPage/bookDetail/{bookNo}(bookNo=${item.bookNo})}" class="wishlist-item">
+                <div class="book-title-area">
+                  <div class="book-title" th:text="${item.bookTitle}">책 제목</div>
+                  <div class="review-score">
+                    <i class="fas fa-star"></i>
+                    <span th:text="${item.scoreAvg}">4.5</span>
+                  </div>
+                </div>
+                <div class="book-info">
+                  <span class="book-writer" th:text="${item.bookWriter}">작가</span>
+                  <span class="book-price"
+                    th:text="|${#numbers.formatInteger(item.bookPrice, 0, 'COMMA')}원|">32,000원</span>
+                </div>
+                <div class="book-content" th:text="${item.bookContent}">책 내용</div>
+              </a>
+            </div>
+            <p th:if="${#lists.isEmpty(wishList)}" class="empty-message">찜한 상품이 없습니다.</p>
+          </div>
+        </section>
+
+        <!-- 문의 내역 요약 -->
+        <section class="card inquiries">
+          <div class="card-header">
+            <h2>최근 문의 목록</h2>
+            <a href="/customer/inquiry" class="card-more">전체보기 →</a>
+          </div>
+          <div class="card-content">
+            <div class="summary-list" th:if="${!#lists.isEmpty(queryList)}">
+              <a th:each="inquiry : ${queryList}"
+                th:href="@{/customer/inquiryDetail/{queryNo}(queryNo=${inquiry.queryNo})}" class="inquiry-item">
+                <div class="inquiry-header">
+
+                  <div th:class="'inquiry-status status-' + ${inquiry.status}">
+                    <i th:class="${
                             inquiry.status == 0 ? 'fas fa-file-alt' :
                             inquiry.status == 1 ? 'fas fa-eye' :
                             'fas fa-check-circle'
                         }"></i>
-                  <span th:text="${
+                    <span th:text="${
                             inquiry.status == 0 ? '접수완료' :
                             inquiry.status == 1 ? '관리자확인' :
                             '답변완료'
                         }">상태</span>
-                </div>
-                <div class="inquiry-category">
-                  <i th:class="${
+                  </div>
+                  <div class="inquiry-category">
+                    <i th:class="${
                             inquiry.querySubject == '2' ? 'fas fa-shopping-cart' :
                             inquiry.querySubject == '3' ? 'fas fa-truck' :
                             inquiry.querySubject == '4' ? 'fas fa-undo' :
                             'fas fa-question-circle'
                         }"></i>
-                  <span th:text="${
+                    <span th:text="${
                             inquiry.querySubject == '2' ? '주문관련' :
                             inquiry.querySubject == '3' ? '배송관련' :
                             inquiry.querySubject == '4' ? '취소/환불' :
                             '기타문의'
                         }">문의종류</span>
+                  </div>
                 </div>
-              </div>
-              <div class="inquiry-title" th:text="${inquiry.queryTitle}">문의 제목</div>
-              <div class="inquiry-content" th:text="${inquiry.queryContent}">문의 내용</div>
-            </a>
+                <div class="inquiry-title" th:text="${inquiry.queryTitle}">문의 제목</div>
+                <div class="inquiry-content" th:text="${inquiry.queryContent}">문의 내용</div>
+              </a>
+            </div>
+            <p th:if="${#lists.isEmpty(queryList)}" class="empty-message">문의 내역이 없습니다.</p>
           </div>
-          <p th:if="${#lists.isEmpty(queryList)}" class="empty-message">문의 내역이 없습니다.</p>
-        </div>
-      </section>
+        </section>
+      </div>
     </div>
-  </div>
   </main>
 
   <footer th:replace="~{common/footer :: footer}"></footer>

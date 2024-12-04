@@ -465,7 +465,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// ��력값 변경 감지를 위한 초기값 저장
+// 입력값 변경 감지를 위한 초기값 저장
 const initialValues = {
   name: document.getElementById('name')?.value || '',
   birthDate: document.getElementById('birthDate')?.value || '',
