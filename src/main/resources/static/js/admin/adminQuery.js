@@ -34,7 +34,7 @@ const listUp = (cp, sort) => {
       const tr = document.createElement("tr");
 
       // 문의 번호
-      const td1 = document.createElement("td");
+      const td1 = document.createElement("th");
       td1.classList.add("queryNo");
 
       td1.innerHTML = query.queryNo;
@@ -53,8 +53,8 @@ const listUp = (cp, sort) => {
       span2.classList.add("arrow-icon");
       span2.innerHTML = query.queryTitle;
 
-      
-      title.append(span2);
+      span2.append(title);
+      td2.append(span2);
       
       // 내용이 작성될 태그
       const content = document.createElement("div");
@@ -64,7 +64,7 @@ const listUp = (cp, sort) => {
       
       // 제목 클릭 시 내용이 보이게 하기
       // + 답변상태 변경
-      title.addEventListener("click", () => {
+      tr.addEventListener("click", () => {
         content.style.display = "block";
 
         fetch("/admin/query/updateStatus?queryNo=" + query.queryNo, {method : "PUT"})
@@ -73,7 +73,9 @@ const listUp = (cp, sort) => {
           throw new Error("안읽혀요");
         })
         .then(result => {
-          if(result > 0) return span1.innerHTML = "관리자 확인";
+          if(result > 0) {
+            if(span1.value = "접수완료") span1.innerHTML = "관리자 확인";
+          }
           console.error("안되요~");
         })
 

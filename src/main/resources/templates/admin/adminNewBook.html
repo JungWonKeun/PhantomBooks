@@ -18,37 +18,20 @@
   
    
     <div class="function">
-      <!-- 알림 영역 -->
-      <div class="notification-container">
-       
-         <!-- 알림 버튼 -->
-        <button class="notification-btn" id="my-element">
-          <i class="fa-regular fa-bell">.</i>
-          <!-- 알림 개수 표시 -->
-          <div class="notification-count-area"></div>
-        </button>
-        
-        <!-- 알림 목록 -->
-        <ul class="notification-list">
-          
-        </ul>
-        
-      </div>
-      
       <!-- 관리자 담당 업무 -->
-      <div class="adminName"
-           th:unless = "${#lists.isEmpty(requestList)}" 
-           th:object="${loginMember}">
-        <div th:text="*{name}">
-          이름이 왜안나올까?
+      <div class="adminName">
+        <div th:if= "${session.loginMember}"
+             th:text="${session.loginMember.adminName}">
+          담당
         </div>
       </div>
   
       <!-- 채팅방 입장 아이콘 -->
       <div class="chatting">
-        채팅방
+        <button class="fa-solid fa-paper-plane" id="openPopup"></button>
       </div>
     </div>
+    <header th:replace="~{admin/adminChatting}"></header>
 
   </section>
 

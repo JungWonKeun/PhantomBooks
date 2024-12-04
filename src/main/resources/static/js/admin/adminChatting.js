@@ -276,6 +276,9 @@ const chattingEnter = (e) => {
 // 비동기로 채팅방 목록 조회
 const selectRoomList = () => {
 
+  const chattingContent = document.querySelector(".chatting-content");
+  chattingContent.classList.add("hidden");
+
 	fetch("/admin/chatting/roomList")
 	.then(resp => resp.json())
 	.then(roomList => {
@@ -370,8 +373,15 @@ const roomListAddEvent = () => {
 	const chattingItemList = document.getElementsByClassName("chatting-item");
 	
 	for(let item of chattingItemList){
-		item.addEventListener("click", e => {
-	
+    item.addEventListener("click", e => {
+      // 추가버튼 삭제
+      const addTarget = document.querySelector("#addTarget");
+      addTarget.classList.add("hidden");
+
+      const chattingContent = document.querySelector(".chatting-content");
+      chattingContent.classList.remove("hidden");
+
+      
 			// 전역변수에 채팅방 번호, 상대 번호, 상태 프로필, 상대 이름 저장
 			selectChattingNo = item.getAttribute("chat-no");
 			selectTargetNo = item.getAttribute("target-no");
@@ -504,6 +514,10 @@ document.addEventListener("DOMContentLoaded", () => {
         popup.style.display = "none";
 
         chattingContent.classList.add("hidden");
+
+        // 추가버튼 삭제
+        const addTarget = document.querySelector("#addTarget");
+        addTarget.classList.remove("hidden");
     });
 
     // 드래그 시작

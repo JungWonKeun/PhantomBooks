@@ -147,20 +147,22 @@ html, body {
 .title{
   display: flex;
   flex-direction: row;
-  margin-top: 20px;
+  align-items: start;
+  /* margin-top: 20px; */
+  height: 100px;
 }
 
-.date-container{
+.btn-container{
   width: 1200px;
   height: 50px;
-  margin-left: 40px;
+  margin-left: -190px;
   display: flex;
   flex-direction: row;
   justify-content: left;
   align-items: center;
 }
 
-.date-container > button{
+.btn-container > button{
   width: 80px; 
   height: 35px; 
   border: 1px solid #a7a7a7; 
@@ -173,12 +175,12 @@ html, body {
   cursor: pointer;
 }
 
-.date-container > button.active {
+.btn-container > button.active {
   border: 1px solid black;
   color: black;
 }
 
-.date-container > input{
+.btn-container > input{
   width: 170px;
   height: 40px;
   border-radius: 5px;
@@ -267,6 +269,10 @@ html, body {
   align-items: center;
 }
 
+.text{
+  margin-left: 30px;
+}
+
 .date > button, input {
   height: 40px;
   margin-right: 20px;
@@ -292,43 +298,122 @@ html, body {
 
 
 
-.content-box2{
-  display: flex;
-  justify-content: row;
-  height: 700px;
-}
-
-.graph{
-  width: 1000px;
-  height: 550px;
-}
-
+/* 테이블 스타일 */
 .salesRank{
-  width: 500px;
-  height: 550px;
+  margin-right: 100px;
 }
 
-.salesRank > table{
+
+.sales-table {
+  width: 900px;
+  table-layout: fixed;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #EFEFEF;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+
+
+.sales-table th {
+  padding: 12px 15px;
+  text-align: center;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: 300; 
+  color: #fff; 
+  background-color: #EFEFEF;
+}
+
+.sales-table th:nth-child(1),
+.sales-table th:nth-child(2),
+.sales-table th:nth-child(3),
+.sales-table th:nth-child(4),
+.sales-table th:nth-child(5) {
+  background-color: #205375;
+}
+
+.sales-table td {
+  padding: 12px 15px;
+  text-align: center;
+  font-size: 14px;
+  color: rgb(29, 30, 57); 
+  background-color: #EFEFEF;
+}
+
+.sales-table tr{
+  height: 40px;
+}
+
+.sales-table tr:nth-child(even) td {
+  background-color: #ffffff;
+}
+
+
+
+.sales-table tr:hover td {
+  background-color: #a3a2a2;
+}
+
+
+.sales-table button {
+  background-color: #205375; 
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
   font-size: 12px;
-  font-weight: bold;
+  transition: background-color 0.3s ease;
 }
 
-.sales-table{
-  width: 500px;
-  height: 520px;
+.sales-table button:hover {
+  background-color: rgb(29, 30, 57);
 }
 
-.sales-title {
-  font-size: 15px; 
-  font-weight: lighter;
-  color: gray;
+/* 페이지네이션 스타일 */
+.pagination-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px; 
+  padding: 10px 0;
+  background-color: #EFEFEF;
 }
 
-.sales-count {
-  font-size: 38px;
-  font-weight: bold;
+.pagination {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 10px; 
+}
+
+.pagination a {
   display: block;
+  padding: 8px 12px;
+  text-decoration: none;
+  background-color: #205375;
+  color: #fff; 
+  border-radius: 4px; 
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
 }
+
+.pagination a:hover {
+  background-color: rgb(29, 30, 57); 
+  cursor: pointer; 
+}
+
+.pagination a.current {
+  background-color: #205375;
+  font-weight: bold; 
+  cursor: pointer; 
+}
+
 
 
 
@@ -401,6 +486,9 @@ html, body {
   justify-content: space-around;
 }
 
+.graph-box{
+  margin-top: -40px;
+}
 .content-box {
   display: flex;
   flex-direction: row;

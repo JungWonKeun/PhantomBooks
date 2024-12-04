@@ -1,157 +1,161 @@
-    <style>
-        /* 팝업 스타일 */
-        .popup {
-            width: 400px;
-            height: 600px;
-            background-color: #ffffff;
-            border: 2px solid #ccc;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            position: absolute;
-            top: 100px;
-            left: 100px;
-            display: none; /* 기본적으로 숨김 */
-            z-index: 1000;
-            overflow-y: auto; /* 세로 스크롤 활성화 */
-        }
+<style>
+  /* 팝업 스타일 */
+  .popup {
+    width: 400px;
+    height: 600px;
+    background-color: #ffffff;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    top: 100px;
+    left: 100px;
+    display: none;
+    /* 기본적으로 숨김 */
+    z-index: 1000;
+    overflow-y: auto;
+    /* 세로 스크롤 활성화 */
+  }
 
-        /* 헤더 스타일 */
-        .top{
-          display: flex;
-          flex-direction: row;
-          justify-content: space-between;
-          align-items: center;
+  /* 헤더 스타일 */
+  .top {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 
-          background-color: #f1f1f1;
+    background-color: #f1f1f1;
 
-        }
-
-
-        .popup-layer-close{ display: none;  }
-
-        .popup-header {
-            background-color: #f1f1f1;
-            padding: 10px;
-            cursor: grab;
-            font-weight: bold;
-        }
-
-        /* 본문 스타일 */
-        .popup-body {
-            padding: 15px;
-            text-align: center;
-        }
-
-        /* 버튼 스타일 */
-        .popup button {
-            margin-top: 15px;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            color: white;
-            cursor: pointer;
-        }
-
-        .popup button:hover {
-            background-color: #0056b3;
-        }
-
-        /* 채팅 내용 */
-      .chatting-content{
-        width: 94%;
-        height: 50%;
-        justify-content: center;
-      }
-
-      .display-chatting {
-        width: 100%;
-        height: 400px;
-        border: 1px solid black;
-        overflow: auto;
-        list-style: none;
-        padding: 10px 10px;
-      }
-
-      .display-chatting > li{
-        margin: 10px 0;
-      }
-
-      .target-chat{
-        display: flex;
-        align-items: flex-start;
-      }
-      .target-chat > img{
-        width: 50px;
-        margin-right: 5px;
-      }
-
-      .chat {
-        display: inline-block;
-        border-radius: 5px;
-        padding: 5px;
-        background-color: #eee;
-        text-align: left;
-        max-width: 500px;
-        word-break: break-all;
-        white-space: pre-wrap;
-      }
+  }
 
 
-      .input-area {
-        height: 80px;
-        width: 100%;
-        display: flex;
-      }
+  .popup-layer-close {
+    display: none;
+  }
 
-      #inputChatting {
-        padding: 3px;
-        font-size: 1.3em;
-        width: 80%;
-        resize: none;
-      }
+  .popup-header {
+    background-color: #f1f1f1;
+    padding: 10px;
+    cursor: grab;
+    font-weight: bold;
+  }
 
-      #send {
-        width: 20%;
-      }
+  /* 본문 스타일 */
+  .popup-body {
+    padding: 15px;
+    text-align: center;
+  }
 
-      .my-chat {
-        text-align: right;
-      }
+  /* 버튼 스타일 */
+  .popup button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+  }
 
-      .my-chat>p {
-        background-color: yellow;
-      }
+  .popup button:hover {
+    background-color: #0056b3;
+  }
 
-      .chatDate {
-        font-size: 9px;
-      }
+  /* 채팅 내용 */
+  .chatting-content {
+    width: 100%;
+    height: 93%;
+    justify-content: center;
+    margin-top: -650px;
+  }
 
-      #exit-area {
-        text-align: right;
-        margin-bottom: 10px;
-      }
+  .display-chatting {
+    width: 100%;
+    height: 93%;
+    /* border: 1px solid black; */
+    overflow: auto;
+    list-style: none;
+    padding: 10px 10px;
+    margin-top: -700px;
+  }
+
+  .display-chatting>li {
+    margin: 10px 0;
+  }
+
+  .target-chat {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .target-chat>img {
+    width: 50px;
+    margin-right: 5px;
+  }
+
+  .chat {
+    display: inline-block;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: #eee;
+    text-align: left;
+    max-width: 500px;
+    word-break: break-all;
+    white-space: pre-wrap;
+  }
 
 
-      .exit {
-        text-align: center;
-      }
+  .input-area {
+    height: 80px;
+    width: 100%;
+    display: flex;
+  }
 
-      .exit>p {
-        background-color: rgba(0, 0, 0, 0.3);
-      }
+  #inputChatting {
+    padding: 3px;
+    font-size: 1.3em;
+    width: 80%;
+    resize: none;
+  }
 
-      .hidden {
-        visibility: hidden; 
-        pointer-events: none;
-      }
+  #send {
+    width: 20%;
+  }
 
-      .display-chatting{
-        margin-top: -370px
-      }
-    
+  .my-chat {
+    text-align: right;
+  }
+
+  .my-chat>p {
+    background-color: yellow;
+  }
+
+  .chatDate {
+    font-size: 9px;
+  }
+
+  #exit-area {
+    text-align: right;
+    margin-bottom: 10px;
+  }
 
 
-    </style>
+  .exit {
+    text-align: center;
+  }
+
+  .exit>p {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+
+  .hidden {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .display-chatting {
+    margin-top: -370px
+  }
+</style>
 <script th:inline="javascript">
   const notificationLoginCheck
     = /*[[${session.loginMember} ? true : false]]*/ false;
@@ -165,17 +169,17 @@
     </div>
     <button id="closePopup">ⅹ</button>
   </div>
-  
+
   <button id="addTarget">추가</button>
   <div id="addTargetPopupLayer" class="popup-layer-close">
-    
+
     <div class="target-input-area">
       <input type="search" id="targetInput" placeholder="닉네임 또는 이메일을 입력하세요" autocomplete="off">
       <span id="closeBtn">&times</span>
-			</div>
+    </div>
 
-			<ul id="resultArea">
-<!-- 				<li class="result-row" data-id="1">
+    <ul id="resultArea">
+      <!-- 				<li class="result-row" data-id="1">
 					<img class="result-row-img" src="/images/user.png">
 					<span> <mark>유저</mark>일</span>
 				</li>
@@ -185,41 +189,41 @@
 				</li>
 
 				<li class="result-row">일치하는 회원이 없습니다</li> -->
-			</ul>
-		</div>
+    </ul>
+  </div>
 
-		<div class="chatting-area">
-			<ul class="chatting-list">
-        
+  <div class="chatting-area">
+    <ul class="chatting-list">
 
-				<th:block th:each="room : ${roomList}">
 
-					<!-- th:chat-no : li 태그에 임의의 속성 chat-no를 추가하는데
+      <th:block th:each="room : ${roomList}">
+
+        <!-- th:chat-no : li 태그에 임의의 속성 chat-no를 추가하는데
 						타임리프를 이용해 출력된 값을 chat-no 속성 값으로 대입 -->
-					<li class="chatting-item" th:chat-no="${room.chattingRoomNo}" th:target-no="${room.targetNo}">
-						<div class="item-header">
+        <li class="chatting-item" th:chat-no="*{room.chattingRoomNo}" th:target-no="*{room.targetNo}"
+          th:value="*{room.targetNickname}">
+          <div class="item-header">
 
-						</div>
-						<div class="item-body">
-							<p>
-								<span class="target-name" th:text="${room.targetNickname}">상대방 이름</span>
-								<span class="recent-send-time" th:text="${room.sendTime}">메세지 보낸 시간</span>
-							</p>
-							<div>
-								<p class="recent-message" th:text="${room.lastMessage}">메세지 내용</p>
+          </div>
+          <div class="item-body" th:value="*{room.targetNickname}">
+            <p th:value="*{room.targetNickname}">
+              <span class="target-name" th:text="${room.targetNickname}">상대방 이름</span>
+            </p>
+            <div>
+              <p class="recent-message" th:text="${room.lastMessage}">메세지 내용</p>
 
-								<p th:if="${room.notReadCount > 0}" class="not-read-count" th:text="${room.notReadCount}"></p>
-							</div>
-						</div>
-					</li>
+              <p th:if="${room.notReadCount > 0}" class="not-read-count" th:text="${room.notReadCount}"></p>
+            </div>
+          </div>
+        </li>
 
-				</th:block>
-      </ul>
+      </th:block>
+    </ul>
 
-    </div>
-    <div class="chatting-content">
-      <ul class="display-chatting">
-        <!-- <li class="my-chat">
+  </div>
+  <div class="chatting-content">
+    <ul class="display-chatting">
+      <!-- <li class="my-chat">
           <span class="chatDate">14:01</span>
           <p class="chat">가나다라마바사</p>
         </li>
@@ -236,23 +240,19 @@
             <span class="chatDate">14:05</span>
           </div>
         </li> -->
-      </ul>
+    </ul>
 
-      <div class="input-area">
-        <textarea id="inputChatting" rows="3"></textarea>
-        <button id="send">보내기</button>
-      </div>
+    <div class="input-area">
+      <textarea id="inputChatting" rows="3"></textarea>
+      <button id="send">보내기</button>
     </div>
+  </div>
 </div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <script th:inline="javascript">
-  const userDefaultImage = /*[[#{user.default.image}]]*/ '기본 이미지';
-
   const loginMemberNo = /*[[${session.loginMember?.memberNo}]]*/ '로그인 회원 번호';
 </script>
 
 <script src="/js/admin/adminChatting.js"></script>
-
-

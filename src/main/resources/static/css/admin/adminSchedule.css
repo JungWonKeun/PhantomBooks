@@ -20,6 +20,7 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
+  width: 100%;
   overflow: hidden; /* 스크롤 없애기 */
 }
 
@@ -56,11 +57,6 @@ html, body {
   width: 500px;
 }
 
-.adminName{
-  width: 50px;
-  height: 50px;
-  border-radius: 25px;
-}
 body{
   width: 1800px;
   height: 880px;
@@ -125,21 +121,18 @@ body{
   display: block;
 }
 
-.calendar{
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
+
+.calendar-container{
+  margin-left: 100px;
   width: 1500px;
-  height: 700px;
+  height: 1500px;
+}
+
+#calendar{
+  width: 1500px;
+  height: 1500px;
   margin-left: 80px;
 }
-
-.calendar-box{
-  width: 750px;
-  height: 700px;
-}
-
 .d-flex{
   width: 750px;
   height: 700px;
@@ -177,17 +170,6 @@ body{
 .cal-btn[disabled] {
   border: 0;
   opacity: .5;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
-  gap: 20px;
-  width: 100%; 
-  min-height: 100vh;
-  height: 100%;
-  overflow-x: hidden;
 }
 
 /* 일요일 날짜: 빨간색 */
