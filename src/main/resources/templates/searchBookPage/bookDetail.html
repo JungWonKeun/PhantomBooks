@@ -96,12 +96,12 @@
 
             <div class="book-detail-price">
               <span style="font-weight: bold; color: #e74c3c; margin-left: 10px;">
-                10% <span th:text="${book.bookPrice + '원'}" class="bookDetailPrice"></span>
+                20% <span th:text="${book.bookPrice + '원'}" class="bookDetailPrice"></span>
 
               </span>
               <span style="text-decoration: line-through; color: #999; font-size: 1rem;">
                 <span
-                  th:text="${#numbers.formatDecimal(T(java.lang.Double).parseDouble(book.bookPrice) * 1.1, 0, 0)}"></span>원
+                  th:text="${#numbers.formatDecimal(T(java.lang.Double).parseDouble(book.bookPrice) * 1.25, 0, 0)}"></span>원
               </span>
             </div>
 
@@ -110,19 +110,21 @@
 
             <div class="book-detail-shipping">
               <p>
-                배송안내&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3,500원
+                배송안내<br>
               </p>
-              <p style="color: #666;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;오늘 주문 시 2일 이내 도착</p>
               <p style="color: #666;">
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;기본배송지
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;배송비
+                : 3,500원
+              </p>
+              <p style="color: #666;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 오늘 주문 시 2일 이내 도착</p>
+              <p style="color: #666;">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;기본배송지
                 기준</p>
             </div>
 
             <hr class="section-divider">
 
-            <div class="book-detail-reviews">
-              <a href="/reviews" class="reviews-link">상품 후기 보기</a>
-            </div>
+            
           </div>
         </section>
 
@@ -131,10 +133,10 @@
     <hr>
     <section class="review-section">
 
-      <div>
-        <span th:text="${book.bookTitle}">책 제목</span> 리뷰
-        <!-- 책 제목 -->
+      <div style="font-weight: bold; font-size: 25px;">
+        <span th:text="${book.bookTitle}" style="font-weight: bold; font-size: 25px;">책 제목</span> 리뷰
       </div>
+      <hr>
 
       <!-- 리뷰 불러오기 반복 출력 -->
       <div class="wrap" th:if="${reviews != null and !reviews.isEmpty()}">
@@ -234,11 +236,11 @@
 
               <!-- 작성일 및 작성자 정보 -->
               <div class="review-meta-inline">
-                <div>
-                  <p>작성일: <span th:text="${review.reviewWriteDate}">2024-11-20</span></p>
+                <div class="review-author">
+                  <p><span th:text="${review.memberId}" style="color: rgb(29,30,57); font-weight: bold; font-size: large;">홍길동</span></p>
                 </div>
-                <div>
-                  <p>작성자: <span th:text="${review.memberId}">홍길동</span></p>
+                <div class="review-date">
+                  <p><span th:text="${review.reviewWriteDate}">2024-11-20</span></p>
                 </div>
               </div>
             </div>
@@ -279,117 +281,78 @@
         <div class="write-review-border">
           <div class="write-review-container">
             <div class="write-review-rating">
-              <h1>리뷰 입력</h1>
-              <div class="write_rating">
-                <!-- 0.5 점 -->
-                <label class="write_rating__label" for="star-0.5">
-                  <input type="radio" id="star-0.5" class="write_rating__input" name="rating" value="0.5">
-                  <div class="star-container">
-                    <i class="fas fa-star filled"></i>
-                    <i class="fas fa-star background"></i>
-                  </div>
-                </label>
-                <!-- 1 점 -->
-                <label class="write_rating__label" for="star-1">
-                  <input type="radio" id="star-1" class="write_rating__input" name="rating" value="1">
-                  <div class="star-container">
-                    <i class="fas fa-star filled"></i>
-                    <i class="fas fa-star background"></i>
-                  </div>
-                </label>
-                <!-- 1.5 점 -->
-                <label class="write_rating__label" for="star-1.5">
-                  <input type="radio" id="star-1.5" class="write_rating__input" name="rating" value="1.5">
-                  <div class="star-container">
-                    <i class="fas fa-star filled"></i>
-                    <i class="fas fa-star background"></i>
-                  </div>
-                </label>
-                <!-- 2 점 -->
-                <label class="write_rating__label" for="star-2">
-                  <input type="radio" id="star-2" class="write_rating__input" name="rating" value="2">
-                  <div class="star-container">
-                    <i class="fas fa-star filled"></i>
-                    <i class="fas fa-star background"></i>
-                  </div>
-                </label>
-                <!-- 2.5 점 -->
-                <label class="write_rating__label" for="star-2.5">
-                  <input type="radio" id="star-2.5" class="write_rating__input" name="rating" value="2.5">
-                  <div class="star-container">
-                    <i class="fas fa-star filled"></i>
-                    <i class="fas fa-star background"></i>
-                  </div>
-                </label>
-                <!-- 3 점 -->
-                <label class="write_rating__label" for="star-3">
-                  <input type="radio" id="star-3" class="write_rating__input" name="rating" value="3">
-                  <div class="star-container">
-                    <i class="fas fa-star filled"></i>
-                    <i class="fas fa-star background"></i>
-                  </div>
-                </label>
-                <!-- 3.5 점 -->
-                <label class="write_rating__label" for="star-3.5">
-                  <input type="radio" id="star-3.5" class="write_rating__input" name="rating" value="3.5">
-                  <div class="star-container">
-                    <i class="fas fa-star filled"></i>
-                    <i class="fas fa-star background"></i>
-                  </div>
-                </label>
-                <!-- 4 점 -->
-                <label class="write_rating__label" for="star-4">
-                  <input type="radio" id="star-4" class="write_rating__input" name="rating" value="4">
-                  <div class="star-container">
-                    <i class="fas fa-star filled"></i>
-                    <i class="fas fa-star background"></i>
-                  </div>
-                </label>
-                <!-- 4.5 점 -->
-                <label class="write_rating__label" for="star-4.5">
-                  <input type="radio" id="star-4.5" class="write_rating__input" name="rating" value="4.5">
-                  <div class="star-container">
-                    <i class="fas fa-star filled"></i>
-                    <i class="fas fa-star background"></i>
-                  </div>
-                </label>
-                <!-- 5 점 -->
-                <label class="write_rating__label" for="star-5">
-                  <input type="radio" id="star-5" class="write_rating__input" name="rating" value="5">
-                  <div class="star-container">
-                    <i class="fas fa-star filled"></i>
-                    <i class="fas fa-star background"></i>
-                  </div>
-                </label>
+              <div class="write-wrap">
+                <h1>리뷰 입력</h1>
+                <div class="write_rating">
+                  <!-- 별점 라디오 버튼 (이미 name 속성 있음) -->
+                  <label class="write_rating__label write_rating__label--half" for="write_starhalf">
+                    <input type="radio" id="write_starhalf" class="write_rating__input" name="rating" value="0.5">
+                    <span class="write_star_icon"></span>
+                  </label>
+                  <label class="write_rating__label write_rating__label--full" for="write_star1">
+                    <input type="radio" id="write_star1" class="write_rating__input" name="rating" value="1">
+                    <span class="write_star_icon"></span>
+                  </label>
+                  <label class="write_rating__label write_rating__label--half" for="write_star1half">
+                    <input type="radio" id="write_star1half" class="write_rating__input" name="rating" value="1.5">
+                    <span class="write_star_icon"></span>
+                  </label>
+                  <label class="write_rating__label write_rating__label--full" for="write_star2">
+                    <input type="radio" id="write_star2" class="write_rating__input" name="rating" value="2">
+                    <span class="write_star_icon"></span>
+                  </label>
+                  <label class="write_rating__label write_rating__label--half" for="write_star2half">
+                    <input type="radio" id="write_star2half" class="write_rating__input" name="rating" value="2.5">
+                    <span class="write_star_icon"></span>
+                  </label>
+                  <label class="write_rating__label write_rating__label--full" for="write_star3">
+                    <input type="radio" id="write_star3" class="write_rating__input" name="rating" value="3">
+                    <span class="write_star_icon"></span>
+                  </label>
+                  <label class="write_rating__label write_rating__label--half" for="write_star3half">
+                    <input type="radio" id="write_star3half" class="write_rating__input" name="rating" value="3.5">
+                    <span class="write_star_icon"></span>
+                  </label>
+                  <label class="write_rating__label write_rating__label--full" for="write_star4">
+                    <input type="radio" id="write_star4" class="write_rating__input" name="rating" value="4">
+                    <span class="write_star_icon"></span>
+                  </label>
+                  <label class="write_rating__label write_rating__label--half" for="write_star4half">
+                    <input type="radio" id="write_star4half" class="write_rating__input" name="rating" value="4.5">
+                    <span class="write_star_icon"></span>
+                  </label>
+                  <label class="write_rating__label write_rating__label--full" for="write_star5">
+                    <input type="radio" id="write_star5" class="write_rating__input" name="rating" value="5">
+                    <span class="write_star_icon"></span>
+                  </label>
+                </div>
+
+                <!-- 이미지 업로드 -->
+                <div class="write-review-image-container">
+                  <img alt="이미지 미리보기" class="write-review-img-thumb">
+                  <label for="imageInput">이미지 추가
+                    <input type="file" name="reviewImage" id="imageInput" accept="image/*">
+                  </label>
+                </div>
+
+                <!-- 제목 입력 -->
+                <div class="write-review-title-container">
+                  <input type="text" class="write-review-title-input" name="title" placeholder="제목을 작성해 주세요">
+                </div>
+
+                <!-- 내용 입력 -->
+                <div class="write-review-content-container">
+                  <textarea class="write-review-content-textarea" name="content"
+                    placeholder="리뷰 내용을 작성해 주세요"></textarea>
+                </div>
+
+                <!-- 제출 버튼 -->
+                <div class="write-review-submit-container">
+                  <label class="write-review-submit-button">
+                    <button type="submit" id="submitReview">제출</button>
+                  </label>
+                </div>
               </div>
-              
-              
-
-
-
-              <!-- 이미지 업로드 -->
-              <div class="write-review-image-container">
-                <img alt="리뷰 이미지" class="write-review-img-thumb">
-                <label for="imageInput">이미지 추가
-                  <input type="file" name="reviewImage" id="imageInput" accept="image/*">
-                </label>
-              </div>
-
-              <!-- 제목 입력 -->
-              <div class="write-review-title-container">
-                <input type="text" class="write-review-title-input" name="title" placeholder="제목을 작성해 주세요">
-              </div>
-
-              <!-- 내용 입력 -->
-              <div class="write-review-content-container">
-                <textarea class="write-review-content-textarea" name="content" placeholder="리뷰 내용을 작성해 주세요"></textarea>
-              </div>
-
-              <!-- 제출 버튼 -->
-              <div class="write-review-submit-container">
-                <button type="submit" id="submitReview">제출</button>
-              </div>
-
             </div>
           </div>
         </div>
