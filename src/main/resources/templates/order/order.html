@@ -301,7 +301,7 @@
         document.getElementById('paymentButton').addEventListener('click', () => {
 
 
-          if (!selectedAddress.zip || !selectedAddress.address || !selectedAddress.detailAddress) {
+          if (!selectedAddress || !selectedAddress.zip || !selectedAddress.address || !selectedAddress.detailAddress) {
             alert('배송지를 선택해주세요.');
             return;
           }
