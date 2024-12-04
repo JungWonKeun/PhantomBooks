@@ -64,9 +64,12 @@ public interface SearchBookPageService {
 	// 한개 찜 목록으로 이동
 	int putSingleWishlist(int memberNo, int bookNo);
 	
-    // 바로 구매
-	void buyBook(int bookNo, int bookPrice, String bookTitle);
 
+	// 찜 삭제 
+	int deleteWishlist(int memberNo, int bookNo);
+
+	// 바로 구매
+	 void buyBook(int bookNo, int bookPrice, String bookTitle); 
 	
 
 

@@ -125,21 +125,26 @@
 		bookPageCount,
 		B.BOOK_YN AS bookYn,
 		B.SCORE_AVG,
-		(SELECT LISTAGG(C.CATEGORY_NAME, ', ') WITHIN GROUP (ORDER BY
+		(SELECT
+		LISTAGG(C.CATEGORY_NAME, ', ') WITHIN GROUP (ORDER BY
 		C.CATEGORY_NAME)
 		FROM BOOK_CATEGORY BC
-		LEFT JOIN CATEGORY C ON BC.CATEGORY_NO = C.CATEGORY_NO
-		WHERE TO_NUMBER(BC.BOOK_NO) = B.BOOK_NO) AS "categoryName"
+		LEFT JOIN CATEGORY C ON BC.CATEGORY_NO =
+		C.CATEGORY_NO
+		WHERE TO_NUMBER(BC.BOOK_NO) = B.BOOK_NO) AS
+		"categoryName"
 		FROM BOOK B
 		LEFT
 		JOIN
-		BOOK_PREFERENCE BP ON B.BOOK_NO = BP.BOOK_NO
+		BOOK_PREFERENCE BP ON B.BOOK_NO =
+		BP.BOOK_NO
 		LEFT JOIN PREFERENCE P
 		ON
 		BP.PREFERENCE_NO = P.PREFERENCE_NO
 		LEFT JOIN BOOK_CATEGORY BC ON
 		B.BOOK_NO = BC.BOOK_NO
-		LEFT JOIN CATEGORY C ON BC.CATEGORY_NO =
+		LEFT JOIN CATEGORY
+		C ON BC.CATEGORY_NO =
 		C.CATEGORY_NO
 		WHERE 1=1
 		<choose>
@@ -473,7 +478,7 @@
 	</select>
 
 
-	<!-- 선택 목록 장바구니로 이동 -->
+	<!-- 선택 목록 찜으로 이동 -->
 	<insert id="putWishlist" parameterType="map">
 		MERGE INTO WISHLIST w
 		USING (
@@ -549,6 +554,13 @@
 		BOOK_NO = #{bookNo}
 
 	</select>
+
+
+	<delete id="deleteWishlist" parameterType="map">
+		DELETE FROM WISHLIST
+		WHERE MEMBER_NO = #{memberNo} AND BOOK_NO = #{bookNo}
+	</delete>
+
 
 
 </mapper>
