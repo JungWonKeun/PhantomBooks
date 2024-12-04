@@ -1,0 +1,235 @@
+/* 메인 배너 스타일 */
+.career-banner {
+  background: linear-gradient(rgba(32, 83, 117, 0.9), rgba(32, 83, 117, 0.9)), 
+              url('/images/career-banner.jpg') center/cover;
+  color: white;
+  padding: 100px 0;
+  text-align: center;
+}
+
+.career-banner h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+/* 전체 컨테이너 스타일 */
+.career-container {
+  padding: 60px 0;
+  background-color: #f8f9fa;
+}
+
+/* 섹션 제목 스타일 */
+.section-title {
+  color: #205375;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 3rem;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.section-title:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 3px;
+  background-color: #205375;
+}
+
+/* 기업 문화 카드 스타일 */
+.culture-card {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  transition: transform 0.3s ease;
+}
+
+.culture-card:hover {
+  transform: translateY(-10px);
+}
+
+.culture-card i {
+  font-size: 2.5rem;
+  color: #205375;
+  margin-bottom: 20px;
+}
+
+.culture-card h3 {
+  color: #205375;
+  margin-bottom: 15px;
+}
+
+/* 복리후생 그리드 스타일 */
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.benefit-item {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.benefit-item:hover {
+  transform: translateY(-5px);
+}
+
+.benefit-item i {
+  font-size: 2rem;
+  color: #205375;
+  margin-bottom: 15px;
+}
+
+/* 채용 공고 카드 스타일 */
+.job-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.job-card {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.job-header {
+  background: #f8f9fa;
+  padding: 20px;
+  border-bottom: 1px solid #dee2e6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.job-body {
+  padding: 20px;
+}
+
+.job-body ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.job-body ul li {
+  padding: 5px 0;
+  padding-left: 20px;
+  position: relative;
+}
+
+.job-body ul li:before {
+  content: "\F26A";
+  font-family: "bootstrap-icons";
+  position: absolute;
+  left: 0;
+  color: #205375;
+}
+
+.job-footer {
+  padding: 20px;
+  text-align: center;
+  background: #f8f9fa;
+}
+
+/* 채용 프로세스 스타일 */
+.process-steps {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  margin-top: 50px;
+}
+
+.process-steps:before {
+  content: '';
+  position: absolute;
+  top: 35px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #e0e0e0;
+  z-index: 1;
+}
+
+.step {
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  flex: 1;
+}
+
+.step-icon {
+  width: 70px;
+  height: 70px;
+  background: #205375;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin: 0 auto 20px;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .career-banner h1 {
+      font-size: 2rem;
+  }
+
+  .process-steps {
+      flex-direction: column;
+  }
+
+  .process-steps:before {
+      display: none;
+  }
+
+  .step {
+      margin-bottom: 30px;
+  }
+
+  .benefits-grid {
+      grid-template-columns: 1fr;
+  }
+}
+
+/* 애니메이션 효과 */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+/* 버튼 스타일 */
+.btn-outline-primary {
+  color: #205375;
+  border-color: #205375;
+}
+
+.btn-outline-primary:hover {
+  background-color: #205375;
+  border-color: #205375;
+  color: white;
+}

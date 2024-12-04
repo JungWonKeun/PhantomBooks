@@ -1,0 +1,200 @@
+/* 전체 컨테이너 스타일 */
+.partnership-container {
+    padding: 60px 0;
+    background-color: #f8f9fa;
+}
+
+/* 섹션 제목 스타일 */
+.section-title {
+    color: #205375;
+    font-weight: 700;
+    margin-bottom: 3rem;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.section-title:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background-color: #205375;
+}
+
+/* 제휴 카드 스타일 */
+.partnership-card {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    transition: transform 0.3s ease;
+}
+
+.partnership-card:hover {
+    transform: translateY(-10px);
+}
+
+.card-icon {
+    font-size: 2.5rem;
+    color: #205375;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.partnership-card h3 {
+    color: #205375;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.partnership-card p {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.partnership-card ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.partnership-card ul li {
+    padding: 8px 0;
+    padding-left: 25px;
+    position: relative;
+    color: #444;
+}
+
+.partnership-card ul li:before {
+    content: "\F26A";
+    font-family: "bootstrap-icons";
+    position: absolute;
+    left: 0;
+    color: #205375;
+}
+
+/* 제휴 프로세스 스타일 */
+.process-steps {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    margin: 50px 0;
+}
+
+.process-steps:before {
+    content: '';
+    position: absolute;
+    top: 35px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #e0e0e0;
+    z-index: 1;
+}
+
+.step {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    flex: 1;
+}
+
+.step-number {
+    width: 70px;
+    height: 70px;
+    background: #205375;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin: 0 auto 20px;
+    position: relative;
+}
+
+.step-content h4 {
+    color: #205375;
+    margin-bottom: 10px;
+}
+
+.step-content p {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* 문의 폼 스타일 */
+.contact-form-section {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-top: 50px;
+}
+
+.contact-form label {
+    color: #205375;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.contact-form .form-control {
+    border: 1px solid #dee2e6;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+.contact-form .form-control:focus {
+    border-color: #205375;
+    box-shadow: 0 0 0 0.2rem rgba(32, 83, 117, 0.25);
+}
+
+.contact-form .btn-primary {
+    background-color: #205375;
+    border-color: #205375;
+    padding: 12px 30px;
+    font-weight: 500;
+    margin-top: 20px;
+}
+
+.contact-form .btn-primary:hover {
+    background-color: #1a4460;
+    border-color: #1a4460;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .process-steps {
+        flex-direction: column;
+    }
+    
+    .process-steps:before {
+        display: none;
+    }
+    
+    .step {
+        margin-bottom: 30px;
+    }
+    
+    .partnership-card {
+        margin-bottom: 20px;
+    }
+}
+
+/* 애니메이션 효과 */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 0.6s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

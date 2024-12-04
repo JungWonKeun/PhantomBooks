@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>기업 고객 문의 - PHANTOM BOOKS</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" th:href="@{/css/fragments/business.css}">
+</head>
+<body>
+    <!-- 헤더 영역 -->
+    <div th:replace="~{common/common}"></div>
+    
+    <div class="business-container">
+        <div class="container">
+            <h1 class="section-title">기업 고객 문의</h1>
+            
+            <!-- 서비스 소개 섹션 -->
+            <section class="services-section">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="service-card">
+                            <i class="bi bi-building"></i>
+                            <h3>기업 도서관</h3>
+                            <p>임직원을 위한 맞춤형 전자도서관 구축</p>
+                            <ul>
+                                <li>기업 전용 포털 제공</li>
+                                <li>임직원 계정 관리</li>
+                                <li>도서 구매 관리</li>
+                                <li>이용 현황 리포트</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="service-card">
+                            <i class="bi bi-book"></i>
+                            <h3>단체 구매</h3>
+                            <p>대량 구매 시 특별 할인 제공</p>
+                            <ul>
+                                <li>맞춤형 도서 패키지</li>
+                                <li>대량 구매 할인</li>
+                                <li>구매 관리 시스템</li>
+                                <li>정기 구독 서비스</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="service-card">
+                            <i class="bi bi-gear"></i>
+                            <h3>API 연동</h3>
+                            <p>기존 시스템과의 원활한 연동</p>
+                            <ul>
+                                <li>SSO 연동</li>
+                                <li>API 문서 제공</li>
+                                <li>기술 지원</li>
+                                <li>커스텀 개발</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 도입 절차 -->
+            <section class="process-section">
+                <h2>도입 절차</h2>
+                <div class="process-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h3>문의 및 상담</h3>
+                        <p>요구사항 파악 및 서비스 소개</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h3>제안서 제출</h3>
+                        <p>맞춤형 솔루션 제안</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h3>계약 체결</h3>
+                        <p>서비스 범위 및 조건 협의</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <h3>서비스 오픈</h3>
+                        <p>시스템 구축 및 운영 지원</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 문의 양식 -->
+            <section class="inquiry-form-section">
+                <h2>문의하기</h2>
+                <form class="inquiry-form">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="companyName">회사명 *</label>
+                            <input type="text" class="form-control" id="companyName" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="industry">업종</label>
+                            <input type="text" class="form-control" id="industry">
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="contactPerson">담당자명 *</label>
+                            <input type="text" class="form-control" id="contactPerson" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="position">직책</label>
+                            <input type="text" class="form-control" id="position">
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="email">이메일 *</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="phone">연락처 *</label>
+                            <input type="tel" class="form-control" id="phone" required>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="serviceType">관심 서비스 *</label>
+                        <select class="form-select" id="serviceType" required>
+                            <option value="">선택해주세요</option>
+                            <option value="library">기업 도서관</option>
+                            <option value="bulk">단체 구매</option>
+                            <option value="api">API 연동</option>
+                            <option value="other">기타</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="employeeCount">임직원 수</label>
+                        <select class="form-select" id="employeeCount">
+                            <option value="">선택해주세요</option>
+                            <option value="1-50">1-50명</option>
+                            <option value="51-100">51-100명</option>
+                            <option value="101-300">101-300명</option>
+                            <option value="301-500">301-500명</option>
+                            <option value="501+">501명 이상</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="message">문의 내용 *</label>
+                        <textarea class="form-control" id="message" rows="5" required></textarea>
+                    </div>
+                    
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="agreement" required>
+                        <label class="form-check-label" for="agreement">
+                            개인정보 수집 및 이용에 동의합니다.
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">문의하기</button>
+                </form>
+            </section>
+        </div>
+    </div>
+
+    <!-- 푸터 영역 -->
+    <div th:replace="~{common/footer}"></div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

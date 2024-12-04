@@ -1,59 +1,88 @@
-    <footer class="footer" th:fragment="footer">
-    <!-- 푸터 내용 -->
-        <div class="footer-content">
+<footer class="footer bg-dark text-light py-5" th:fragment="footer">
+    <div class="container">
+        <div class="row">
             <!-- 고객 센터 정보 영역 -->
-            <div class="customer-center">
-                <h4><strong>고객 센터</strong></h4>
-                <p>운영시간</p>
-                <p>10:00 - 17:00</p>
-                <p class="footer-info">
-                    PHANTOM BOOKS <br>
-                    대표 정원근 <br>
-                    서울특별시 종로구 남대문로 120, 2층 <br>
-                    대표전화: 1800-0000 <br>
-                    이메일: ask@Phantom.inc <br>
-                </p>
+            <div class="col-md-4">
+                <h5 class="fw-bold mb-3">고객 센터</h5>
+                <p class="mb-1">운영시간: 평일 10:00 - 17:00</p>
+                <p class="mb-1">점심시간: 12:00 - 13:00</p>
+                <p class="mb-1">주말 및 공휴일 휴무</p>
+                <div class="company-info small mt-4">
+                    <p class="mb-1">PHANTOM BOOKS</p>
+                    <p class="mb-1">대표: 정원근</p>
+                    <p class="mb-1">사업자등록번호: 123-45-67890</p>
+                    <p class="mb-1">서울특별시 종로구 남대문로 120, 2층</p>
+                    <p class="mb-1">대표전화: 1800-0000</p>
+                    <p class="mb-1">이메일: ask@Phantom.inc</p>
+                </div>
             </div>
+            
             <!-- 푸터 링크 섹션 -->
-            <div class="footer-links-section">
-                <div class="footer-links">
-                    <div>
-                        <h4>회사소개</h4>
-                        <ul>
-                            <li>전체 카테고리</li>
-                            <li>지원 기기 및 이용환경</li>
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <h5 class="fw-bold mb-3">회사소개</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="/about" class="text-light text-decoration-none">회사 소개</a></li>
+                            <li><a href="/partnership" class="text-light text-decoration-none">제휴 문의</a></li>
+                            <li><a href="/career" class="text-light text-decoration-none">채용 정보</a></li>
                         </ul>
                     </div>
-                    <div>
-                        <h4>이용약관</h4>
-                        <ul>
-                            <li>지식 재산권 침해 센터</li>
-                            <li>기업 고객 문의</li>
+                    <div class="col-md-4 mb-3">
+                        <h5 class="fw-bold mb-3">이용약내</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="/support" class="text-light text-decoration-none">고객센터</a></li>
+                            <li><a href="/customer/qna" class="text-light text-decoration-none">FAQ</a></li>
+                            <li><a href="/customer/inquiry" class="text-light text-decoration-none" onclick="checkLoginForInquiry(event)">1:1 문의하기</a></li>
+                            <li><a href="/intellectual" class="text-light text-decoration-none">지식재산권 침해 신고</a></li>
+                            <li><a href="/business" class="text-light text-decoration-none">기업 고객 문의</a></li>
                         </ul>
                     </div>
-                    <div>
-                        <h4>개인정보 처리 방침</h4>
-                        <ul>
-                            <li>이용 약관</li>
-                            <li>환불 정책</li>
+                    <div class="col-md-4 mb-3">
+                        <h5 class="fw-bold mb-3">정책 및 약관</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="/terms" class="text-light text-decoration-none">이용약관</a></li>
+                            <li><a href="/privacy" class="text-light text-decoration-none">개인정보 처리방침</a></li>
+                            <li><a href="/youth" class="text-light text-decoration-none">청소년 보호정책</a></li>
+                            <li><a href="/refund" class="text-light text-decoration-none">환불 정책</a></li>
+                            <li><a href="/importantPrice" class="text-light text-decoration-none">도서 정가제 안내</a></li>
                         </ul>
                     </div>
-                    <div class="footer-links2">통신판매업신고: 2024-서울종로-02525 <br>
-                        사업자 정보 자세히 보기 <br>
-                        PHANTOM BOOKS는 통신판매중개자로서 중개하는 거래에 대하여 책임을 부하지 않습니다.</div>
+                </div>
+                <div class="mt-4 small text-muted">
+                    통신판매업신고: 2024-서울종로-02525 | 출판사신고: 2024-000001<br>
+                    PHANTOM BOOKS는 통신판매중개자로서 중개하는 거래에 대하여 책임을 부담하지 않습니다.<br>
+                    Copyright © 2024 PHANTOM BOOKS All Rights Reserved.
                 </div>
             </div>
         </div>
-        <!-- 맨 위로 이동 버튼 영역 -->
-        <div>
-            <div th:replace="~{common/darkModeToggle}"></div>
-        </div>
-        <div class="scroll-to-top">
-            <img src="/images/top-icon.png" alt="Scroll to Top" onclick="scrollToTop()"
-                style="cursor: pointer; width: 40px; height: 40px;">
-        </div>
     </div>
-    <!-- 푸터 스타일 링크 추가 -->
+    
+    <!-- 다크모드 토글 -->
+    <div class="position-fixed bottom-0 end-0 mb-5 me-5">
+        <div th:replace="~{common/darkModeToggle}"></div>
+    </div>
+    
+    <!-- 맨 위로 이동 버튼 -->
+    <button class="btn btn-primary rounded-circle position-fixed bottom-0 end-0 m-4 scroll-to-top" 
+            onclick="scrollToTop()" 
+            title="맨 위로 이동">
+        <i class="bi bi-arrow-up"></i>
+    </button>
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" th:href="@{/css/fragments/footer.css}">
     <script src="/js/fragments/footer.js"></script>
 </footer>
+
+<!-- 스크립트 섹션 -->
+<script>
+function checkLoginForInquiry(event) {
+    event.preventDefault();
+    alert("로그인 회원만 이용 가능합니다. 로그인 후 이용 바랍니다.");
+    const loginModal = document.querySelector('#modalLogin');
+    const bootstrapModal = new bootstrap.Modal(loginModal);
+    bootstrapModal.show();
+}
+</script>

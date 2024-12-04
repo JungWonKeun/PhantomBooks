@@ -48,6 +48,59 @@ public class MainController {
 
 	    return "main/main";
 	}
+	
+	@GetMapping("about")
+    public String showAboutPage() {
+        log.info("회사 소개 페이지 요청됨");
+        return "common/about";  
+    }
+	
+	@GetMapping("partnership")
+	public String showPartnerShipPage() {
+		log.info("제휴문의 페이지 요청됨");
+		return "common/partnership";  
+	}
+	
+	@GetMapping("/career")
+	public String showCareerPage() {
+	    log.info("채용 정보 페이지 요청됨");
+	    return "common/career";
+	}
+	
+	@GetMapping("/intellectual")
+	public String showIntellectualPropertyPage() {
+	    log.info("지식재산권 침해 신고 페이지 요청됨");
+	    return "common/intellectual";
+	}
+	
+	@GetMapping("/business")
+	public String showBusinessInquiryPage() {
+	    log.info("기업 고객 문의 페이지 요청됨");
+	    return "common/business";
+	}
 
+	@GetMapping("/terms")
+	public String showTermsPage() {
+	    return "common/terms";
+	}
 
+	@GetMapping("/privacy")
+	public String showPrivacyPage() {
+	    return "common/privacy";
+	}
+
+	@GetMapping("/youth")
+	public String showYouthPage() {
+	    return "common/youth";
+	}
+
+	@GetMapping("/refund")
+	public String showRefundPage() {
+	    return "common/refund";
+	}
+
+	@GetMapping("/importantPrice")
+	public String showBookPricePage() {
+	    return "common/importantPrice";
+	}
 }

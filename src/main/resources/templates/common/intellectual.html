@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>지식재산권 침해 신고 - PHANTOM BOOKS</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" th:href="@{/css/fragments/intellectual.css}">
+</head>
+<body>
+    <!-- 헤더 영역 -->
+    <div th:replace="~{common/common}"></div>
+    
+    <div class="intellectual-container">
+        <div class="container">
+            <h1 class="section-title">지식재산권 침해 신고</h1>
+            
+            <!-- 안내 섹션 -->
+            <section class="info-section">
+                <div class="alert alert-info">
+                    <h4><i class="bi bi-info-circle"></i> 신고 전 확인사항</h4>
+                    <p>PHANTOM BOOKS는 저작권자의 ��리를 존중하며, 지식재산권 침해 사례에 대해 신속하게 대응하고 있습니다.</p>
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">신고 가능한 침해 유형</h5>
+                        <ul>
+                            <li>저작권 침해</li>
+                            <li>상표권 침해</li>
+                            <li>특허권 침해</li>
+                            <li>영업비밀 침해</li>
+                            <li>기타 지식재산권 침해</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 신고 절차 -->
+            <section class="process-section">
+                <h2>신고 처리 절차</h2>
+                <div class="process-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h3>신고서 제출</h3>
+                        <p>침해 내용 및 증빙자료 제출</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h3>접수 확인</h3>
+                        <p>영업일 기준 24시간 이내 접수 확인</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h3>내용 검토</h3>
+                        <p>제출된 자료 검토 및 사실 확인</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <h3>조치 시행</h3>
+                        <p>검토 결과에 따른 적절한 조치</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 신고 양식 -->
+            <section class="report-form-section">
+                <h2>신고하기</h2>
+                <form class="report-form" id="intellectualPropertyForm">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="reporterName">신고자명 *</label>
+                            <input type="text" class="form-control" id="reporterName" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="reporterEmail">이메일 *</label>
+                            <input type="email" class="form-control" id="reporterEmail" required>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="violationType">침해 유형 *</label>
+                        <select class="form-select" id="violationType" required>
+                            <option value="">선택해주세요</option>
+                            <option value="copyright">저작권 침해</option>
+                            <option value="trademark">상표권 침해</option>
+                            <option value="patent">특허권 침해</option>
+                            <option value="trade_secret">영업비밀 침해</option>
+                            <option value="other">기타</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="contentUrl">침해 콘텐츠 URL *</label>
+                        <input type="url" class="form-control" id="contentUrl" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="description">상세 내용 *</label>
+                        <textarea class="form-control" id="description" rows="5" required></textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="evidence">증빙자료 첨부</label>
+                        <input type="file" class="form-control" id="evidence" multiple>
+                        <small class="text-muted">최대 5개 파일, 파일당 10MB 이하</small>
+                    </div>
+                    
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="agreement" required>
+                        <label class="form-check-label" for="agreement">
+                            제출한 정보는 사실이며, 허위 신고 시 발생하는 책임은 신고자에게 있음을 동의합니다.
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">신고하기</button>
+                </form>
+            </section>
+            
+            <!-- 유의사항 -->
+            <section class="notice-section">
+                <h2>유의사항</h2>
+                <div class="notice-content">
+                    <ul>
+                        <li>허위 신고나 악의적인 신고는 법적 책임이 따를 수 있습니다.</li>
+                        <li>신고 내용은 철저히 검토되며, 필요시 추가 자료를 요청할 수 있습니다.</li>
+                        <li>신고된 내용은 관련 법령에 따라 처리됩니다.</li>
+                        <li>처리 결과는 등록된 이메일로 안내됩니다.</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- 푸터 영역 -->
+    <div th:replace="~{common/footer}"></div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
