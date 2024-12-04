@@ -522,9 +522,12 @@ const memberArea = (memberNo) => {
 
     const button1 = document.createElement("button");
     button1.innerHTML = "정보 수정";
+    button1.classList.add("infoUpdateBtn");
+
     const button2 = document.createElement("button");
     button2.innerHTML = "삭제";
-    
+    button2.classList.add("infoDeleteBtn"); 
+
     button1.addEventListener("click", () => {
       fetch("/admin/memberUpdate", ({ 
         method : "PUT",
@@ -614,7 +617,7 @@ const paymentArea = (cp, memberNo) => {
       paymentList.append(tr);
     })
 
-    payment.innerHTML = `구매내역 (${allPrice}원)`;
+    payment.innerHTML = `구매내역`;
     
 
     // 페이지네이션 출력
@@ -670,7 +673,7 @@ const reviewArea = (cp, memberNo) => {
       const th1 = document.createElement("th");
       th1.append(review.reviewNo);
       const th2 = document.createElement("th");
-      th2.innerHTML = review.bookTitle + "(" + review.reviewScore + ")";
+      th2.innerHTML = review.bookTitle + "<br>(" + review.reviewScore + ")";
       const th3 = document.createElement("th");
       th3.append(review.reviewTitle);
       const th4 = document.createElement("th");
