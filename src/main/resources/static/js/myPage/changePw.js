@@ -393,7 +393,6 @@ function toggleSubmitButton() {
             document.getElementById('verificationSection').style.display = 'none';
             if (phoneCheckBtn) phoneCheckBtn.style.display = 'none';
             isPhoneVerified = true;
-            phoneChangeBtn.style.display = 'inline-block';
             toggleSubmitButton();
           })
           .catch(error => {

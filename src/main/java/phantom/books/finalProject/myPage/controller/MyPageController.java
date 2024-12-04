@@ -37,177 +37,165 @@ import phantom.books.finalProject.searchBookPage.dto.Review;
 @RequiredArgsConstructor
 @Slf4j
 public class MyPageController {
-	
-	
 
 	private final MyPageService service;
 
-	/** 마이페이지 메인화면
+	/**
+	 * 마이페이지 메인화면
+	 * 
 	 * @return
 	 */
 	@GetMapping("/index")
 	public String myPage(HttpSession session, Model model) {
-	    Member loginMember = (Member) session.getAttribute("loginMember");
+		Member loginMember = (Member) session.getAttribute("loginMember");
 
-	    
-	    if (loginMember == null) {
-	        return "redirect:/";
-	    }
-	    
-	    int memberNo = (loginMember.getMemberNo());
-	    
-	    // 선택한 카테고리 이름 가져오기
-	    List <Category> selectCategory = service.selectCategory(memberNo);
-	    // 선택한 취향 이름 가져오기
-	    List <Preference> selectPreference = service.selectPreference(memberNo);
-	    
-	    // 구매 내역 가져오기
-	    List <OrderBookDto> buyList = service.buyList(memberNo);
-	    
-	    // 내가 쓴 리뷰 목록 조회
-	    List <Review> writeReview = service.writeReview(memberNo);
-	    
-	    // 내가 찜한 목록 조회
-	    List <Book> wishList = service.wishList(memberNo);
-	    
-	    // 내 문의 목록 조회
-	    List <Query>queryList = service.queryList(memberNo);
-	    
-	    System.out.println(queryList);
-	    model.addAttribute("member", loginMember);
-	    model.addAttribute("category", selectCategory); // 카테고리 리스트
-	    model.addAttribute("preference", selectPreference); // 취향 리스트
-	    model.addAttribute("buyList", buyList); // 구매 내역
-	    model.addAttribute("writeReview", writeReview); // 리뷰 리스트
-	    model.addAttribute("wishList", wishList); // 찜 리스트
-	    model.addAttribute("queryList", queryList); // 문의 내역
-	    return "myPage/index";
+		if (loginMember == null) {
+			return "redirect:/";
+		}
+
+		int memberNo = (loginMember.getMemberNo());
+
+		// 선택한 카테고리 이름 가져오기
+		List<Category> selectCategory = service.selectCategory(memberNo);
+		// 선택한 취향 이름 가져오기
+		List<Preference> selectPreference = service.selectPreference(memberNo);
+
+		// 구매 내역 가져오기
+		List<OrderBookDto> buyList = service.buyList(memberNo);
+
+		// 내가 쓴 리뷰 목록 조회
+		List<Review> writeReview = service.writeReview(memberNo);
+
+		// 내가 찜한 목록 조회
+		List<Book> wishList = service.wishList(memberNo);
+
+		// 내 문의 목록 조회
+		List<Query> queryList = service.queryList(memberNo);
+
+		System.out.println(queryList);
+		model.addAttribute("member", loginMember);
+		model.addAttribute("category", selectCategory); // 카테고리 리스트
+		model.addAttribute("preference", selectPreference); // 취향 리스트
+		model.addAttribute("buyList", buyList); // 구매 내역
+		model.addAttribute("writeReview", writeReview); // 리뷰 리스트
+		model.addAttribute("wishList", wishList); // 찜 리스트
+		model.addAttribute("queryList", queryList); // 문의 내역
+		return "myPage/index";
 	}
-	
-	
-	/** 마이 페이지(내 주문 목록 페이지)
+
+	/**
+	 * 마이 페이지(내 주문 목록 페이지)
+	 * 
 	 * @return
 	 */
 	@GetMapping("myOrder")
-	public String myOrder(
-	    HttpSession session, 
-	    Model model,
-	    @RequestParam(value = "page", defaultValue = "1") int page
-	) {
-	    Member loginMember = (Member) session.getAttribute("loginMember");
+	public String myOrder(HttpSession session, Model model, @RequestParam(value = "page", defaultValue = "1") int page) {
+		Member loginMember = (Member) session.getAttribute("loginMember");
 
-	    if (loginMember == null) {
-	        return "redirect:/";
-	    }
-	    
-	    int memberNo = loginMember.getMemberNo();
-	    
-	    // 전체 구매 내역 가져오기
-	    List<OrderBookDto> allBuyList = service.buyList(memberNo);
-	    
-	    // totalPrice 합계 계산
-	    int totalPriceSum = 0;
-	    for (OrderBookDto order : allBuyList) {
-	        totalPriceSum += order.getTotalPrice();
-	    }
-	    
-	    // 페이징 처리
-	    int totalItems = allBuyList.size();
-	    int itemsPerPage = 8;
-	    int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
-	    
-	    // 현재 페이지에 해당하는 아이템만 추출
-	    int start = (page - 1) * itemsPerPage;
-	    int end = Math.min(start + itemsPerPage, totalItems);
-	    List<OrderBookDto> pagedBuyList = allBuyList.subList(start, end);
-	    
-	    
-	    // 모델에 추가
-	    model.addAttribute("totalPriceSum", totalPriceSum);
-	    model.addAttribute("buyList", pagedBuyList);
-	    model.addAttribute("currentPage", page);
-	    model.addAttribute("totalPages", totalPages);
-	    
-	    return "myPage/myOrder";
+		if (loginMember == null) {
+			return "redirect:/";
+		}
+
+		int memberNo = loginMember.getMemberNo();
+
+		// 전체 구매 내역 가져오기
+		List<OrderBookDto> allBuyList = service.buyList(memberNo);
+
+		// totalPrice 합계 계산
+		int totalPriceSum = 0;
+		for (OrderBookDto order : allBuyList) {
+			totalPriceSum += order.getTotalPrice();
+		}
+
+		// 페이징 처리
+		int totalItems = allBuyList.size();
+		int itemsPerPage = 8;
+		int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
+
+		// 현재 페이지에 해당하는 아이템만 추출
+		int start = (page - 1) * itemsPerPage;
+		int end = Math.min(start + itemsPerPage, totalItems);
+		List<OrderBookDto> pagedBuyList = allBuyList.subList(start, end);
+
+		// 모델에 추가
+		model.addAttribute("totalPriceSum", totalPriceSum);
+		model.addAttribute("buyList", pagedBuyList);
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", totalPages);
+
+		return "myPage/myOrder";
 	}
-	
-	/** 마이 페이지(내가 찜한 목록 페이지)
+
+	/**
+	 * 마이 페이지(내가 찜한 목록 페이지)
+	 * 
 	 * @return
 	 */
 	@GetMapping("myWishList")
-	public String myWishList(
-	    HttpSession session, 
-	    Model model,
-	    @RequestParam(value = "page", defaultValue = "1") int page
-	) {
-	    Member loginMember = (Member) session.getAttribute("loginMember");
+	public String myWishList(HttpSession session, Model model,
+			@RequestParam(value = "page", defaultValue = "1") int page) {
+		Member loginMember = (Member) session.getAttribute("loginMember");
 
-	    if (loginMember == null) {
-	        return "redirect:/";
-	    }
-	    
-	    int memberNo = loginMember.getMemberNo();
-	    
-	    // 내가 찜한 목록 조회
-	    List <Book> wishList = service.wishList(memberNo);
-	    
-	    // 페이징 처리
-	    int totalItems = wishList.size();
-	    int itemsPerPage = 5;
-	    int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
-	    
-	    // 현재 페이지에 해당하는 아이템만 추출
-	    int start = (page - 1) * itemsPerPage;
-	    int end = Math.min(start + itemsPerPage, totalItems);
-	    List<Book> pagedWishList  = wishList.subList(start, end);
-	    
-	    model.addAttribute("wishList", pagedWishList);
-	    model.addAttribute("currentPage", page);
-	    model.addAttribute("totalPages", totalPages);
-			
+		if (loginMember == null) {
+			return "redirect:/";
+		}
+
+		int memberNo = loginMember.getMemberNo();
+
+		// 내가 찜한 목록 조회
+		List<Book> wishList = service.wishList(memberNo);
+
+		// 페이징 처리
+		int totalItems = wishList.size();
+		int itemsPerPage = 5;
+		int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
+
+		// 현재 페이지에 해당하는 아이템만 추출
+		int start = (page - 1) * itemsPerPage;
+		int end = Math.min(start + itemsPerPage, totalItems);
+		List<Book> pagedWishList = wishList.subList(start, end);
+
+		model.addAttribute("wishList", pagedWishList);
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", totalPages);
+
 		return "myPage/myWishList";
 	}
-	
-	
 
-	/** 마이 페이지(내 리뷰 페이지)
+	/**
+	 * 마이 페이지(내 리뷰 페이지)
+	 * 
 	 * @return
 	 */
 	@GetMapping("myReview")
-	public String myReview(
-	    HttpSession session, 
-	    Model model,
-	    @RequestParam(value = "page", defaultValue = "1") int page
-	) {
-	    Member loginMember = (Member) session.getAttribute("loginMember");
+	public String myReview(HttpSession session, Model model, @RequestParam(value = "page", defaultValue = "1") int page) {
+		Member loginMember = (Member) session.getAttribute("loginMember");
 
-	    if (loginMember == null) {
-	        return "redirect:/";
-	    }
-	    
-	    int memberNo = loginMember.getMemberNo();
-	    
-	    // 내가 쓴 리뷰 목록 조회
-	    List <Review> writeReview = service.writeReview(memberNo);
-	    
-	    // 페이징 처리
-	    int totalItems = writeReview.size();
-	    int itemsPerPage = 4;
-	    int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
-	    
-	    // 현재 페이지에 해당하는 아이템만 추출
-	    int start = (page - 1) * itemsPerPage;
-	    int end = Math.min(start + itemsPerPage, totalItems);
-	    List<Review> pagedReview  = writeReview.subList(start, end);
-	    
-	    model.addAttribute("writeReview", pagedReview);
-	    model.addAttribute("currentPage", page);
-	    model.addAttribute("totalPages", totalPages);
-			
+		if (loginMember == null) {
+			return "redirect:/";
+		}
+
+		int memberNo = loginMember.getMemberNo();
+
+		// 내가 쓴 리뷰 목록 조회
+		List<Review> writeReview = service.writeReview(memberNo);
+
+		// 페이징 처리
+		int totalItems = writeReview.size();
+		int itemsPerPage = 4;
+		int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
+
+		// 현재 페이지에 해당하는 아이템만 추출
+		int start = (page - 1) * itemsPerPage;
+		int end = Math.min(start + itemsPerPage, totalItems);
+		List<Review> pagedReview = writeReview.subList(start, end);
+
+		model.addAttribute("writeReview", pagedReview);
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", totalPages);
+
 		return "myPage/myReview";
 	}
-	
-	
 
 	/**
 	 * 비밀번호 확인
@@ -226,7 +214,7 @@ public class MyPageController {
 
 		if (service.checkPassword(loginMember.getMemberNo(), password)) {
 			session.setAttribute("passwordChecked", true);
-			
+
 			return ResponseEntity.ok().build();
 		}
 
@@ -271,6 +259,9 @@ public class MyPageController {
 	// 생년월일 변환 메서드
 	private String formatBirthDate(String birthDate) {
 		// '1992년 04월 05일' -> '19920405'
+		if (birthDate == null) {
+			return ""; // 기본값
+		}
 		return birthDate.replaceAll("[년월일\\s]", "");
 	}
 
@@ -291,7 +282,13 @@ public class MyPageController {
 		// 업데이트된 회원 정보를 모델에 추가
 		if (updateMember != null) { // 성공
 			// 생년월일 데이터 가공
-			updateMember.setBirthDate(formatBirthDate(updateMember.getBirthDate()));
+			String birthDate = updateMember.getBirthDate();
+			if (birthDate != null) {
+				updateMember.setBirthDate(formatBirthDate(birthDate));
+			} else {
+				updateMember.setBirthDate(""); // null일 경우 기본값 설정
+			}
+
 			model.addAttribute("loginMember", updateMember);
 			ra.addFlashAttribute("message", "회원 정보가 수정되었습니다.");
 		} else { // 실패
@@ -332,40 +329,37 @@ public class MyPageController {
 	}
 
 	@PostMapping("changePw")
-	public ResponseEntity<Map<String, String>> changePw(
-	        @RequestParam("currentPw") String currentPw,
-	        @RequestParam("memberPw") String newPw,
-	        @SessionAttribute("loginMember") Member loginMember) {
-	    Map<String, String> response = new HashMap<>();
+	public ResponseEntity<Map<String, String>> changePw(@RequestParam("currentPw") String currentPw,
+			@RequestParam("memberPw") String newPw, @SessionAttribute("loginMember") Member loginMember) {
+		Map<String, String> response = new HashMap<>();
 
-	    // 서비스 호출
-	    int result = service.changePassword(currentPw, newPw, loginMember);
+		// 서비스 호출
+		int result = service.changePassword(currentPw, newPw, loginMember);
 
-	    // 결과에 따른 응답 처리
-	    switch (result) {
-	        case 1:
-	            response.put("status", "fail");
-	            response.put("message", "현재 비밀번호가 일치하지 않습니다.");
-	            response.put("type", "1");
-	            break;
-	        case 2:
-	            response.put("status", "fail");
-	            response.put("message", "새 비밀번호는 현재 비밀번호와 다르게 설정해주세요.");
-	            response.put("type", "2");
-	            break;
-	        case 3:
-	            response.put("status", "success");
-	            response.put("message", "비밀번호 변경이 완료되었습니다.");
-	            break;
-	        default: 
-	            response.put("status", "fail");
-	            response.put("message", "오류가 발생했습니다.");
-	            break;
-	    }
+		// 결과에 따른 응답 처리
+		switch (result) {
+		case 1:
+			response.put("status", "fail");
+			response.put("message", "현재 비밀번호가 일치하지 않습니다.");
+			response.put("type", "1");
+			break;
+		case 2:
+			response.put("status", "fail");
+			response.put("message", "새 비밀번호는 현재 비밀번호와 다르게 설정해주세요.");
+			response.put("type", "2");
+			break;
+		case 3:
+			response.put("status", "success");
+			response.put("message", "비밀번호 변경이 완료되었습니다.");
+			break;
+		default:
+			response.put("status", "fail");
+			response.put("message", "오류가 발생했습니다.");
+			break;
+		}
 
-	    return ResponseEntity.ok(response);
+		return ResponseEntity.ok(response);
 	}
-
 
 	/**
 	 * 마이페이지(내 취향 페이지)
@@ -429,9 +423,5 @@ public class MyPageController {
 		System.out.println(preference);
 		return ResponseEntity.ok(preference);
 	}
-	
-	
-
-	
 
 }
