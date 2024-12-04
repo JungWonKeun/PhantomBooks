@@ -49,8 +49,17 @@ public class SearchBookPageController {
 			@RequestParam(value = "categories", required = false) int[] categories,
 			@RequestParam(value = "preferences", required = false) int[] preferences,
 			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
-			@RequestParam(value = "sortOption", required = false) String sortOption, Model model) {
-
+			@RequestParam(value = "sortOption", required = false) String sortOption,
+			@SessionAttribute(value = "loginMember", required = false) Member loginMember,
+			Model model) {
+		
+		if(loginMember != null) {
+			int memberNo = loginMember.getMemberNo();
+			List<Integer> wishList = service.getWishList(memberNo);
+	        model.addAttribute("wishList", wishList);
+	        log.debug("wishList: {}", wishList);
+		}
+		
 		// categories와 preferences는 int[]로 받았으므로, 바로 사용 가능
 		// 원하는 작업을 처리합니다.
 
@@ -66,6 +75,7 @@ public class SearchBookPageController {
 		model.addAttribute("bookList", map.get("bookList"));
 		model.addAttribute("pagination", map.get("pagination"));
 		model.addAttribute("totalCount", map.get("totalCount"));
+		
 
 		return "searchBookPage/searchBook";
 	}
@@ -105,6 +115,8 @@ public class SearchBookPageController {
 			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
 		if (loginMember != null) {
 			model.addAttribute("memberId", loginMember.getMemberId());
+			
+			
 		}
 
 		// 책 정보 가져오기
@@ -120,7 +132,7 @@ public class SearchBookPageController {
 		model.addAttribute("reviews", reviews);
 		model.addAttribute("pagination", pagination);
 		model.addAttribute("currentPage", cp);
-
+		
 		return "searchBookPage/bookDetail";
 	}
 
