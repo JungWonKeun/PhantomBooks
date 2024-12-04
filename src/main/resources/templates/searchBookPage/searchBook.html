@@ -276,11 +276,16 @@
         </a>
         <div class="book-item-actions">
           <label class="buttonBag">
-            <i class="fas fa-shopping-cart" id="shoppingCartId" onclick="singleCartBtn(this)" th:if="${session.loginMember != null}" title="장바구니" style="cursor: pointer; color: #f39c12;"></i>
+            <i class="fas fa-shopping-cart" id="shoppingCartId" 
+            onclick="singleCartBtn(this)" th:if="${session.loginMember != null}" 
+            title="장바구니" style="cursor: pointer; color: #f39c12;"></i>
           </label>
         
           <label class="buttonWish">
-            <i class="fas fa-heart" id="heartId" onclick="singleWishListBtn(this)" th:if="${session.loginMember != null}" title="찜" style="cursor: pointer; color: #e74c3c;"></i>
+            <i class="fas fa-heart" id="heartId"
+            th:classappend="${wishList != null and #lists.contains(wishList, book.bookNo)} ? 'fa-solid' : 'fa-regular'"
+             onclick="singleWishListBtn(this)" th:if="${session.loginMember != null}"
+             title="찜" style="cursor: pointer; color: #e74c3c;"></i>
           </label>
         </div>
       </div>

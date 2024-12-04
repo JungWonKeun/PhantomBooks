@@ -132,7 +132,10 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 		result.put("pagination", pagination);
 		result.put("totalCount", totalCount);
 		result.put("bookList", bookList);
-
+		
+		
+		
+		
 		return result;
 	}
 
@@ -349,9 +352,23 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 		return;
 	}
 	
+	
+	// 찜 목록에서 삭제
 	@Override
 	public int deleteWishlist(int memberNo, int bookNo) {
 		
 		return mapper.deleteWishlist(memberNo, bookNo);
 	}
+	
+	
+	// 찜 목록 불러오기
+	@Override
+	public List<Integer> getWishList(int memberNo) {
+		return mapper.getWishList(memberNo);
+	}
+	
+	
+	
+	
+	
 }

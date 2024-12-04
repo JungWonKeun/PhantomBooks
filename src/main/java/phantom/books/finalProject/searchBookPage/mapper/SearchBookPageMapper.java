@@ -110,6 +110,9 @@ public interface SearchBookPageMapper {
 		// 찜 삭제
 		int deleteWishlist(@Param("memberNo") int memberNo,@Param("bookNo") int bookNo);
 
+		// 찜목록 조회
+		List<Integer> getWishList(int memberNo);
+
 	
 
 

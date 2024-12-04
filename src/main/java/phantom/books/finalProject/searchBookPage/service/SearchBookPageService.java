@@ -69,7 +69,10 @@ public interface SearchBookPageService {
 	int deleteWishlist(int memberNo, int bookNo);
 
 	// 바로 구매
-	 void buyBook(int bookNo, int bookPrice, String bookTitle); 
+	 void buyBook(int bookNo, int bookPrice, String bookTitle);
+
+	 // 찜 목록 조회 
+	List<Integer> getWishList(int memberNo); 
 	
 
 
