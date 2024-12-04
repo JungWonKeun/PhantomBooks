@@ -741,7 +741,8 @@ function singleWishListBtn(button) {
             if (data === "추가 성공") {
                 alert(`"${bookTitle}"을(를) 찜 목록에 추가했습니다.`);
             } else {
-               if(confirm('이미 찜한 책입니다' + '삭제 하시겠습니까?')){   
+               if(confirm(`이미 찜한 책입니다.
+                \n"${bookTitle}"를 삭제 하시겠습니까?`)){   
 
                 fetch(`/searchBookPage/deleteWishlist`, {
                     method: 'DELETE',
