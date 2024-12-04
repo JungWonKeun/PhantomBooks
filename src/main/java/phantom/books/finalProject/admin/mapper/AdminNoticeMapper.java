@@ -29,4 +29,6 @@ public interface AdminNoticeMapper {
 
 	int updateStatus(int noticeId);
 
+	Notice noticeInfo(int noticeId);
+
 }

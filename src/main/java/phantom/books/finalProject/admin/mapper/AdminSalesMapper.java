@@ -19,7 +19,7 @@ public interface AdminSalesMapper {
 								 @Param("text") String text);
 
 	// 매출 리스트 조회
-	List<ChartSales> salesList(@Param("cp") int cp,
+	List<OrderBookDto> salesList(@Param("cp") int cp,
 															@Param("sort") String sort,
 								 							 @Param("term") String term,
 								 							 @Param("date") String date,

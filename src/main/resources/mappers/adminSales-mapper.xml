@@ -11,20 +11,23 @@
 		 LEFT JOIN BOOK_CATEGORY USING (BOOK_NO)
 		 WHERE BOOK_NO IS NOT NULL	
 		 <choose>
-		 	<when test="sort == 'all' and term = 'year'">
+		 	<when test="sort == 'sales' and term == 'year'">
 		 		AND ORDER_DATE >= CURRENT_DATE - INTERVAL '1' YEAR
 		 	</when>
-		 	<when test="sort == 'all' and term = 'weeks'">
+		 	<when test="term == 'weeks' and sort == 'sales'">
 		 		AND ORDER_DATE  >= CURRENT_DATE - INTERVAL '7' DAY
 		 	</when>
-		 	<when test="sort == 'all' and term = 'month'">
-		 		AND ORDER_DATE >= CURRENT_DATE - INTERVAL '1' MONTH
+		 	<when test="term == 'month' and sort == 'sales'">
+		 		AND ORDER_DATE >= CURRENT_DATE - INTERVAL '1'MONTH
 		 	</when>
-		 	<when test="sort == 'all' and term = '6month'">
-		 		AND ORDER_DATE >= CURRENT_DATE - INTERVAL '6' MONTH
+		 	<when test="term == '6month' and sort == 'sales'">
+		 		AND ORDER_DATE >= CURRENT_DATE - INTERVAL '6'MONTH
+		 	</when>
+		 	<when test="sort == 'all' and term == 'dateSelect'">
+		 		AND ORDER_DATE >= #{date}
 		 	</when>
 		 	<when test="sort == 'company'">
-				 AND COMPANY_NAME LIKE '%%'
+				 AND COMPANY_NAME LIKE '%'||#{text}||'%'
 		 	</when>
 		 </choose>
 		 ORDER BY ORDER_PRICE DESC
@@ -45,20 +48,23 @@
 		LEFT JOIN BOOK_REQUEST USING (BOOK_NO)
 		WHERE BOOK_NO IS NOT NULL
 		<choose>
-		 	<when test="sort == 'all' and term = 'year'">
-		 		AND ORDER_DATE >= CURRENT_DATE - INTERVAL '1' YEAR
+		 	<when test="sort == 'sales' and term == 'year'">
+		 		AND ORDER_DATE >= CURRENT_DATE - INTERVAL '1'YEAR
 		 	</when>
-		 	<when test="sort == 'all' and term = 'weeks'">
-		 		AND ORDER_DATE  >= CURRENT_DATE - INTERVAL '7' DAY
+		 	<when test="term == 'weeks' and sort == 'sales'">
+		 		AND ORDER_DATE  >= CURRENT_DATE - INTERVAL '7'DAY
 		 	</when>
-		 	<when test="sort == 'all' and term = 'month'">
-		 		AND ORDER_DATE >= CURRENT_DATE - INTERVAL '1' MONTH
+		 	<when test="term == 'month' and sort == 'sales'">
+		 		AND ORDER_DATE >= CURRENT_DATE - INTERVAL '1'MONTH
 		 	</when>
-		 	<when test="sort == 'all' and term = '6month'">
-		 		AND ORDER_DATE >= CURRENT_DATE - INTERVAL '6' MONTH
+		 	<when test="term == '6month' and sort == 'sales'">
+		 		AND ORDER_DATE >= CURRENT_DATE - INTERVAL '6'MONTH
+		 	</when>
+		 	<when test="sort == 'sales' and term == 'dateSelect'">
+		 		AND ORDER_DATE >= #{date}
 		 	</when>
 		 	<when test="sort == 'company'">
-				 AND COMPANY_NAME LIKE '%'||#{companyName}||'%'
+				 AND COMPANY_NAME LIKE '%'||#{text}||'%'
 		 	</when>
 		 </choose>
 			GROUP BY 
@@ -81,23 +87,23 @@
 		LEFT JOIN BOOK USING(BOOK_NO)
 		LEFT JOIN BOOK_REQUEST USING (BOOK_NO)
 		<choose>
-		 	<when test="sort == 'all' and term = 'year'">
+		 	<when test="sort == 'sales' and term == 'year'">
 		 		WHERE ORDER_DATE >= CURRENT_DATE - INTERVAL '1'YEAR
 		 	</when>
-		 	<when test="term = 'weeks' and sort == 'all'">
+		 	<when test="term =='weeks' and sort == 'sales'">
 		 		WHERE ORDER_DATE >= CURRENT_DATE - INTERVAL '7'DAY
 		 	</when>
-		 	<when test="sort == 'all' and term = 'month'">
+		 	<when test="sort == 'sales' and term == 'month'">
 		 		WHERE ORDER_DATE >= CURRENT_DATE - INTERVAL '1'MONTH
 		 	</when>
-		 	<when test="sort == 'all' and term = '6month'">
+		 	<when test="sort == 'sales' and term == '6month'">
 		 		WHERE ORDER_DATE >= CURRENT_DATE - INTERVAL '6'MONTH
 		 	</when>
-		 	<when test="sort == 'all' and term = 'dateSelect'">
+		 	<when test="sort == 'sales' and term == 'dateSelect'">
 		 		WHERE ORDER_DATE >= #{date}
 		 	</when>
 		 	<when test="sort == 'company'">
-				 AND COMPANY_NAME LIKE '%'||#{companyName}||'%'
+				 WHERE COMPANY_NAME LIKE '%'||#{text}||'%'
 		 	</when>
 		 </choose>
 		GROUP BY 

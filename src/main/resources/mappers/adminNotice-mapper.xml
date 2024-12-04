@@ -73,4 +73,11 @@
 		SET STATUS = DECODE(STATUS , 1, 0, 1)
 		WHERE NOTICE_ID = #{noticeId}
 	</update>
+	
+	<select id="noticeInfo" resultType="Notice">
+	 SELECT
+		 *
+	 FROM NOTICE
+	 WHERE NOTICE_ID = #{noticeId}
+	</select>
 </mapper>

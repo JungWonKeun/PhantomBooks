@@ -41,12 +41,13 @@ public class AdminNoticeController {
 		Map<String, Object> map = service.notice(cp, key);
 		
 		List<Notice> noticeList = (List<Notice>)map.get("noticeList");
-		Pagination pagination = (Pagination)map.get("pagenation");
+		Pagination pagination = (Pagination)map.get("pagination");
 		
 		model.addAttribute("noticeList", noticeList);
 		model.addAttribute("pagination", pagination);
 		
 		log.debug("공지사항 리스트 : {}", noticeList);
+		log.debug("pagination : {}", pagination);
 		
 		return "admin/adminNotice";
 	}
@@ -66,6 +67,12 @@ public class AdminNoticeController {
 	public int insertNotice(
 			@RequestBody Notice notice) {
 		return service.insertNotice(notice);
+	}
+	
+	@GetMapping("noticeInfo")
+	@ResponseBody
+	public Notice noticeInfo(@RequestParam("noticeId") int noticeId) {
+		return service.noticeInfo(noticeId);
 	}
 	
 	// 공지사항 수정

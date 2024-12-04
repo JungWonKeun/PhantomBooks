@@ -96,6 +96,7 @@
             <th class="company">출판사</th>
             <th class="content">발주요청 부수</th>
             <th class="status">요청 가격</th>
+            <th class="requestYn">등록여부</th>
             <th class="button">등록하기</th>
           </tr>
         </thead>
@@ -125,6 +126,9 @@
               </td>
               <td th:text="*{requestPrice}">
                 N
+              </td>
+              <td th:text="*{requestYn}">
+                y/n
               </td>
               <td>
                 <button class="updateBtn" th:value="*{bookNo}">
