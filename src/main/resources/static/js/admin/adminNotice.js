@@ -1,3 +1,7 @@
+const sortSelect = document.querySelector(".sortSelect");
+const noticeContent = document.querySelector(".noticeContent");
+
+
 /* 사이드바 열고 닫기 */
 document.querySelectorAll('.menu').forEach(menu => {
   menu.addEventListener('click', function () {
@@ -15,7 +19,13 @@ changeBtn.forEach((button)=> {
     const noticeId = button.value;
     fetch("/admin/notice/status?noticeId="+noticeId,{method : "POST"})
     .then(response => { if(response.ok) return response.text();})
-    .then(result => { if(result > 0) return alert("변경 완료");})
+    .then(result => { if(result > 0) {
+      alert("변경 완료");
+      listUp(1, sortSelect.value);
+
+      location.reload();
+      }
+   })
   })
 })
 
@@ -92,68 +102,78 @@ insertBtn?.addEventListener("click", () => {
 updateBtn.addEventListener("click", () => {
   
   // checked 된 noticeId
-  const noticeId = document.querySelector("input:checked").value;
+  const noticeId = document.querySelector("#checkedNoticeId").value;
 
-  // 팝업 나타나게 하기
-  addPopupLayer.classList.remove("popup-layer-close");
-  title.focus();
-  const addNoticeBtn = document.querySelector("#addNoticeBtn");
-  const back = document.querySelector("#back");
-  
-  // 등록하기 버튼 클릭 시
-  addNoticeBtn.innerHTML = "수정하기";
-  addNoticeBtn.addEventListener("click", () => {
+  fetch("/admin/notice/noticeInfo?noticeId="+noticeId)
+  .then(response => {if(response.ok) return response.json();})
+  .then(notice => {if(notice != null){
+    title.value = notice.title;
+    content.value = notice.content;
+
+    // 팝업 나타나게 하기
+    addPopupLayer.classList.remove("popup-layer-close");
+    title.focus();
+    const addNoticeBtn = document.querySelector("#addNoticeBtn");
+    const back = document.querySelector("#back");
     
-    // 1. 내용 검사
-    if(title.value == ""){
-      alert("제목을 작성해주세요");
-      return;
-    }
-
-    if(content.value == ""){
-      alert("내용을 작성해주세요");
-      return;
-    }
-
-    fetch("/admin/notice", {
-      method : "POST",
-      headers : {"Content-Type" : "application/json"},
-      body : JSON.stringify({
-        noticeId : noticeId,
-        title : title.value.trim(),
-        content : content.value.trim()
-      })
-    })
-    .then(response => {
-      if(response.ok) return response.json();
-      throw new Error("추가 실패");
-    })
-    .then(result => {
-      if(result > 0){
-        alert("공지사항을 수정하였습니다.");
-
-        // 작성한 내용 없애기
-        title.value = "";
-        content.value = "";
-
-        // 팝업 숨기기
-        addPopupLayer.classList.add("popup-layer-close");
-
-        location.reload();
+    // 등록하기 버튼 클릭 시
+    addNoticeBtn.innerHTML = "수정하기";
+    addNoticeBtn.addEventListener("click", () => {
+      
+      // 1. 내용 검사
+      if(title.value == ""){
+        alert("제목을 작성해주세요");
+        return;
       }
-    })
-  })
-  
-  // 돌아가기 버튼
-  back.addEventListener("click", () => {
-    
-    // 작성한 내용 없애기
-    title.value = '';
-    content.value = "";
 
-    // 팝업 숨기기
-    addPopupLayer.classList.add("popup-layer-close");
-  })
+      if(content.value == ""){
+        alert("내용을 작성해주세요");
+        return;
+      }
+
+      fetch("/admin/notice", {
+        method : "POST",
+        headers : {"Content-Type" : "application/json"},
+        body : JSON.stringify({
+          noticeId : noticeId,
+          title : title.value.trim(),
+          content : content.value.trim()
+        })
+      })
+      .then(response => {
+        if(response.ok) return response.json();
+        throw new Error("추가 실패");
+      })
+      .then(result => {
+        if(result > 0){
+          alert("공지사항을 수정하였습니다.");
+
+          // 작성한 내용 없애기
+          title.value = "";
+          content.value = "";
+
+          // 팝업 숨기기
+          addPopupLayer.classList.add("popup-layer-close");
+
+          listUp(1, sortSelect.value);
+        }
+      })
+      
+    })
+    
+    // 돌아가기 버튼
+    back.addEventListener("click", () => {
+      
+      // 작성한 내용 없애기
+      title.value = '';
+      content.value = "";
+
+      // 팝업 숨기기
+      addPopupLayer.classList.add("popup-layer-close");
+    })
+  }})
+
+  location.reload();
 })
 
 deleteBtn.addEventListener("click", () => {
@@ -254,3 +274,55 @@ pageNoList?.forEach( (item, index) => {
     }
   })
 })();
+
+
+const listUp = (cp, key) => {
+  fetch("admin/notice/noticeList?cp=" + cp + "&key=" + key)
+  .then(response => { if(response.ok) return response.json() })
+  .then(map => {
+    console(map);
+    
+    const pagination = map.pagination;
+    const noticeList = map.noticeList;
+
+    noticeContent.innerHTML = "";
+    noticeList.forEach(notice => {
+      noticeContent.innerHTML = 
+        `<tr>  
+          <th>
+            <input type="checkbox" id="checkedNoticeId" value="${notice.noticeId}">
+          </th>
+          <td>
+            ${notice.noticeId}
+          </td>
+          <td>
+          ${notice.title}
+          </td>
+          <td>
+            ${notice.createDate}
+          </td>
+          <td>
+          ${notice.view}
+          </td>
+          <td>
+            ${notice.status}
+          </td>
+          <td>
+            <button class="changeBtn" value = ${notice.noticeIde}>
+              노출 상태 변경
+            </button>
+          </td>
+        </tr>`;
+
+        if(notice.status == 0){
+          noticeContent.querySelector("td:nth-child(5)").textContent = "비활성화";
+        }else{
+          noticeContent.querySelector("td:nth-child(5)").textContent = "활성화";
+        }
+    })  
+  })
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  listUp(1, sortSelect.value);
+})

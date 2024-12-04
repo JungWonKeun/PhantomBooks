@@ -10,9 +10,10 @@ document.querySelectorAll('.menu').forEach(menu => {
   });
 });
 
-const sort = document.querySelector("#sortSelect");
-
 const listUp = (cp, sort, term, date, text) => {
+
+  salesRank.innerHTML = '';
+
   fetch("/admin/sales/salesList?cp="+cp+"&sort="+sort + "&term="+term+"&date="+date + "&text=" +text)
   .then(response => {
     if(response.ok) return response.json();
@@ -23,87 +24,6 @@ const listUp = (cp, sort, term, date, text) => {
 
     const pagination = map.pagination;
     const salesList = map.salesList;
-    const chartData = map.chartData;
-    salesRank.innerHTML = '';
-
-    let orderDate = new Array();
-    let orderCount = new Array();
-    let orderPrice = new Array();
-    let requestPrice = new Array();
-    
-    // forEach로 list의 값을 newArray에 추가
-    chartData.forEach(chart => {
-      orderDate.push(chart.orderDate);
-      orderCount.push(chart.orderCount);
-      orderPrice.push(chart.orderPrice);
-      requestPrice.push(chart.requestPrice);
-    });
-
-    myChart = new Chart(document.querySelector("#myChart").getContext('2d'), {
-      type: 'bar', // 기본 차트 유형
-      data: {
-        labels: orderDate, // X축 (시간 데이터)
-        datasets: [
-          {
-            label: '판매 금액', // 첫 번째 데이터 세트
-            yAxisID : 'y1',
-            data: orderPrice, // Y축 값
-            backgroundColor: 'rgba(54, 162, 235, 0.5)', // 막대 색상
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 1,
-            type: 'bar', // 막대형 차트
-          },
-          {
-            label: '발주 금액', // 첫 번째 데이터 세트
-            yAxisID : 'y1',
-            data: requestPrice, // Y축 값
-            backgroundColor: 'rgba(54, 162, 235, 0.5)', // 막대 색상
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 1,
-            type: 'bar', // 막대형 차트
-          },
-          {
-            label: '판매 수량', // 두 번째 데이터 세트
-            yAxisID : 'y2',
-            data: orderCount, // Y축 값
-            backgroundColor: 'rgba(255, 99, 132, 0.5)',
-            borderColor: 'rgba(255, 99, 132, 1)',
-            type: 'line', // 선형 차트
-            fill: false, // 선만 표시
-            tension: 0.4, // 곡선 정도
-          }
-        ]
-      },
-      options: {
-        scales: {
-          x: {
-            title: {
-                display: true,
-                text: '기간',
-            }
-        },
-        y1: {
-            type: 'linear',
-            position: 'left',
-            title: {
-                display: true,
-                text: '금액(원)',
-            }
-        },
-        y2: {
-            type: 'linear',
-            position: 'right',
-            title: {
-                display: true,
-                text: '수량(개)',
-            },
-            grid: {
-                drawOnChartArea: false, // Y2 그리드 비활성화
-            }
-          }
-        }
-      }
-    });
 
     salesList.forEach(sales => {
 
@@ -174,7 +94,6 @@ const listUp = (cp, sort, term, date, text) => {
 
 }
 
-
 /**
  * 정렬 기준 변경 이벤트
  */
@@ -205,21 +124,24 @@ buttons.forEach(button => {
 
 week.addEventListener("click", () => {
   term = "weeks";
-  
-  if(myChart !== null){
+
+  listUp(1, sortSelect.value, term);
+
+  if(myChart != null){
     myChart.destroy();
   }
 
-  listUp(1, sortSelect.value, term);
+  chartData(1, sortSelect.value, term);
 });
 month.addEventListener("click", () => {
   term = "month";
+  listUp(1, sortSelect.value, term);
   
-  if(myChart !== null){
+  if(myChart != null){
     myChart.destroy();
   }
   
-  listUp(1, sortSelect.value, term);
+  chartData(1, sortSelect.value, term);
 });
 sixMonth.addEventListener("click", () => {
   term = "6month";
@@ -227,6 +149,7 @@ sixMonth.addEventListener("click", () => {
   if(myChart !== null){
     myChart.destroy();
   }
+  chartData(1, sortSelect.value, term);
 
   listUp(1, sortSelect.value, term);
 });
@@ -242,6 +165,7 @@ dateSelect.addEventListener("click", () => {
     if(myChart !== null){
       myChart.destroy();
     }
+    chartData(1, sortSelect.value, term, date.value);
 
     listUp(1, sortSelect.value, term, date.value);
   })
@@ -251,28 +175,37 @@ dateSelect.addEventListener("click", () => {
 const sortSelect = document.querySelector('#sortSelect');
 const text = document.querySelector(".text");
 
-sortSelect.addEventListener('change', () => {
+sortSelect.addEventListener("change", () => {
   const selectedSort = sortSelect.value;
 
   term = '';
 
   buttons.forEach(button => button.classList.remove('active')); 
-  date.value = '';
-  date.classList.add('hidden');
+  text.value = '';
+  text.classList.add('hidden');
 
   if (selectedSort === 'sales') {
     termSelect.classList.remove('hidden');
     text.classList.add("hidden");
+
+    if(myChart !== null){
+      myChart.destroy();
+    }
+  
+    chartData(1, selectedSort, termSelect.value, text.value);
+
+    listUp(1, selectedSort, term.value, date.value, text.value);
   } else if (selectedSort === 'company') {
     termSelect.classList.add('hidden');
     text.classList.remove("hidden");
+    
+    listUp(1, selectedSort, term.value, date.value, text.value);
+    if(myChart !== null){
+      myChart.destroy();
+    }
+    chartData(1, selectedSort, termSelect.value, text.value);
   }
 
-  if(myChart !== null){
-    myChart.destroy();
-  }
-
-  listUp(1, selectedSort, term.value, date.value, text.value);
 });
 
 
@@ -289,14 +222,107 @@ const paginationAddEvent = () => {
       
       const cp = e.target.dataset.page;
       listUp(cp, sortSelect.value, term);
-
-      if(myChart !== null){
-        myChart.destroy();
-      }
     });
   });
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   listUp(1, sortSelect.value, termSelect.value);
+  chartData(1, sortSelect.value, termSelect.value);
 })
+
+
+const chartData = (cp, sort, term, date, text) => {
+
+  let orderDate = new Array();
+  let orderCount = new Array();
+  let orderPrice = new Array();
+  let requestPrice = new Array();
+
+  fetch("/admin/sales/chartData?cp="+cp+ "&sort=" +sort + "&term=" +term+ "&date=" +date + "&text=" +text)
+  .then(response => {if(response.ok) return response.json();})
+  .then(list => {if(!list.length == 0) {
+    console.log(list);
+    // forEach로 list의 값을 newArray에 추가
+    list.forEach(chart => {
+      orderDate.push(chart.orderDate);
+      orderCount.push(chart.orderCount);
+      orderPrice.push(chart.orderPrice);
+      requestPrice.push(chart.requestPrice);
+    });
+    console.log(orderDate);
+    console.log(orderCount);
+    console.log(orderPrice);
+    console.log(requestPrice);
+
+    if(myChart != null){
+      myChart.destroy();
+    }
+
+    myChart = new Chart(document.querySelector("#myChart").getContext('2d'), {
+      type: 'bar', // 기본 차트 유형
+      data: {
+        labels: orderDate, // X축 (시간 데이터)
+        datasets: [
+          {
+            label: '판매 금액', // 첫 번째 데이터 세트
+            yAxisID : 'y1',
+            data: orderPrice, // Y축 값
+            backgroundColor: 'rgba(255, 99, 132, 0.5)', // 막대 색상
+            borderColor: 'rgba(255, 99, 132, 0.5)',
+            borderWidth: 1,
+            type: 'bar', // 막대형 차트
+          },
+          {
+            label: '발주 금액', // 첫 번째 데이터 세트
+            yAxisID : 'y1',
+            data: requestPrice, // Y축 값
+            backgroundColor: 'rgba(54, 162, 235, 0.5)', // 막대 색상
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1,
+            type: 'bar', // 막대형 차트
+          },
+          {
+            label: '판매 수량', // 두 번째 데이터 세트
+            yAxisID : 'y2',
+            data: orderCount, // Y축 값
+            borderColor: '#205375',
+            type: 'line', // 선형 차트
+            fill: false, // 선만 표시
+            tension: 0.4, // 곡선 정도
+          }
+        ]
+      },
+      options: {
+        scales: {
+          x: {
+            title: {
+                display: true,
+                text: '기간',
+            }
+        },
+        y1: {
+            type: 'linear',
+            position: 'left',
+            title: {
+                display: true,
+                text: '금액(원)',
+            }
+        },
+        y2: {
+            type: 'linear',
+            position: 'right',
+            title: {
+                display: true,
+                text: '수량(개)',
+            },
+            grid: {
+                drawOnChartArea: false, // Y2 그리드 비활성화
+            }
+          }
+        }
+      }
+    });
+  }}) 
+
+}

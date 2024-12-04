@@ -12,21 +12,27 @@ document.querySelectorAll('.menu').forEach(menu => {
 const updateBtn = document.querySelectorAll(".updateBtn");
 
 updateBtn.forEach((button) => {
-  const bookNo = button.value;
   button.addEventListener("click", ()=> {
+    const bookNo = button.value;
+    console.log(bookNo);
 
-    fetch("/admin/newBook?bookNo="+bookNo, { method : "post" })
+    fetch("/admin/newBook", {
+      method : "POST",
+      headers : {"Content-Type" : "application/json"},
+      body : bookNo
+     })
     .then(response => {
       if(response.ok) return response.text();
       throw new Error("등록 실패");
     })
     .then(result => {
-      if(result > 0) {
+      if(result == 0) {return alert(`${bookNo}는 삭제된 발주요청입니다.`);}
+      else{
+        
         console.log(result);
         alert(`등록 하였습니다. ${bookNo}번 책을 재고 추가하세요.`);
         location.reload();
       }
-      alert(`${bookNo}는 삭제된 발주요청입니다.`);
     })
   })
 })

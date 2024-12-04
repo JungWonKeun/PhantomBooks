@@ -264,7 +264,7 @@ buttons.forEach(button => {
 week.addEventListener("click", () => {
   term = "weeks";
   listUp(1, sortSelect.value, term);
-
+  
   if(myChart != null){
     myChart.destroy()
   }
@@ -431,7 +431,7 @@ const chartData = (cp, sort, term, date) => {
 
   fetch("/admin/chartData?cp="+cp + "&sort="+sort + "&term=" +term +"&date=" + date)
   .then(response => {if(response.ok) return response.json();})
-  .then(list => {if(!list.length == 0)
+  .then(list => {if(!list.length == 0){
     
     // forEach로 list의 값을 newArray에 추가
     list.forEach(chart => {
@@ -462,9 +462,10 @@ const chartData = (cp, sort, term, date) => {
               y: {
                   beginAtZero: false
               }
+            }
           }
-        }
-      });
+        });
+      } 
     })
 }
 

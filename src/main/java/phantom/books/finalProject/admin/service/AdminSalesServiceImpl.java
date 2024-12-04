@@ -30,14 +30,14 @@ public class AdminSalesServiceImpl implements AdminSalesService {
 
 		int countSales = mapper.countSales(cp, sort, term, date, text);
 		
-		Pagination pagination = new Pagination(cp, countSales, 5, 5);
+		Pagination pagination = new Pagination(cp, countSales, 10, 5);
 		
 		int limit = pagination.getLimit();
 		int offset = (cp-1) * limit;
 		
 		RowBounds bounds = new RowBounds(offset, limit);
 		
-		List<ChartSales> salesList = mapper.salesList(cp, sort, term, date, text, bounds);
+		List<OrderBookDto> salesList = mapper.salesList(cp, sort, term, date, text, bounds);
 		List<ChartSales> chartData = mapper.chartData(cp, sort, term, date, text);
 		
 		int totalOrderPrice = 0;
@@ -53,16 +53,19 @@ public class AdminSalesServiceImpl implements AdminSalesService {
 		log.debug("totalOrderPrice : {}", totalOrderPrice);
 		log.debug("totalRequestPrice : {}", totalRequestPrice);
 		log.debug("salesPrice : {}", salesPrice);
-		log.debug("chartData : {}", chartData);
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("salesList", salesList);
 		map.put("pagination", pagination);
-		map.put("chartData", chartData);
 		map.put("totalOrderPrice", totalOrderPrice);
 		map.put("totalRequestPrice", totalRequestPrice);
 		map.put("salesPrice", salesPrice);
 		
 		return map;
+	}
+	
+	@Override
+	public List<ChartSales> chartdata(int cp, String sort, String term, String date, String text) {
+		return mapper.chartData(cp, sort, term, date, text);
 	}
 }

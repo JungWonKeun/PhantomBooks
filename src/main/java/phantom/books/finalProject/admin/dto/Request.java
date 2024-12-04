@@ -34,6 +34,7 @@ public class Request {
   private int requestCount;				// 발주요청 수량
   private String requestPrice;		// 발주요청 가격
   private String requestDate; 		// 발주요청일
+  private String requestYn;
   
 	/* 출판사 정보 */
   private String email;    				// 출판사 이메일

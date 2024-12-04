@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import phantom.books.finalProject.admin.mapper.AdminFaqMapper;
@@ -15,6 +16,7 @@ import phantom.books.finalProject.query.dto.Query;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class AdminFaqServiceImpl implements AdminFaqService {
 
 	private final AdminFaqMapper mapper;
@@ -27,7 +29,7 @@ public class AdminFaqServiceImpl implements AdminFaqService {
 				int countFaqList = mapper.countFaqList(key);
 				
 				// 페이지네이션
-				Pagination pagination = new Pagination(cp, countFaqList);
+				Pagination pagination = new Pagination(cp, countFaqList, 10, 5);
 				
 				int limit = pagination.getLimit();
 				int offset = (cp-1) * limit;
