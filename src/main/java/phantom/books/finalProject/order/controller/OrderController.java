@@ -65,6 +65,8 @@ public class OrderController {
 
 		int deliveryFee = 3500;
 
+		
+		model.addAttribute("loginMember", loginMember);
 		model.addAttribute("channelKey", channelKey);
 		model.addAttribute("storeId", storeId);
 		model.addAttribute("defaultAddress", defaultAddress);
