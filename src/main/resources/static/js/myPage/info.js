@@ -370,30 +370,28 @@ let isPhoneVerified = true;
           }
           ) // 서버의 응답을 텍스트 형태로 처리
           .then(data => {
-            if (data.status === 'success') {
-              if (confirm("인증이 성공했습니다. 해당 번호로 변경하시겠습니까?")) {
-                // 타이머 중지
-                if (timerInterval) {
-                  clearInterval(timerInterval);
-                  document.getElementById('timer').textContent = '인증완료';
-                }
-
-                phoneInput.setAttribute('readonly', 'readonly'); // 전화번호 입력 필드 비활성화
-                if (phoneClearBtn) phoneClearBtn.style.display = 'none';
-                document.getElementById('verificationSection').style.display = 'none'; // 인증번호 입력 섹션 숨기기
-                if (phoneCheckBtn) phoneCheckBtn.style.display = 'none';
-                isPhoneVerified = true; // 인증 성공 시 인증 상태를 true로 변경
-                phoneChangeBtn.style.display = 'inline-block'; // 전화번호 변경 버튼을 화면에 표시
-                toggleSubmitButton();
-              } else {
-                document.getElementById('verificationSection').style.display = 'none';
-                // 타이머 중지
-                if (timerInterval) {
-                  clearInterval(timerInterval);
-                }
-                clearInput('telNo');
-                phoneInput.focus();
+            if (confirm("인증이 성공했습니다. 해당 번호로 변경하시겠습니까?")) {
+              // 타이머 중지
+              if (timerInterval) {
+                clearInterval(timerInterval);
+                document.getElementById('timer').textContent = '인증완료';
               }
+
+              phoneInput.setAttribute('readonly', 'readonly'); // 전화번호 입력 필드 비활성화
+              if (phoneClearBtn) phoneClearBtn.style.display = 'none';
+              document.getElementById('verificationSection').style.display = 'none'; // 인증번호 입력 섹션 숨기기
+              if (phoneCheckBtn) phoneCheckBtn.style.display = 'none';
+              isPhoneVerified = true; // 인증 성공 시 인증 상태를 true로 변경
+              phoneChangeBtn.style.display = 'inline-block'; // 전화번호 변경 버튼을 화면에 표시
+              toggleSubmitButton();
+            } else {
+              document.getElementById('verificationSection').style.display = 'none';
+              // 타이머 중지
+              if (timerInterval) {
+                clearInterval(timerInterval);
+              }
+              clearInput('telNo');
+              phoneInput.focus();
             }
           })
           .catch(error => {

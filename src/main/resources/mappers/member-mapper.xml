@@ -33,27 +33,27 @@
 	</select>
 
 	<select id="adminLogin" resultType="Member">
-    SELECT M.MEMBER_NO AS memberNo, 
-           M.MEMBER_ID AS memberId, 
-           M.MEMBER_PW AS memberPw, 
-           M.ZIP AS zip, 
-           M.ADDRESS AS address, 
-           M.DETAIL_ADDRESS AS detailAddress, 
-           M.ADD_ZIP AS addZip, 
-           M.ADD_ADDRESS AS addAddress, 
-           M.ADD_DETAIL_ADDRESS AS addDetailAddress, 
-           M.TEL_NO AS telNo, 
-           TO_CHAR(M.BIRTH_DATE, 'YYYY"년" MM"월" DD"일"') AS birthDate, 
-           M.NAME AS name, 
-           M.RANK_NAME AS rankName, 
-           M.MEMBER_DEL_FL AS memberDelFl, 
-           M.AUTHORITY AS authority, 
-           M.CATEGORY_YN AS categoryYn, 
-           A.ADMIN_NAME AS adminName, 
-           A.ADMIN_EMAIL AS adminEmail
-    FROM "MEMBER" M
-    LEFT JOIN ADMIN A ON M.MEMBER_NO = A.MEMBER_NO
-    WHERE M.MEMBER_NO = #{memberNo}
+		SELECT M.MEMBER_NO AS memberNo,
+		M.MEMBER_ID AS memberId,
+		M.MEMBER_PW AS memberPw,
+		M.ZIP AS zip,
+		M.ADDRESS AS address,
+		M.DETAIL_ADDRESS AS detailAddress,
+		M.ADD_ZIP AS addZip,
+		M.ADD_ADDRESS AS addAddress,
+		M.ADD_DETAIL_ADDRESS AS addDetailAddress,
+		M.TEL_NO AS telNo,
+		TO_CHAR(M.BIRTH_DATE, 'YYYY"년" MM"월" DD"일"') AS birthDate,
+		M.NAME AS name,
+		M.RANK_NAME AS rankName,
+		M.MEMBER_DEL_FL AS memberDelFl,
+		M.AUTHORITY AS authority,
+		M.CATEGORY_YN AS categoryYn,
+		A.ADMIN_NAME AS adminName,
+		A.ADMIN_EMAIL AS adminEmail
+		FROM "MEMBER" M
+		LEFT JOIN ADMIN A ON M.MEMBER_NO = A.MEMBER_NO
+		WHERE M.MEMBER_NO = #{memberNo}
 	</select>
 
 	<!-- 회원 가입 -->
@@ -119,8 +119,20 @@
 	<update id="updatePassword">
 		UPDATE "MEMBER"
 		SET MEMBER_PW = #{encPw}
-		WHERE MEMBER_ID = #{memberId}
+		WHERE
+		MEMBER_ID = #{memberId}
 	</update>
+
+	<delete id="deleteWishlist" parameterType="map">
+		DELETE FROM WISHLIST
+		WHERE MEMBER_NO = #{memberNo}
+		AND BOOK_NO IN
+		<foreach item="bookNo" collection="bookNoList" open="("
+			separator="," close=")">
+			#{bookNo}
+		</foreach>
+	</delete>
+
 
 
 </mapper>

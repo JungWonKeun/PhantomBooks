@@ -55,17 +55,32 @@
                         </div>
                     </div>
                     <!-- 페이지네이션 -->
-                    <div class="pagination" th:if="${!#lists.isEmpty(writeReview)}">
-                        <a href="#" th:if="${currentPage > 1}" th:href="@{/myPage/myReview(page=${currentPage-1})}"
-                            class="page-link">&laquo;</a>
+                    <div class="pagination gap-1" th:if="${!#lists.isEmpty(writeReview)}">
+                        <!-- 첫 페이지 버튼 - 항상 활성화 -->
+                        <a th:href="@{/myPage/myReview(page=1)}" class="page-link">&laquo;&laquo;</a>
+                           
+                        <!-- 이전 버튼 -->
+                        <a th:href="${currentPage > 1} ? @{/myPage/myReview(page=${currentPage-1})} : '#'"
+                           th:class="${currentPage <= 1 ? 'page-link disabled' : 'page-link'}">&laquo;</a>
 
-                        <th:block th:each="pageNum : ${#numbers.sequence(1, totalPages)}">
-                            <a th:href="@{/myPage/myReview(page=${pageNum})}" th:text="${pageNum}"
-                                th:class="${pageNum == currentPage ? 'page-link active' : 'page-link'}">1</a>
+                        <!-- 페이지 그룹 계산 -->
+                        <th:block th:with="
+                            startPage=${((currentPage-1)/10)*10 + 1},
+                            endPage=${((totalPages == 0) ? 1 : (startPage + 9 < totalPages ? startPage + 9 : totalPages))}">
+                            
+                            <th:block th:each="pageNum : ${#numbers.sequence(startPage, endPage)}">
+                                <a th:href="@{/myPage/myReview(page=${pageNum})}" 
+                                   th:text="${pageNum}"
+                                   th:class="${pageNum == currentPage ? 'page-link active' : 'page-link'}">1</a>
+                            </th:block>
                         </th:block>
 
-                        <a href="#" th:if="${currentPage < totalPages}"
-                            th:href="@{/myPage/myReview(page=${currentPage+1})}" class="page-link">&raquo;</a>
+                        <!-- 다음 버튼 -->
+                        <a th:href="${currentPage < totalPages} ? @{/myPage/myReview(page=${currentPage+1})} : '#'"
+                           th:class="${currentPage >= totalPages ? 'page-link disabled' : 'page-link'}">&raquo;</a>
+                           
+                        <!-- 마지막 페이지 버튼 - 항상 활성화 -->
+                        <a th:href="@{/myPage/myReview(page=${totalPages})}" class="page-link">&raquo;&raquo;</a>
                     </div>
                 </div>
             </section>
