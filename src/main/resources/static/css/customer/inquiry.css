@@ -288,10 +288,11 @@ body {
   margin-top: -49px;
   position: relative;
 }
+
 #inquiryButton{
   position: absolute;
-  right: -102px;
-  top: 15px;
+  right: -130px;
+  top: 65px;
 }
 
 .pagination {

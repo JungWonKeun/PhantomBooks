@@ -389,3 +389,24 @@ body {
     color: white;
     border-color: #205375;
 }
+
+.faq-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 20px;
+  width: 100%;
+}
+
+.faq-content {
+  font-size: 18px;
+}
+
+.faq-arrow {
+  color: #666;
+  transition: transform 0.3s ease;
+}
+
+.faq-item.active .faq-arrow {
+  transform: rotate(180deg);
+}

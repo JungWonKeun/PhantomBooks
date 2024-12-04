@@ -16,7 +16,7 @@
         <div class="search-bar">
             <form action="/searchBookPage/searchBooks" method="get">
                 <input type="text" name="searchTitle" placeholder="검색어를 입력하세요" th:value="${param.searchTitle ?: ''}" />
-                <button type="submit">Search</button>
+                <i class="fas fa-search search-icon" onclick="this.closest('form').submit()"></i>
                 <input type="hidden" name="categories" id="hiddenCategories">
                 <input type="hidden" name="preferences" id="hiddenPreferences">
                 <input type="hidden" name="sortOption" id="hiddenSearchOption">
