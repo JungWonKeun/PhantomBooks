@@ -35,7 +35,7 @@
                         </td>
                         <td th:text="${item.bookTitle != null ? item.bookTitle : '제목 없음'}">책 이름</td>
                         <td th:text="${item.bookCount}">0</td>
-                        <td th:text="${item.orderPrice} + ' 원'">0 원</td>
+                        <td th:text="${item.orderPrice != null && item.bookCount != null && item.bookCount > 0 ? item.orderPrice / item.bookCount : 0}">0</td>
                     </tr>
 
                 </tbody>
