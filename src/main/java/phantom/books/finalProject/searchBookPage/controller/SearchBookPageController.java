@@ -303,7 +303,24 @@ public class SearchBookPageController {
 	    return message;
 	}
 	
-	
+	@ResponseBody
+	@DeleteMapping("/deleteWishlist")
+	public String deleteWishlist(@SessionAttribute("loginMember") Member loginMember,
+	        @RequestBody Map<String, Object> requestData) {
+		
+
+	    int memberNo = loginMember.getMemberNo();
+	    int bookNo = (int) requestData.get("bookNo");
+
+	    log.debug("memberNo : {}", memberNo);
+	    log.debug("bookNo : {}", bookNo);
+
+	    int addWishlist = service.deleteWishlist(memberNo, bookNo);
+
+	    String message = addWishlist > 0 ? "삭제 성공" : "삭제 실패";
+
+	    return message;
+	}
 
 
 }

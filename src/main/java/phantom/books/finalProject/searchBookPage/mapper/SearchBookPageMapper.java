@@ -107,6 +107,9 @@ public interface SearchBookPageMapper {
 		// 리뷰 작성 제한
 		int reviewCp(int bookNo);
 
+		// 찜 삭제
+		int deleteWishlist(@Param("memberNo") int memberNo,@Param("bookNo") int bookNo);
+
 	
 
 

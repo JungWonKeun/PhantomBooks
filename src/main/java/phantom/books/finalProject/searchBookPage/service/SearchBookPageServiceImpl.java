@@ -161,7 +161,8 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 
 		map.put("reviewList", reviewList);
 		map.put("pagination", pagination);
-		
+
+		// 리뷰 리스트 조회
 		return map;
 	}
 
@@ -346,5 +347,11 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 	public void buyBook(int bookNo, int bookPrice, String bookTitle) {
 		
 		return;
+	}
+	
+	@Override
+	public int deleteWishlist(int memberNo, int bookNo) {
+		
+		return mapper.deleteWishlist(memberNo, bookNo);
 	}
 }

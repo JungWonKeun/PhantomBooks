@@ -741,7 +741,32 @@ function singleWishListBtn(button) {
             if (data === "추가 성공") {
                 alert(`"${bookTitle}"을(를) 찜 목록에 추가했습니다.`);
             } else {
-                alert('이미 찜한 책입니다.');
+               if(confirm('이미 찜한 책입니다' + '삭제 하시겠습니까?')){   
+
+                fetch(`/searchBookPage/deleteWishlist`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ bookNo: bookNo }) // PUT 요청 본문에 bookNo를 JSON 형식으로 전송합니다.
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('찜 목록 삭제에 실패했습니다.');
+                        }
+                        return response.text(); // 응답을 텍스트로 처리합니다.
+                    })
+                    .then(data => {
+                    if (data === "삭제 성공") {
+                        alert(`"${bookTitle}"을(를) 찜 목록에서 삭제했습니다.`);
+                    }
+                    })
+                    .catch(error => {
+                        console.error('에러:', error);
+                    });
+               }else{
+                   return;
+               }
             }
         })
         .catch(error => console.error('에러:', error));
@@ -749,7 +774,15 @@ function singleWishListBtn(button) {
 
 /* 찜 보내기  */
 
-
+document.getElementById("applyOption").addEventListener("click", () => {
+    // 검색 폼의 검색 버튼을 선택합니다.
+    const searchButton = document.querySelector('.search-bar form button[type="submit"]');
+    
+    // 검색 버튼 클릭
+    if (searchButton) {
+        searchButton.click();
+    }
+});
 
 
 
@@ -818,15 +851,7 @@ function singleWishListBtn(button) {
     });
 });
 
-document.getElementById("applyOption").addEventListener("click", () => {
-    // 검색 폼의 검색 버튼을 선택합니다.
-    const searchButton = document.querySelector('.search-bar form button[type="submit"]');
-    
-    // 검색 버튼 클릭
-    if (searchButton) {
-        searchButton.click();
-    }
-});
+
 
 
 // 팝업 열기 및 닫기 제어
