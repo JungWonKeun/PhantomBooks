@@ -343,11 +343,22 @@ function toggleSubmitButton() {
         passwordInput.removeAttribute('readonly'); // 비밀번호 입력 필드 활성화
         passwordInput.value = '';
         passwordConfirmInput.value = '';
+        
+        // 유효성 검사 상태 초기화
+        passwordInput.classList.remove('is-valid', 'is-invalid');
+        passwordConfirmInput.classList.remove('is-valid', 'is-invalid');
+        
+        // 도움말 텍스트 상태 초기화
+        updateFeedback(passwordHelpLength, false);
+        updateFeedback(passwordHelpChars, false);
+        updateFeedback(passwordConfirmHelp, false);
+        
         passwordInput.focus();
         if (passwordChangeBtn) passwordChangeBtn.style.display = 'none'; // 비밀번호 변경 버튼 숨기기
         if (passwordConfirmSection) passwordConfirmSection.style.display = 'block'; // 비밀번호 확인 입력 섹션 표시
         if (passwordConfirmBtn) passwordConfirmBtn.style.display = 'none'; // 비밀번호 사용하기 버튼 숨기기
         isPasswordConfirmed = false;
+        toggleSubmitButton();
       });
     }
 
@@ -437,27 +448,26 @@ function toggleSubmitButton() {
         fetch('/member/requestVerification', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded', // 요청 헤더 설정
+            'Content-Type': 'application/x-www-form-urlencoded',
           },
-          body: new URLSearchParams({ 'telNo': telNo }) // 요청 본문에 전화번호 추가
+          body: new URLSearchParams({ 'telNo': telNo })
         })
-          .then(response => response.json()) // 서버의 응답을 텍스트 형태로 처리
+          .then(response => response.json())
           .then(data => {
-            /* if (data === 'success') { // 인증 코드 요청 성공시 
-            alert(data); // 응답 메시지를 사용자에게 표시 */
-            if (data.status === 'success') { // 인증 코드 요청 성공시
-              // 3분(180초) 타이머 시작
+            if (data.status === 'success') {
+              alert(data.message);
               startTimer(179);
-              alert(`${data.telNo} 인증 코드가 전송되었습니다: ${data.verificationCode}`); // 성공 메시지와 인증 코드 출력
-              if (phoneCheckInput) phoneCheckInput.value = data.verificationCode;
               if (phoneCheckBtn) phoneCheckBtn.style.display = 'none';
-              document.getElementById('verificationSection').style.display = 'flex'; // 인증번호 입력 섹션을 화면에 표시
+              document.getElementById('verificationSection').style.display = 'flex';
               if (phoneCheckInput) phoneCheckInput.focus();
-
+            } else {
+              alert(data.message || '인증번호 발송에 실패했습니다.');
             }
           })
           .catch(error => {
-            console.error('Error:', error); // 오류 발생 시 콘솔에 출력
+            if (timerInterval) clearInterval(timerInterval);
+            console.error('Error:', error);
+            alert('인증번호 발송 중 오류가 발생했습니다.');
           });
       });
     }
@@ -488,27 +498,27 @@ function toggleSubmitButton() {
           }
           ) // 서버의 응답을 텍스트 형태로 처리
           .then(data => {
-              if (confirm("인증이 성공했습니다. 해당 번호로 가입을 진행하시겠습니까?")) {
-                // 타이머 중지
-                if (timerInterval) {
-                  clearInterval(timerInterval);
-                  document.getElementById('timer').textContent = '인증완료';
-                }
-                phoneInput.setAttribute('readonly', 'readonly'); // 전화번호 입력 필드 비활성화
-                if (phoneClearBtn) phoneClearBtn.style.display = 'none';
-                document.getElementById('verificationSection').style.display = 'none'; // 인증번호 입력 섹션 숨기기
-                if (phoneCheckBtn) phoneCheckBtn.style.display = 'none';
-                isPhoneVerified = true; // 인증 성공 시 인증 상태를 true로 변경
-                phoneChangeBtn.style.display = 'inline-block'; // 전화번호 변경 버튼을 화면에 표시
-                toggleSubmitButton();
-              } else {
-                document.getElementById('verificationSection').style.display = 'none';
-                // 타이머 중지
-                if (timerInterval) {
-                  clearInterval(timerInterval);
-                }
-                clearInput('telNo');
-                phoneInput.focus();
+            if (confirm("인증이 성공했습니다. 해당 번호로 가입을 진행하시겠습니까?")) {
+              // 타이머 중지
+              if (timerInterval) {
+                clearInterval(timerInterval);
+                document.getElementById('timer').textContent = '인증완료';
+              }
+              phoneInput.setAttribute('readonly', 'readonly'); // 전화번호 입력 필드 비활성화
+              if (phoneClearBtn) phoneClearBtn.style.display = 'none';
+              document.getElementById('verificationSection').style.display = 'none'; // 인증번호 입력 섹션 숨기기
+              if (phoneCheckBtn) phoneCheckBtn.style.display = 'none';
+              isPhoneVerified = true; // 인증 성공 시 인증 상태를 true로 변경
+              phoneChangeBtn.style.display = 'inline-block'; // 전화번호 변경 버튼을 화면에 표시
+              toggleSubmitButton();
+            } else {
+              document.getElementById('verificationSection').style.display = 'none';
+              // 타이머 중지
+              if (timerInterval) {
+                clearInterval(timerInterval);
+              }
+              clearInput('telNo');
+              phoneInput.focus();
             }
           })
           .catch(error => {
@@ -537,7 +547,7 @@ function toggleSubmitButton() {
 document.addEventListener("DOMContentLoaded", () => {
   const inputs = document.querySelectorAll(".form-control");
 
-  // 각 입력 필드에 Clear 버튼을 추가하여 내용 초기화 기능을 제공
+  // 각 입력 필드에 Clear 버튼을 ��가하여 내용 초기화 기능을 제공
   inputs.forEach(input => {
     const clearButton = input.parentElement.querySelector(".clear-btn");
 
