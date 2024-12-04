@@ -76,8 +76,6 @@
                           <input type="text" class="form-control" id="floatingPhoneCheck" placeholder="" maxlength="4"
                             autocomplete="off" required>
                           <label for="floatingPhoneCheck">인증번호 확인</label>
-                          <button type="button" id="phoneCheckClearBtn" class="btn-close clear-btn"
-                            onclick="clearInput('floatingPhoneCheck')" aria-label="Clear" tabindex="-1"></button>
                           <div id="timer" class="timer-text"></div>
                         </div>
                         <div class="col-auto">
@@ -114,8 +112,6 @@
                           autocomplete="off" placeholder="" readonly th:value="${session.loginMember.detailAddress}"
                           style="width: 58%;">
                         <label for="detailAddress">상세 주소</label>
-                        <button type="button" id="detailAddressClearBtn" class="btn-close clear-btn"
-                          onclick="clearInput('detailAddress')" aria-label="Clear"></button>
                       </div>
 
                       <br>
@@ -151,8 +147,6 @@
                           maxlength="50" autocomplete="off" placeholder="" readonly
                           th:value="${session.loginMember.addDetailAddress}" style="width: 58%;">
                         <label for="addDetailAddress">상세 주소</label>
-                        <button type="button" id="addDetailAddressClearBtn" class="btn-close clear-btn"
-                          onclick="clearInput('addDetailAddress')" aria-label="Clear"></button>
                       </div>
                       <br>
                       <!-- 가입 버튼 -->

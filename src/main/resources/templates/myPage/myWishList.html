@@ -35,15 +35,23 @@
                         </div>
                     </div>
 
-                    <!-- 전체 선택 체크박스 추가 -->
-                    <div class="wishlist-controls gap-1">
-                        <label class="checkbox-wrapper offset-10">
-                            <input type="checkbox" id="selectAll" class="select-all">
-                            <span>전체 선택</span>
-                        </label>
-                        <button type="button" id="deleteSelected" class="delete-btn" disabled>
-                            <i class="fas fa-trash"></i> 찜 목록 삭제
-                        </button>
+                    <!-- 찜 목록 컨트롤 영역 수정 -->
+                    <div class="wishlist-controls">
+                        <div class="left-controls">
+                            <label class="checkbox-wrapper">
+                                <input type="checkbox" id="selectAll">
+                                <span class="checkmark"></span>
+                                <span class="label-text">전체 선택</span>
+                            </label>
+                        </div>
+                        <div class="control-buttons">
+                            <button type="button" id="addToCart" class="cart-btn" disabled>
+                                <i class="fas fa-shopping-cart"></i> 장바구니 담기
+                            </button>
+                            <button type="button" id="deleteSelected" class="delete-btn" disabled>
+                                <i class="fas fa-trash"></i> 찜 목록 삭제
+                            </button>
+                        </div>
                     </div>
                     <!-- 컨텐츠 영역 -->
                     <div class="wishlist-grid">
@@ -52,7 +60,9 @@
                             <!-- 체크박스 추가 -->
                             <div class="checkbox-wrapper-39">
                                 <label> 
-                                    <input type="checkbox" class="wish-checkbox" th:data-book-no="${item.bookNo}">
+                                    <input type="checkbox" class="wish-checkbox" 
+                                    th:value="${item.bookNo}"
+                                    th:data-book-no="${item.bookNo}">
                                     <span class="checkbox"></span>
                                 </label>
                             </div>

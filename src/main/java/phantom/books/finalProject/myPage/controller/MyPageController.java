@@ -232,7 +232,7 @@ public class MyPageController {
 	}
 
 	/**
-	 * 마이페이지(내정보 페이지) 조회
+	 * 마이페이지(내정보 페이지) 조회 / 변경
 	 * 
 	 * @param loginMember
 	 * @param model
@@ -266,8 +266,12 @@ public class MyPageController {
 	}
 
 	@PostMapping("changeInfo")
-	public String changeInfo(@ModelAttribute Member inputMember, @SessionAttribute("loginMember") Member loginMember,
-			Model model, RedirectAttributes ra) {
+	public String changeInfo(
+			@ModelAttribute Member inputMember, 
+			@SessionAttribute("loginMember") Member loginMember,
+			HttpSession session,
+			Model model, 
+			RedirectAttributes ra) {
 
 		// 현재 로그인된 회원의 번호를 입력된 정보에 세팅
 		inputMember.setMemberNo(loginMember.getMemberNo());
@@ -289,12 +293,19 @@ public class MyPageController {
 				updateMember.setBirthDate(""); // null일 경우 기본값 설정
 			}
 
+      // 세션에 최신화된 회원 정보 저장
+			session.setAttribute("loginMember", updateMember);
+			log.debug("Updated session loginMember: {}", session.getAttribute("loginMember"));
+
+      
+			// 모델에 최신화된 회원 정보 추가
 			model.addAttribute("loginMember", updateMember);
 			ra.addFlashAttribute("message", "회원 정보가 수정되었습니다.");
+			
 		} else { // 실패
 			ra.addFlashAttribute("message", "회원 정보 수정 실패");
 		}
-
+			
 		return "redirect:/myPage/info";
 	}
 
@@ -425,3 +436,4 @@ public class MyPageController {
 	}
 
 }
+

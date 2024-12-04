@@ -61,19 +61,29 @@ div label {
   transition: all 0.3s ease;
 }
 
+/* 선택된 버튼 (아이디 찾기) 스타일 */
+.button-section .btn-primary {
+  background-color: rgb(29,30,57) !important;
+  border-color: rgb(29,30,57) !important;
+  color: white !important;
+}
+
+/* 선택되지 않은 버튼 (비밀번호 찾기) 스타일 */
+.button-section .btn-outline-secondary {
+  background-color: transparent !important;
+  border: 1px solid rgb(29,30,57) !important;
+  color: rgb(29,30,57) !important;
+}
+
+/* 호버 효과 */
 .button-section .btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
-.btn.btn-primary {
-  background-color: #0d6efd;
-  color: white;
-}
-
-.btn.btn-outline-secondary:hover {
-  background-color: #6c757d;
-  color: white;
+.button-section .btn-outline-secondary:hover {
+  background-color: rgb(29,30,57) !important;
+  color: white !important;
 }
 
 /* 섹션 애니메이션 효과 */
