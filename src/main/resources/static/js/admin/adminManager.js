@@ -91,7 +91,7 @@ const listUp = (cp, sort, view, text) => {
       const td8 = document.createElement("td");
       const deleteBtn = document.createElement("button");
       deleteBtn.innerText = "등록여부 수정";
-
+      deleteBtn.classList.add("delete");
       td8.append(deleteBtn);
 
       deleteBtn.addEventListener("click", ()=> {

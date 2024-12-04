@@ -31,9 +31,10 @@ updateBtn.forEach((button) => {
   })
 })
 
-const deleteBtn = document.querySelector(".deleteBtn");
+const deleteBtn = document.querySelectorAll(".deleteBtn");
 
-deleteBtn.addEventListener("click", () => {
+deleteBtn.forEach((button) => {
+  button.addEventListener("click", () => {
   const requestNo = deleteBtn.value;
   const alarm = confirm(`${requestNo}번 책 요청을 삭제하시겠습니까?`);
 
@@ -46,6 +47,7 @@ deleteBtn.addEventListener("click", () => {
       }
     })
   }
+  })
 })
 
 

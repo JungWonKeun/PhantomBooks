@@ -56,17 +56,17 @@ const listUp = (cp) => {
       th1.innerHTML = admin.memberId.split("n")[1];
 
       // 관리자 아이디
-      const th2 = document.createElement("th");
+      const th2 = document.createElement("td");
       th2.innerHTML = admin.memberId;
 
-      const th3 = document.createElement("th");
+      const th3 = document.createElement("td");
       th3.innerHTML = admin.adminName;
 
-      const th4 = document.createElement("th");
+      const th4 = document.createElement("td");
       th4.innerHTML = admin.adminEmail;
 
 
-      const th5 = document.createElement("th");
+      const th5 = document.createElement("td");
       const button1 = document.createElement("button");
       button1.innerHTML = "계정 정보 수정";
       button1.addEventListener("click", () =>{
@@ -140,7 +140,7 @@ const listUp = (cp) => {
 
       th5.append(button1);
 
-      const th6 = document.createElement("th");
+      const th6 = document.createElement("td");
       const button2 = document.createElement("button");
       button2.innerHTML = "계정 삭제";
       button2.addEventListener("click", () =>{

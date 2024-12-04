@@ -14,6 +14,7 @@ public class Message {
   private String readFl;
   private int senderNo;
   private int targetNo;
+  private String targetNickname;
   private int chattingRoomNo;
   private String sendTime;
 }

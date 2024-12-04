@@ -112,13 +112,13 @@ const listUp = (cp, sort, term, date, text) => {
       const th1 = document.createElement("th");
       th1.append(sales.bookNo);
 
-      const th2 = document.createElement("th");
+      const th2 = document.createElement("td");
       th2.append(sales.bookTitle);
 
-      const th4 = document.createElement("th");
+      const th4 = document.createElement("td");
       th4.append(sales.bookCount);
 
-      const th5 = document.createElement("th");
+      const th5 = document.createElement("td");
       th5.append(sales.orderPrice);
 
       tr.append(th1, th2, th4, th5);

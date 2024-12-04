@@ -19,22 +19,6 @@
   
    
     <div class="function">
-      <!-- 알림 영역 -->
-      <div class="notification-container">
-       
-         <!-- 알림 버튼 -->
-        <button class="notification-btn" id="my-element">
-          <i class="fa-regular fa-bell">.</i>
-          <!-- 알림 개수 표시 -->
-          <div class="notification-count-area"></div>
-        </button>
-        
-        <!-- 알림 목록 -->
-        <ul class="notification-list">
-          
-        </ul>
-        
-      </div>
       
       <!-- 관리자 담당 업무 -->
       <div class="adminName" th:if= "${session.loginMember}">
@@ -43,11 +27,12 @@
         </div>
       </div>
   
-      <!-- 채팅방 입장 아이콘 -->
-      <div class="chatting">
-        채팅방
-      </div>
+     <!-- 채팅방 입장 아이콘 -->
+     <div class="chatting">
+      <button id="openPopup">채팅방</button>
     </div>
+  </div>
+  <header th:replace="~{admin/adminChatting}"></header>
 
   </section>
 
@@ -100,6 +85,7 @@
       <form action="/admin/adminManager/updateAdmin" method="POST" name="inputAdmin" id="info-box" class="info-box needs-validation mx-auto mt-4" style="width: 60%;" novalidate>
         <div>
           <!-- 비밀번호 입력, 요청사항 -->
+          <div class="red col-1"> * 필수&nbsp;&nbsp; </div>
           <div>
             <label for="memberPw">비밀번호</label>
             <input type="password" class="form-control" id="memberPw" name="memberPw" placeholder="" maxlength="12" autocomplete="off" required>
@@ -107,6 +93,7 @@
           </div>
   
           <!-- 비밀번호 확인 입력 -->
+          <div class="red col-1"> * 필수&nbsp;&nbsp; </div>
           <div>
             <label for="pwCheck">비밀번호 확인</label>
             <input type="password" class="form-control" id="pwCheck" name="pwCheck" placeholder="" maxlength="12" autocomplete="off" required>
