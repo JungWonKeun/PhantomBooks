@@ -651,6 +651,9 @@ prefCancelButton.addEventListener("click", () => {
         checkbox.checked = false;
     });
 
+    // 선택한 선호도 값 업데이트
+    updateSelectedPreferences();
+
     // 전체 선택 취소 버튼 숨기기
     prefCancelButton.hidden = true;
 
@@ -658,6 +661,7 @@ prefCancelButton.addEventListener("click", () => {
     preferenceButton.textContent = "불러오기";
     preferencesLoaded = false;
 });
+
 
 // 체크박스 상태 변경 시 전체 선택 취소 버튼 보이기 여부 업데이트 (취향 체크박스)
 function updatePreferenceCancelButtonVisibility() {

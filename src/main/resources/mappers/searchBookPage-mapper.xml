@@ -496,13 +496,13 @@
 		</foreach>
 		) src
 		ON (w.MEMBER_NO = src.memberNo AND w.BOOK_NO = src.bookNo)
-		WHEN
-		NOT MATCHED THEN
+		WHEN NOT MATCHED THEN
 		INSERT (MEMBER_NO, BOOK_NO)
-		VALUES (src.memberNo,
-		src.bookNo)
+		VALUES (src.memberNo, src.bookNo)
 	</insert>
 
+
+	<!-- 개별 찜 목록 -->
 	<insert id="putSingleWishlist">
 		MERGE INTO WISHLIST w
 		USING (
