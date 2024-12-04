@@ -582,3 +582,282 @@ html, body {
   transform: scale(1.2);
 }
 
+
+
+/* 회원 정보 조회 시 팝업창 css */
+.pop-up {
+  position: absolute;
+  top: 27%; /* 적절한 위치 */
+  left: 55%;
+  transform: translate(-50%, 0);
+  width: 80%; /* 화면 너비의 90% */
+  height: 650px; /* 기존 그래프와 테이블 높이에 맞춤 */
+  background-color: #EFEFEF;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex; /* 좌우 나눔을 위한 flex */
+  gap: 20px; /* 좌우 간격 */
+  z-index: 1000; /* 다른 요소 위에 표시 */
+  overflow-y: auto; /* 스크롤 가능 */
+}
+
+/* 팝업의 좌측 섹션 */
+.pop-up .left-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* 팝업의 우측 섹션 */
+.pop-up .right-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* 각 섹션 내부의 테이블 스타일 */
+.pop-up table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.pop-up table th, 
+.pop-up table td {
+  text-align: center;
+  padding: 10px;
+  font-size: 14px;
+  border-bottom: 1px solid #ddd;
+}
+
+.pop-up table th {
+  background-color: #205375;
+  color: white;
+}
+
+.pop-up table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.leftSectionMemberInfo, .rightSectionReview{
+  min-height: 450px;
+}
+
+.left-section table thead tr th {
+  background-color: #205375; 
+  color: white; 
+  font-weight: bold;
+  text-align: center;
+  padding: 10px;
+}
+
+.left-section table tbody tr:nth-child(odd) th {
+  background-color: #ddd;
+  color: #000; 
+}
+
+.left-section table tbody tr:nth-child(even) th {
+  background-color: #EFEFEF; 
+  color: #000; 
+}
+
+.left-section table th {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.right-section table thead tr th {
+  background-color: #205375; 
+  color: white; 
+  font-weight: bold;
+  text-align: center;
+  padding: 10px;
+}
+
+.right-section table tbody tr:nth-child(even) th {
+  background-color: #ddd;
+  color: #000; 
+}
+
+.right-section table tbody tr:nth-child(odd) th {
+  background-color: #EFEFEF; 
+  color: #000; 
+}
+
+.right-section table th {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.infoUpdateBtn{
+  background-color: #205375; 
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 300;
+  margin-right: 9px;
+}
+
+.infoDeleteBtn{
+  background-color:  rgb(29,30,57);
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 300;
+  margin-right: 4px;
+}
+
+
+.infoUpdateBtn:hover, .infoDeleteBtn:hover {
+  transform: scale(1.2);
+}
+
+.reviewMemberTable {
+  table-layout: fixed;
+  width: 100%; 
+  border-collapse: collapse; 
+}
+
+.reviewMemberTable th,
+.reviewMemberTable td {
+  text-align: center; 
+  overflow: hidden; 
+  text-overflow: ellipsis;
+  white-space: nowrap; 
+}
+
+.reviewMemberTable th:nth-child(1) {
+  width: 15%; 
+}
+
+.reviewMemberTable th:nth-child(2) {
+  width: 20%; 
+}
+
+.reviewMemberTable th:nth-child(3) {
+  width: 30%; 
+  text-align: left;
+}
+
+.reviewMemberTable th:nth-child(4) {
+  width: 35%;
+  max-width: 35%; 
+  text-align: left;
+}
+
+#review > tr >th:nth-child(4){
+  -webkit-line-clamp: 1; 
+  overflow: hidden; 
+  text-overflow: ellipsis;
+  white-space: nowrap; /
+}
+
+
+
+/* 문의 내용 */
+.queryMemberTable {
+  table-layout: fixed;
+  width: 100%; 
+  border-collapse: collapse; 
+}
+
+.queryMemberTable th,
+.queryMemberTable td {
+  text-align: center; 
+  overflow: hidden; 
+  text-overflow: ellipsis;
+  white-space: nowrap; 
+}
+
+.queryMemberTable th:nth-child(1) {
+  width: 15%; 
+}
+
+.queryMemberTable th:nth-child(2) {
+  width: 20%; 
+}
+
+.queryMemberTable th:nth-child(3) {
+  width: 30%; 
+  text-align: left;
+}
+
+.queryMemberTable th:nth-child(4) {
+  width: 35%;
+  max-width: 35%; 
+  text-align: left;
+}
+
+#query > tr >th:nth-child(4){
+  -webkit-line-clamp: 1; 
+  overflow: hidden; 
+  text-overflow: ellipsis;
+  white-space: nowrap; /
+}
+
+.pagination1, .pagination2, .pagination3{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 10px; 
+}
+
+.pagination1 a, .pagination2 a, .pagination3 a {
+  display: block;
+  padding: 8px 12px;
+  text-decoration: none;
+  background-color: #205375;
+  color: #fff; 
+  border-radius: 4px; 
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.pagination1 a:hover, .pagination2 a:hover, .pagination3 a:hover {
+  background-color: rgb(29, 30, 57); 
+  cursor: pointer; 
+}
+
+.pagination1 a.current, .pagination2 a.current, .pagination3 a.current{
+  background-color: rgb(29, 30, 57); 
+  font-weight: bold; 
+  cursor: pointer; 
+  transform: scale(1.2);
+}
+
+/* 버튼 스타일 */
+#close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background-color: #205375;
+  color: white;
+  border: 1px solid #205375;
+  padding: 10px;
+  border-radius: 8%;
+  cursor: pointer;
+  font-size: 18px;
+  transition: transform 0.3s ease;
+}
+
+#close:hover {
+  transform: scale(1.1);
+}
+

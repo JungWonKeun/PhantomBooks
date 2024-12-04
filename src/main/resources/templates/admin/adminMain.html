@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,24 +10,24 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="stylesheet" href="/css/admin/adminMain.css">
 </head>
+
 <body>
   <section class="header">
     <div class="logo">
       <a href="/admin">
-          <img src="/images/고스트 코딩왕.png" alt="Logo">
+        <img src="/images/고스트 코딩왕.png" alt="Logo">
       </a>
     </div>
-  
-   
+
+
     <div class="function">
       <!-- 관리자 담당 업무 -->
       <div class="adminName">
-        <div th:if= "${session.loginMember}"
-             th:text="${session.loginMember.adminName}">
+        <div th:if="${session.loginMember}" th:text="${session.loginMember.adminName}">
           담당
         </div>
       </div>
-  
+
       <!-- 채팅방 입장 아이콘 -->
       <div class="chatting">
         <button class="fa-solid fa-paper-plane" id="openPopup"></button>
@@ -44,12 +45,12 @@
             <li><a href="/admin/myPage">&nbsp;&nbsp;&nbsp;-&nbsp;내정보 변경</a></li>
             <li><a href="/admin">&nbsp;&nbsp;&nbsp;-&nbsp;회원 관리</a></li>
             <li>
-              <a href="/admin/adminManager" 
-                th:if= "${session.loginMember.name == '관리자' }">&nbsp;&nbsp;&nbsp;-&nbsp;관리자 계정 관리</a>
+              <a href="/admin/adminManager" th:if="${session.loginMember.name == '관리자' }">&nbsp;&nbsp;&nbsp;-&nbsp;관리자
+                계정 관리</a>
             </li>
           </ul>
         </h3>
-      
+
         <h3 class="menu">
           <i class="fa-solid fa-arrow-trend-up"></i>&nbsp;&nbsp;매출 및 일정 관리
           <ul class="submenu">
@@ -57,7 +58,7 @@
             <li><a href="/admin/schedule">&nbsp;&nbsp;&nbsp;-&nbsp;일정 관리</a></li>
           </ul>
         </h3>
-        
+
         <h3 class="menu">
           <i class="fa-solid fa-warehouse"></i>&nbsp;&nbsp;도서 관리
           <ul class="submenu">
@@ -76,179 +77,181 @@
           </ul>
         </h3>
       </div>
-    
-      <div class="content">
-          <div class="title">
-            <div class="sort-dropdown">
-              <select id="sortSelect" class="dropbtn">
-                <option value="signUp" selected>가입 회원현황</option>
-                <option value="delete">탈퇴 회원</option>
-                <option value="unlogin">로그인 6개월 이상</option>
-              </select>
-            </div>
-            <div class="btn-container">
-                <button class="weeks">1주일</button>
-                <button class="month">1개월</button>
-                <button class="sixMonth">6개월</button>
-                <button class="dateSelect">기간 설정</button>
-                <input type="date" class="date hidden">
-            </div>
-          </div>
 
-      
+      <div class="content">
+        <div class="title">
+          <div class="sort-dropdown">
+            <select id="sortSelect" class="dropbtn">
+              <option value="signUp" selected>가입 회원현황</option>
+              <option value="delete">탈퇴 회원</option>
+              <option value="unlogin">로그인 6개월 이상</option>
+            </select>
+          </div>
+          <div class="btn-container">
+            <button class="weeks">1주일</button>
+            <button class="month">1개월</button>
+            <button class="sixMonth">6개월</button>
+            <button class="dateSelect">기간 설정</button>
+            <input type="date" class="date hidden">
+          </div>
+        </div>
+
+
         <div class="graph-box">
-      
-          <div class="sales"> 
+
+          <div class="sales">
             <div>총 회원 수 : 00명</div>
             <div>현재 이용중인 회원 수 : 00명</div>
             <div>기간 중 탈퇴 회원수 : 00명</div>
             <div>기간 중 가입 회원 수 : 00명</div>
           </div>
-      
+
           <div class="content-box2">
             <div class="graph">
               <canvas id="myChart" width="720px" height="660px"></canvas>
             </div>
-      
+
             <div class="memberList">
               <div id="listName">
                 가입 회원현황
               </div>
-  
+
               <div class="table-container">
-                  <table class="member-table">
-                    <thead>
-                      <tr class="memberTableHead">
-                        <th>회원번호</th>
-                        <th>회원 아이디</th>
-                        <th>가입일</th>
-                        <th>최근 로그인</th>
-                        <th>탈퇴 처리</th>
-                      </tr>
-                    </thead>
-      
-                    <tbody id="list">
-                      <tr>
-                        <th>2️⃣</th>
-                        <td>책이름</td>
-                        <td>매출량</td>
-                        <td>상승 / 하강 화살표</td>
-                      </tr>
-                      <tr>
-                        <th>3️⃣</th>
-                        <td>책이름</td>
-                        <td>매출량</td>
-                        <td>상승 / 하강 화살표</td>
-                      </tr>
-                      <tr>
-                        <th>4️⃣</th>
-                        <td>책이름</td>
-                        <td>매출량</td>
-                        <td>상승 / 하강 화살표</td>
-                      </tr>
-                      <tr>
-                        <th>5️⃣</th>
-                        <td>책이름</td>
-                        <td>매출량</td>
-                        <td>상승 / 하강 화살표</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                <div class="pagination-area" >
+                <table class="member-table">
+                  <thead>
+                    <tr class="memberTableHead">
+                      <th>회원번호</th>
+                      <th>회원 아이디</th>
+                      <th>가입일</th>
+                      <th>최근 로그인</th>
+                      <th>탈퇴 처리</th>
+                    </tr>
+                  </thead>
+
+                  <tbody id="list">
+                    <tr>
+                      <th>2️⃣</th>
+                      <td>책이름</td>
+                      <td>매출량</td>
+                      <td>상승 / 하강 화살표</td>
+                    </tr>
+                    <tr>
+                      <th>3️⃣</th>
+                      <td>책이름</td>
+                      <td>매출량</td>
+                      <td>상승 / 하강 화살표</td>
+                    </tr>
+                    <tr>
+                      <th>4️⃣</th>
+                      <td>책이름</td>
+                      <td>매출량</td>
+                      <td>상승 / 하강 화살표</td>
+                    </tr>
+                    <tr>
+                      <th>5️⃣</th>
+                      <td>책이름</td>
+                      <td>매출량</td>
+                      <td>상승 / 하강 화살표</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="pagination-area">
                   <ul class="pagination">
                   </ul>
                 </div>
               </div>
             </div>
 
-            <div class="pop-up hidden" style="margin-left: -1800px;">
+            <div class="pop-up hidden">
               <button id="close">X</button>
-              <div>
-                <h3>회원 정보</h3>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>아이디</th>
-                      <th>전체 구매 금액</th>
-                      <th>탈퇴 신청 여부(Y/N)</th>
-                      <th>등급</th>
-                      <th>회원 상태 변경</th>
-                    </tr>
-                  </thead>
-                  <tbody id="memberInfo">
-                  </tbody>
-                </table>
-              </div>
-                
-              <div>
-                <h3 class="payment">구매 내역(총 금액)</h3>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>주문번호</th>
-                      <th>책 제목</th>
-                      <th>구매일자</th>
-                      <th>구매금액</th>
-                    </tr>
-                  </thead>
-                  <tbody id="payment">
-                  </tbody>
-                </table>
-                <div class="pagination-area" >
-                  <ul class="pagination1">
-                  
-                    
-                  </ul>
+              <div class="left-section">
+                <div class="leftSectionMemberInfo">
+                  <h3>회원 정보</h3>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>아이디</th>
+                        <th>전체 구매 금액</th>
+                        <th>탈퇴 신청 여부(Y/N)</th>
+                        <th>등급</th>
+                        <th>회원 상태 변경</th>
+                      </tr>
+                    </thead>
+                    <tbody id="memberInfo">
+                    </tbody>
+                  </table>
+                </div>
+  
+                <div class="leftSectionPayment">
+                  <h3 class="payment">구매 내역(총 금액)</h3>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>주문번호</th>
+                        <th>책 제목</th>
+                        <th>구매일자</th>
+                        <th>구매금액</th>
+                      </tr>
+                    </thead>
+                    <tbody id="payment">
+                    </tbody>
+                  </table>
+                  <div class="pagination-area">
+                    <ul class="pagination1">
+  
+  
+                    </ul>
+                  </div>
                 </div>
               </div>
-                
-              <div>
-                <h3>리뷰 내역</h3>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>리뷰번호</th>
-                      <th>리뷰제목(별점)</th>
-                      <th>리뷰 제목</th>
-                      <th>리뷰 내용</th>
-                    </tr>
-                  </thead>
-                  <tbody id="review">
-                  </tbody>
-                </table>
-                <div class="pagination-area" >
-                  <ul class="pagination2">
-                  
-                    
-                  </ul>
+
+              <div class="right-section">
+                <div class="rightSectionReview">
+                  <h3>리뷰 내역</h3>
+                  <table class="reviewMemberTable">
+                    <thead>
+                      <tr class="reviewMemberTableTr">
+                        <th>리뷰번호</th>
+                        <th>리뷰제목<br>(별점)</th>
+                        <th>리뷰 제목</th>
+                        <th>리뷰 내용</th>
+                      </tr>
+                    </thead>
+                    <tbody id="review">
+                    </tbody>
+                  </table>
+                  <div class="pagination-area">
+                    <ul class="pagination2">
+                    </ul>
+                  </div>
                 </div>
-              </div>
-                
-              <div>
-                <h3>문의 내역</h3>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>문의번호</th>
-                      <th>문의유형</th>
-                      <th>문의제목</th>
-                      <th>문의 내용</th>
-                      <th>상태</th>
-                    </tr>
-                  </thead>
-                  <tbody id="query">
-                  </tbody>
-                </table>
-                <div class="pagination-area" >
-                  <ul class="pagination3">
-                  
-                    
-                  </ul>
+  
+                <div class="rightSectionQuery">
+                  <h3>문의 내역</h3>
+                  <table class="queryMemberTable">
+                    <thead>
+                      <tr class="queryMemberTableTr">
+                        <th>문의번호</th>
+                        <th>문의유형</th>
+                        <th>문의제목</th>
+                        <th>문의 내용</th>
+                        <th>상태</th>
+                      </tr>
+                    </thead>
+                    <tbody id="query">
+                    </tbody>
+                  </table>
+                  <div class="pagination-area">
+                    <ul class="pagination3">
+  
+  
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
 
-            
+
           </div>
         </div>
       </div>
@@ -257,6 +260,7 @@
 
 
   <script src="/js/admin/adminMain.js"></script>
-  
+
 </body>
+
 </html>
