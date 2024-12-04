@@ -209,4 +209,9 @@ public class AdminServiceImpl implements AdminService{
 		return map;
 	}
 	
+	// 차트 데이터 받아오기
+	@Override
+	public List<Chart> chartData(int cp, String sort, String term, String date) {
+		return mapper.chartData(cp, term, sort, date);
+	}
 }

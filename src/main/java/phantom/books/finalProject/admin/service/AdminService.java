@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.data.domain.jaxb.SpringDataJaxb.OrderDto;
 
+import phantom.books.finalProject.admin.dto.Chart;
 import phantom.books.finalProject.member.dto.Member;
 import phantom.books.finalProject.order.dto.OrderBookDto;
 
@@ -54,6 +55,9 @@ public interface AdminService {
 
 	// 문의 내역
 	Map<String, Object> selectQueryList(int cp, int memberNo);
+
+	// 차트 값 받아오기
+	List<Chart> chartData(int cp, String sort, String term, String date);
 
 	
 	

@@ -30,9 +30,9 @@
       <!-- 채팅방 입장 아이콘 -->
       <div class="chatting">
         <button class="fa-solid fa-paper-plane" id="openPopup"></button>
+        <header th:replace="~{admin/adminChatting}"></header>
       </div>
     </div>
-    <header th:replace="~{admin/adminChatting}"></header>
 
   </section>
   <main>
@@ -107,16 +107,7 @@
       
           <div class="content-box2">
             <div class="graph">
-              <div class="graph-title">
-                <span>회원가입 현황</span>
-                <span>클릭 된 버튼 / 기간</span>
-              </div>
-
-
-              <div class="graph-section">
-                <canvas id="myChart" width="5px" height="5px"></canvas>
-              </div>
-
+              <canvas id="myChart" width="5px" height="5px"></canvas>
             </div>
       
             <div class="memberList">
@@ -218,8 +209,8 @@
                     <tr>
                       <th>리뷰번호</th>
                       <th>리뷰제목(별점)</th>
+                      <th>리뷰 제목</th>
                       <th>리뷰 내용</th>
-                      <th>삭제</th>
                     </tr>
                   </thead>
                   <tbody id="review">
@@ -239,6 +230,7 @@
                   <thead>
                     <tr>
                       <th>문의번호</th>
+                      <th>문의유형</th>
                       <th>문의제목</th>
                       <th>문의 내용</th>
                       <th>상태</th>

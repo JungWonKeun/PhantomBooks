@@ -29,43 +29,7 @@ const listUp = (cp, sort, term, date) => {
     const countDelFl = map.countDelFl;
     const countMemberList = map.countMemberList;
     const countInactiveMembers = map.countInactiveMembers || 0;  // 6개월 이상 로그인 안한 회원이 없을때 0 반환하는 구문
-    const chartData = map.chartData;
     
-    let signUpDate = new Array();
-    let memberCount = new Array();
-    
-    // forEach로 list의 값을 newArray에 추가
-    chartData.forEach(chart => {
-      signUpDate.push(chart.signUpDate);
-      memberCount.push(chart.countMember);
-    });
-
-    
-    // 차트
-
-    // 차트 생성
-    myChart = new Chart(document.getElementById("myChart").getContext('2d'), {
-      type: 'line',
-        data: {
-            labels: signUpDate,
-            datasets: [{
-                label: '가입현황',
-                data: memberCount,
-                borderWidth: 2
-            }]
-        },
-        options: {
-            scales: {
-                x: {
-                  min : 0
-                },
-                y: {
-                    beginAtZero: false
-                }
-            }
-        }
-    });
-
 
     // console.log("로그인 6개월 이상 회원 수:", countInactiveMembers);
 
@@ -221,13 +185,13 @@ const listUp = (cp, sort, term, date) => {
       })
       memberNo = member.memberNo;
 
-      memberArea(member.memberNo);
+      memberArea(memberNo);
       
-      paymentArea(cp, member.memberNo);
+      paymentArea(1, memberNo);
       
-      reviewArea(cp, member.memberNo);
+      reviewArea(1, memberNo);
       
-      queryArea(cp, member.memberNo);
+      queryArea(1, memberNo);
 
       console.log("memberNo : ", memberNo) ;
     })
@@ -300,26 +264,33 @@ buttons.forEach(button => {
 week.addEventListener("click", () => {
   term = "weeks";
   listUp(1, sortSelect.value, term);
-  
-  if(myChart !== null){
-    myChart.destroy();
+
+  if(myChart != null){
+    myChart.destroy()
   }
+
+  chartData(1, sortSelect.value, term);
 });
 month.addEventListener("click", () => {
   term = "month";
   listUp(1, sortSelect.value, term);
 
-  if(myChart !== null){
-    myChart.destroy();
+  if(myChart != null){
+    myChart.destroy()
   }
+  
+  chartData(1, sortSelect.value, term);
+
 });
 sixMonth.addEventListener("click", () => {
   term = "6month";
   listUp(1, sortSelect.value, term);
 
-  if(myChart !== null){
-    myChart.destroy();
+  if(myChart != null){
+    myChart.destroy()
   }
+
+  chartData(1, sortSelect.value, term);
 });
 
 dateSelect.addEventListener("click", () => {
@@ -332,9 +303,12 @@ dateSelect.addEventListener("click", () => {
     
     listUp(1, sortSelect.value, term, date.value);
 
-    if(myChart !== null){
-      myChart.destroy();
+    if(myChart != null){
+      myChart.destroy()
     }
+
+    chartData(1, sortSelect.value, term, date.value);
+
   })
 });
 
@@ -351,36 +325,48 @@ sortSelect.addEventListener('change', () => {
   buttons.forEach(button => button.classList.remove('active')); 
   date.value = '';
   date.classList.add('hidden');
-
+  
+  const salesTitle = document.querySelector('.sales-title');
 
   if (selectedSort === 'signUp') {
     listName.innerHTML = "가입 회원현황";
+    salesTitle.innerText = "기간 중 가입 회원 수";
     termSelect.classList.remove('hidden');
+
+    if(myChart != null){
+      myChart.destroy()
+    }
+    
+    chartData(1, sortSelect.value, term);
   } else if (selectedSort === 'delete') {
     listName.innerHTML = "탈퇴 회원";
+    salesTitle.innerText = "기간 중 탈퇴 회원 수";
     termSelect.classList.add('hidden');
+
+    if(myChart != null){
+      myChart.destroy()
+    }
+    
+    chartData(1, sortSelect.value, term);
   } else if (selectedSort === 'unlogin') {
+    salesTitle.innerText = "로그인 6개월 이상 회원 수";
     listName.innerHTML = "로그인 6개월 이상";
     termSelect.classList.add('hidden');
-  }
 
-  if(myChart !== null){
-    myChart.destroy();
+    if(myChart != null){
+      myChart.destroy()
+    }
+    
+    chartData(1, sortSelect.value, term);
   }
 
   listUp(1, selectedSort, term.value, date.value)
-    .then(() => {
-      const salesTitle = document.querySelector('.sales-title');
-      const salesCount = document.querySelector('.sales-count');
 
-      if (selectedSort === 'signUp') {
-        salesTitle.innerText = "기간 중 가입 회원 수";
-      } else if (selectedSort === 'delete') {
-        salesTitle.innerText = "기간 중 탈퇴 회원 수";
-      } else if (selectedSort === 'unlogin') {
-        salesTitle.innerText = "로그인 6개월 이상 회원 수";
-      }
-    });
+  if(myChart != null){
+    myChart.destroy()
+  }
+
+  chartData(1, sortSelect.value, term);
 });
 
 /**
@@ -400,9 +386,6 @@ const paginationAddEvent = () => {
       const cp = e.target.dataset.page;
       listUp(cp, sortSelect.value, term);
 
-      if(myChart !== null){
-        myChart.destroy();
-      }
     });
   });
   pagination1.forEach(a => {
@@ -438,7 +421,52 @@ const paginationAddEvent = () => {
 
 document.addEventListener("DOMContentLoaded",()=>{
   listUp(1, sortSelect.value, termSelect.value);
+  chartData(1, sortSelect.value, termSelect.value);
 })
+
+// 차트
+const chartData = (cp, sort, term, date) => {
+  let signUpDate = new Array();
+  let memberCount = new Array();
+
+  fetch("/admin/chartData?cp="+cp + "&sort="+sort + "&term=" +term +"&date=" + date)
+  .then(response => {if(response.ok) return response.json();})
+  .then(list => {if(!list.length == 0)
+    
+    // forEach로 list의 값을 newArray에 추가
+    list.forEach(chart => {
+      signUpDate.push(chart.signUpDate);
+      memberCount.push(chart.countMember);
+    });
+
+    if(myChart != null){
+      myChart.destroy()
+    }
+    
+  // 차트 생성
+    myChart = new Chart(document.getElementById("myChart").getContext('2d'), {
+      type: 'line',
+      data: {
+          labels: signUpDate,
+          datasets: [{
+              label: '가입현황',
+              data: memberCount,
+              borderWidth: 2
+          }]
+      },
+      options: {
+          scales: {
+              x: {
+                min : 0
+              },
+              y: {
+                  beginAtZero: false
+              }
+          }
+        }
+      });
+    })
+}
 
 // 회원 정보 불러오기
 const memberArea = (memberNo) => {
@@ -458,6 +486,8 @@ const memberArea = (memberNo) => {
 
     const th1 = document.createElement("th");
     th1.innerHTML = result.memberId;
+
+    let memberId = result.memberId;
 
     const th2 = document.createElement("th");
     th2.innerHTML = result.totalPrice + "원";
@@ -499,16 +529,15 @@ const memberArea = (memberNo) => {
         method : "PUT",
         headers : {"Content-Type" : "application/json"},
         body : JSON.stringify({
-          memberNo : member.memberNo,
+          memberNo : memberNo,
           rankName : select.value
         })
         })
       )
       .then(response => {if(response.ok) return response.text();})
       .then(result => {if(result > 0) {
-        alert(member.memberId + " 의 정보를 수정하였습니다.");
-        select.value = result.rankName; 
-        location.reload();
+        alert(memberId + "정보를 수정하였습니다.");
+        memberArea(memberNo);
       }
       })
     })
@@ -520,7 +549,7 @@ const memberArea = (memberNo) => {
         fetch("admin/delete", {
           method : "DELETE",
           headers : {"Content-Type" : "application/json"},
-          body : member.memberNo
+          body : memberNo
         })
         .then(response => {
           if(response.ok) return response.text();
@@ -549,8 +578,7 @@ const paymentArea = (cp, memberNo) => {
 
   const payment = document.querySelector(".payment");
   const paymentList = document.querySelector("#payment");
-  payment.innerHTML = "";
-  paymentList.innerHTML = "";
+
 
   fetch("/admin/orderList?cp="+cp + "&memberNo="+ memberNo)
   .then(response => {if(response.ok) return response.json();})
@@ -559,9 +587,12 @@ const paymentArea = (cp, memberNo) => {
 
     const orderList = map.orderList;
     const pagination = map.pagination;
+    payment.innerHTML = "";
+    paymentList.innerHTML = "";
     
     orderList.forEach(order => {
       allPrice += order.totalPrice;
+
 
       const tr = document.createElement("tr");
 
@@ -623,11 +654,11 @@ const paymentArea = (cp, memberNo) => {
 const reviewArea = (cp, memberNo) => {
 
   const reviewContent = document.querySelector("#review");
-  review.innerHTML = "";
-
+  
   fetch("/admin/reviewList?cp="+ cp + "&memberNo="+ memberNo)
   .then(response => {if(response.ok) return response.json();})
   .then(map => {
+    reviewContent.innerHTML = "";
     console.log(map);
     const reviewList = map.reviewList;
     const pagination = map.pagination;
@@ -638,7 +669,7 @@ const reviewArea = (cp, memberNo) => {
       const th1 = document.createElement("th");
       th1.append(review.reviewNo);
       const th2 = document.createElement("th");
-      th2.append(review.bookTitle);
+      th2.innerHTML = review.bookTitle + "(" + review.reviewScore + ")";
       const th3 = document.createElement("th");
       th3.append(review.reviewTitle);
       const th4 = document.createElement("th");
@@ -685,12 +716,12 @@ const reviewArea = (cp, memberNo) => {
 const queryArea = (cp, memberNo) => {
 
   const queryContent = document.querySelector("#query");
-  queryContent.innerHTML = "";
-
+  
   fetch("/admin/queryList?cp="+cp +"&memberNo="+ memberNo)
   .then(response => {if(response.ok) return response.json()})
   .then(map => {
-    console.log(map);
+      console.log(map);
+      queryContent.innerHTML = "";
 
     const queryList = map.queryList;
     const pagination = map.pagination;
@@ -702,15 +733,18 @@ const queryArea = (cp, memberNo) => {
       th1.append(query.queryNo);
 
       const th2 = document.createElement("th");
-      th2.append(query.queryTitle);
+      th2.append(query.querySubject);
 
       const th3 = document.createElement("th");
-      th3.append(query.queryContent);
+      th3.append(query.queryTitle);
 
       const th4 = document.createElement("th");
-      th4.append(query.status);
+      th4.innerHTML =  query.queryContent;
 
-      tr.append(th1, th2, th3, th4);
+      const th5 = document.createElement("th");
+      th5.append(query.status);
+
+      tr.append(th1, th2, th3, th4, th5);
 
       queryContent.append(tr);
     })
