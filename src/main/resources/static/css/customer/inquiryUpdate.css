@@ -75,5 +75,9 @@ textarea {
 }
 
 .inquiry-content {
-  height: 200px;
+  white-space: pre-wrap;
+  min-height: 200px;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
 }
