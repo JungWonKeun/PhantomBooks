@@ -460,33 +460,94 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-document.getElementById("myCategoryBringingInBtn").addEventListener("click", () => {
-    fetch('/searchBookPage/myCategoryBringingInBtn', {
-        method: 'GET',
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("에러 발생");
-            }
-            return response.json();
-        })
-        .then(categories => {
-            console.log("categories:", categories);
+const categoryButton = document.getElementById("myCategoryBringingInBtn");
+const catCancelButton = document.getElementById("catBtnAllCancel");
+let categoriesLoaded = false; // 상태를 저장하는 변수
 
-            // 체크박스 업데이트
-            const checkboxes = document.querySelectorAll('.categoryCheckbox');
-            checkboxes.forEach(checkbox => {
-                if (categories.includes(parseInt(checkbox.value))) {
-                    checkbox.checked = true;
-                } else {
-                    checkbox.checked = false;
+categoryButton.addEventListener("click", () => {
+    if (!categoriesLoaded) {
+        // "불러오기" 상태
+        fetch('/searchBookPage/myCategoryBringingInBtn', {
+            method: 'GET',
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("에러 발생");
                 }
-            });
+                return response.json();
+            })
+            .then(categories => {
+                console.log("categories:", categories);
 
-            // 선택한 카테고리 값 업데이트
-            updateSelectedCategories();
-        })
-        .catch(error => console.error("Error:", error));
+                // 체크박스 업데이트
+                const checkboxes = document.querySelectorAll('.categoryCheckbox');
+                checkboxes.forEach(checkbox => {
+                    if (categories.includes(parseInt(checkbox.value))) {
+                        checkbox.checked = true;
+                    } else {
+                        checkbox.checked = false;
+                    }
+                });
+
+                // 버튼 텍스트 변경
+                categoryButton.textContent = "해제하기";
+                categoriesLoaded = true; // 상태 업데이트
+
+                // 선택한 카테고리 값 업데이트
+                updateSelectedCategories();
+
+                // 전체 선택 취소 버튼 표시 여부 업데이트
+                updateAllCancelButtonVisibility();
+            })
+            .catch(error => console.error("Error:", error));
+    } else {
+        // "해제하기" 상태
+        const checkboxes = document.querySelectorAll('.categoryCheckbox');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = false; // 체크박스 해제
+        });
+
+        // 버튼 텍스트 변경
+        categoryButton.textContent = "불러오기";
+        categoriesLoaded = false; // 상태 업데이트
+
+        // 선택한 카테고리 값 업데이트
+        updateSelectedCategories();
+
+        // 전체 선택 취소 버튼 숨기기
+        catCancelButton.hidden = true;
+    }
+});
+
+catCancelButton.addEventListener("click", () => {
+    // 모든 체크박스 해제
+    const checkboxes = document.querySelectorAll('.categoryCheckbox');
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = false;
+    });
+
+    // 선택한 카테고리 값 업데이트
+    updateSelectedCategories();
+
+    // 전체 선택 취소 버튼 숨기기
+    catCancelButton.hidden = true;
+
+    // 버튼 텍스트 변경
+    categoryButton.textContent = "불러오기";
+    categoriesLoaded = false;
+});
+
+// 체크박스 상태 변경 시 전체 선택 취소 버튼 보이기 여부 업데이트
+function updateAllCancelButtonVisibility() {
+    const checkboxes = document.querySelectorAll('.categoryCheckbox');
+    const anyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+    catCancelButton.hidden = !anyChecked;
+}
+
+// 체크박스가 변경될 때마다 전체 선택 취소 버튼의 상태를 업데이트
+const checkboxes = document.querySelectorAll('.categoryCheckbox');
+checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', updateAllCancelButtonVisibility);
 });
 
 // 체크박스 상태 변화에 따라 선택 항목 및 숨겨진 필드 업데이트
@@ -516,35 +577,86 @@ function updateSelectedCategories() {
 /* 카테고리 가져오기 끝 */
 /* 내 프리퍼런스 불러오기  */
 
+// 취향 버튼 관련 코드만 남김
+const preferenceButton = document.getElementById("myPreferenceBringingInBtn");
+const prefCancelButton = document.getElementById("preBtnAllCancel");
+let preferencesLoaded = false; // 상태를 저장하는 변수
 
-document.getElementById("myPreferenceBringingInBtn").addEventListener("click", () => {
-    fetch('/searchBookPage/myPreferenceBringingInBtn', {
-        method: 'GET',
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("에러 발생");
-            }
-            return response.json();
+preferenceButton.addEventListener("click", () => {
+    if (!preferencesLoaded) {
+        // "불러오기" 상태
+        fetch('/searchBookPage/myPreferenceBringingInBtn', {
+            method: 'GET',
         })
-        .then(preferences => {
-            console.log("preferences:", preferences);
-
-            // 체크박스 업데이트
-            const checkboxes = document.querySelectorAll('.preferenceCheckbox');
-            checkboxes.forEach(checkbox => {
-                if (preferences.includes(parseInt(checkbox.value))) {
-                    checkbox.checked = true;
-                } else {
-                    checkbox.checked = false;
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("에러 발생");
                 }
-            });
+                return response.json();
+            })
+            .then(preferences => {
+                console.log("preferences:", preferences);
 
-            // 선택한 카테고리 값 업데이트
-            updateSelectedPreferences();
-        })
-        .catch(error => console.error("Error:", error));
+                // 체크박스 업데이트
+                const checkboxes = document.querySelectorAll('.preferenceCheckbox');
+                checkboxes.forEach(checkbox => {
+                    if (preferences.includes(parseInt(checkbox.value))) {
+                        checkbox.checked = true;
+                    }
+                });
+
+                // 버튼 텍스트 변경
+                preferenceButton.textContent = "해제하기";
+                preferencesLoaded = true; // 상태 업데이트
+
+                // 전체 선택 취소 버튼 표시 여부 업데이트
+                updatePreferenceCancelButtonVisibility();
+            })
+            .catch(error => console.error("Error:", error));
+    } else {
+        // "해제하기" 상태
+        const checkboxes = document.querySelectorAll('.preferenceCheckbox');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = false; // 체크박스 해제
+        });
+
+        // 버튼 텍스트 변경
+        preferenceButton.textContent = "불러오기";
+        preferencesLoaded = false; // 상태 업데이트
+
+        // 전체 선택 취소 버튼 숨기기
+        prefCancelButton.hidden = true;
+    }
 });
+
+prefCancelButton.addEventListener("click", () => {
+    // 모든 체크박스 해제
+    const checkboxes = document.querySelectorAll('.preferenceCheckbox');
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = false;
+    });
+
+    // 전체 선택 취소 버튼 숨기기
+    prefCancelButton.hidden = true;
+
+    // 버튼 텍스트 변경
+    preferenceButton.textContent = "불러오기";
+    preferencesLoaded = false;
+});
+
+// 체크박스 상태 변경 시 전체 선택 취소 버튼 보이기 여부 업데이트 (취향 체크박스)
+function updatePreferenceCancelButtonVisibility() {
+    const checkboxes = document.querySelectorAll('.preferenceCheckbox');
+    const anyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+    prefCancelButton.hidden = !anyChecked;
+}
+
+// 체크박스가 변경될 때마다 전체 선택 취소 버튼의 상태를 업데이트 (취향 체크박스)
+const preferenceCheckboxes = document.querySelectorAll('.preferenceCheckbox');
+preferenceCheckboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', updatePreferenceCancelButtonVisibility);
+});
+
 
 // 체크박스 상태 변화에 따라 선택 항목 및 숨겨진 필드 업데이트
 document.querySelectorAll('.preferenceCheckbox').forEach(checkbox => {
@@ -638,9 +750,28 @@ function singleWishListBtn(button) {
 /* 찜 보내기  */
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* 바로구매 버튼  */
 
-document.addEventListener('DOMContentLoaded', () => {
+/* document.addEventListener('DOMContentLoaded', () => {
     const buyNowButtons = document.querySelectorAll('#buyNow');
     
     buyNowButtons.forEach(button => {
@@ -718,3 +849,4 @@ document.getElementById("categoryButton").addEventListener("click", function () 
     document.getElementById("checkboxPreference").style.display = "none";
   });
   
+ */

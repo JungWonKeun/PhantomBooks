@@ -40,6 +40,7 @@
         <div class="myCategoryBringingIn">
           <label>
             <button id="myCategoryBringingInBtn"> 내 카테고리 불러오기</button>
+            <button id="catBtnAllCancel" hidden>전체 선택 취소</button>
           </label>
         </div>
 
@@ -98,6 +99,7 @@
         <div class="myPreferenceBringingIn">
           <label>
             <button id="myPreferenceBringingInBtn"> 내 취향 불러오기</button>
+            <button id="preBtnAllCancel" hidden>전체 선택 취소</button>    
           </label>
         </div>
         <label><input type="checkbox" value="1"
@@ -225,8 +227,10 @@
         <a th:href="@{/searchBookPage/bookDetail/{bookNo}(bookNo=${book.bookNo})}" class="bookItemAtag">
           <div class="book-item-details">
             <div class="book-item-info">
-              <p>
-                <span class="book-title" th:text="${book.bookTitle}">책 제목</span>
+              <p>책 제목 : 
+                <span class="book-title" th:text="${book.bookTitle}">책 제목</span><br>
+                카테고리 :
+                <span th:text="${book.categoryName != null ? book.categoryName : 'No Category'}"></span>
               </p>
 
               <div class="perStars">

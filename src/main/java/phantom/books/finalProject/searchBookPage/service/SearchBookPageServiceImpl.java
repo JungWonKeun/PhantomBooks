@@ -161,8 +161,7 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 
 		map.put("reviewList", reviewList);
 		map.put("pagination", pagination);
-
-		// 리뷰 리스트 조회
+		
 		return map;
 	}
 
