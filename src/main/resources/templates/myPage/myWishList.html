@@ -35,12 +35,31 @@
                         </div>
                     </div>
 
+                    <!-- 전체 선택 체크박스 추가 -->
+                    <div class="wishlist-controls gap-1">
+                        <label class="checkbox-wrapper offset-10">
+                            <input type="checkbox" id="selectAll" class="select-all">
+                            <span>전체 선택</span>
+                        </label>
+                        <button type="button" id="deleteSelected" class="delete-btn" disabled>
+                            <i class="fas fa-trash"></i> 찜 목록 삭제
+                        </button>
+                    </div>
                     <!-- 컨텐츠 영역 -->
                     <div class="wishlist-grid">
+
                         <div th:each="item : ${wishList}" class="wishlist-item">
+                            <!-- 체크박스 추가 -->
+                            <div class="checkbox-wrapper-39">
+                                <label> 
+                                    <input type="checkbox" class="wish-checkbox" th:data-book-no="${item.bookNo}">
+                                    <span class="checkbox"></span>
+                                </label>
+                            </div>
+
                             <a th:href="@{/searchBookPage/bookDetail/{bookNo}(bookNo=${item.bookNo})}"
                                 class="wishlist-summary">
-                                
+
                                 <div class="book-title-wrapper">
                                     <div class="book-title" th:text="${item.bookTitle}">책 제목</div>
                                     <i class="fas fa-heart book-heart"></i>
@@ -61,17 +80,32 @@
 
                     </div>
                     <!-- 페이지네이션 -->
-                    <div class="pagination" th:if="${!#lists.isEmpty(wishList)}">
-                        <a href="#" th:if="${currentPage > 1}"
-                            th:href="@{/myPage/myWishList(page=${currentPage-1})}" class="page-link">&laquo;</a>
+                    <div class="pagination gap-1" th:if="${!#lists.isEmpty(wishList)}">
+                        <!-- 첫 페이지 버튼 - 항상 활성화 -->
+                        <a th:href="@{/myPage/myWishList(page=1)}" class="page-link">&laquo;&laquo;</a>
 
-                        <th:block th:each="pageNum : ${#numbers.sequence(1, totalPages)}">
-                            <a th:href="@{/myPage/myWishList(page=${pageNum})}" th:text="${pageNum}"
-                                th:class="${pageNum == currentPage ? 'page-link active' : 'page-link'}">1</a>
+                        <!-- 이전 버튼 -->
+                        <a th:href="${currentPage > 1} ? @{/myPage/myWishList(page=${currentPage-1})} : '#'"
+                            th:class="${currentPage <= 1 ? 'page-link disabled' : 'page-link'}">&laquo;</a>
+
+                        <!-- 페이지 그룹 계산 -->
+                        <th:block
+                            th:with="
+                            startPage=${((currentPage-1)/10)*10 + 1},
+                            endPage=${((totalPages == 0) ? 1 : (startPage + 9 < totalPages ? startPage + 9 : totalPages))}">
+
+                            <th:block th:each="pageNum : ${#numbers.sequence(startPage, endPage)}">
+                                <a th:href="@{/myPage/myWishList(page=${pageNum})}" th:text="${pageNum}"
+                                    th:class="${pageNum == currentPage ? 'page-link active' : 'page-link'}">1</a>
+                            </th:block>
                         </th:block>
 
-                        <a href="#" th:if="${currentPage < totalPages}"
-                            th:href="@{/myPage/myWishList(page=${currentPage+1})}" class="page-link">&raquo;</a>
+                        <!-- 다음 버튼 -->
+                        <a th:href="${currentPage < totalPages} ? @{/myPage/myWishList(page=${currentPage+1})} : '#'"
+                            th:class="${currentPage >= totalPages ? 'page-link disabled' : 'page-link'}">&raquo;</a>
+
+                        <!-- 마지막 페이지 버튼 - 항상 활성화 -->
+                        <a th:href="@{/myPage/myWishList(page=${totalPages})}" class="page-link">&raquo;&raquo;</a>
                     </div>
                 </div>
             </section>

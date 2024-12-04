@@ -83,4 +83,16 @@ public interface MemberMapper {
 	int updatePassword(
 			@Param("memberId") String memberId, 
 			@Param("encPw") String encPw);
+
+
+	
+	/** 찜 삭제
+	 * @param memberNo
+	 * @param bookNoList
+	 */
+	void deleteWishlist(
+			@Param("memberNo") int memberNo, 
+			@Param("bookNoList") List<Integer> bookNoList);
+
+
 }

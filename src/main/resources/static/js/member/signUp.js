@@ -448,9 +448,7 @@ function toggleSubmitButton() {
             if (data.status === 'success') { // 인증 코드 요청 성공시
               // 3분(180초) 타이머 시작
               startTimer(179);
-              alert(`인증 코드가 전송되었습니다: ${data.verificationCode}`); // 성공 메시지와 인증 코드 출력
-
-
+              alert(`${data.telNo} 인증 코드가 전송되었습니다: ${data.verificationCode}`); // 성공 메시지와 인증 코드 출력
               if (phoneCheckInput) phoneCheckInput.value = data.verificationCode;
               if (phoneCheckBtn) phoneCheckBtn.style.display = 'none';
               document.getElementById('verificationSection').style.display = 'flex'; // 인증번호 입력 섹션을 화면에 표시
@@ -490,14 +488,12 @@ function toggleSubmitButton() {
           }
           ) // 서버의 응답을 텍스트 형태로 처리
           .then(data => {
-            if (data.status === 'success') {
               if (confirm("인증이 성공했습니다. 해당 번호로 가입을 진행하시겠습니까?")) {
                 // 타이머 중지
                 if (timerInterval) {
                   clearInterval(timerInterval);
                   document.getElementById('timer').textContent = '인증완료';
                 }
-
                 phoneInput.setAttribute('readonly', 'readonly'); // 전화번호 입력 필드 비활성화
                 if (phoneClearBtn) phoneClearBtn.style.display = 'none';
                 document.getElementById('verificationSection').style.display = 'none'; // 인증번호 입력 섹션 숨기기
@@ -505,15 +501,14 @@ function toggleSubmitButton() {
                 isPhoneVerified = true; // 인증 성공 시 인증 상태를 true로 변경
                 phoneChangeBtn.style.display = 'inline-block'; // 전화번호 변경 버튼을 화면에 표시
                 toggleSubmitButton();
-              }
-            } else {
-              document.getElementById('verificationSection').style.display = 'none';
-              // 타이머 중지
-              if (timerInterval) {
-                clearInterval(timerInterval);
-              }
-              clearInput('telNo');
-              phoneInput.focus();
+              } else {
+                document.getElementById('verificationSection').style.display = 'none';
+                // 타이머 중지
+                if (timerInterval) {
+                  clearInterval(timerInterval);
+                }
+                clearInput('telNo');
+                phoneInput.focus();
             }
           })
           .catch(error => {

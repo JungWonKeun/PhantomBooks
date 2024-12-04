@@ -105,9 +105,15 @@ public class MyPageController {
 	    // 전체 구매 내역 가져오기
 	    List<OrderBookDto> allBuyList = service.buyList(memberNo);
 	    
+	    // totalPrice 합계 계산
+	    int totalPriceSum = 0;
+	    for (OrderBookDto order : allBuyList) {
+	        totalPriceSum += order.getTotalPrice();
+	    }
+	    
 	    // 페이징 처리
 	    int totalItems = allBuyList.size();
-	    int itemsPerPage = 5;
+	    int itemsPerPage = 8;
 	    int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
 	    
 	    // 현재 페이지에 해당하는 아이템만 추출
@@ -115,6 +121,9 @@ public class MyPageController {
 	    int end = Math.min(start + itemsPerPage, totalItems);
 	    List<OrderBookDto> pagedBuyList = allBuyList.subList(start, end);
 	    
+	    
+	    // 모델에 추가
+	    model.addAttribute("totalPriceSum", totalPriceSum);
 	    model.addAttribute("buyList", pagedBuyList);
 	    model.addAttribute("currentPage", page);
 	    model.addAttribute("totalPages", totalPages);
@@ -183,7 +192,7 @@ public class MyPageController {
 	    
 	    // 페이징 처리
 	    int totalItems = writeReview.size();
-	    int itemsPerPage = 8;
+	    int itemsPerPage = 4;
 	    int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
 	    
 	    // 현재 페이지에 해당하는 아이템만 추출

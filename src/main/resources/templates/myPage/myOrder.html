@@ -25,9 +25,8 @@
                         <div class="title-area">
                             <h1 class="welcome-title">내 구매내역</h1>
                             <div class="user-info">
-                                <div class="order-total-price">
-                                    총 구매 금액 : 
-                                    <span id="orderTotalPrice">0원</span>
+                                <div class="order-total-price"
+                                    th:text="|총 결제 금액: ${#numbers.formatInteger(totalPriceSum, 0, 'COMMA')}원|">
                                 </div>
                                 <i class="fas fa-user"></i>
                                 <span th:text="${session.loginMember?.name}">사용자명</span>
@@ -37,7 +36,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
 
                     <!-- 주문 목록 -->
@@ -51,25 +50,39 @@
                                         class="book-count"> 총 2권</span>
                                 </div>
                                 <div class="order-price">
-                                    <span
-                                        th:text="${#numbers.formatInteger(purchase.totalPrice, 0, 'COMMA')}"
+                                    <span th:text="${#numbers.formatInteger(purchase.totalPrice, 0, 'COMMA')}"
                                         class="total-price">32,000</span>원
                                 </div>
                             </a>
                         </div>
 
                         <!-- 페이지네이션 -->
-                        <div class="pagination" th:if="${!#lists.isEmpty(buyList)}">
-                            <a href="#" th:if="${currentPage > 1}" th:href="@{/myPage/myOrder(page=${currentPage-1})}"
-                                class="page-link" style="padding: 0px;">&laquo;</a>
+                        <div class="pagination gap-1" th:if="${!#lists.isEmpty(buyList)}">
+                            <!-- 첫 페이지 버튼 - 항상 활성화 -->
+                            <a th:href="@{/myPage/myOrder(page=1)}" class="page-link">&laquo;&laquo;</a>
 
-                            <th:block th:each="pageNum : ${#numbers.sequence(1, totalPages)}">
-                                <a th:href="@{/myPage/myOrder(page=${pageNum})}" th:text="${pageNum}"
-                                    th:class="${pageNum == currentPage ? 'page-link active' : 'page-link'}">1</a>
+                            <!-- 이전 버튼 -->
+                            <a th:href="${currentPage > 1} ? @{/myPage/myOrder(page=${currentPage-1})} : '#'"
+                                th:class="${currentPage <= 1 ? 'page-link disabled' : 'page-link'}">&laquo;</a>
+
+                            <!-- 페이지 그룹 계산 -->
+                            <th:block th:with="
+                                startPage=${((currentPage-1)/10)*10 + 1},
+                                endPage=${((totalPages == 0) ? 1 : (startPage + 9 < totalPages ? startPage + 9 : totalPages))}">
+                                
+                                <th:block th:each="pageNum : ${#numbers.sequence(startPage, endPage)}">
+                                    <a th:href="@{/myPage/myOrder(page=${pageNum})}" 
+                                       th:text="${pageNum}"
+                                       th:class="${pageNum == currentPage ? 'page-link active' : 'page-link'}">1</a>
+                                </th:block>
                             </th:block>
 
-                            <a href="#" th:if="${currentPage < totalPages}"
-                                th:href="@{/myPage/myOrder(page=${currentPage+1})}" class="page-link">&raquo;</a>
+                            <!-- 다음 버튼 -->
+                            <a th:href="${currentPage < totalPages} ? @{/myPage/myOrder(page=${currentPage+1})} : '#'"
+                                th:class="${currentPage >= totalPages ? 'page-link disabled' : 'page-link'}">&raquo;</a>
+
+                            <!-- 마지막 페이지 버튼 - 항상 활성화 -->
+                            <a th:href="@{/myPage/myOrder(page=${totalPages})}" class="page-link">&raquo;&raquo;</a>
                         </div>
                     </div>
                 </div>
@@ -79,7 +92,7 @@
 
     <footer th:replace="~{common/footer :: footer}"></footer>
     <script src="/js/myPage/myOrder.js"></script>
-   
+
 </body>
 
 </html>

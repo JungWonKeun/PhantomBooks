@@ -207,8 +207,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 2; /* 최대 2줄 표시 */
     -webkit-box-orient: vertical;
+    min-height: 4.8em;
 }
 
 /* 페이지네이션 */
@@ -263,4 +263,172 @@
         padding: 8px 12px;
         font-size: 0.9rem;
     }
+}
+
+.page-link.disabled {
+    pointer-events: none;
+    color: #6c757d;
+    opacity: 0.5;
+}
+
+.wishlist-controls {
+    width: 100%;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.checkbox-wrapper input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.delete-btn {
+    padding: 8px 15px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+}
+
+.delete-btn:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+
+
+.checkbox-wrapper-39 *,
+.checkbox-wrapper-39 *::before,
+.checkbox-wrapper-39 *::after {
+  box-sizing: border-box;
+  margin-left: 1px;
+}
+
+.checkbox-wrapper-39 label {
+  display: block;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}
+
+.checkbox-wrapper-39 input {
+  visibility: hidden;
+  display: none;
+}
+
+.checkbox-wrapper-39 input:checked~.checkbox {
+  transform: rotate(45deg);
+  width: 14px;
+  margin-left: 12px;
+  border-color: #e74c3c;
+  border-top-color: transparent;
+  border-left-color: transparent;
+  border-radius: 0;
+}
+
+.checkbox-wrapper-39 .checkbox {
+  display: block;
+  width: inherit;
+  height: inherit;
+  border: 3px solid #434343;
+  border-radius: 6px;
+  transition: all 0.3s;
+}
+
+/* 전체 선택 체크박스 스타일 개선 */
+.wishlist-controls {
+    background-color: #ffffff;
+    border: 1px solid #e9ecef;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.checkbox-wrapper {
+    position: relative;
+    padding-left: 35px;
+    font-size: 1rem;
+    color: #495057;
+    user-select: none;
+}
+
+.checkbox-wrapper input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkbox-wrapper .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 22px;
+    width: 22px;
+    background-color: #fff;
+    border: 2px solid #205375;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.checkbox-wrapper:hover input ~ .checkmark {
+    background-color: #f8f9fa;
+}
+
+.checkbox-wrapper input:checked ~ .checkmark {
+    background-color: #205375;
+}
+
+.checkbox-wrapper .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 7px;
+    top: 3px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.checkbox-wrapper input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* 체크박스 중간 상태 (indeterminate) 스타일 */
+.checkbox-wrapper input:indeterminate ~ .checkmark {
+    background-color: #205375;
+    opacity: 0.7;
+}
+
+.checkbox-wrapper input:indeterminate ~ .checkmark:after {
+    display: block;
+    left: 4px;
+    top: 9px;
+    width: 12px;
+    height: 2px;
+    border: 0;
+    background-color: white;
+    transform: none;
 }

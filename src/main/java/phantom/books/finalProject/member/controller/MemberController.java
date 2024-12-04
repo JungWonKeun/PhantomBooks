@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -110,6 +112,23 @@ public class MemberController {
 	    return "redirect:/"; // 홈 페이지로 리다이렉트
 	}
 
+	
+	@ResponseBody
+	@DeleteMapping("/deleteWishlist")
+	public ResponseEntity<String> deleteWishlist(
+	    @SessionAttribute("loginMember") Member loginMember,
+	    @RequestBody List<Integer> bookNoList) {
+		
+			Integer memberNo = loginMember.getMemberNo();
+
+	    if (memberNo == null || bookNoList == null || bookNoList.isEmpty()) {
+	        return ResponseEntity.badRequest().body("Invalid request");
+	    }
+
+	    service.deleteWishlist(memberNo, bookNoList);
+	    return ResponseEntity.ok("Wishlist items deleted successfully");
+	}
+
 
 	/**
 	 * 회원 가입 페이지 전환
@@ -178,6 +197,9 @@ public class MemberController {
 		Map<String, String> response = new HashMap<>();
 		response.put("status", "success");
 		response.put("verificationCode", verificationCode);
+		response.put("telNo", telNo);
+		log.debug("verificationCode: {}", verificationCode);
+		log.debug("telNo: {}", telNo);
 
 		// 전화번호와 인증 코드 저장
 		verificationCodes.put(telNo, verificationCode); // 전화번호와 인증 코드 저장
@@ -219,6 +241,8 @@ public class MemberController {
 		String storedCode = verificationCodes.get(telNo); // 저장된 인증 코드 가져오기
 		Long timestamp = verificationTimestamps.get(telNo); // 저장된 발송 시간 가져오기
 
+		log.atInfo().log("telNo: {}, code: {}, storedCode: {}, timestamp: {}", telNo, code, storedCode, timestamp);
+		
 		// 유효 시간 확인
 		if (timestamp != null && (System.currentTimeMillis() - timestamp > CODE_VALIDITY_PERIOD)) {
 			verificationCodes.remove(telNo); // 유효 시간이 지난 인증 코드는 제거
