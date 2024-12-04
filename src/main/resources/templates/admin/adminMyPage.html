@@ -19,21 +19,20 @@
   
    
     <div class="function">
-      
       <!-- 관리자 담당 업무 -->
-      <div class="adminName" th:if= "${session.loginMember}">
-        <div th:text="${session.loginMember.adminName}">
+      <div class="adminName">
+        <div th:if= "${session.loginMember}"
+             th:text="${session.loginMember.adminName}">
           담당
         </div>
       </div>
   
-     <!-- 채팅방 입장 아이콘 -->
-     <div class="chatting">
-      <button id="openPopup">채팅방</button>
+      <!-- 채팅방 입장 아이콘 -->
+      <div class="chatting">
+        <button class="fa-solid fa-paper-plane" id="openPopup"></button>
+      </div>
     </div>
-  </div>
-  <header th:replace="~{admin/adminChatting}"></header>
-
+    <header th:replace="~{admin/adminChatting}"></header>
   </section>
 
 
