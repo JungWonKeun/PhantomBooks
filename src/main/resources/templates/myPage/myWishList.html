@@ -49,13 +49,27 @@
                                 <i class="fas fa-shopping-cart"></i> 장바구니 담기
                             </button>
                             <button type="button" id="deleteSelected" class="delete-btn" disabled>
-                                <i class="fas fa-trash"></i> 찜 목록 삭제
+                                <i class="fas fa-trash"></i>선택 삭제
                             </button>
                         </div>
                     </div>
                     <!-- 컨텐츠 영역 -->
-                    <div class="wishlist-grid">
+                    <div th:if="${#lists.isEmpty(wishList)}" class="no-data-message">
+                        <i class="fas fa-heart-broken"></i>
+                        <p>찜한 도서가 없습니다.</p>
+                        <div class="empty-wishlist-buttons">
+                            <a href="/searchBookPage/searchBooks" class="empty-browse-btn">
+                                <i class="fas fa-search"></i> 도서 둘러보기
+                            </a>
+                            <a href="/cart" class="empty-cart-btn">
+                                <i class="fas fa-shopping-cart"></i> 장바구니로 이동
+                            </a>
+                        </div>
+                    </div>
 
+                    <!-- 찜 목록 그리드는 데이터가 있을 때만 표시 -->
+                    <div th:unless="${#lists.isEmpty(wishList)}" class="wishlist-grid">
+                        <!-- 기존 위시리스트 아이템들 -->
                         <div th:each="item : ${wishList}" class="wishlist-item">
                             <!-- 체크박스 추가 -->
                             <div class="checkbox-wrapper-39">
@@ -72,7 +86,7 @@
 
                                 <div class="book-title-wrapper">
                                     <div class="book-title" th:text="${item.bookTitle}">책 제목</div>
-                                    <i class="fas fa-heart book-heart"></i>
+                                    <i class="fas fa-heart book-heart" th:data-book-no="${item.bookNo}"></i>
                                 </div>
                                 <div class="review-score">
                                     <i class="fas fa-star"></i>

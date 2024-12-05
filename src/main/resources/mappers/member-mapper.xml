@@ -104,6 +104,7 @@
 		SELECT MEMBER_ID
 		FROM "MEMBER"
 		WHERE TEL_NO = #{telNo}
+		AND MEMBER_DEL_FL = 'N'
 	</select>
 
 	<!-- 아이디와 전화번호가 일치하는 회원 확인 -->
@@ -113,6 +114,7 @@
 		WHERE MEMBER_ID =
 		#{memberId}
 		AND TEL_NO = #{telNo}
+		AND MEMBER_DEL_FL = 'N'
 	</select>
 
 	<!-- 아이디가 일치하는 회원 비밀번호 변경 -->

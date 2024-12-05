@@ -39,7 +39,8 @@
 		O.ORDER_NO,
 		O.TOTAL_PRICE,
 		MAX(B.BOOK_TITLE) KEEP
-		(DENSE_RANK FIRST ORDER BY OL.BOOK_COUNT DESC)
+		(DENSE_RANK FIRST ORDER
+		BY OL.BOOK_COUNT DESC)
 		AS
 		BOOK_TITLE,
 		SUM(OL.BOOK_COUNT) AS BOOK_COUNT
@@ -51,7 +52,8 @@
 		O.ORDER_NO = OL.ORDER_NO
 		JOIN
 		BOOK B
-		ON OL.BOOK_NO =
+		ON
+		OL.BOOK_NO =
 		B.BOOK_NO
 		WHERE
 		O.MEMBER_NO = #{memberNo}
@@ -66,11 +68,13 @@
 	<!-- 로그인한 회원의 리뷰 작성 내역 불러오기 -->
 	<select id="writeReview" parameterType="int" resultType="Review">
 		SELECT
-		B.BOOK_NO, B.BOOK_TITLE, R.REVIEW_TITLE, R.REVIEW_CONTENT, R.REVIEW_SCORE
+		B.BOOK_NO, B.BOOK_TITLE, R.REVIEW_TITLE, R.REVIEW_CONTENT,
+		R.REVIEW_SCORE
 		FROM REVIEW R
 		JOIN BOOK B
 		ON R.BOOK_NO = B.BOOK_NO
-		WHERE MEMBER_NO = #{memberNo}
+		WHERE
+		MEMBER_NO = #{memberNo}
 		ORDER BY
 		R.REVIEW_NO DESC
 	</select>
@@ -78,26 +82,30 @@
 	<!-- 로그인한 회원의 찜 목록 불러오기 -->
 	<select id="wishList" parameterType="int" resultType="Book">
 		SELECT
-		B.BOOK_TITLE, B.BOOK_CONTENT, B.BOOK_WRITER, B.BOOK_PRICE, B.BOOK_NO, B.SCORE_AVG
+		B.BOOK_TITLE, B.BOOK_CONTENT, B.BOOK_WRITER, B.BOOK_PRICE, B.BOOK_NO,
+		B.SCORE_AVG
 		FROM WISHLIST W
 		JOIN
 		BOOK B
 		ON W.BOOK_NO = B.BOOK_NO
-		WHERE MEMBER_NO = #{memberNo}
+		WHERE
+		MEMBER_NO = #{memberNo}
 	</select>
 
 	<!-- 로그인한 회원의 문의 내역 불러오기 -->
 	<select id="queryList" parameterType="int" resultType="Query">
-		SELECT QUERY_NO, QUERY_TITLE, QUERY_CONTENT, QUERY_SUBJECT, STATUS
+		SELECT
+		QUERY_NO, QUERY_TITLE, QUERY_CONTENT, QUERY_SUBJECT, STATUS
 		FROM QUERY
 		WHERE MEMBER_NO = #{memberNo}
 		ORDER BY QUERY_NO DESC
-		FETCH FIRST 3 ROWS ONLY
+		FETCH FIRST 3 ROWS
+		ONLY
 	</select>
-	
+
 	<select id="getOrderList" resultType="OrderBookDto">
-	
-	
+
+
 	</select>
 
 	<select id="getCategories" resultType="Category">
@@ -228,5 +236,10 @@
 		MEMBER_NO = #{memberNo}
 	</update>
 
+	<update id="updateMemberDelFl">
+		UPDATE "MEMBER" SET
+		MEMBER_DEL_FL = 'Y'
+		WHERE MEMBER_NO = #{memberNo}
+	</update>
 
 </mapper>

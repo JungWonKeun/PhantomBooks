@@ -58,4 +58,7 @@ public interface MyPageService {
 	// 로그인한 회원의 문의 목록 불러오기
 	List<Query> queryList(int memberNo);
 
+	// 회원 탈퇴
+	boolean withdrawMember(int memberNo, String string);
+
 }

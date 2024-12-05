@@ -418,31 +418,32 @@ a .more-count {
 
 /* 리뷰 아이템 스타일 */
 .review-item {
-    display: block;
-    text-decoration: none !important;
-    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
     background: #f8f9fa;
-    transition: background 0.2s ease;
     border-radius: 8px;
-}
-
-.review-item:last-child {
-    margin-bottom: 0;
+    margin-bottom: 0.4rem;
+    transition: background 0.2s ease;
+    text-decoration: none;
+    color: inherit;
+    width: 107%;
+    margin-top: 10px;
 }
 
 .review-book-title-area {
     display: flex;
-    justify-content: space-between; /* 제목은 왼쪽, 별점은 오른쪽 */
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 0.5rem;
 }
 
 .review-book-title {
+    font-size: 1.2rem;
     font-weight: 600;
     color: #333;
-    font-size: 1.2rem;
-    flex-grow: 1; /* 제목이 남은 공간을 채우도록 설정 */
-    text-align: left; /* 제목을 왼쪽 정렬 */
+    flex-grow: 1;
+    text-align: left;
 }
 
 .review-score {

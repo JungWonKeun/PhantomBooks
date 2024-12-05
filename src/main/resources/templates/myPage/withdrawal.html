@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회원 탈퇴 | Phantom Books</title>
+  <link rel="stylesheet" href="/css/myPage/withdrawal.css">
+</head>
+
+<body>
+  <div th:replace="~{common/common}"></div>
+
+  <main class="withdrawal-container">
+    <div th:replace="~{common/myPageSide-menu}"></div>
+
+    <div class="mainContent">
+      <section class="content-box">
+        <div class="right-content">
+          <!-- 헤더 영역 -->
+          <div class="mypage-header">
+            <div class="title-area">
+              <h1 class="welcome-title">회원 탈퇴</h1>
+              <div class="user-info">
+                <i class="fas fa-user"></i>
+                <span th:text="${session.loginMember?.name}">사용자명</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 경고 메시지 -->
+          <div class="warning-box">
+            <i class="fas fa-exclamation-triangle"></i>
+            <h2>회원 탈퇴 시 유의사항</h2>
+            <ul>
+              <li>회원 탈퇴 신청 후 1년 동안 계정이 비활성화되며, 이후 완전히 삭제됩니다.</li>
+              <li>탈퇴 신청 취소는 불가합니다.</li>
+              <li>개인정보는 관련 법령에 따라 탈퇴 후 5년간 보관됩니다.</li>
+              <li>작성하신 리뷰, 문의 내역은 삭제되지 않습니다.</li>
+              <li>진행 중인 주문이 있는 경우 탈퇴가 제한될 수 있습니다.</li>
+              <li>탈퇴 후 동일한 아이디로 재가입이 불가합니다.</li>
+            </ul>
+          </div>
+
+          <!-- 탈퇴 버튼 -->
+          <div class="button-container">
+            <button type="button" class="withdrawal-btn" onclick="confirmWithdrawal()">
+              회원 탈퇴
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer th:replace="~{common/footer :: footer}"></footer>
+
+  <!-- 모달 추가 -->
+  <div id="withdrawalModal" class="modal">
+    <div class="modal-content">
+      <h3>회원 탈퇴 확인</h3>
+      <p>탈퇴를 진행하시려면 아래 정보를 입력해주세요.</p>
+      
+      <div class="password-section">
+        <label for="password">비밀번호 확인</label>
+        <input type="password" id="password" required placeholder="비밀번호를 입력해주세요." autocomplete="off">
+      </div>
+
+      <div class="signature-section">
+        <label>서명</label>
+        <p class="signature-guide">아래 공간에 서명해주세요.</p>
+        <canvas id="signatureCanvas"></canvas>
+        <div class="signature-buttons">
+          <button type="button" id="clearSignature">다시 쓰기</button>
+        </div>
+      </div>
+
+      <div class="modal-buttons">
+        <button type="button" id="confirmWithdrawal" class="confirm-btn">탈퇴하기</button>
+        <button type="button" id="cancelWithdrawal" class="cancel-btn">취소</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/myPage/withdrawal.js"></script>
+</body>
+
+</html>
