@@ -43,12 +43,12 @@ public class AdminNewBookController {
 		map = service.newBookList(cp, key);
 		
 		Pagination pagination = (Pagination)map.get("pagination");
-		List<Request> requestList = (List<Request>)map.get("newBookList");
-		log.debug("requestList : {}", requestList);
+		List<Request> newBookList = (List<Request>)map.get("newBookList");
+		log.debug("newBookList : {}", newBookList);
 
 		model.addAttribute("loginMember", loginMember);
 		model.addAttribute("pagination", pagination);
-		model.addAttribute("requestList", requestList);
+		model.addAttribute("newBookList", newBookList);
 		
 		
 		return "admin/adminNewBook";
