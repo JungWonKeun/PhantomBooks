@@ -222,7 +222,7 @@
         </div>
         
         <div class="book-item-image">
-          <img th:src="${book.bookCover != null ? book.bookCover : '/images/bookCover/default.jpg'}" alt="책 이미지">
+         <a th:href="@{/searchBookPage/bookDetail/{bookNo}(bookNo=${book.bookNo})}"> <img th:src="${book.bookCover != null ? book.bookCover : '/images/bookCover/default.jpg'}" alt="책 이미지"></a>
         </div>
         <a th:href="@{/searchBookPage/bookDetail/{bookNo}(bookNo=${book.bookNo})}" class="bookItemAtag">
           <div class="book-item-details">
