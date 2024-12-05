@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -75,61 +76,67 @@
           </ul>
         </h3>
       </div>
-  
-  
-    <div class="content">
-      <div style="font-weight: 600; font-size: 2.0rem;">내 정보 변경</div>
-      
-      <form action="/admin/adminManager/updateAdmin" method="POST" name="inputAdmin" id="info-box" class="info-box needs-validation" style="width: 50%;" novalidate>
-        <div class="infoChangeArea">
-          <!-- 비밀번호 입력, 요청사항 -->
-          <div class="red col-1"> * 필수&nbsp;&nbsp; </div>
-          <div>
-            <label for="memberPw">비밀번호</label>
-            <input type="password" class="form-control" id="memberPw" name="memberPw" placeholder="" maxlength="12" autocomplete="off" required>
-            <span id="pwMessage">비밀번호를 입력해주세요. </span>
+
+
+      <div class="content">
+        <div style="font-weight: 600; font-size: 2.0rem;">내 정보 변경</div>
+
+        <form action="/admin/adminManager/updateAdmin" method="POST" name="inputAdmin" id="info-box"
+          class="info-box needs-validation" style="width: 50%;" novalidate>
+          <div class="infoChangeArea">
+            <!-- 비밀번호 입력, 요청사항 -->
+            <div class="red col-1"> * 필수&nbsp;&nbsp; </div>
+            <div>
+              <label for="memberPw">비밀번호</label>
+              <input type="password" class="form-control" id="memberPw" name="memberPw" placeholder="" maxlength="12"
+                autocomplete="off" required>
+              <span id="pwMessage">비밀번호를 입력해주세요. </span>
+            </div>
+            <br>
+
+            <!-- 비밀번호 확인 입력 -->
+            <div class="red col-1"> * 필수&nbsp;&nbsp; </div>
+            <div>
+              <label for="pwCheck">비밀번호 확인</label>
+              <input type="password" class="form-control" id="pwCheck" name="pwCheck" placeholder="" maxlength="12"
+                autocomplete="off" required><br>
+            </div>
+
+            <div>
+              <label for="adminName">이름(담당업무)</label>
+              <input type="text" class="form-control" id="adminName" name="adminName" placeholder="" maxlength="6"
+                autocomplete="off" required>
+              <div class="invalid-feedback">이름을 입력해주세요.</div><br>
+            </div>
+
+            <div>
+              <label for="adimnEmail">이메일</label>
+              <input type="text" class="form-control" id="adminEmail" name="adminEmail" placeholder=""
+                autocomplete="off" required>
+              <span id="emailMessage">이메일을 입력해주세요.</span>
+
+            </div>
+
+            <button id="updateBtn">변경하기</button>
           </div>
-          <br>
-  
-          <!-- 비밀번호 확인 입력 -->
-          <div class="red col-1"> * 필수&nbsp;&nbsp; </div>
-          <div>
-            <label for="pwCheck">비밀번호 확인</label>
-            <input type="password" class="form-control" id="pwCheck" name="pwCheck" placeholder="" maxlength="12" autocomplete="off" required><br>
-          </div>
-  
-          <div>
-            <label for="adminName">이름(담당업무)</label>
-            <input type="text" class="form-control" id="adminName" name="adminName" placeholder="" maxlength="6" autocomplete="off" required>
-            <div class="invalid-feedback">이름을 입력해주세요.</div><br>
-          </div>
-  
-          <div>
-            <label for="adimnEmail">이메일</label>
-            <input type="text" class="form-control" id="adminEmail" name="adminEmail" placeholder="" autocomplete="off" required>
-            <span id="emailMessage">이메일을 입력해주세요.</span>
+        </form>
+      </div>
+    </section>
 
-          </div>
-    
-          <button id="updateBtn">변경하기</button>
-        </div>
-      </form>
-    </div>
-  </section>
 
-  
 
-<script src="/js/admin/adminMyPage.js"></script>
+    <script src="/js/admin/adminMyPage.js"></script>
 
-<script th:inline="javaScript">
-  const email = /*[[${session.loginMember.adminEmail}]]*/ "세션에 담긴 로그인한 관리자 이메일";
-  const name = /*[[${session.loginMember.adminName}]]*/ "세션에 담긴 로그인한 관리자 이름";
-  
-  const adminName = document.querySelector("#adminName");
-  adminName.value = name;
+    <script th:inline="javaScript">
+      const email = /*[[${session.loginMember.adminEmail}]]*/ "세션에 담긴 로그인한 관리자 이메일";
+      const name = /*[[${session.loginMember.adminName}]]*/ "세션에 담긴 로그인한 관리자 이름";
 
-  const adminEmail = document.querySelector("#adminEmail");
-  adminEmail.value = email;
-</script>
+      const adminName = document.querySelector("#adminName");
+      adminName.value = name;
+
+      const adminEmail = document.querySelector("#adminEmail");
+      adminEmail.value = email;
+    </script>
 </body>
+
 </html>
