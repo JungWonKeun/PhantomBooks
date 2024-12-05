@@ -163,49 +163,72 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // 선택한 상품 주문 버튼 클릭 시
-  orderButton.addEventListener('click', () => {
-    const selectedItems = [];
-    document.querySelectorAll('.cartTable tbody tr').forEach((row) => {
-      const checkbox = row.querySelector('input[type="checkbox"]');
-      const bookNo = row.querySelector('.delete-btn').getAttribute('data-id');
-      const bookCover = row.querySelector('td:nth-child(2) img').getAttribute('src');
-      const bookTitle = row.querySelector('td:nth-child(3)').innerText;
-      const quantity = parseInt(row.querySelector('.quantity-input').value, 10);
-      const price = parseInt(row.querySelector('.book-price').getAttribute('data-price'), 10);
+  orderButton.addEventListener('click', async () => {
+    try {
+      // 선택된 상품 확인
+      const selectedItems = [];
+      document.querySelectorAll('.cartTable tbody tr').forEach((row) => {
+        const checkbox = row.querySelector('input[type="checkbox"]');
+        if (!checkbox.checked) return;
 
-      if (checkbox.checked && bookNo && quantity > 0) {
-        selectedItems.push({
-          bookNo: parseInt(bookNo),
-          bookTitle,
-          bookCover,
-          cartCount: quantity,
-          bookPrice: price,
-          totalPrice: price * quantity,
-        });
-      }
-    });
+        const bookNo = row.querySelector('.delete-btn').getAttribute('data-id');
+        const bookCover = row.querySelector('td:nth-child(2) img').getAttribute('src');
+        const bookTitle = row.querySelector('td:nth-child(3)').innerText;
+        const quantity = parseInt(row.querySelector('.quantity-input').value, 10);
+        const price = parseInt(row.querySelector('.book-price').getAttribute('data-price'), 10);
 
-    if (selectedItems.length === 0) {
-      alert('주문할 상품을 선택하세요.');
-      return;
-    }
-
-    fetch('/cart/selectOrder', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(selectedItems),
-    })
-      .then((response) => {
-        if (response.ok) {
-          window.location.href = '/order';
-        } else {
-          alert('주문 처리 중 문제가 발생했습니다.');
+        if (bookNo && quantity > 0) {
+          selectedItems.push({
+            bookNo: parseInt(bookNo),
+            bookTitle,
+            bookCover,
+            cartCount: quantity,
+            bookPrice: price,
+            totalPrice: price * quantity,
+          });
         }
-      })
-      .catch((error) => {
-        console.error('주문 요청 중 오류 발생:', error);
-        alert('주문 요청 중 오류가 발생했습니다.');
       });
+
+      if (selectedItems.length === 0) {
+        alert('주문할 상품을 선택하세요.');
+        return;
+      }
+
+      // 서버로 데이터 전송
+      const response = await fetch('/cart/selectOrder', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(selectedItems),
+        credentials: 'include'  // 쿠키 포함
+      });
+
+      // 응답 상태 확인
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`서버 오류: ${errorText}`);
+      }
+
+      // 응답 처리
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        const result = await response.json();
+        if (result.success) {
+          location.href = '/order';  // window.location.href 대신 location.href 사용
+        } else {
+          throw new Error(result.message || '주문 처리 실패');
+        }
+      } else {
+        // JSON이 아닌 경우 직접 리다이렉트
+        location.href = '/order';
+      }
+
+    } catch (error) {
+      console.error('주문 처리 오류:', error);
+      alert(`주문 처리 중 오류가 발생했습니다.\n${error.message}`);
+    }
   });
 
   // 추천 도서 슬라이더 관련 코드
