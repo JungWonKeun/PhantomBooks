@@ -39,7 +39,7 @@
       <div class="checkbox-categoryList">
         <div class="myCategoryBringingIn">
           <label>
-            <button id="myCategoryBringingInBtn" th:if="${session.loginMember != null}"> 내 카테고리 불러오기</button>
+            <button id="myCategoryBringingInBtn"> 내 카테고리 불러오기</button>
             <button id="catBtnAllCancel" hidden>전체 선택 취소</button>
           </label>
         </div>
@@ -209,8 +209,9 @@
 
 
         <div class="check-toGo">
-          <label class="allCheck">
-            <button type="button" id="selectAllButton" th:if="${session.loginMember != null}"><i
+          <label class="allCheck"
+          th:if="${session.loginMember != null}">
+            <button type="button" id="selectAllButton" ><i
                 class="fas fa-check-square"></i> 전체선택</button>
           </label>
           <label class="check-bagButton">
