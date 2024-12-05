@@ -49,6 +49,7 @@ insertBtn?.addEventListener("click", () => {
 
   // 팝업 나타나게 하기
   addPopupLayer.classList.remove("popup-layer-close");
+  addPopupLayer.style.display = "block";
   title.focus();
   const addNoticeBtn = document.querySelector("#addNoticeBtn");
   const back = document.querySelector("#back");
@@ -104,6 +105,7 @@ insertBtn?.addEventListener("click", () => {
 
     // 팝업 숨기기
     addPopupLayer.classList.add("popup-layer-close");
+    addPopupLayer.style.display = "none";
   })
 
 });
