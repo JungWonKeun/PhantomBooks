@@ -7,6 +7,17 @@ document.querySelectorAll('.menu').forEach(menu => {
   });
 });
 
+const openPopupButton = document.getElementById("chatting");
+// 팝업 열기
+openPopupButton.addEventListener("click", () => {
+  window.open(
+    "/admin/chatting",  // 팝업으로 열고 싶은 페이지나 URL
+    "관리자 채팅창",  // 새 창의 이름
+    "width=450,height=750,scrollbars=yes,resizable=yes"
+  );
+});
+
+
 // 리스트 조회
 const listUp = (cp, sort, title) => {
   fetch("/admin/review/reviewList?cp="+cp+"&sort="+sort+"&title="+title)
