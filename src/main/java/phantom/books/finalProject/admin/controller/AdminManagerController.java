@@ -90,6 +90,7 @@ public class AdminManagerController {
 		return path;
 	}
 	
+
 	@GetMapping("logout")
 	@ResponseBody
 	public String logout(SessionStatus status, HttpSession session) {
@@ -103,4 +104,5 @@ public class AdminManagerController {
 		
 		return "redirect:/"; 
 	}
+
 }

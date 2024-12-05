@@ -127,28 +127,17 @@ week.addEventListener("click", () => {
 
   listUp(1, sortSelect.value, term);
 
-  if(myChart != null){
-    myChart.destroy();
-  }
-
   chartData(1, sortSelect.value, term);
 });
 month.addEventListener("click", () => {
   term = "month";
   listUp(1, sortSelect.value, term);
   
-  if(myChart != null){
-    myChart.destroy();
-  }
-  
   chartData(1, sortSelect.value, term);
 });
 sixMonth.addEventListener("click", () => {
   term = "6month";
 
-  if(myChart !== null){
-    myChart.destroy();
-  }
   chartData(1, sortSelect.value, term);
 
   listUp(1, sortSelect.value, term);
@@ -162,9 +151,6 @@ dateSelect.addEventListener("click", () => {
 
     term = "dateSelect";
     
-    if(myChart !== null){
-      myChart.destroy();
-    }
     chartData(1, sortSelect.value, term, date.value);
 
     listUp(1, sortSelect.value, term, date.value);
@@ -173,7 +159,9 @@ dateSelect.addEventListener("click", () => {
 
 
 const sortSelect = document.querySelector('#sortSelect');
-const text = document.querySelector(".text");
+const searchText = document.querySelector(".text");
+
+let text = '';
 
 sortSelect.addEventListener("change", () => {
   const selectedSort = sortSelect.value;
@@ -181,32 +169,56 @@ sortSelect.addEventListener("change", () => {
   term = '';
 
   buttons.forEach(button => button.classList.remove('active')); 
-  text.value = '';
-  text.classList.add('hidden');
+  searchText.value = '';
+  searchText.classList.add('hidden');
 
   if (selectedSort === 'sales') {
     termSelect.classList.remove('hidden');
-    text.classList.add("hidden");
+    searchText.classList.add("hidden");
 
-    if(myChart !== null){
-      myChart.destroy();
-    }
-  
-    chartData(1, selectedSort, termSelect.value, text.value);
+    chartData(1, selectedSort, termSelect.value, date.value);
 
-    listUp(1, selectedSort, term.value, date.value, text.value);
-  } else if (selectedSort === 'company') {
+    listUp(1, selectedSort, term.value, date.value);
+  } else{
     termSelect.classList.add('hidden');
-    text.classList.remove("hidden");
-    
-    listUp(1, selectedSort, term.value, date.value, text.value);
-    if(myChart !== null){
-      myChart.destroy();
-    }
-    chartData(1, selectedSort, termSelect.value, text.value);
-  }
+    searchText.classList.remove("hidden");
 
+    // searchText.addEventListener("input", () => {
+
+    //   text = searchText.value;
+
+    //   listUp(1, selectedSort, term.value, date.value, text);
+      
+    // })
+    // const searchBtn = document.querySelector("#searchBtn");
+
+    // searchBtn.addEventListener("click", () => {
+    //   if(myChart !== null){
+    //     myChart.destroy();
+    //   }
+  
+    //   chartData(1, selectedSort, term.value, date.value, text);
+    // })
+  }
 });
+
+searchText.addEventListener("input", () => {
+  const selectedSort =  sortSelect.value;
+  text = searchText.value;
+
+  listUp(1, selectedSort, term.value, date.value, text);
+  
+})
+
+const searchBtn = document.querySelector("#searchBtn");
+
+searchBtn.addEventListener("click", () => {
+  // if(myChart !== null){
+  //   myChart.destroy();
+  // }
+  const selectedSort =  sortSelect.value;
+  chartData(1, selectedSort, term.value, date.value, text);
+})
 
 
 /**
@@ -241,8 +253,12 @@ const chartData = (cp, sort, term, date, text) => {
 
   fetch("/admin/sales/chartData?cp="+cp+ "&sort=" +sort + "&term=" +term+ "&date=" +date + "&text=" +text)
   .then(response => {if(response.ok) return response.json();})
-  .then(list => {if(!list.length == 0) {
+  .then(list => {if(Array.isArray(list) && list.length != 0) {
     console.log(list);
+    
+    if(myChart != null){
+      myChart.destroy();
+    }
     // forEach로 list의 값을 newArray에 추가
     list.forEach(chart => {
       orderDate.push(chart.orderDate);
@@ -255,9 +271,6 @@ const chartData = (cp, sort, term, date, text) => {
     console.log(orderPrice);
     console.log(requestPrice);
 
-    if(myChart != null){
-      myChart.destroy();
-    }
 
     myChart = new Chart(document.querySelector("#myChart").getContext('2d'), {
       type: 'bar', // 기본 차트 유형

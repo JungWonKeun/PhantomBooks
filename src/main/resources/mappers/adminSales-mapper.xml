@@ -103,7 +103,10 @@
 		 		WHERE ORDER_DATE >= #{date}
 		 	</when>
 		 	<when test="sort == 'company'">
-				 WHERE COMPANY_NAME LIKE '%'||#{text}||'%'
+		 		WHERE BOOK_NO IN (
+		 			SELECT BOOK_NO FROM BOOK 
+		 			WHERE COMPANY_NAME LIKE '%'||#{text}||'%'
+		 		)
 		 	</when>
 		 </choose>
 		GROUP BY 

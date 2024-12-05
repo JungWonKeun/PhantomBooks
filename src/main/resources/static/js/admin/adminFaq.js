@@ -1,3 +1,5 @@
+const sortSelect = document.querySelector(".sortSelect");
+
 /* 사이드바 열고 닫기 */
 document.querySelectorAll('.menu').forEach(menu => {
   menu.addEventListener('click', function () {
@@ -79,6 +81,7 @@ insertBtn?.addEventListener("click", () => {
 
     // 팝업 숨기기
     addPopupLayer.classList.add("popup-layer-close");
+    listUp(1, sortSelect.value);
   })
 
 });
@@ -102,6 +105,7 @@ updateBtn.forEach((button) => {
       if(result > 0) {
         console.log(faqId);
         location.reload();
+        listUp(1, sortSelect.value);
       }
     })
   })
@@ -122,6 +126,7 @@ deleteBtn.forEach((button) => {
         if(result>0){
           alert(`${faqId}를 삭제하였습니다. `);
           location.reload();
+          listUp(1, sortSelect.value);
         }
       })
     }
@@ -211,39 +216,103 @@ pageNoList?.forEach( (item, index) => {
   })
 })();
 
-// 전체 선택 버튼
-const allSelectBtn = document.querySelector("#allSelectBtn");
-const selectFaqs = document.querySelectorAll("#selectFaq"); // 여러 개의 체크박스를 선택
 
-// 상단 선택 버튼
-const allBtn = document.querySelector("#all");
-const selectUpdateBtn = document.querySelector("#selectUpdate");
-const selectDeleteBtn = document.querySelector("#selectDelete");
+let pagination = null;
 
-allSelectBtn.addEventListener("change", () => {
-
-  // 전체 선택 버튼이 클릭되면 체크박스들의 상태를 반전
-  const allChecked = Array.from(selectFaqs).every(faq => faq.checked); // 모든 체크박스가 선택된 상태인지 확인
-
-  selectFaqs.forEach(faq => {
-    faq.checked = allChecked; // 모든 체크박스가 선택되었으면 해제하고, 그렇지 않으면 모두 선택
-  });
-});
-
-// 전체 선택 해제
-allBtn.addEventListener("click", () => {
-
-  allSelectBtn.checked = false;
-
-  const allChecked = Array.from(selectFaqs).every(faq => faq.checked = false); // 모든 체크박스가 선택된 상태인지 확인
-
-  selectFaqs.forEach(faq => {
-    faq.checked = allChecked; 
-  });
-})
-
-// 선택한 내용 상태 변경
-selectUpdateBtn.addEventListener("click", () => {
+const listUp = (cp, key) => {
   
+  fetch("admin/faq/faqList?cp=" + cp + "&key=" + key)
+  .then(response => { if(response.ok) return response.json() })
+    .then(map => {
+      console.log(map);
+      
+      pagination = map.pagination;
+      const faqList = map.faqList;
+      
+      faqContent.innerHTML = "";
+      faqList.forEach(faq => {
+       
+        
+        if(faq.faqYn == 'Y'){
+          faqContent.innerHTML += 
+          `<tr>  
+            <td>
+              ${faq.faqId}
+            </td>
+            <td>
+              ${faq.title}
+            </td>
+            <td>
+              ${faq.content}
+            </td>
+            <td>
+              노출
+            </td>
+            <td>
+              <button class="updateBtn" value = "${faq.faqId}">
+                노출 상태 변경
+              </button>
+            </td>
+            <td>
+              <button class="deleteBtn" value = "${faq.faqId}">
+                삭제
+              </button>
+            </td>
+          </tr>`;
+        }else{
+          `<tr>  
+            <td>
+              ${faq.faqId}
+            </td>
+            <td>
+              ${faq.title}
+            </td>
+            <td>
+              ${faq.content}
+            </td>
+            <td>
+              비노출
+            </td>
+            <td>
+              <button class="updateBtn" value = "${faq.faqId}">
+                노출 상태 변경
+              </button>
+            </td>
+            <td>
+              <button class="deleteBtn" value = "${faq.faqId}">
+                삭제
+              </button>
+            </td>
+          </tr>`;
+        }
 
+        const deleteBtn = document.querySelectorAll(".deleteBtn");
+
+        deleteBtn.forEach((button) => {
+          button.addEventListener("click", () => {
+            const faqId = button.value;
+
+            const alarm = `${faqId}를 삭제 하시겠습니까?`;
+
+            if(alarm){
+              fetch("/admin/faq?faqId="+faqId, {method:"DELETE"})
+              .then(response => {if(response.ok) return response.text();})
+              .then(result => {
+                if(result>0){
+                  alert(`${faqId}를 삭제하였습니다. `);
+                  location.reload();
+                  listUp(1, sortSelect.value);
+                }
+              })
+            }
+          })
+        })
+    })  
+  })
+}
+
+sortSelect.addEventListener("change", () => {
+  const key = sortSelect.value;
+
+  listUp(1, key);
 })
