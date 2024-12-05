@@ -526,7 +526,8 @@ categoryButton.addEventListener("click", () => {
                 // 전체 선택 취소 버튼 표시 여부 업데이트
                 updateAllCancelButtonVisibility();
             })
-            .catch(error => console.error("Error:", error));
+            .catch(error => console.error("Error:", error)
+        ).then(location.reload(alert("로그인후 이용해 주세요")));
     } else {
         // "해제하기" 상태
         const checkboxes = document.querySelectorAll('.categoryCheckbox');
@@ -647,7 +648,9 @@ preferenceButton.addEventListener("click", () => {
                 // 전체 선택 취소 버튼 표시 여부 업데이트
                 updatePreferenceCancelButtonVisibility();
             })
-            .catch(error => console.error("Error:", error));
+            .catch(error => console.error("Error:", error)
+            ).then(location.reload(alert("로그인후 이용해 주세요")));
+            
     } else {
         // "해제하기" 상태
         const checkboxes = document.querySelectorAll('.preferenceCheckbox');
