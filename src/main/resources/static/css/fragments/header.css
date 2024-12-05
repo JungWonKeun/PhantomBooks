@@ -70,20 +70,20 @@
 .user-menu {
   position: absolute;
   top: 10px;
-  right: 5%;
+  right: 17%;
   display: flex;
   gap: 1.8px;
 }
 
 .user-menu .btn {
-  font-size: 12px;
+  font-size: 12.5px;
   padding: 6px 8px;
   background-color: #205375;
   color: #fff;
   border: none;
   border-radius: 7px;
-  width: 85px;
-  height: 30px;
+  width: 82px;
+  height: 31px;
 }
 
 
