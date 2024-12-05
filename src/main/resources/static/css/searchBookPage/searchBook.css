@@ -86,174 +86,67 @@ button i {
 }
 
 /* 필터 섹션 스타일 */
-/* 필터 사이드바 스타일 - 힙하고 심플한 느낌으로 책의 요소를 강조 */
-/* 필터 사이드바 스타일 - 힙하고 심플한 느낌으로 책의 요소를 강조 */
+.filter-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
 .filter-sidebar {
   position: fixed;
-  top: 80px;
+  top: 100px;
   left: 20px;
-  width: 280px;
-  background: linear-gradient(145deg, #e0f7fa, #f1faff);
-  border: 1px solid #aacfd0;
-  border-radius: 24px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  padding: 25px;
-  z-index: 1000;
-  font-family: 'Merriweather', serif;
-  transition: all 0.4s ease;
-}
-
-.filter-sidebar:hover {
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
-  transform: translateY(-5px);
-}
-
-/* 선택된 카테고리와 취향 팝업 박스 스타일 */
-.selected-popup {
-  margin-bottom: 25px;
+  width: 240px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  background-color: #f0faff;
-  border: 1px solid #aacfd0;
-  border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  font-family: 'Merriweather', serif;
-  transition: background-color 0.4s ease, transform 0.3s ease;
-  position: relative;
+  z-index: 1000;
 }
 
-.selected-popup::before {
-  content: '\1F4D6'; /* 책 아이콘을 강조하여 책의 느낌을 더함 */
-  position: absolute;
-  top: 0;
-  left: 15px;
-  background: #e0f7fa;
-  padding: 5px;
-  border-radius: 50%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  font-size: 1.5rem;
+.selected-popup {
+  margin-bottom: 20px;
 }
 
 .selected-popup h3 {
-  margin-top: 0;
-  font-size: 1.6rem;
-  color: #004d73;
+  font-size: 16px;
   font-weight: bold;
-  text-align: center;
-  text-shadow: 1px 1px 2px #aacfd0;
-}
-
-.selected-popup:hover {
-  background-color: #eaf6f8;
-  transform: scale(1.02);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-}
-
-/* 버튼 스타일 */
-.filter-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  margin-top: 20px;
-  padding: 14px;
-  background: linear-gradient(135deg, #00b4d8, #0096c7);
-  color: #ffffff;
-  border: none;
-  border-radius: 16px;
-  font-size: 1.2rem;
-  font-family: 'Roboto', sans-serif;
-  cursor: pointer;
-  transition: background-color 0.4s ease, transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  color: #205375;
+  margin-bottom: 10px;
   position: relative;
-  overflow: hidden;
+  padding-left: 25px;
 }
 
-.filter-btn::before {
-  content: '';
+.selected-popup h3::before {
+  content: '\1F4D6';
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 300%;
-  height: 300%;
-  background: rgba(255, 255, 255, 0.2);
-  transform: translateX(-100%) translateY(-100%) rotate(45deg);
-  transition: transform 0.5s ease;
+  top: 50%;
+  left: -15px;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: #205375;
 }
 
-.filter-btn:hover::before {
-  transform: translateX(0) translateY(0) rotate(45deg);
+.filter-btn {
+  width: 100%;
+  background-color: #205375;
+  color: white;
+  padding: 10px 15px;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .filter-btn:hover {
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-}
-
-.filter-btn:active {
-  background-color: #0077b6;
-  transform: scale(1);
-}
-
-/* 선택한 값 스타일 */
-.selected-values {
-  margin-top: 20px;
-  padding: 20px;
-  background-color: #e3f2fd;
-  border-radius: 16px;
-  font-size: 1.1rem;
-  color: #004d73;
-  min-height: 70px;
-  font-family: 'Merriweather', serif;
-  line-height: 1.6;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  transition: background-color 0.4s ease;
-  text-align: justify;
-}
-
-.selected-values:hover {
-  background-color: #d4e6f1;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* 미디어 쿼리: 반응형 디자인을 위한 조정 */
-@media (max-width: 768px) {
-  .filter-sidebar {
-    position: static;
-    width: 100%;
-    box-shadow: none;
-    border: none;
-    border-radius: 0;
-    margin-bottom: 20px;
-  }
-
-  .filter-btn {
-    font-size: 1rem;
-    padding: 12px;
-  }
-
-  .selected-popup {
-    padding: 15px;
-  }
-
-  .selected-values {
-    font-size: 1rem;
-  }
-}
-
-/* 전반적인 애니메이션 효과 추가 */
-.filter-sidebar, .selected-popup, .filter-btn, .selected-values {
-  transition: all 0.4s ease;
-}
-
-/* 현대적이면서도 책의 느낌을 강조한 요소 */
-.selected-popup:hover h3 {
-  color: #006494;
-  text-shadow: 2px 2px 3px #b3e0e6;
-}
-
-.filter-sidebar:hover {
-  background: linear-gradient(145deg, #e0f7fa, #f1faff);
+  background-color: rgb(29, 30, 57);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 
@@ -347,7 +240,10 @@ button i {
   accent-color: #333;
 }
 
-#myPreferenceBringingInBtn, #myCategoryBringingInBtn{
+#myPreferenceBringingInBtn,
+#myCategoryBringingInBtn {
+  padding-left: 20px;
+  margin-left: 20px;
   border: 2px solid #205375;
   background-color: white;
   border-radius: 8px;
@@ -357,7 +253,7 @@ button i {
 .search-result-container {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 10px;
 }
 
@@ -381,12 +277,37 @@ button i {
 .check-toGo {
   display: flex;
   align-items: center;
+  margin-left: 100px;
   gap: 10px;
-  margin-left: auto;
 }
 
 
+
 /* 책 아이템 스타일 */
+
+.rankSection2 {
+  display: flex;
+  flex-direction: row; /* 요소들을 수직으로 쌓음 */
+  align-items: center; /* 수평 중앙으로 정렬 */
+  justify-content: center; /* 수직 중앙으로 정렬 */
+  text-align: center; /* 텍스트 중앙 정렬 */
+  margin: 0 auto; /* 좌우 여백을 자동으로 하여 가운데 배치 */
+  padding-top:  -30%;
+  padding-left: -20%;
+  margin-left: -25%;
+}
+
+.stars {
+  position: relative; /* 내부의 절대 위치 요소들이 상대적으로 배치되도록 설정 */
+  display: inline-block; /* 별 모양이 하나의 요소로 배치될 수 있도록 설정 */
+}
+
+.rankTextAvg {
+  margin-top: 10px; /* 평점 텍스트와 별 간의 간격 추가 */
+  font-size: 18px; /* 평점 텍스트 크기를 조정 */
+  color: #333;
+  font-family: 'Pretendard-Regular';
+}
 
 
 .checkbox-wrapper-39 *,
@@ -432,59 +353,114 @@ button i {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+  /* 요소들을 수직으로 상단 정렬 */
   gap: 20px;
   background-color: #ffffff;
   border: 1px solid #ddd;
   border-radius: 8px;
-  padding: 15px;
+  padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   margin-top: 30px;
-  max-height: 270px;
+  width: 100%;
+  /* 가로 너비를 100%로 설정 */
+  box-sizing: border-box;
+  /* 패딩과 보더를 포함하여 전체 크기를 계산 */
+}
+
+.checkbox-wrapper-39 {
+  margin-right: 15px;
+  /* 체크박스와 이미지 사이의 여백 */
+}
+
+.book-item-image {
+  flex-shrink: 0;
+  /* 이미지 크기를 고정하여 줄어들지 않도록 설정 */
 }
 
 .book-item-image img {
   width: 145px;
-  height: auto;
+  height: 220px;
+  /* 일정한 높이 설정 */
+  object-fit: cover;
+  /* 이미지 비율 유지 */
   border-radius: 8px;
+}
+
+.bookTitleAndCategory {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: center;
+  /* 제목과 카테고리를 수직 중앙에 배치 */
 }
 
 .book-item-details {
   display: flex;
   flex-direction: column;
+  gap: 10px;
+}
+
+.bookDetailContentSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   flex-grow: 1;
+  margin-top: 30px;
+  padding-top: 30px;
+  margin-left: 50px;
+  padding-left: 120px;
+  justify-content: center;
+  
+  /* 평점 묶음을 오른쪽으로 이동 */
 }
 
-.book-item-actions i {
-  font-size: 24px;
-  margin-right: 10px;
-  transition: transform 0.2s, color 0.2s;
-
-  border-radius: 8px;
-  padding: 5px;
+.book-item-info>p {
+  margin: 0;
+  color: #333;
+  font-family: 'Pretendard-Regular';
+  font-weight: 600;
+  /* 폰트 두께 약간 증가 */
+  font-size: 22px;
+  /* 폰트 크기를 기존보다 조금 키움 */
+  text-align: center;
+  /* 텍스트를 중앙 정렬 */
 }
 
-.bookItemAtag {
-  text-decoration: none !important;
-  text-decoration-line: none !important;
-}
-
-.book-item-info > p{
-  text-decoration: none;
-  text-decoration-line: none;
+.book-item-info>p {
+  margin: 0;
   color: #333;
   font-family: 'Pretendard-Regular';
   font-weight: 500;
   font-size: 20px;
 }
 
+.book-item-actions {
+  margin-left: auto;
+  /* 액션 버튼을 오른쪽 끝으로 배치 */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 15px;
+  /* 각 아이콘 간의 간격 */
+}
+
+.book-item-actions i {
+  font-size: 24px;
+  transition: transform 0.2s, color 0.2s;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+}
 
 #shoppingCartId {
+  color: #f39c12;
   border: 2px solid #f39c12;
   border-radius: 8px;
 }
 
 #heartId {
+  color: #e74c3c;
   border: 2px solid #e74c3c;
   border-radius: 8px;
 }
@@ -493,13 +469,82 @@ button i {
   transform: scale(1.2);
 }
 
+.perStars {
+  margin-top: 5px;
+  align-self: flex-start;
+  padding-right: 10%;
+  margin-right: 20% ;
+  /* 평점 묶음을 시작 위치에 정렬 */
+}
 
-.perStars > p{
+.perStars p {
   margin: 0;
   text-decoration: none;
-  text-decoration-line: none;
   color: #333;
   font-family: 'Pretendard-Regular';
+}
+
+.bookItemAtag {
+  text-decoration: none !important;
+  /* 밑줄 제거 */
+  color: inherit !important;
+  /* 기본 텍스트 색상 상속 */
+}
+
+a {
+  text-decoration: none;
+  /* 모든 링크에서 밑줄 제거 */
+  color: inherit;
+  /* 부모 요소의 색상 상속 */
+}
+
+.bookTitleAndCategory {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  /* 나머지 공간을 차지하도록 설정 */
+  margin-top: 30px;
+  padding-top: 30px;
+}
+
+.bookDetailContentSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-grow: 1;
+  margin-top: -33px;
+  padding-top: -33px;
+  /* 나머지 공간을 차지 */
+  /* 제목과 세부 정보 간 간격 확보 */
+}
+
+.book-item-details {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  /* 제목과 세부 정보 사이에 공간 배분 */
+  align-items: flex-start;
+  /* 상단 정렬 */
+  width: 100%;
+  gap: 20px;
+  /* 제목과 세부 정보 사이의 간격 */
+}
+
+.book-item-info>p {
+  margin: 0;
+  color: #333;
+  font-family: 'Pretendard-Regular';
+  font-weight: 500;
+  font-size: 20px;
+}
+
+.book-item-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 15px;
+  margin-left: auto;
+  /* 오른쪽 끝으로 배치 */
 }
 
 
@@ -549,12 +594,26 @@ button i {
 }
 
 /* 별점 스타일 */
+
+.rankTextAvg{
+  margin-top: 10px;
+  margin-bottom: 1rem;
+}
+
+.rankTextAvg{
+ 
+  padding: auto;
+  margin: auto;
+
+}
 .stars {
   font-size: 17.8px;
   position: relative;
   width: 100px;
   height: 20px;
   display: flex;
+  margin: auto;
+  padding: auto;
 }
 
 .stars-background,

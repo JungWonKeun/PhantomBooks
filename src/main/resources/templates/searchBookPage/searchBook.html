@@ -42,51 +42,69 @@
             <button id="myCategoryBringingInBtn" th:if="${session.loginMember != null}"> 내 카테고리 불러오기</button>
             <button id="catBtnAllCancel" hidden>전체 선택 취소</button>
           </label>
-          </div>
+        </div>
 
-        <label><input type="checkbox" value="1" th:checked="${param.category != null and param.category.contains('1')}"
+
+        <label>
+          <input type="checkbox" value="1" th:checked="${param.category != null and param.category.contains('1')}"
             class="categoryCheckbox">소설</label>
-        <label><input type="checkbox" value="2" th:checked="${param.category != null and param.category.contains('2')}"
+        <label>
+          <input type="checkbox" value="2" th:checked="${param.category != null and param.category.contains('2')}"
             class="categoryCheckbox">비문학</label>
-        <label><input type="checkbox" value="3" th:checked="${param.category != null and param.category.contains('3')}"
+        <label>
+          <input type="checkbox" value="3" th:checked="${param.category != null and param.category.contains('3')}"
             class="categoryCheckbox">역사</label>
-        <label><input type="checkbox" value="4" th:checked="${param.category != null and param.category.contains('4')}"
+        <label>
+          <input type="checkbox" value="4" th:checked="${param.category != null and param.category.contains('4')}"
             class="categoryCheckbox">과학</label>
-        <label><input type="checkbox" value="5" th:checked="${param.category != null and param.category.contains('5')}"
+        <label>
+          <input type="checkbox" value="5" th:checked="${param.category != null and param.category.contains('5')}"
             class="categoryCheckbox">자기개발</label>
-        <label><input type="checkbox" value="6" th:checked="${param.category != null and param.category.contains('6')}"
+        <label>
+          <input type="checkbox" value="6" th:checked="${param.category != null and param.category.contains('6')}"
             class="categoryCheckbox">판타지</label>
-        <label><input type="checkbox" value="7" th:checked="${param.category != null and param.category.contains('7')}"
+        <label>
+          <input type="checkbox" value="7" th:checked="${param.category != null and param.category.contains('7')}"
             class="categoryCheckbox">미스터리</label>
-        <label><input type="checkbox" value="8" th:checked="${param.category != null and param.category.contains('8')}"
+        <label>
+          <input type="checkbox" value="8" th:checked="${param.category != null and param.category.contains('8')}"
             class="categoryCheckbox">철학</label>
-        <label><input type="checkbox" value="9" th:checked="${param.category != null and param.category.contains('9')}"
+        <label>
+          <input type="checkbox" value="9" th:checked="${param.category != null and param.category.contains('9')}"
             class="categoryCheckbox">문학</label>
-        <label><input type="checkbox" value="10"
-            th:checked="${param.category != null and param.category.contains('10')}" class="categoryCheckbox">예술</label>
-        <label><input type="checkbox" value="11"
-            th:checked="${param.category != null and param.category.contains('11')}" class="categoryCheckbox">고전</label>
-        <label><input type="checkbox" value="12"
-            th:checked="${param.category != null and param.category.contains('12')}"
+        <label>
+          <input type="checkbox" value="10" th:checked="${param.category != null and param.category.contains('10')}"
+            class="categoryCheckbox">예술</label>
+        <label>
+          <input type="checkbox" value="11" th:checked="${param.category != null and param.category.contains('11')}"
+            class="categoryCheckbox">고전</label>
+        <label>
+          <input type="checkbox" value="12" th:checked="${param.category != null and param.category.contains('12')}"
             class="categoryCheckbox">심리학</label>
-        <label><input type="checkbox" value="13"
-            th:checked="${param.category != null and param.category.contains('13')}"
+        <label>
+          <input type="checkbox" value="13" th:checked="${param.category != null and param.category.contains('13')}"
             class="categoryCheckbox">경제경영</label>
-        <label><input type="checkbox" value="14"
-            th:checked="${param.category != null and param.category.contains('14')}" class="categoryCheckbox">정치</label>
-        <label><input type="checkbox" value="15"
-            th:checked="${param.category != null and param.category.contains('15')}" class="categoryCheckbox">여행</label>
-        <label><input type="checkbox" value="16"
-            th:checked="${param.category != null and param.category.contains('16')}" class="categoryCheckbox">수필</label>
-        <label><input type="checkbox" value="17"
-            th:checked="${param.category != null and param.category.contains('17')}" class="categoryCheckbox">종교</label>
-        <label><input type="checkbox" value="18"
-            th:checked="${param.category != null and param.category.contains('18')}" class="categoryCheckbox">교육</label>
-        <label><input type="checkbox" value="19"
-            th:checked="${param.category != null and param.category.contains('19')}"
+        <label>
+          <input type="checkbox" value="14" th:checked="${param.category != null and param.category.contains('14')}"
+            class="categoryCheckbox">정치</label>
+        <label>
+          <input type="checkbox" value="15" th:checked="${param.category != null and param.category.contains('15')}"
+            class="categoryCheckbox">여행</label>
+        <label>
+          <input type="checkbox" value="16" th:checked="${param.category != null and param.category.contains('16')}"
+            class="categoryCheckbox">수필</label>
+        <label>
+          <input type="checkbox" value="17" th:checked="${param.category != null and param.category.contains('17')}"
+            class="categoryCheckbox">종교</label>
+        <label>
+          <input type="checkbox" value="18" th:checked="${param.category != null and param.category.contains('18')}"
+            class="categoryCheckbox">교육</label>
+        <label>
+          <input type="checkbox" value="19" th:checked="${param.category != null and param.category.contains('19')}"
             class="categoryCheckbox">스포츠</label>
-        <label><input type="checkbox" value="20"
-            th:checked="${param.category != null and param.category.contains('20')}" class="categoryCheckbox">요리</label>
+        <label>
+          <input type="checkbox" value="20" th:checked="${param.category != null and param.category.contains('20')}"
+            class="categoryCheckbox">요리</label>
       </div>
     </div>
 
@@ -99,7 +117,7 @@
         <div class="myPreferenceBringingIn">
           <label>
             <button id="myPreferenceBringingInBtn" th:if="${session.loginMember != null}"> 내 취향 불러오기</button>
-            <button id="preBtnAllCancel" hidden>전체 선택 취소</button>    
+            <button id="preBtnAllCancel" hidden>전체 선택 취소</button>
           </label>
         </div>
         <label><input type="checkbox" value="1"
@@ -213,28 +231,49 @@
         data-score-avg="${book.scoreAvg}">
         <div class="checkbox-wrapper-39" th:if="${session.loginMember != null}">
           <label>
-            <input type="checkbox" 
-                   th:value="${book.bookNo}" 
-                   class="book-checkbox" 
-                   id="bookCheckbox"
-                   >
+            <input type="checkbox" th:value="${book.bookNo}" class="book-checkbox" id="bookCheckbox">
             <span class="checkbox"></span>
           </label>
         </div>
-        
-        <div class="book-item-image">
-         <a th:href="@{/searchBookPage/bookDetail/{bookNo}(bookNo=${book.bookNo})}"> <img th:src="${book.bookCover != null ? book.bookCover : '/images/bookCover/default.jpg'}" alt="책 이미지"></a>
-        </div>
-        <a th:href="@{/searchBookPage/bookDetail/{bookNo}(bookNo=${book.bookNo})}" class="bookItemAtag">
-          <div class="book-item-details">
-            <div class="book-item-info">
-              <p>책 제목 : 
-                <span class="book-title" th:text="${book.bookTitle}">책 제목</span><br>
-                카테고리 :
-                <span th:text="${book.categoryName != null ? book.categoryName : 'No Category'}"></span>
-              </p>
 
-              <div class="perStars">
+        <div class="book-item-image">
+          <a th:href="@{/searchBookPage/bookDetail/{bookNo}(bookNo=${book.bookNo})}"> <img
+              th:src="${book.bookCover != null ? book.bookCover : '/images/bookCover/default.jpg'}" alt="책 이미지"></a>
+        </div>
+        <div class="bookTitleAndCategory">
+          <a th:href="@{/searchBookPage/bookDetail/{bookNo}(bookNo=${book.bookNo})}" class="bookItemAtag">
+            <div class="book-item-details">
+              <div class="book-item-info">
+                <p>
+                  <span class="book-title" th:text="${book.bookTitle}">책 제목</span><br>
+                  카테고리 :
+                  <span th:text="${book.categoryName != null ? book.categoryName : 'No Category'}"></span>
+                </p>
+              </div>
+
+              <div class="bookDetailContentSection">
+                <div class="perStars">
+
+                  <p>지은이:
+                    <span th:text="${book.bookWriter}">지은이</span>
+                  </p>
+                  <p>출판사:
+                    <span th:text="${book.companyName}">출판사</span>
+                  </p>
+                  <p>옮긴이:
+                    <span th:text="${book.bookTalt != null ? book.bookTalt : '없음'}"></span>
+                  </p>
+                  <p>가격:
+                    <span th:text="${book.bookPrice}">0</span>원
+                  </p>
+                  <p>출간일: <span th:text="${book.bookDate.substring(0, 10)}">출간일</span></p>
+                </div>
+
+              </div>
+
+              <div class="rankSection2">
+                <p class="rankTextAvg">평점: <span th:text="${book.scoreAvg}">0.0</span>
+                </p>&nbsp;&nbsp;&nbsp;
                 <div class="stars" title="평점">
                   <!-- 배경 별 -->
                   <div class="stars-background" style='position:absolute; width:100%; overflow:hidden; color:#cdcdcd;'>
@@ -254,41 +293,26 @@
                     <i class="fas fa-star"></i>
                   </div>
                 </div>
-                <p>평점: <span th:text="${book.scoreAvg}">0.0</span>
-                </p>
-
-                <p>지은이:
-                  <span th:text="${book.bookWriter}">지은이</span>
-                </p>
-                <p>출판사:
-                  <span th:text="${book.companyName}">출판사</span>
-                </p>
-                <p>옮긴이:
-                  <span th:text="${book.bookTalt != null ? book.bookTalt : '없음'}"></span>
-                </p>
-                <p>가격:
-                  <span th:text="${book.bookPrice}">0</span>원
-                </p>
-                <p>출간일: <span th:text="${book.bookDate.substring(0, 10)}">출간일</span></p>
               </div>
-
             </div>
+          </a>
+        </div>
+        <div class="actionbuttonPackage">
+          <div class="book-item-actions">
+            <label class="buttonWish">
+              <i class="fas fa-heart" id="heartId"
+                th:class="${#lists.contains(wishList, book.bookNo)} ? 'fas fa-heart fa-solid' : 'far fa-heart fa-regular'"
+                onclick="singleWishListBtn(this)" th:if="${session.loginMember != null}" title="찜"
+                style="cursor: pointer; color: #e74c3c;"></i>
+
+            </label>
+
+            <label class="buttonBag">
+              <i class="fas fa-shopping-cart" id="shoppingCartId" onclick="singleCartBtn(this)"
+                th:if="${session.loginMember != null}" title="장바구니" style="cursor: pointer; color: #f39c12;"></i>
+            </label>
+
           </div>
-        </a>
-        <div class="book-item-actions">
-          <label class="buttonBag">
-            <i class="fas fa-shopping-cart" id="shoppingCartId" 
-            onclick="singleCartBtn(this)" th:if="${session.loginMember != null}" 
-            title="장바구니" style="cursor: pointer; color: #f39c12;"></i>
-          </label>
-        
-          <label class="buttonWish">
-            <i class="fas fa-heart" id="heartId"
-            th:class="${#lists.contains(wishList, book.bookNo)} ? 'fas fa-heart fa-solid' : 'far fa-heart fa-regular'"
-             onclick="singleWishListBtn(this)" th:if="${session.loginMember != null}"
-             title="찜" style="cursor: pointer; color: #e74c3c;"></i>
-             
-          </label>
         </div>
       </div>
       </div>

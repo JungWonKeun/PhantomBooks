@@ -47,7 +47,7 @@
 
 
           <div class="stars-wrapper">
-            <p> <i class="fa-solid fa-sun"> &nbsp;</i><span class="bookKda" th:text="${book.scoreAvg}">0.0</span></p>
+            <p class="rankTextAvg"> <i class="fa-solid fa-sun"> &nbsp;</i><span class="bookKda" th:text="${book.scoreAvg}">0.0</span></p>
             <div class="stars">
               <!-- 배경 별 -->
               <div class="stars-background">
@@ -84,16 +84,17 @@
         <section class="bookDetailThird">
           <div class="book-detail-info">
             <div class="book-detail-actions">
+              <!-- 찜 아이콘 -->
+              <i class="fas fa-heart" id="heartId"
+              th:class="${#lists.contains(wishList, book.bookNo)} ? 'fas fa-heart fa-solid' : 'far fa-heart fa-regular'"
+               onclick="singleWishListBtn(this)" th:if="${session.loginMember != null}"
+               title="찜" style="cursor: pointer; color: #e74c3c;"></i>
+               
               <!-- 장바구니 아이콘 -->
               <i class="fas fa-shopping-cart"
                onclick="detailCart(this)" title="장바구니" id="shoppingCartId"
                th:if="${session.loginMember != null}"></i>
 
-              <!-- 찜 아이콘 -->
-              <i class="fas fa-heart" 
-              onclick="singleWishListBtn(this)" title="찜"
-              id="heartId"
-              th:if="${session.loginMember != null}"></i>
             </div>
 
 
