@@ -6,7 +6,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>관리자 메인페이지 | PhantomBooks</title>
 
-  <script src="https://kit.fontawesome.com/913e662347.js" crossorigin="anonymous"></script>
+  <script th:inline="javascript">
+        // 현재 접속한 클라이언트가 로그인 상태인지 확인하는 변수
+    // -> 알림은 로그인한 회원만 받을 수 있다!!
+    const notificationLoginCheck
+    = /*[[${session.loginMember} ? true : false]]*/ false;
+
+    // 알림을 보낸 회원의 프로필 이미지가 없을 경우
+    // 기본 이미지
+    const notificationDefaultImage 
+    = /*[[#{user.default.image}]]*/ '기본이미지';
+  </script>
+
+  <script src="https://kit.fontawesome.com/890489b5e8.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="stylesheet" href="/css/admin/adminMain.css">
 </head>
@@ -30,7 +42,9 @@
 
       <!-- 채팅방 입장 아이콘 -->
       <div class="chatting">
-        <button class="fa-solid fa-paper-plane" id="chatting"></button>
+        <button class="fa-solid fa-paper-plane" id="chatting">
+          <a href="/admin/chatting"></a>
+        </button>
       </div>
     </div>
 
@@ -259,6 +273,10 @@
 
 
   <script src="/js/admin/adminMain.js"></script>
+  
+  <script th:inline="javascript">
+    const loginMemberNo = /*[[${session.loginMember?.memberNo}]]*/ '로그인 회원 번호';
+  </script>
 
 </body>
 

@@ -54,7 +54,7 @@ public class ChattingController {
 			) {
 		return service.selectTarget(query, loginMember.getMemberNo());
 	}
-	
+		
 	/** 채팅방 입장(처음 채팅이면 채팅방 생성(insert))
 	 * @param targetNo
 	 * @param loginMember

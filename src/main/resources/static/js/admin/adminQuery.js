@@ -46,7 +46,7 @@ const listUp = (cp, sort) => {
         const title = document.createElement("div");
         title.classList.add("title");
         title.classList.add("faq-toggle");
-        title.textContent = query.queryTitle;
+        title.innerHTML = query.queryTitle;
 
         // 내용이 작성될 태그
         const content = document.createElement("div");
@@ -55,7 +55,7 @@ const listUp = (cp, sort) => {
 
         // 닫기 버튼
         const closeButton = document.createElement("button");
-        closeButton.textContent = "X";
+        closeButton.innerHTML = "X";
         closeButton.classList.add("close-btn");
         closeButton.addEventListener("click", () => {
           content.style.display = "none";
@@ -79,7 +79,7 @@ const listUp = (cp, sort) => {
 
         // 회원이 작성한 문의 내용
         const p1 = document.createElement("p");
-        p1.textContent = query.queryContent;
+        p1.innerHTML = query.queryContent;
 
         const hr = document.createElement("hr");
 
@@ -90,16 +90,16 @@ const listUp = (cp, sort) => {
 
         const input = document.createElement("input");
         input.type = "text";
-        input.value = query.reply || "";
+        input.value = query.reply;
         input.placeholder = "답글을 입력하세요";
         input.style.flex = "1";
 
         const updateBtn = document.createElement("button");
-        updateBtn.textContent = query.reply ? "수정하기" : "답글 작성하기";
+        updateBtn.innerHTML = query.reply ? "수정하기" : "답글 작성하기";
         updateBtn.classList.add("update-btn");
 
         const deleteBtn = document.createElement("button");
-        deleteBtn.textContent = "삭제하기";
+        deleteBtn.innerHTML = "삭제하기";
         deleteBtn.classList.add("delete-btn");
 
         p2.append(input, updateBtn, deleteBtn);
@@ -115,7 +115,7 @@ const listUp = (cp, sort) => {
           fetch(`/admin/query?queryNo=${query.queryNo}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ reply }),
+            body: input.value,
           })
             .then((response) => {
               if (response.ok) return response.json();

@@ -5,6 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>채팅 시스템</title>
   <link rel="stylesheet" href="/css/admin/adminChatting.css">
+
+  <script th:inline="javascript">
+    // 현재 접속한 클라이언트가 로그인 상태인지 확인하는 변수
+    // -> 알림은 로그인한 회원만 받을 수 있다!!
+    const notificationLoginCheck
+    = /*[[${session.loginMember} ? true : false]]*/ false;
+
+    // 알림을 보낸 회원의 프로필 이미지가 없을 경우
+    // 기본 이미지
+    const notificationDefaultImage 
+    = /*[[#{user.default.image}]]*/ '기본이미지';
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+
 </head>
 <body>
   <div class="popup" id="popup">
@@ -12,94 +26,98 @@
       <div class="popup-header">
         관리자 채팅방
       </div>
-      <button id="closePopup">ⅹ</button>
+      <button id="back">목록으로</button>
     </div>
-  
     <button id="addTarget">추가</button>
-    <div id="addTargetPopupLayer" class="popup-layer-close">
   
-      <div class="target-input-area">
-        <input type="search" id="targetInput" placeholder="닉네임 또는 이메일을 입력하세요" autocomplete="off">
-        <span id="closeBtn">&times</span>
+    <div class="container">
+      <div id="addTargetPopupLayer" class="hidden">
+    
+        <div class="target-input-area">
+          <input type="search" id="targetInput" placeholder="닉네임 또는 이메일을 입력하세요" autocomplete="off">
+          <span id="closeBtn">&times</span>
+        </div>
+    
+        <ul id="resultArea">
+          <!-- 				<li class="result-row" data-id="1">
+              <img class="result-row-img" src="/images/user.png">
+              <span> <mark>유저</mark>일</span>
+            </li>
+            <li class="result-row"  data-id="2">
+              <img class="result-row-img" src="/images/user.png">
+              <span><mark>유저</mark>이</span>
+            </li>
+    
+            <li class="result-row">일치하는 회원이 없습니다</li> -->
+        </ul>
+      </div>
+    
+      <div class="chatting-area">
+        <ul class="chatting-list">
+    
+    
+          <th:block th:each="room : ${roomList}">
+    
+            <!-- th:chat-no : li 태그에 임의의 속성 chat-no를 추가하는데
+                타임리프를 이용해 출력된 값을 chat-no 속성 값으로 대입 -->
+            <li class="chatting-item" th:chat-no="*{room.chattingRoomNo}" th:target-no="*{room.targetNo}"
+              th:value="*{room.targetNickname}">
+              <div class="item-header">
+    
+              </div>
+              <div class="item-body" th:value="*{room.targetNickname}">
+                <p th:value="*{room.targetNickname}">
+                  <span class="target-name" th:text="${room.targetNickname}">상대방 이름</span>
+                </p>
+                <div>
+                  <p class="recent-message" th:text="${room.lastMessage}">메세지 내용</p>
+    
+                  <p th:if="${room.notReadCount > 0}" class="not-read-count" th:text="${room.notReadCount}"></p>
+                </div>
+              </div>
+            </li>
+    
+          </th:block>
+        </ul>
+    
       </div>
   
-      <ul id="resultArea">
-        <!-- 				<li class="result-row" data-id="1">
-            <img class="result-row-img" src="/images/user.png">
-            <span> <mark>유저</mark>일</span>
-          </li>
-          <li class="result-row"  data-id="2">
-            <img class="result-row-img" src="/images/user.png">
-            <span><mark>유저</mark>이</span>
-          </li>
   
-          <li class="result-row">일치하는 회원이 없습니다</li> -->
-      </ul>
-    </div>
-  
-    <div class="chatting-area">
-      <ul class="chatting-list">
-  
-  
-        <th:block th:each="room : ${roomList}">
-  
-          <!-- th:chat-no : li 태그에 임의의 속성 chat-no를 추가하는데
-              타임리프를 이용해 출력된 값을 chat-no 속성 값으로 대입 -->
-          <li class="chatting-item" th:chat-no="*{room.chattingRoomNo}" th:target-no="*{room.targetNo}"
-            th:value="*{room.targetNickname}">
-            <div class="item-header">
-  
-            </div>
-            <div class="item-body" th:value="*{room.targetNickname}">
-              <p th:value="*{room.targetNickname}">
-                <span class="target-name" th:text="${room.targetNickname}">상대방 이름</span>
-              </p>
+      <div class="chatting-content .hidden">
+        <ul class="display-chatting">
+          <!-- <li class="my-chat">
+              <span class="chatDate">14:01</span>
+              <p class="chat">가나다라마바사</p>
+            </li>
+    
+            <li class="target-chat">
+              <img src="/images/user.png">
+    
               <div>
-                <p class="recent-message" th:text="${room.lastMessage}">메세지 내용</p>
-  
-                <p th:if="${room.notReadCount > 0}" class="not-read-count" th:text="${room.notReadCount}"></p>
+                <b>이번유저</b>	<br>
+                <p class="chat">
+                  안녕하세요?? 반갑습니다.<br>
+                  ㅎㅎㅎㅎㅎ
+                </p>
+                <span class="chatDate">14:05</span>
               </div>
-            </div>
-          </li>
-  
-        </th:block>
-      </ul>
-  
-    </div>
-    <div class="chatting-content">
-      <ul class="display-chatting">
-        <!-- <li class="my-chat">
-            <span class="chatDate">14:01</span>
-            <p class="chat">가나다라마바사</p>
-          </li>
-  
-          <li class="target-chat">
-            <img src="/images/user.png">
-  
-            <div>
-              <b>이번유저</b>	<br>
-              <p class="chat">
-                안녕하세요?? 반갑습니다.<br>
-                ㅎㅎㅎㅎㅎ
-              </p>
-              <span class="chatDate">14:05</span>
-            </div>
-          </li> -->
-      </ul>
-  
-      <div class="input-area">
-        <textarea id="inputChatting" rows="3"></textarea>
-        <button id="send">보내기</button>
+            </li> -->
+        </ul>
+    
+        <div class="input-area">
+          <textarea id="inputChatting" rows="3"></textarea>
+          <button id="send">보내기</button>
+        </div>
       </div>
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+  <script src="/js/admin/adminChatting.js"></script>
+
   <script th:inline="javascript">
     const loginMemberNo = /*[[${session.loginMember?.memberNo}]]*/ '로그인 회원 번호';
   </script>
 
-  <script src="/js/admin/adminChatting.js"></script>
 
 </body>
 </html>
