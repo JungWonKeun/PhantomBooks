@@ -148,9 +148,9 @@ section {
 
 
 .section-divider {
-  border: 0;
+  border: 1px solid #666;
   height: 1px;
-  color: #666;
+  color: #555;
   margin: 20px 0; 
 }
 
@@ -193,7 +193,9 @@ section {
   transform: scale(1.1);        /* 호버 시 크기 확대 */
 }
 
-
+#updateReview, #deleteReview{
+  background-color: #205375
+}
 
 
 
@@ -289,4 +291,581 @@ section {
     width: 100px;
     height: 20px;
   }
+}
+
+
+
+/* 리뷰 관련 페이지 */
+.wrap {
+  height: auto;
+  min-height: 20px;
+  display: flex;
+  justify-content: left;
+  align-items: left;
+  flex-direction: column;
+  gap: 32px;
+}
+
+
+.rating {
+  float: none;
+  width: 200px;
+  display: flex;
+}
+
+.rating__input {
+  display: none;
+}
+
+.rating__label {
+  width: 20px;
+  overflow: hidden;
+  cursor: default; /* hover 효과 제거 */
+}
+
+.rating__label .star-icon {
+  width: 20px;
+  height: 40px;
+  display: block;
+  position: relative;
+  left: 0;
+  background-image: url("https://velog.velcdn.com/images/jellykelly/post/9957327f-f358-4c25-9989-5bb3dd5755d6/image.svg");
+  background-repeat: no-repeat;
+  background-size: 40px;
+}
+
+.rating__label .star-icon.filled {
+  background-image: url("https://velog.velcdn.com/images/jellykelly/post/10caf033-b0ef-4d58-804b-6e33395e4ea5/image.svg");
+}
+
+.rating__label--full .star-icon {
+  background-position: right;
+}
+
+.rating.readonly .rating__label {
+  cursor: default; /* 클릭 불가 */
+  pointer-events: none; /* 이벤트 비활성화 */
+}
+
+.rating.readonly .star-icon {
+  opacity: 0.5; /* 흐리게 처리 */
+}
+
+
+.review-img-thumb{
+  width: 120px;
+    height: 120px;
+    border-radius: 5px;
+    object-fit: cover;
+    margin-bottom: 5px;
+}
+
+
+/* 페이지 네이션 css */
+
+.pagination-area {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.pagination {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 5px;
+}
+
+.pagination li {
+  display: inline-block;
+}
+
+.pagination a {
+  display: inline-block;
+  padding: 10px 15px;
+  text-decoration: none;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  color: #555;
+  transition: all 0.3s;
+}
+
+.pagination a:hover {
+  background-color: #205375;
+  color: white;
+  border-color: #205375;
+}
+
+.pagination a.current {
+  background-color: rgb(29,30,57);
+  color: white;
+  border-color: rgb(29,30,57);
+  pointer-events: none;
+}
+
+.pagination li:first-child a,
+.pagination li:last-child a {
+  font-weight: bolder;
+}
+
+.pagination li.disabled a {
+  color: #aaa;
+  border-color: #ddd;
+  pointer-events: none; /* 비활성화 상태 */
+}
+/* 리뷰 영역 CSS */
+.review-section {
+  margin: 50px auto;
+  max-width: 800px;
+  padding: 20px;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 리뷰 컨테이너 */
+.review-container {
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  user-select: none;
+}
+
+/* 리뷰 이미지 */
+.review-img {
+  flex: 1;
+  text-align: center;
+}
+
+.review-meta-inline {
+  display: flex;
+  justify-content: space-between; /* 작성자와 날짜를 양쪽으로 배치 */
+  align-items: center; /* 수직 가운데 정렬 */
+}
+
+.review-author {
+  font-weight: bold;
+  color: rgb(29, 30, 57);
+}
+
+.review-date {
+  font-size: 0.9rem; /* 날짜 크기 조정 */
+  color: #666; /* 약간 흐린 색상 */
+  text-align: right; /* 오른쪽 정렬 */
+}
+
+
+.review-img-thumb {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+/* 리뷰 본문 */
+.review-main {
+  flex: 3;
+}
+
+
+.review-title-input,
+.review-content-textarea {
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 14px;
+  margin-bottom: 10px; 
+  resize: none;
+  max-height: fit-content;
+  min-height: 30px;
+
+}
+
+.review-title-input:focus,
+.review-content-textarea:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+/* 리뷰 작성 버튼 */
+
+.review-actions {
+  display: flex;
+  align-items: end;
+  justify-content: flex-end;
+  
+  padding: 10px;
+}
+.review-actions button {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 5px;
+}
+
+.review-actions button:hover {
+  background-color: #0056b3;
+}
+
+/* 리뷰 작성 섹션 CSS */
+.review-write-section {
+  margin: 50px auto;
+  max-width: 800px;
+  padding: 20px;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 리뷰 작성 폼 */
+.write-review-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.write-review-rating {
+  flex: 1;
+  text-align: center;
+}
+
+
+.write-review-image-container {
+  flex: 1;
+  text-align: center;
+}
+
+.write-review-img-thumb {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+}
+
+.write-review-title-input,
+.write-review-content-textarea {
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 14px;
+}
+
+.write-review-title-input:focus,
+.write-review-content-textarea:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+/* 리뷰 제출 버튼 */
+.write-review-submit-button button {
+  width: 100%;
+  padding: 10px 15px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.write-review-submit-button button:hover {
+  background-color: #218838;
+}
+
+/* 공통 텍스트 입력 스타일 */
+textarea,
+input[type="text"] {
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 14px;
+  font-family: 'Pretendard-Regular', Arial, sans-serif;
+  color: #333;
+  resize: none; /* 사용자가 크기를 조절하지 못하도록 설정 */
+  transition: all 0.3s ease;
+}
+
+/* 텍스트 영역 포커스 상태 */
+textarea:focus,
+input[type="text"]:focus {
+  border-color: #007bff; /* 파란색 포커스 테두리 */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* 부드러운 파란빛 그림자 */
+  outline: none; /* 기본 브라우저 outline 제거 */
+}
+
+/* 텍스트 영역 높이 설정 */
+textarea {
+  min-height: 150px; /* 최소 높이 설정 */
+  line-height: 1.5;
+}
+
+/* 텍스트 입력 영역의 placeholder 스타일 */
+textarea::placeholder,
+input[type="text"]::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+
+/* 텍스트 영역의 읽기 전용 상태 */
+textarea[readonly] {
+  background-color: #f9f9f9; /* 배경색 변경 */
+  border-color: #ddd;
+  color: #666; /* 텍스트 색상 흐리게 */
+}
+
+.rating {
+  float: none;
+  width: 200px;
+  display: flex;
+}
+
+.rating__input {
+  display: none;
+}
+
+.rating__label {
+  width: 20px;
+  overflow: hidden;
+  cursor: default; /* hover 효과 제거 */
+}
+
+.rating__label .star-icon {
+  width: 20px;
+  height: 40px;
+  display: block;
+  position: relative;
+  left: 0;
+  background-image: url("https://velog.velcdn.com/images/jellykelly/post/9957327f-f358-4c25-9989-5bb3dd5755d6/image.svg");
+  background-repeat: no-repeat;
+  background-size: 40px;
+}
+
+.rating__label .star-icon.filled {
+  background-image: url("https://velog.velcdn.com/images/jellykelly/post/10caf033-b0ef-4d58-804b-6e33395e4ea5/image.svg");
+}
+
+.rating__label--full .star-icon {
+  background-position: right;
+}
+
+.rating.readonly .rating__label {
+  cursor: default; /* 클릭 불가 */
+  pointer-events: none; /* 이벤트 비활성화 */
+}
+
+.rating.readonly .star-icon {
+  opacity: 0.5; /* 흐리게 처리 */
+}
+
+
+/* 작성용 별점 스타일 */
+.write_rating {
+  float: none;
+  width: 200px;
+  display: flex;
+}
+
+.write_rating__input {
+  display: none;
+}
+
+.write_rating__label {
+  width: 20px;
+  overflow: hidden;
+  cursor: pointer; /* 클릭 가능 */
+}
+
+.write_rating__label .write_star_icon {
+  width: 20px;
+  height: 40px;
+  display: block;
+  position: relative;
+  left: 0;
+  background-image: url("https://velog.velcdn.com/images/jellykelly/post/9957327f-f358-4c25-9989-5bb3dd5755d6/image.svg");
+  background-repeat: no-repeat;
+  background-size: 40px;
+}
+
+.write_rating__label .write_star_icon.filled {
+  background-image: url("https://velog.velcdn.com/images/jellykelly/post/10caf033-b0ef-4d58-804b-6e33395e4ea5/image.svg");
+}
+
+.write_rating__label--full .write_star_icon {
+  background-position: right;
+}
+
+.write_rating__label--half .write_star_icon {
+  background-position: left;
+}
+
+.write_rating:hover .write_star_icon {
+  opacity: 1; /* Hover 시 opacity */
+  transition: opacity 0.2s ease; /* 부드러운 전환 */
+}
+
+/* 이미지 업로드 */
+.write-review-image-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.write-review-img-thumb {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+}
+
+.write-review-image-label {
+  font-size: 14px;
+  color: #007bff;
+  padding: 10px 15px;
+  border: 1px solid #007bff;
+  border-radius: 5px;
+  display: inline-block;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.write-review-image-label:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+
+
+
+
+/* 리뷰 작성 섹션 스타일 */
+.review-write-section {
+  margin: 50px auto;
+  max-width: 800px;
+  padding: 30px;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Pretendard-Regular';
+}
+
+.review-write-section h1 {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.write-review-image-container {
+  text-align: center;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column; /* 세로로 정렬 */
+  align-items: center; /* 가운데 정렬 */
+  gap: 10px; /* 미리보기와 버튼 사이 간격 */
+}
+
+.write-review-img-thumb {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+}
+
+.write-review-image-container label {
+  font-size: 14px;
+  color: #205375;
+  padding: 8px 12px;
+  border: 1px solid #205375;
+  border-radius: 5px;
+  display: inline-block;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#submitReview{
+  background-color: #205375;
+  color: #f9f9f9;
+}
+
+
+/* 텍스트 입력 */
+.write-review-title-container,
+.write-review-content-container {
+  margin-bottom: 20px;
+}
+
+.write-review-title-input,
+.write-review-content-textarea {
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 14px;
+    font-family: 'Pretendard-Regular', Arial, sans-serif;
+    transition: all 0.3s ease;
+}
+
+.write-review-title-input:focus,
+.write-review-content-textarea:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+}
+
+.write-review-content-textarea {
+    min-height: 120px;
+    resize: none;
+}
+
+/* 제출 버튼 */
+.write-review-submit-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.write-review-submit-button button {
+    padding: 12px 20px;
+    font-size: 16px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.write-review-submit-button button:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+}
+
+.write-wrap > h1{
+  text-align: left;
 }

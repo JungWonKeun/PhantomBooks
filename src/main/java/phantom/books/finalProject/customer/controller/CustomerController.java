@@ -214,5 +214,4 @@ public class CustomerController {
 		return customerService.deleteInquiry(queryNo, memberNo);
 	}
 
-
 }

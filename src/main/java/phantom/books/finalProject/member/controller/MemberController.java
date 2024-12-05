@@ -28,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.nurigo.sdk.NurigoApp;
 import net.nurigo.sdk.message.exception.NurigoMessageNotReceivedException;
+import net.nurigo.sdk.message.exception.NurigoUnknownException;
 import net.nurigo.sdk.message.model.Message;
 import net.nurigo.sdk.message.service.DefaultMessageService;
 import phantom.books.finalProject.member.dto.Member;
@@ -43,7 +44,7 @@ public class MemberController {
 	private final MemberService service;
 	private final Map<String, String> verificationCodes = new HashMap<>(); // 전화번호별로 인증 코드를 저장하기 위한 맵
 	private final Map<String, Long> verificationTimestamps = new HashMap<>(); // 전화번호별 인증 코드 발송 시간을 저장하기 위한 맵
-	private static final long CODE_VALIDITY_PERIOD = 5 * 60 * 1000; // 5분 동안 인증 코드 유효 (밀리초 단위)
+	private static final long CODE_VALIDITY_PERIOD = 3 * 60 * 1000; // 3분 동안 인증 코드 유효 (밀리초 단위)
 
 	// CoolSMS API 정보
 	@Value("${coolsms.api.key}")
@@ -102,33 +103,30 @@ public class MemberController {
 
 	@GetMapping("logout")
 	public String logout(SessionStatus status, HttpSession session) {
-	    status.setComplete(); // @SessionAttributes 관리 데이터 삭제
+		status.setComplete(); // @SessionAttributes 관리 데이터 삭제
 
-	    if (session != null) {
-	        session.removeAttribute("passwordChecked"); // passwordChecked 속성 삭제
-	        session.invalidate(); // 전체 세션 무효화
-	    }
+		if (session != null) {
+			session.removeAttribute("passwordChecked"); // passwordChecked 속성 삭제
+			session.invalidate(); // 전체 세션 무효화
+		}
 
-	    return "redirect:/"; // 홈 페이지로 리다이렉트
+		return "redirect:/"; // 홈 페이지로 리다이렉트
 	}
 
-	
 	@ResponseBody
 	@DeleteMapping("/deleteWishlist")
-	public ResponseEntity<String> deleteWishlist(
-	    @SessionAttribute("loginMember") Member loginMember,
-	    @RequestBody List<Integer> bookNoList) {
-		
-			Integer memberNo = loginMember.getMemberNo();
+	public ResponseEntity<String> deleteWishlist(@SessionAttribute("loginMember") Member loginMember,
+			@RequestBody List<Integer> bookNoList) {
 
-	    if (memberNo == null || bookNoList == null || bookNoList.isEmpty()) {
-	        return ResponseEntity.badRequest().body("Invalid request");
-	    }
+		Integer memberNo = loginMember.getMemberNo();
 
-	    service.deleteWishlist(memberNo, bookNoList);
-	    return ResponseEntity.ok("Wishlist items deleted successfully");
+		if (memberNo == null || bookNoList == null || bookNoList.isEmpty()) {
+			return ResponseEntity.badRequest().body("Invalid request");
+		}
+
+		service.deleteWishlist(memberNo, bookNoList);
+		return ResponseEntity.ok("Wishlist items deleted successfully");
 	}
-
 
 	/**
 	 * 회원 가입 페이지 전환
@@ -188,75 +186,104 @@ public class MemberController {
 		return service.idCheck(memberId);
 	}
 
-	// 임시로 인증 성공시키기
-	// 전화번호 인증 코드 요청
+	
+	 // 임시로 인증 성공시키기 // 전화번호 인증 코드 요청	 
+	 @PostMapping("/temporaryVerification") 
+	 public ResponseEntity<Map<String, String>> temporaryVerification(@RequestParam("telNo") String telNo) { // 4자리 인증코드 생성 
+	 String verificationCode = String.valueOf((int) ((Math.random() * 9000) + 1000)); // 1000~9999 사이의 랜덤 숫자 생성 
+	 Map<String, String> response = new
+	 HashMap<>(); response.put("status", "success");
+	 response.put("verificationCode", verificationCode); 
+	 response.put("telNo", telNo); 
+	 log.debug("verificationCode: {}", verificationCode);
+	 log.debug("telNo: {}", telNo);
+	 
+	 // 전화번호와 인증 코드 저장 
+	 verificationCodes.put(telNo, verificationCode); // 전화번호와 인증 코드 저장 
+	 verificationTimestamps.put(telNo, System.currentTimeMillis()); // 인증 코드 발송 시간 저장
+	 
+	 return ResponseEntity.ok(response);	 
+	 }
+	 
+
 	@PostMapping("/requestVerification")
 	public ResponseEntity<Map<String, String>> requestVerification(@RequestParam("telNo") String telNo) {
-		// 4자리 인증 코드 생성
-		String verificationCode = String.valueOf((int) ((Math.random() * 9000) + 1000)); // 1000~9999 사이의 랜덤 숫자 생성
-		Map<String, String> response = new HashMap<>();
-		response.put("status", "success");
-		response.put("verificationCode", verificationCode);
-		response.put("telNo", telNo);
-		log.debug("verificationCode: {}", verificationCode);
-		log.debug("telNo: {}", telNo);
+	    Map<String, String> response = new HashMap<>();
+	    
+	    try {
+	        // 4자리 인증 코드 생성
+	        String verificationCode = String.valueOf((int) ((Math.random() * 9000) + 1000));
 
-		// 전화번호와 인증 코드 저장
-		verificationCodes.put(telNo, verificationCode); // 전화번호와 인증 코드 저장
-		verificationTimestamps.put(telNo, System.currentTimeMillis()); // 인증 코드 발송 시간 저장
+	        // CoolSMS SDK 초기화
+	        DefaultMessageService messageService = NurigoApp.INSTANCE.initialize(apiKey, apiSecret, apiUrl);
 
-		return ResponseEntity.ok(response);
-		/*
-		 * // 전화번호 인증 코드 요청
-		 * 
-		 * @PostMapping("/requestVerification") public ResponseEntity<String>
-		 * requestVerification(@RequestParam("telNo") String telNo) { // 4자리 인증 코드 생성
-		 * String verificationCode = String.valueOf((int) ((Math.random() * 9000) +
-		 * 1000)); // 1000~9999 사이의 랜덤 숫자 생성 // CoolSMS SDK를 사용해 인증 코드 발송 try {
-		 * DefaultMessageService messageService = NurigoApp.INSTANCE.initialize(apiKey,
-		 * apiSecret, apiUrl);
-		 * 
-		 * Message message = new Message(); message.setFrom(senderNumber); // 발신자 번호
-		 * (CoolSMS 계정에 등록된 번호여야 함) message.setTo(telNo); // 수신자 번호
-		 * message.setText("인증 코드: " + verificationCode); // 인증 코드 메시지
-		 * 
-		 * messageService.send(message); // SMS 발송 요청
-		 * 
-		 * verificationCodes.put(telNo, verificationCode); // 전화번호와 인증 코드 저장
-		 * verificationTimestamps.put(telNo, System.currentTimeMillis()); // 인증 코드 발송 시간
-		 * 저장 return ResponseEntity.ok("인증 코드가 발송되었습니다."); } catch
-		 * (NurigoMessageNotReceivedException exception) { // 발송 실패한 메시지 처리
-		 * System.out.println(exception.getFailedMessageList());
-		 * System.out.println(exception.getMessage()); return
-		 * ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).
-		 * body("인증 코드 발송에 실패했습니다."); } catch (Exception e) { e.printStackTrace(); // 기타
-		 * 오류 로그 출력 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).
-		 * body("인증 코드 발송에 실패했습니다."); }
-		 */
+	        // 메시지 구성
+	        Message message = new Message();
+	        message.setFrom(senderNumber);
+	        message.setTo(telNo);
+	        message.setText("인증 코드: " + verificationCode);
+
+	        // SMS 발송 요청
+	        messageService.send(message);
+
+	        // 인증 코드 및 발송 시간 저장
+	        verificationCodes.put(telNo, verificationCode);
+	        verificationTimestamps.put(telNo, System.currentTimeMillis());
+
+	        response.put("status", "success");
+	        response.put("message", "인증 코드가 발송되었습니다.");
+	        return ResponseEntity.ok(response);
+
+	    } catch (NurigoUnknownException e) {
+	        System.out.println("CoolSMS 오류: " + e.getMessage());
+	        response.put("status", "error");
+	        response.put("message", "IP가 허용되지 않았습니다.");
+	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+	        
+	    } catch (NurigoMessageNotReceivedException exception) {
+	        System.out.println("Failed Messages: " + exception.getFailedMessageList());
+	        System.out.println("Error: " + exception.getMessage());
+	        response.put("status", "error");
+	        response.put("message", "인증 코드 발송에 실패했습니다.");
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+	        
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        response.put("status", "error");
+	        response.put("message", "인증 코드 발송에 실패했습니다.");
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+	    }
 	}
 
-	// 인증 코드 확인
+	
 	@PostMapping("/verifyCode")
-	public ResponseEntity<String> verifyCode(@RequestParam("telNo") String telNo, @RequestParam("code") String code) {
-		String storedCode = verificationCodes.get(telNo); // 저장된 인증 코드 가져오기
-		Long timestamp = verificationTimestamps.get(telNo); // 저장된 발송 시간 가져오기
+	public ResponseEntity<Map<String, String>> verifyCode(@RequestParam("telNo") String telNo, @RequestParam("code") String code) {
+	    Map<String, String> response = new HashMap<>();
+	    String storedCode = verificationCodes.get(telNo);
+	    Long timestamp = verificationTimestamps.get(telNo);
 
-		log.atInfo().log("telNo: {}, code: {}, storedCode: {}, timestamp: {}", telNo, code, storedCode, timestamp);
-		
-		// 유효 시간 확인
-		if (timestamp != null && (System.currentTimeMillis() - timestamp > CODE_VALIDITY_PERIOD)) {
-			verificationCodes.remove(telNo); // 유효 시간이 지난 인증 코드는 제거
-			verificationTimestamps.remove(telNo); // 발송 시간 정보도 제거
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("인증 코드가 만료되었습니다.");
-		}
+	    log.atInfo().log("telNo: {}, code: {}, storedCode: {}, timestamp: {}", telNo, code, storedCode, timestamp);
 
-		if (storedCode != null && storedCode.equals(code)) {
-			verificationCodes.remove(telNo); // 인증 완료 후 코드 제거
-			verificationTimestamps.remove(telNo); // 인증 시간 제거
-			return ResponseEntity.ok("인증 성공");
-		} else {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("인증 코드가 일치하지 않습니다.");
-		}
+	    // 유효 시간 확인
+	    if (timestamp != null && (System.currentTimeMillis() - timestamp > CODE_VALIDITY_PERIOD)) {
+	        verificationCodes.remove(telNo);
+	        verificationTimestamps.remove(telNo);
+	        response.put("status", "error");
+	        response.put("message", "인증 코드가 만료되었습니다.");
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+	    }
+
+	    if (storedCode != null && storedCode.equals(code)) {
+	        verificationCodes.remove(telNo);
+	        verificationTimestamps.remove(telNo);
+	        response.put("status", "success");
+	        response.put("message", "인증이 완료되었습니다.");
+	        return ResponseEntity.ok(response);
+	    } else {
+	        response.put("status", "error");
+	        response.put("message", "인증 코드가 일치하지 않습니다.");
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+	    }
 	}
 
 	/**
@@ -276,12 +303,21 @@ public class MemberController {
 	 * @return
 	 */
 	@PostMapping("/findId")
-	@ResponseBody // JSON 응답을 위해 필요
-	public ResponseEntity<Map<String, String>> findIdByTelNo(@RequestParam("telNo") String telNo) {
-		List<String> memberId = service.findIdByTelNo(telNo);
-		Map<String, String> response = new HashMap<>();
-		response.put("message", "회원님의 아이디는 " + memberId + " 입니다");
-		return ResponseEntity.ok(response);
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> findIdByTelNo(@RequestParam("telNo") String telNo) {
+	    Map<String, Object> response = new HashMap<>();
+	    List<String> memberIds = service.findIdByTelNo(telNo);
+	    
+	    if (memberIds == null || memberIds.isEmpty()) {
+	        response.put("status", "fail");
+	        response.put("message", "해당 전화번호로 등록된 아이디가 없습니다.");
+	        return ResponseEntity.ok(response);
+	    }
+	    
+	    response.put("status", "success");
+	    response.put("data", memberIds);
+	    response.put("message", "아이디 찾기에 성공했습니다.");
+	    return ResponseEntity.ok(response);
 	}
 
 	/**
@@ -321,7 +357,7 @@ public class MemberController {
 		log.debug("memberPw: {}", memberPw);
 
 		Map<String, String> response = new HashMap<>();
-		
+
 		service.updatePassword(memberId, memberPw);
 		response.put("status", "success");
 		response.put("message", memberId + "회원님 비밀번호 변경이 완료되었습니다.");

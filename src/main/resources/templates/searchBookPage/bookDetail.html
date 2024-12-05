@@ -86,22 +86,24 @@
             <div class="book-detail-actions">
               <!-- 장바구니 아이콘 -->
               <i class="fas fa-shopping-cart" onclick="detailCart(this)" title="장바구니" id="shoppingCartId"></i>
-            
+
               <!-- 찜 아이콘 -->
-              <i class="fas fa-heart" onclick="singleWishListBtn(this)" title="찜" id="heartId"></i>
+              <i class="fas fa-heart" 
+              onclick="singleWishListBtn(this)" title="찜"
+              id="heartId"></i>
             </div>
-            
+
 
 
 
             <div class="book-detail-price">
               <span style="font-weight: bold; color: #e74c3c; margin-left: 10px;">
-                10% <span th:text="${book.bookPrice + '원'}" class="bookDetailPrice"></span>
+                20% <span th:text="${book.bookPrice + '원'}" class="bookDetailPrice"></span>
 
               </span>
               <span style="text-decoration: line-through; color: #999; font-size: 1rem;">
                 <span
-                  th:text="${#numbers.formatDecimal(T(java.lang.Double).parseDouble(book.bookPrice) * 1.1, 0, 0)}"></span>원
+                  th:text="${#numbers.formatDecimal(T(java.lang.Double).parseDouble(book.bookPrice) * 1.25, 0, 0)}"></span>원
               </span>
             </div>
 
@@ -110,35 +112,37 @@
 
             <div class="book-detail-shipping">
               <p>
-                배송안내&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3,500원
+                배송안내<br>
               </p>
-              <p style="color: #666;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;오늘 주문 시 2일 이내 도착</p>
               <p style="color: #666;">
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;기본배송지
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;배송비
+                : 3,500원
+              </p>
+              <p style="color: #666;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 오늘 주문 시 2일 이내 도착</p>
+              <p style="color: #666;">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;기본배송지
                 기준</p>
             </div>
 
             <hr class="section-divider">
 
-            <div class="book-detail-reviews">
-              <a href="/reviews" class="reviews-link">상품 후기 보기</a>
-            </div>
+            
           </div>
         </section>
 
       </div>
     </div>
-
+    <hr>
     <section class="review-section">
 
-      <div>
-        <!-- 책 제목 -->
-        <span th:text="${book.bookTitle}">책 제목</span> 리뷰
+      <div style="font-weight: bold; font-size: 25px;">
+        <span th:text="${book.bookTitle}" style="font-weight: bold; font-size: 25px;">책 제목</span> 리뷰
       </div>
-  
+      <hr>
+
       <!-- 리뷰 불러오기 반복 출력 -->
       <div class="wrap" th:if="${reviews != null and !reviews.isEmpty()}">
-  
+
         <div th:each="review : ${reviews}" class="review-container" th:attr="data-review-no=${review.reviewNo}">
           <!-- 리뷰 별점 -->
           <div class="rating readonly" th:attr="data-review-no=${review.reviewNo}">
@@ -148,64 +152,64 @@
                 th:name="|rating-${review.reviewNo}|" value="0.5" th:checked="${review.reviewScore == 0.5}" disabled>
               <span class="star-icon"></span>
             </label>
-  
+
             <!-- 1 점 -->
             <label class="rating__label rating__label--full" th:for="|star1-${review.reviewNo}|">
               <input type="radio" th:id="|star1-${review.reviewNo}|" class="rating__input"
                 th:name="|rating-${review.reviewNo}|" value="1" th:checked="${review.reviewScore == 1}" disabled>
               <span class="star-icon"></span>
             </label>
-  
+
             <!-- 1.5 점 -->
             <label class="rating__label rating__label--half" th:for="|star1half-${review.reviewNo}|">
               <input type="radio" th:id="|star1half-${review.reviewNo}|" class="rating__input"
                 th:name="|rating-${review.reviewNo}|" value="1.5" th:checked="${review.reviewScore == 1.5}" disabled>
               <span class="star-icon"></span>
             </label>
-  
+
             <!-- 2 점 -->
             <label class="rating__label rating__label--full" th:for="|star2-${review.reviewNo}|">
               <input type="radio" th:id="|star2-${review.reviewNo}|" class="rating__input"
                 th:name="|rating-${review.reviewNo}|" value="2" th:checked="${review.reviewScore == 2}" disabled>
               <span class="star-icon"></span>
             </label>
-  
+
             <!-- 2.5 점 -->
             <label class="rating__label rating__label--half" th:for="|star2half-${review.reviewNo}|">
               <input type="radio" th:id="|star2half-${review.reviewNo}|" class="rating__input"
                 th:name="|rating-${review.reviewNo}|" value="2.5" th:checked="${review.reviewScore == 2.5}" disabled>
               <span class="star-icon"></span>
             </label>
-  
+
             <!-- 3 점 -->
             <label class="rating__label rating__label--full" th:for="|star3-${review.reviewNo}|">
               <input type="radio" th:id="|star3-${review.reviewNo}|" class="rating__input"
                 th:name="|rating-${review.reviewNo}|" value="3" th:checked="${review.reviewScore == 3}" disabled>
               <span class="star-icon"></span>
             </label>
-  
+
             <!-- 3.5 점 -->
             <label class="rating__label rating__label--half" th:for="|star3half-${review.reviewNo}|">
               <input type="radio" th:id="|star3half-${review.reviewNo}|" class="rating__input"
                 th:name="|rating-${review.reviewNo}|" value="3.5" th:checked="${review.reviewScore == 3.5}" disabled>
-  
+
               <span class="star-icon"></span>
             </label>
-  
+
             <!-- 4 점 -->
             <label class="rating__label rating__label--full" th:for="|star4-${review.reviewNo}|">
               <input type="radio" th:id="|star4-${review.reviewNo}|" class="rating__input"
                 th:name="|rating-${review.reviewNo}|" value="4" th:checked="${review.reviewScore == 4}" disabled>
               <span class="star-icon"></span>
             </label>
-  
+
             <!-- 4.5 점 -->
             <label class="rating__label rating__label--half" th:for="|star4half-${review.reviewNo}|">
               <input type="radio" th:id="|star4half-${review.reviewNo}|" class="rating__input"
                 th:name="|rating-${review.reviewNo}|" value="4.5" th:checked="${review.reviewScore == 4.5}" disabled>
               <span class="star-icon"></span>
             </label>
-  
+
             <!-- 5 점 -->
             <label class="rating__label rating__label--full" th:for="|star5-${review.reviewNo}|">
               <input type="radio" th:id="|star5-${review.reviewNo}|" class="rating__input"
@@ -213,36 +217,36 @@
               <span class="star-icon"></span>
             </label>
           </div>
-  
+
           <!-- 리뷰 이미지 (수정)-->
           <div class="review-img">
             <img alt="리뷰 이미지" class="review-img-thumb" data-review-no="1" data-original-src="original_image_url_here"
               th:src="${review.reviewImgNo != null ? review.reviewImgNo : '/images/고스트 코딩왕.png'}"
               th:id="|reviewImageInput-${review.reviewNo}|">
             <div th:if="${memberId != null and memberId == review.memberId}">
-  
+
               <label for="imageInput-${review.reviewNo}">
                 <input type="file" name="profileImg" th:id="|imageInput-${review.reviewNo}|" accept="image/*"
                   style="display: none;">
               </label>
             </div>
           </div>
-  
+
           <!-- 리뷰 본문 (3/4 비율) -->
           <div class="review-main" style="flex: 3;">
             <div class="review-title-line">
-  
+
               <!-- 작성일 및 작성자 정보 -->
               <div class="review-meta-inline">
-                <div>
-                  <p>작성일: <span th:text="${review.reviewWriteDate}">2024-11-20</span></p>
+                <div class="review-author">
+                  <p><span th:text="${review.memberId}" style="color: rgb(29,30,57); font-weight: bold; font-size: large;">홍길동</span></p>
                 </div>
-                <div>
-                  <p>작성자: <span th:text="${review.memberId}">홍길동</span></p>
+                <div class="review-date">
+                  <p><span th:text="${review.reviewWriteDate}">2024-11-20</span></p>
                 </div>
               </div>
             </div>
-  
+
             <!-- 리뷰 제목 -->
             <input type="text" th:value="${review.reviewTitle}" class="review-title-input"
               th:attr="data-review-no=${review.reviewNo}" readonly>
@@ -251,12 +255,12 @@
               <textarea name="content" id="content" class="review-content-textarea" th:text="${review.reviewContent}"
                 th:attr="data-review-no=${review.reviewNo}" readonly>리뷰 내용 작성 내용입니다.</textarea>
             </div>
-  
+
             <!-- 리뷰가 없을 때 -->
             <div th:if="${reviews == null or reviews.isEmpty()}">
               <p>아직 작성된 리뷰가 없습니다. 첫 번째 리뷰를 작성해보세요!</p>
             </div>
-  
+
             <!-- 수정 및 삭제 버튼 (로그인 사용자 본인만 보이도록 설정 필요) -->
             <div class="review-actions" th:if="${memberId != null and memberId == review.memberId}">
               <button type="button" id="updateReview" th:attr="data-review-no=${review.reviewNo}">수정</button>
@@ -269,50 +273,18 @@
       </div>
     </section>
     <!-- 리뷰 불러오기 END -->
-  
-    <!-- 페이지 네이션  -->
-    <section th:if="${reviews != null and !#lists.isEmpty(reviews)}">
-      <div class="pagination-area" th:if="${pagination != null}">
-        <ul class="pagination" th:object="${pagination}">
-          <li th:if="*{currentPage > 1}">
-            <a th:href="@{|/bookDetail/${book.bookNo}?cp=1|}">&lt;&lt;</a>
-          </li>
-          <li th:if="*{currentPage > 1}">
-            <a th:href="@{|/bookDetail/${book.bookNo}?cp=${currentPage - 1}|}">&lt;</a>
-          </li>
-          <th:block th:each="i : *{#numbers.sequence(startPage, endPage)}">
-            <li th:if="${i == pagination.currentPage}">
-              <a class="current" th:text="${i}"></a>
-            </li>
-            <li th:unless="${i == pagination.currentPage}">
-              <a th:href="@{/bookDetail/{bookNo}(bookNo=${book.bookNo}, cp=${i})}" th:text="${i}"></a>
-            </li>
-          </th:block>
-          <li th:if="*{currentPage < maxPage}">
-            <a th:href="@{|/bookDetail/${book.bookNo}?cp=${currentPage + 1}|}">
-              &gt;</a>
-          </li>
-          <li th:if="*{currentPage < maxPage}">
-            <a th:href="@{|/bookDetail/${book.bookNo}?cp=${maxPage}|}">
-              &gt;&gt;</a>
-          </li>
-        </ul>
-      </div>
-    </section>
-  
-    <!-- 페이지 네이션  -->
-  
+
     <!--  리뷰 작성 -->
     <section class="review-write-section" th:if="${session.loginMember != null}">
-  
+
       <form id="writeReviewForm" method="post" action="/searchBookPage/writeReview" enctype="multipart/form-data">
         <input type="hidden" name="bookNo" th:value="${book.bookNo}">
-  
+
         <div class="write-review-border">
           <div class="write-review-container">
             <div class="write-review-rating">
               <div class="write-wrap">
-                <h1>별점 입력</h1>
+                <h1>리뷰 입력</h1>
                 <div class="write_rating">
                   <!-- 별점 라디오 버튼 (이미 name 속성 있음) -->
                   <label class="write_rating__label write_rating__label--half" for="write_starhalf">
@@ -356,25 +328,26 @@
                     <span class="write_star_icon"></span>
                   </label>
                 </div>
-  
+
                 <!-- 이미지 업로드 -->
                 <div class="write-review-image-container">
-                  <img alt="리뷰 이미지" class="write-review-img-thumb">
+                  <img alt="이미지 미리보기" class="write-review-img-thumb">
                   <label for="imageInput">이미지 추가
                     <input type="file" name="reviewImage" id="imageInput" accept="image/*">
                   </label>
                 </div>
-  
+
                 <!-- 제목 입력 -->
                 <div class="write-review-title-container">
                   <input type="text" class="write-review-title-input" name="title" placeholder="제목을 작성해 주세요">
                 </div>
-  
+
                 <!-- 내용 입력 -->
                 <div class="write-review-content-container">
-                  <textarea class="write-review-content-textarea" name="content" placeholder="리뷰 내용을 작성해 주세요"></textarea>
+                  <textarea class="write-review-content-textarea" name="content"
+                    placeholder="리뷰 내용을 작성해 주세요"></textarea>
                 </div>
-  
+
                 <!-- 제출 버튼 -->
                 <div class="write-review-submit-container">
                   <label class="write-review-submit-button">
@@ -386,14 +359,50 @@
           </div>
         </div>
       </form>
-  
+
       <div th:if="${message}">
         message = /*[[${message}]]*/ "리다이렉트 된 메세지";
       </div>
     </section>
+
+    <!-- 페이지 네이션  -->
+    <section th:if="${reviews != null and !#lists.isEmpty(reviews)}">
+      <div class="pagination-area" th:if="${pagination != null}">
+        <ul class="pagination" th:object="${pagination}">
+          <li th:if="*{currentPage > 1}">
+            <a th:href="@{|/bookDetail/${book.bookNo}?cp=1|}">&lt;&lt;</a>
+          </li>
+          <li th:if="*{currentPage > 1}">
+            <a th:href="@{|/bookDetail/${book.bookNo}?cp=${currentPage - 1}|}">&lt;</a>
+          </li>
+          <th:block th:each="i : *{#numbers.sequence(startPage, endPage)}">
+            <li th:if="${i == pagination.currentPage}">
+              <a class="current" th:text="${i}"></a>
+            </li>
+            <li th:unless="${i == pagination.currentPage}">
+              <a th:href="@{/bookDetail/{bookNo}(bookNo=${book.bookNo}, cp=${i})}" th:text="${i}"></a>
+            </li>
+          </th:block>
+          <li th:if="*{currentPage < maxPage}">
+            <a th:href="@{|/bookDetail/${book.bookNo}?cp=${currentPage + 1}|}">
+              &gt;</a>
+          </li>
+          <li th:if="*{currentPage < maxPage}">
+            <a th:href="@{|/bookDetail/${book.bookNo}?cp=${maxPage}|}">
+              &gt;&gt;</a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+
+
   </main>
 
-
+  <script th:inline="javascript">
+    const pagination = /*[[${pagination}]]*/ {};
+  </script>
+    <footer th:replace="~{common/footer :: footer}"></footer>
   <script src="/js/searchBookPage/detailBook.js"></script>
   <script src="https://kit.fontawesome.com/5eb8a8a2db.js" crossorigin="anonymous"></script>
 </body>

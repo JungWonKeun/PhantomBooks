@@ -325,27 +325,26 @@ function toggleSubmitButton() {
         const telNo = phoneInput.value;
 
         // 서버에 전화번호 인증 요청 보내기
-        fetch('/member/requestVerification', {
+        fetch('/member/temporaryVerification', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded', // 요청 헤더 설정
           },
           body: new URLSearchParams({ 'telNo': telNo }) // 요청 본문에 전화번호 추가
         })
-          .then(response => response.json()) // 서버의 응답을 텍스트 형태로 처리
+          .then(response => response.json())
           .then(data => {
-             /* if (data === 'success') { // 인증 코드 요청 성공시 
-            alert(data); // 응답 메시지를 사용자에게 표시 */
             if (data.status === 'success') { // 인증 코드 요청 성공시
+              alert(`인증 코드가 전송되었습니다: ${data.verificationCode}`); // 성공 메시지와 인증 코드 출력
               // 3분(180초) 타이머 시작
               startTimer(179);
-              alert(`인증 코드가 전송되었습니다: ${data.verificationCode}`); // 성공 메시지와 인증 코드 출력
-
-              if (phoneCheckInput) phoneCheckInput.value = data.verificationCode;
+              
               if (phoneCheckBtn) phoneCheckBtn.style.display = 'none';
               document.getElementById('verificationSection').style.display = 'flex'; // 인증번호 입력 섹션을 화면에 표시
+              if (phoneCheckInput) phoneCheckInput.value = data.verificationCode;
               if (phoneCheckInput) phoneCheckInput.focus();
-
+            } else {
+              alert(data.message || '인증번호 발송에 실패했습니다.');
             }
           })
           .catch(error => {
@@ -393,7 +392,6 @@ function toggleSubmitButton() {
             document.getElementById('verificationSection').style.display = 'none';
             if (phoneCheckBtn) phoneCheckBtn.style.display = 'none';
             isPhoneVerified = true;
-            phoneChangeBtn.style.display = 'inline-block';
             toggleSubmitButton();
           })
           .catch(error => {

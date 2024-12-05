@@ -17,8 +17,8 @@
       <div class="category-container container mt-3 mb-3 pb-3 pt-3 bg-light rounded shadow">
 
         <div class="button-section" id="buttonSection">
-          <button type="button" id="findIdBtn" class="btn btn-primary active" style="background-color: rgb(29,30,57); border-color: rgb(29,30,57);">아이디 찾기</button>
-          <button type="button" id="findPwBtn" class="btn btn-outline-secondary active">비밀번호 찾기</button>
+          <button type="button" id="findIdBtn" class="btn btn-primary">아이디 찾기</button>
+          <button type="button" id="findPwBtn" class="btn btn-outline-secondary">비밀번호 찾기</button>
         </div>
 
         <div class="progress-breadcrumb">
@@ -80,8 +80,6 @@
                         <input type="text" class="form-control" id="floatingPhoneCheck" placeholder="" maxlength="4"
                           autocomplete="off" required>
                         <label for="floatingPhoneCheck">인증번호 확인</label>
-                        <button type="button" id="phoneCheckClearBtn" class="btn-close clear-btn"
-                          onclick="clearInput('floatingPhoneCheck')" aria-label="Clear" tabindex="-1"></button>
                         <span id="timer" class="timer-text"></span>
                       </div>
                       <div class="col-auto">
@@ -122,7 +120,7 @@
                     <div class="form-floating row g-3 mb-2 mt-2 position-relative">
                       <div class="form-floating col-7 position-relative">
                         <input type="text" class="form-control" id="memberId" name="memberId" placeholder=""
-                          autocomplete="off" required>
+                          maxlength="12" autocomplete="off" required>
                         <label for="memberId">아이디를 입력해주세요</label>
                         <button type="button" id="idClearBtn" class="btn-close clear-btn"
                           onclick="clearInput('memberId')" aria-label="Clear" tabindex="-1"></button>
@@ -146,6 +144,7 @@
               </div>
               <div class="card-body">
                 <p id="foundIdMessage"></p>
+                <button id="unmaskButton" class="btn btn-secondary mt-3" style="display: none;">마스킹 해제</button>
               </div>
             </div>
           </div>

@@ -42,7 +42,7 @@
             <button id="myCategoryBringingInBtn"> 내 카테고리 불러오기</button>
             <button id="catBtnAllCancel" hidden>전체 선택 취소</button>
           </label>
-        </div>
+          </div>
 
         <label><input type="checkbox" value="1" th:checked="${param.category != null and param.category.contains('1')}"
             class="categoryCheckbox">소설</label>
@@ -276,11 +276,17 @@
         </a>
         <div class="book-item-actions">
           <label class="buttonBag">
-            <i class="fas fa-shopping-cart" id="shoppingCartId" onclick="singleCartBtn(this)" th:if="${session.loginMember != null}" title="장바구니" style="cursor: pointer; color: #f39c12;"></i>
+            <i class="fas fa-shopping-cart" id="shoppingCartId" 
+            onclick="singleCartBtn(this)" th:if="${session.loginMember != null}" 
+            title="장바구니" style="cursor: pointer; color: #f39c12;"></i>
           </label>
         
           <label class="buttonWish">
-            <i class="fas fa-heart" id="heartId" onclick="singleWishListBtn(this)" th:if="${session.loginMember != null}" title="찜" style="cursor: pointer; color: #e74c3c;"></i>
+            <i class="fas fa-heart" id="heartId"
+            th:class="${#lists.contains(wishList, book.bookNo)} ? 'fas fa-heart fa-solid' : 'far fa-heart fa-regular'"
+             onclick="singleWishListBtn(this)" th:if="${session.loginMember != null}"
+             title="찜" style="cursor: pointer; color: #e74c3c;"></i>
+             
           </label>
         </div>
       </div>

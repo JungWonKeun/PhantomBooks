@@ -23,7 +23,7 @@ public class AdminNewBookServiceImpl implements AdminNewBookService {
 	
 	private final AdminNewBookMapper mapper;
 	
-	// 새 책 요청 목록
+	// 발주 요청 목록
 	@Override
 	public Map<String, Object> newBookList() {
 
@@ -52,12 +52,15 @@ public class AdminNewBookServiceImpl implements AdminNewBookService {
 		int result = 0;
 		int updateResult = 0; //
 		
+		// 기존 등록 책 정보 확인
 		int selectBook = mapper.selectBook(bookNo);
 		log.debug("selectBook : {}", selectBook);
 		
+		// 요청 번호 가져오기
 		int requestNo = mapper.selectRequestNo(bookNo);
 		log.debug("requestNo : {}", requestNo);
 				
+		// 기존 책일 경우
 		if(selectBook > 0) {
 			
 			// 기존 책 수량 변경
@@ -75,17 +78,16 @@ public class AdminNewBookServiceImpl implements AdminNewBookService {
 					// request에 bookNo 존재 === book에 신간 발주내용 삽입
 					updateResult = mapper.insertRequest(bookNo);
 					log.debug("updateResult : {}", updateResult);
+					if(updateResult > 0) {
+						int updateManager = mapper.updateNewBookManager(bookNo, requestNo);
+					}
 				}
-
-				
-		}
+			}
 		
 		if(updateResult > 0) {
-			result = mapper.updateRequest(requestNo);
-			log.debug("result : {}", result);
 			
-		}else {
-				result = 0;
+			result = mapper.updateRequest(bookNo);
+			log.debug("result : {}", result);
 		}
 			
 		return result;

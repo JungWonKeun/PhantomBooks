@@ -38,11 +38,21 @@ document.addEventListener('DOMContentLoaded', async () => {
           this.prevBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             this.prevBook();
+            // 타이머 재설정
+            if (this.autoSlideTimer) {
+              clearInterval(this.autoSlideTimer);
+              this.startAutoSlide(interval);
+            }
           });
           
           this.nextBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             this.nextBook();
+            // 타이머 재설정
+            if (this.autoSlideTimer) {
+              clearInterval(this.autoSlideTimer);
+              this.startAutoSlide(interval);
+            }
           });
         }
         
@@ -100,18 +110,23 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       startAutoSlide(interval) {
         if (!this.books || this.books.length <= 1) return;
-        setInterval(() => this.nextBook(), interval);
+        // 기존 타이머가 있다면 제거
+        if (this.autoSlideTimer) {
+          clearInterval(this.autoSlideTimer);
+        }
+        // 새로운 타이머 설정
+        this.autoSlideTimer = setInterval(() => this.nextBook(), interval);
       }
     };
 
     return slider;
   }
 
-  // 취기화
+  // 초기화
   try {
-    const todaySlider = initializeSlider('bookSlider', 4000, 0);
-    const bestsellerSlider = initializeSlider('bestsellerSlider', 4000, 350);
-    const myTypeSlider = initializeSlider('myTypeSlider', 4000, 550);
+    const todaySlider = initializeSlider('bookSlider', 5000, 0);
+    const bestsellerSlider = initializeSlider('bestsellerSlider', 5000, 350);
+    const myTypeSlider = initializeSlider('myTypeSlider', 5000, 550);
     
     todaySlider.init();
     bestsellerSlider.init();

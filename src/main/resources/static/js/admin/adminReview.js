@@ -92,7 +92,10 @@ const listUp = (cp, sort, title) => {
       // 리뷰 사진
       const td5 = document.createElement("td");
       td5.classList.add("image");
-      td5.innerHTML = review.reviewImgNo;
+
+      const img = document.createElement("img");
+      img.src = review.reviewImgNo;
+      td5.append(img) ;
       
       // 리뷰 제목
       const td6 = document.createElement("td");

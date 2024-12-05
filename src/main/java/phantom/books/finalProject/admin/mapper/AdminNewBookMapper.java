@@ -36,9 +36,13 @@ public interface AdminNewBookMapper {
 	
 	// 신간 발주 내용 book삽입
 	int insertRequest(@Param("bookNo")int bookNo);
-
+	// 신간 책 재고 추가
+	int updateNewBookManager(int bookNo, int requestNo);
+	
 	// 요청 삭제
 	int deleteRequest(int requestNo);
+
+
 
 
 

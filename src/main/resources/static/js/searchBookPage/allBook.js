@@ -38,7 +38,7 @@ function ifChecked(action) {
     // 선택된 책 번호 수집
     const selectedBookNo = [];
     document.querySelectorAll('.book-checkbox:checked').forEach(checkbox => {
-        selectedBookNo.push(checkbox.value);  // value 값을 사용하여 수집
+        selectedBookNo.push(checkbox.value); // value 값을 사용하여 수집
     });
 
     // 선택된 책이 없으면 경고 메시지 출력 후 종료
@@ -51,15 +51,13 @@ function ifChecked(action) {
         return;
     }
 
-    // Action에 따른 URL 및 메시지 설정
-    let url, successMessage, failureMessage;
+    // Action에 따른 URL 및 실패 메시지 설정
+    let url, failureMessage;
     if (action === 'cart') {
         url = "/searchBookPage/addCart";
-        successMessage = `${selectedBookNo.length}개의 책을 장바구니에 추가하였습니다.`;
         failureMessage = "장바구니 추가에 실패했습니다.";
     } else if (action === 'wishlist') {
         url = "/searchBookPage/addWishlist";
-        successMessage = `${selectedBookNo.length}개의 책을 찜 목록에 추가했습니다.`;
         failureMessage = "찜 목록 추가에 실패했습니다.";
     } else {
         alert("잘못된 요청입니다.");
@@ -76,27 +74,52 @@ function ifChecked(action) {
     })
         .then(response => {
             if (response.ok) {
-                alert(successMessage);
-                if (action === 'cart') {
-                    let userResponse = confirm("장바구니로 이동하시겠습니까?");
-                    if (userResponse) {
-                        window.location.href = "/cart";  // 장바구니 페이지로 이동
-                    }
-                } else if (action === 'wishlist') {
-                    let userResponse = confirm("찜 목록으로 이동하시겠습니까?");
-                    if (userResponse) {
-                        window.location.href = "/myPage/myWishList";  // 찜 목록 페이지로 이동
-                    }
-                }
-                // "아니오"를 누르면 아무 작업도 하지 않음 (현재 페이지 유지)
+                // 찜 기능에서는 JSON 응답 필요, 장바구니는 직접 처리
+                return action === 'wishlist' ? response.json() : { success: true };
             } else {
                 throw new Error(failureMessage);
+            }
+        })
+        .then(data => {
+            if (action === 'wishlist') {
+                const { insertedCount, alreadyExists } = data;
+
+                // 동적으로 메시지 구성
+                let message = "";
+                if (insertedCount > 0) {
+                    message = `${insertedCount}개의 책이 찜 목록에 추가되었습니다.`;
+                }
+                if (alreadyExists > 0) {
+                    message += `\n${alreadyExists}개의 책은 이미 찜 목록에 추가되어 있습니다.`;
+                }
+                if (!message) {
+                    message = "모든 책이 이미 찜 목록에 있습니다.";
+                }
+
+                // 메시지 출력 및 이동 여부 확인
+                alert(message);
+                let userResponse = confirm("찜 목록으로 이동하시겠습니까?");
+                if (userResponse) {
+                    window.location.href = "/myPage/myWishList"; // 찜 목록 페이지로 이동
+                } else {
+                    window.location.reload(); // 현재 페이지 새로고침
+                }
+            } else if (action === 'cart') {
+                // 장바구니에서는 선택한 책 개수를 메시지로 출력
+                alert(`${selectedBookNo.length}개의 책을 장바구니에 추가하였습니다.`);
+                let userResponse = confirm("장바구니로 이동하시겠습니까?");
+                if (userResponse) {
+                    window.location.href = "/cart"; // 장바구니 페이지로 이동
+                } else {
+                    window.location.reload(); // 현재 페이지 새로고침
+                }
             }
         })
         .catch(error => {
             alert(error.message);
         });
 }
+
 
 /* 체크박스 장바구니 끝 */
 
@@ -123,7 +146,7 @@ function singleCartBtn(button) {
     // 책 제목을 알림에 표시
     const bookTitleElement = bookItem.querySelector('.book-title');
     const bookTitle = bookTitleElement ? bookTitleElement.textContent.trim() : '';
-    alert(`"${bookTitle}"을(를) 장바구니에 추가했습니다.`);
+   alert(`"${bookTitle}"을(를) 장바구니에 추가했습니다.`);
 
     // 서버에 bookNo를 전송
     fetch(`/searchBookPage/singleCart`, {
@@ -140,8 +163,11 @@ function singleCartBtn(button) {
             return response.json();
         })
         .then(data => {
-            if (data.success) {
-                alert('장바구니에 성공적으로 추가되었습니다.');
+            if (data == true) {
+              /*   alert('장바구니에 성공적으로 추가되었습니다.'); */
+                if(confirm("장바구니로 이동하시겠습니까?")) {
+                    window.location.href = "/cart";
+                }
             } else {
                 alert('장바구니 추가에 실패했습니다.');
             }
@@ -153,7 +179,7 @@ function singleCartBtn(button) {
 
 /* 상세페이지 장바구니 */
 
-function detailCart(button) {
+/* function detailCart(button) {
     // 클릭된 버튼의 상위 요소에서 book-item 클래스를 가진 요소를 찾습니다.
     const bookItem = button.closest('.book-item');
 
@@ -198,7 +224,7 @@ function detailCart(button) {
         })
         .catch(error => console.error('에러:', error));
 }
-
+ */
 /* 상세페이지 장바구니 끝 */
 
 /* 장바구니 끝 */
@@ -508,7 +534,7 @@ categoryButton.addEventListener("click", () => {
         });
 
         // 버튼 텍스트 변경
-        categoryButton.textContent = "불러오기";
+        categoryButton.textContent = "내 카테고리 불러오기";
         categoriesLoaded = false; // 상태 업데이트
 
         // 선택한 카테고리 값 업데이트
@@ -533,7 +559,7 @@ catCancelButton.addEventListener("click", () => {
     catCancelButton.hidden = true;
 
     // 버튼 텍스트 변경
-    categoryButton.textContent = "불러오기";
+    categoryButton.textContent = "내 카테고리 불러오기";
     categoriesLoaded = false;
 });
 
@@ -557,22 +583,25 @@ document.querySelectorAll('.categoryCheckbox').forEach(checkbox => {
 
 // 선택한 카테고리 값을 업데이트하는 함수
 function updateSelectedCategories() {
-    const selectedCategories = [];
+    const selectedCategoryLabels = []; // 텍스트 값 저장용
+    const selectedCategoryValues = []; // value 값 저장용
     const selectedCategoryValuesDiv = document.getElementById("selectedCategoryValues");
     const hiddenCategoriesInput = document.getElementById("hiddenCategories");
 
-    // 선택된 체크박스를 배열로 수집
+    // 선택된 체크박스의 label 텍스트와 value를 각각 배열로 수집
     document.querySelectorAll('.categoryCheckbox:checked').forEach(checkbox => {
         const categoryLabel = checkbox.closest("label").textContent.trim(); // 체크박스의 부모 label에서 텍스트 추출
-        selectedCategories.push(categoryLabel);
+        selectedCategoryLabels.push(categoryLabel);
+        selectedCategoryValues.push(checkbox.value); // 체크박스의 value 값 추출
     });
 
-    // 선택한 항목을 표시
-    selectedCategoryValuesDiv.textContent = `선택한 항목: ${selectedCategories.join(", ")}`;
+    // 선택한 항목을 표시 (label 텍스트 기준)
+    selectedCategoryValuesDiv.textContent = `선택한 항목: ${selectedCategoryLabels.join(", ")}`;
 
-    // 숨겨진 필드에 값 저장
-    hiddenCategoriesInput.value = selectedCategories.join(",");
+    // 숨겨진 필드에 value 값 저장
+    hiddenCategoriesInput.value = selectedCategoryValues.join(",");
 }
+
 
 /* 카테고리 가져오기 끝 */
 /* 내 프리퍼런스 불러오기  */
@@ -602,8 +631,13 @@ preferenceButton.addEventListener("click", () => {
                 checkboxes.forEach(checkbox => {
                     if (preferences.includes(parseInt(checkbox.value))) {
                         checkbox.checked = true;
+                    } else {
+                        checkbox.checked = false;
                     }
                 });
+
+                // 선택한 프리퍼런스 값 즉시 업데이트
+                updateSelectedPreferences();
 
                 // 버튼 텍스트 변경
                 preferenceButton.textContent = "해제하기";
@@ -620,14 +654,18 @@ preferenceButton.addEventListener("click", () => {
             checkbox.checked = false; // 체크박스 해제
         });
 
+        // 선택한 프리퍼런스 값 즉시 업데이트
+        updateSelectedPreferences();
+
         // 버튼 텍스트 변경
-        preferenceButton.textContent = "불러오기";
+        preferenceButton.textContent = "내 취향 불러오기";
         preferencesLoaded = false; // 상태 업데이트
 
         // 전체 선택 취소 버튼 숨기기
         prefCancelButton.hidden = true;
     }
 });
+
 
 prefCancelButton.addEventListener("click", () => {
     // 모든 체크박스 해제
@@ -636,13 +674,17 @@ prefCancelButton.addEventListener("click", () => {
         checkbox.checked = false;
     });
 
+    // 선택한 선호도 값 업데이트
+    updateSelectedPreferences();
+
     // 전체 선택 취소 버튼 숨기기
     prefCancelButton.hidden = true;
 
     // 버튼 텍스트 변경
-    preferenceButton.textContent = "불러오기";
+    preferenceButton.textContent = "내 취향 불러오기";
     preferencesLoaded = false;
 });
+
 
 // 체크박스 상태 변경 시 전체 선택 취소 버튼 보이기 여부 업데이트 (취향 체크박스)
 function updatePreferenceCancelButtonVisibility() {
@@ -665,22 +707,25 @@ document.querySelectorAll('.preferenceCheckbox').forEach(checkbox => {
 
 // 선택한 항목을 표시하고 숨겨진 필드 업데이트하는 함수
 function updateSelectedPreferences() {
-    const selectedPreferences = [];
+    const selectedPreferenceLabels = []; // 텍스트 값 저장용
+    const selectedPreferenceValues = []; // value 값 저장용
     const selectedPreferenceValuesDiv = document.getElementById("selectedPreferenceValues");
     const hiddenPreferencesInput = document.getElementById("hiddenPreferences");
 
-    // 선택된 체크박스를 배열로 수집
+    // 선택된 체크박스의 label 텍스트와 value를 각각 배열로 수집
     document.querySelectorAll('.preferenceCheckbox:checked').forEach(checkbox => {
         const preferenceLabel = checkbox.closest("label").textContent.trim(); // 체크박스의 부모 label에서 텍스트 추출
-        selectedPreferences.push(preferenceLabel);
+        selectedPreferenceLabels.push(preferenceLabel);
+        selectedPreferenceValues.push(checkbox.value); // 체크박스의 value 값 추출
     });
 
-    // 선택한 항목을 표시
-    selectedPreferenceValuesDiv.textContent = `선택한 항목: ${selectedPreferences.join(", ")}`;
+    // 선택한 항목을 표시 (label 텍스트 기준)
+    selectedPreferenceValuesDiv.textContent = `선택한 항목: ${selectedPreferenceLabels.join(", ")}`;
 
-    // 숨겨진 필드에 값 저장
-    hiddenPreferencesInput.value = selectedPreferences.join(",");
+    // 숨겨진 필드에 value 값 저장
+    hiddenPreferencesInput.value = selectedPreferenceValues.join(",");
 }
+
 /* 내 프리퍼런스 불러오기  끝 */
 
 
@@ -740,10 +785,11 @@ function singleWishListBtn(button) {
         .then(data => {
             if (data === "추가 성공") {
                 alert(`"${bookTitle}"을(를) 찜 목록에 추가했습니다.`);
+                location.reload();
             } else {
                if(confirm(`이미 찜한 책입니다.
                 \n"${bookTitle}"를 삭제 하시겠습니까?`)){   
-
+                    
                 fetch(`/searchBookPage/deleteWishlist`, {
                     method: 'DELETE',
                     headers: {
@@ -760,6 +806,7 @@ function singleWishListBtn(button) {
                     .then(data => {
                     if (data === "삭제 성공") {
                         alert(`"${bookTitle}"을(를) 찜 목록에서 삭제했습니다.`);
+                        location.reload();
                     }
                     })
                     .catch(error => {
@@ -775,15 +822,17 @@ function singleWishListBtn(button) {
 
 /* 찜 보내기  */
 
+
 document.getElementById("applyOption").addEventListener("click", () => {
-    // 검색 폼의 검색 버튼을 선택합니다.
-    const searchButton = document.querySelector('.search-bar form button[type="submit"]');
+    // 검색 폼의 검색 아이콘을 선택합니다.
+    const searchIcon = document.querySelector('.search-bar .search-icon');
     
-    // 검색 버튼 클릭
-    if (searchButton) {
-        searchButton.click();
+    // 검색 아이콘 클릭
+    if (searchIcon) {
+        searchIcon.click();
     }
 });
+
 
 
 

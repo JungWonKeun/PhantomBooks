@@ -432,3 +432,30 @@
     background-color: white;
     transform: none;
 }
+
+.control-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.cart-btn {
+    padding: 8px 15px;
+    background-color: #f39c12;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.cart-btn:hover {
+    background-color: #e67e22;
+}
+
+.cart-btn:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}

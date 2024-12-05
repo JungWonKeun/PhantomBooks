@@ -20,4 +20,6 @@ public interface AdminNoticeService {
 
 	int updateStatus(int noticeId);
 
+	Notice noticeInfo(int noticeId);
+
 }

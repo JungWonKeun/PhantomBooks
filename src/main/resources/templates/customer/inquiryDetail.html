@@ -18,7 +18,7 @@
 
     <div class="mainContent">
       <section class="board-detail" th:object="${inquiry}">
-        <h2 class="board-title" th:text="*{queryTitle}">게시글 제목</h2>
+        <h2 class="board-title" th:utext="*{queryTitle}">게시글 제목</h2>
         <div class="board-header">
 
           <p>
@@ -36,7 +36,7 @@
         </div>
 
         <div class="inquiryDetail-content2">
-          <span>답글</span>
+          <span>관리자 답변</span>
           <p th:if="${inquiry.reply != null}" th:text="*{reply}"></p>
           <p th:if="${inquiry.reply == null}">작성된 답글이 없습니다.</p>
         </div>

@@ -16,8 +16,9 @@
       
     </div>
   
-   
     <div class="function">
+
+      
       <!-- 관리자 담당 업무 -->
       <div class="adminName">
         <div th:if= "${session.loginMember}"
@@ -30,8 +31,8 @@
       <div class="chatting">
         <button class="fa-solid fa-paper-plane" id="openPopup"></button>
       </div>
-    </div>
-    <header th:replace="~{admin/adminChatting}"></header>
+     </div>
+    <!-- <header th:replace="~{admin/adminChatting}"></header>  -->
 
   </section>
   <main>
@@ -83,6 +84,7 @@
       </div>
   
       <div class="graph-box">
+        정렬 기준
         <label class="sort-dropdown">
           <select id="sortSelect" >
               <option value="all">전체</option>

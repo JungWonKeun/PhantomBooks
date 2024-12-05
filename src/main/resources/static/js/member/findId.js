@@ -45,8 +45,15 @@ document.addEventListener('DOMContentLoaded', function () {
   findIdBtn.addEventListener('click', function () {
     findIdBtn.classList.remove('btn-outline-secondary');
     findIdBtn.classList.add('btn-primary');
+    findIdBtn.style.backgroundColor = 'rgb(29,30,57)';
+    findIdBtn.style.borderColor = 'rgb(29,30,57)';
+    findIdBtn.style.color = 'white';
+    
     findPwBtn.classList.remove('btn-primary');
     findPwBtn.classList.add('btn-outline-secondary');
+    findPwBtn.style.color = 'rgb(29,30,57)';
+    findPwBtn.style.borderColor = 'rgb(29,30,57)';
+    findPwBtn.style.backgroundColor = 'transparent';
 
     showSection(checkTelNoSection);
     hideSection(idResultSection);
@@ -61,8 +68,15 @@ document.addEventListener('DOMContentLoaded', function () {
   findPwBtn.addEventListener('click', function () {
     findPwBtn.classList.remove('btn-outline-secondary');
     findPwBtn.classList.add('btn-primary');
+    findPwBtn.style.backgroundColor = 'rgb(29,30,57)';
+    findPwBtn.style.borderColor = 'rgb(29,30,57)';
+    findPwBtn.style.color = 'white';
+    
     findIdBtn.classList.remove('btn-primary');
     findIdBtn.classList.add('btn-outline-secondary');
+    findIdBtn.style.color = 'rgb(29,30,57)';
+    findIdBtn.style.borderColor = 'rgb(29,30,57)';
+    findIdBtn.style.backgroundColor = 'transparent';
 
     showSection(checkTelNoSection);
     hideSection(idResultSection);
@@ -125,15 +139,26 @@ document.addEventListener('DOMContentLoaded', function () {
         body: formData
       });
 
+      const data = await response.json();
+      
       if (action.endsWith('findId')) {
-        // 아이디 찾기: 폼 제출 후 결과 표시
-        const data = await response.json();
-        document.getElementById('foundIdMessage').textContent = data.message;
+        const resultContainer = document.getElementById('foundIdMessage');
         hideSection(checkTelNoSection);
         showSection(idResultSection);
         updateProgressStatus('stepResult', 'findId');
+
+        if (data.status === 'success') {
+          const memberIds = data.data;
+          displayIdResults(memberIds);
+        } else {
+          resultContainer.innerHTML = `
+            <div class="alert alert-warning">
+              ${data.message}
+            </div>
+          `;
+        }
       } else {
-        // 비밀번호 찾기: 전화번호 인증만 완료하고 다음 단계로
+        // 비밀번호 찾기 로직
         const verifiedTelNo = document.getElementById('telNo').value;
         document.getElementById('verifiedTelNo').value = verifiedTelNo;
         hideSection(checkTelNoSection);
@@ -165,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function () {
         updateProgressStatus('stepPassword', 'findPw');
         alert(data.message);
       } else {
-        document.getElementById('memberId').classList.add('is-invalid');
+        document.getElementById('memberId').focus();
         alert('일치하는 회원 정보가 없습니다.');
       }
     } catch (error) {
@@ -450,30 +475,33 @@ function toggleSubmitButton() {
         const telNo = phoneInput.value;
 
         // 서버에 전화번호 인증 요청 보내기
-        fetch('/member/requestVerification', {
+        fetch('/member/temporaryVerification', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded', // 요청 헤더 설정
           },
           body: new URLSearchParams({ 'telNo': telNo }) // 요청 본문에 전화번호 추가
         })
-          .then(response => response.json()) // 서버의 응답을 텍스트 형태로 처리
+          .then(response => response.json())
           .then(data => {
-             /* if (data === 'success') { // 인증 코드 요청 성공시 
-            alert(data); // 응답 메시지를 사용자에게 표시 */
             if (data.status === 'success') { // 인증 코드 요청 성공시
+              alert(`인증 코드가 전송되었습니다: ${data.verificationCode}`); // 성공 메시지와 인증 코드 출력
               // 3분(180초) 타이머 시작
               startTimer(179);
-              alert(`인증 코드가 전송되었습니다: ${data.verificationCode}`); // 성공 메시지와 인증 코드 출력
-
-              if (phoneCheckInput) phoneCheckInput.value = data.verificationCode;
+              
+              if (phoneCheckBtn) phoneCheckBtn.style.display = 'none';
               document.getElementById('verificationSection').style.display = 'flex'; // 인증번호 입력 섹션을 화면에 표시
+              if (phoneCheckInput) phoneCheckInput.value = data.verificationCode;
               if (phoneCheckInput) phoneCheckInput.focus();
+            } else {
+              alert(data.message || '인증번호 발송에 실패했습니다.');
             }
           })
           .catch(error => {
-            console.error('Error:', error); // 오류 발생 시 콘솔에 출력
-          });
+            if (timerInterval) clearInterval(timerInterval);
+            console.error('Error:', error);
+            alert('인증번호 발송 중 오류가 발생했습니다.');
+          })
       });
     }
 
@@ -576,3 +604,32 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
+// 아이디 마스킹 처리 함수
+function maskId(id) {
+  if (!id || id.length <= 3) return id;
+  return id.substring(0, 3) + '*'.repeat(id.length - 3);
+}
+
+// ID 찾기 결과 표시 후 마스킹 해제 버튼 처리
+function displayIdResults(memberIds) {
+    const resultContainer = document.getElementById('foundIdMessage');
+    let resultHTML = '<div class="alert alert-success">';
+    resultHTML += '<h5>찾은 아이디 목록</h5>';
+    resultHTML += '<ul class="list-unstyled">';
+    memberIds.forEach(id => {
+        resultHTML += `<li class="masked-id">${maskId(id)}</li>`;
+    });
+    resultHTML += '</ul></div>';
+    resultContainer.innerHTML = resultHTML;
+
+    // 마스킹 해제 버튼 표시
+    const unmaskButton = document.getElementById('unmaskButton');
+    unmaskButton.style.display = 'block';
+    unmaskButton.addEventListener('click', () => {
+        document.querySelectorAll('.masked-id').forEach((element, index) => {
+            element.textContent = memberIds[index]; // 마스킹 해제
+        });
+        unmaskButton.style.display = 'none'; // 버튼 숨기기
+    });
+}
