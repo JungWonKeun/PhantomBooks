@@ -20,6 +20,7 @@ modalLoginForm.addEventListener("submit", function (event) {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
+      "X-Requested-With": "XMLHttpRequest"
     },
     body: new URLSearchParams({
       memberId: memberId,
@@ -36,10 +37,12 @@ modalLoginForm.addEventListener("submit", function (event) {
     .then(data => {
       const modalElement = document.getElementById("modalLogin");
       const modal = bootstrap.Modal.getInstance(modalElement);
-      if (data.authority != 1) {
+      
+      if (data.authority === 2) {  // authority 값이 2이면 관리자
         window.location.href = "/admin";
         return;
       }
+      
       modal.hide();
       
       // URL에서 장바구니 리다이렉트 파라미터 확인
