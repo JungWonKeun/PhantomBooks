@@ -85,12 +85,15 @@
           <div class="book-detail-info">
             <div class="book-detail-actions">
               <!-- 장바구니 아이콘 -->
-              <i class="fas fa-shopping-cart" onclick="detailCart(this)" title="장바구니" id="shoppingCartId"></i>
+              <i class="fas fa-shopping-cart"
+               onclick="detailCart(this)" title="장바구니" id="shoppingCartId"
+               th:if="${session.loginMember != null}"></i>
 
               <!-- 찜 아이콘 -->
               <i class="fas fa-heart" 
               onclick="singleWishListBtn(this)" title="찜"
-              id="heartId"></i>
+              id="heartId"
+              th:if="${session.loginMember != null}"></i>
             </div>
 
 
