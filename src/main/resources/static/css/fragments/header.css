@@ -70,7 +70,7 @@
 .user-menu {
   position: absolute;
   top: 10px;
-  right: 14.5%;
+  right: 17%;
   display: flex;
   gap: 1.8px;
 }
@@ -82,7 +82,7 @@
   color: #fff;
   border: none;
   border-radius: 7px;
-  width: 89px;
+  width: 82px;
   height: 31px;
 }
 

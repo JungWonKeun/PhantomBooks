@@ -322,7 +322,7 @@
 .checkbox-wrapper-39 *::before,
 .checkbox-wrapper-39 *::after {
   box-sizing: border-box;
-  margin-left: 1px;
+  margin-left: 6%;
 }
 
 .checkbox-wrapper-39 label {
@@ -458,4 +458,141 @@
 .cart-btn:disabled {
     background-color: #6c757d;
     cursor: not-allowed;
+}
+
+
+.control-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.cart-btn {
+    padding: 8px 15px;
+    background-color: #f39c12;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.cart-btn:hover {
+    background-color: #e67e22;
+}
+
+.cart-btn:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+
+.no-data-message {
+    text-align: center;
+    padding: 100px 20px;  /* 상하 패딩 증가 */
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    margin: 40px 0;      /* 마진 증가 */
+    width: 100%;         /* 전체 너비 사용 */
+}
+
+.no-data-message i {
+    font-size: 80px;     /* 아이콘 크기 증가 */
+    color: #6c757d;
+}
+
+.no-data-message p {
+    font-size: 24px;     /* 텍스트 크기 증가 */
+    color: #495057;
+    margin-bottom: 30px; /* 여백 증가 */
+    font-weight: 500;    /* 약간 더 굵게 */
+}
+
+.no-data-message a {
+    display: inline-block;
+    padding: 15px 30px;  /* 버튼 크기 증가 */
+    background-color: #205375;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    font-size: 18px;     /* 버튼 텍스트 크기 증가 */
+}
+
+.no-data-message a:hover {
+    background-color: #1a4560;
+}
+
+/* 버튼 컨테이너 추가 */
+.no-data-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.no-data-buttons a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 200px;
+}
+
+/* 기존 버튼 색상 유지 */
+.browse-books-btn {
+    background-color: #205375;
+    color: white;
+}
+
+.browse-books-btn:hover {
+    background-color: #1a4560;
+}
+
+.cart-btn {
+    background-color: #f39c12;
+    color: white;
+}
+
+.cart-btn:hover {
+    background-color: #e67e22;
+}
+
+/* 데이터 없을 때만 적용되는 스타일 */
+.empty-wishlist-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.empty-wishlist-buttons a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 15px 30px;
+    min-width: 200px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 18px;
+    transition: all 0.3s ease;
+    color: white;
+}
+
+.empty-browse-btn {
+    background-color: #205375;
+}
+
+.empty-browse-btn:hover {
+    background-color: #1a4560;
+}
+
+.empty-cart-btn {
+    background-color: #f39c12;
+}
+
+.empty-cart-btn:hover {
+    background-color: #e67e22;
 }

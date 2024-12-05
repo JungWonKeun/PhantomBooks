@@ -435,5 +435,36 @@ public class MyPageController {
 		return ResponseEntity.ok(preference);
 	}
 
+	/** 회원 탈퇴 페이지 */
+	@GetMapping("withdrawal")
+	public String withdrawal() {
+		return "myPage/withdrawal";
+	}
+	
+	/** 회원 탈퇴 처리 */
+	@PostMapping("withdrawalProcess")
+	@ResponseBody
+	public ResponseEntity<?> processWithdrawal(
+	        @RequestBody Map<String, String> request,
+	        @SessionAttribute("loginMember") Member loginMember) {
+	    
+	    try {
+	        // 비밀번호 확인 및 탈퇴 처리
+	        boolean result = service.withdrawMember(
+	            loginMember.getMemberNo(), 
+	            request.get("password")
+	        );
+	        
+	        if (result) {
+	            return ResponseEntity.ok().build();
+	        } else {
+	            return ResponseEntity.badRequest().body("비밀번호가 일치하지 않습니다.");
+	        }
+	        
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                           .body("탈퇴 처리 중 오류가 발생했습니다.");
+	    }
+	}
 }
 

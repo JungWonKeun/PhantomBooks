@@ -48,33 +48,56 @@ body {
   width: 100%;
 }
 
-
 /* 기본적으로 clear-btn 버튼 숨기기 */
 .clear-btn {
   display: none;
   position: absolute;
-  
   top: 50%;
   right: 35px;
   transform: translateY(-50%);
 }
-
-
 
 /* 입력 필드의 오른쪽 여백을 늘려서 유효성 아이콘과 clear-btn이 겹치지 않도록 조정 */
 .form-control {
   padding-right: 60px; /* 여유 있는 오른쪽 패딩 추가 */
 }
 
-
 div label {
   margin-left: 3px; /* input 깨짐 방지 */
 }
 
-#submitBtn{
+/* 버튼 스타일링 */
+.button-container {
+  display: flex;
+  gap: 10px;
   margin-bottom: 100px;
 }
 
+#submitBtn, #resetBtn {
+  margin-bottom: 100px;
+  transition: all 0.3s ease;
+}
+
+#resetBtn {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: white;
+}
+
+#resetBtn:hover {
+  background-color: #bb2d3b;
+  border-color: #b02a37;
+}
+
+#submitBtn {
+  background-color: #205375;
+  border-color: #205375;
+}
+
+#submitBtn:hover {
+  background-color: #1a4560;
+  border-color: #1a4560;
+}
 
 .timer-text {
   position: absolute;

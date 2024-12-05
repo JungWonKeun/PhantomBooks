@@ -23,6 +23,8 @@ public class MyPageServiceImpl implements MyPageService {
 
 	private final MyPageMapper mapper;
 
+	private final BCryptPasswordEncoder encorder;
+
 	// 로그인한 회원의 선호 카테고리 불러오기
 	@Override
 	public List<Category> selectCategory(int memberNo) {
@@ -173,5 +175,28 @@ public class MyPageServiceImpl implements MyPageService {
 		String encryptedPw = encoder.encode(newPw);
 		mapper.updatePassword(memberNo, encryptedPw);
 		return 3; // 비밀번호 변경 성공
+	}
+
+	/**
+	 * 회원 탈퇴
+	 *
+	 */
+	@Override
+	public boolean withdrawMember(int memberNo, String password) {
+		// 현재 회원 정보 조회
+		String encryptedPassword = mapper.getEncryptedPassword(memberNo);
+
+		// 비밀번호 암호화
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+		// 비밀번호 확인
+		if (!encoder.matches(password, encryptedPassword)) {
+			return false;
+		}
+
+		// DEL_FL 업데이트
+		mapper.updateMemberDelFl(memberNo);
+
+		return true;
 	}
 }
