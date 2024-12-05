@@ -17,6 +17,15 @@ openPopupButton.addEventListener("click", () => {
   );
 });
 
+/* 이름 클릭 시 로그아웃 */
+const logout = document.querySelector(".adminName");
+
+logout.addEventListener("click", () => {
+  fetch("/admin/logout")
+  .then(response => { if(response.ok) return response.text();})
+  .then(result => { if(result == 1) window.location.href = "/";})
+})
+
 
 // 등록상태 변경
 const updateBtn = document.querySelectorAll(".updateBtn");

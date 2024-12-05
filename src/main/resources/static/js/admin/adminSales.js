@@ -10,6 +10,26 @@ document.querySelectorAll('.menu').forEach(menu => {
   });
 });
 
+const openPopupButton = document.getElementById("chatting");
+// 팝업 열기
+openPopupButton.addEventListener("click", () => {
+  window.open(
+    "/admin/chatting",  // 팝업으로 열고 싶은 페이지나 URL
+    "관리자 채팅창",  // 새 창의 이름
+    "width=450,height=750,scrollbars=yes,resizable=yes"
+  );
+});
+
+/* 이름 클릭 시 로그아웃 */
+const logout = document.querySelector(".adminName");
+
+logout.addEventListener("click", () => {
+  fetch("/admin/logout")
+  .then(response => { if(response.ok) return response.text();})
+  .then(result => { if(result == 1) window.location.href = "/";})
+})
+
+
 const listUp = (cp, sort, term, date, text) => {
 
   salesRank.innerHTML = '';
