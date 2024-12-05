@@ -124,13 +124,24 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // 초기화
   try {
-    const todaySlider = initializeSlider('bookSlider', 5000, 0);
-    const bestsellerSlider = initializeSlider('bestsellerSlider', 5000, 350);
-    const myTypeSlider = initializeSlider('myTypeSlider', 5000, 550);
+    const bookSliderElement = document.getElementById('bookSlider');
+    const bestsellerSliderElement = document.getElementById('bestsellerSlider');
+    const myTypeSliderElement = document.getElementById('myTypeSlider');
     
-    todaySlider.init();
-    bestsellerSlider.init();
-    myTypeSlider.init();
+    if (bookSliderElement) {
+      const todaySlider = initializeSlider('bookSlider', 5000, 0);
+      todaySlider.init();
+    }
+    
+    if (bestsellerSliderElement) {
+      const bestsellerSlider = initializeSlider('bestsellerSlider', 5000, 350);
+      bestsellerSlider.init();
+    }
+    
+    if (myTypeSliderElement) {
+      const myTypeSlider = initializeSlider('myTypeSlider', 5000, 550);
+      myTypeSlider.init();
+    }
   } catch (error) {
     console.error("Error initializing components:", error);
   }
