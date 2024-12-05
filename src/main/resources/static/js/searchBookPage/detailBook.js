@@ -580,6 +580,7 @@ function singleWishListBtn(button) {
         .then(data => {
             if (data === "추가 성공") {
                 alert(`"${bookTitle}"을(를) 찜 목록에 추가했습니다.`);
+                window.location.reload();   
             } else {
                 if(confirm(`이미 찜한 책입니다.
                     \n"${bookTitle}"를 삭제 하시겠습니까?`)){   
@@ -600,6 +601,7 @@ function singleWishListBtn(button) {
                         .then(data => {
                         if (data === "삭제 성공") {
                             alert(`"${bookTitle}"을(를) 찜 목록에서 삭제했습니다.`);
+                            window.location.reload();   
                         }
                         })
                         .catch(error => {

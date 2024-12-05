@@ -118,6 +118,10 @@ public class SearchBookPageController {
 		if (loginMember != null) {
 			model.addAttribute("memberId", loginMember.getMemberId());
 			
+			int memberNo = loginMember.getMemberNo();
+			List<Integer> wishList = service.getWishList(memberNo);
+	        model.addAttribute("wishList", wishList);
+			
 			
 		}
 
