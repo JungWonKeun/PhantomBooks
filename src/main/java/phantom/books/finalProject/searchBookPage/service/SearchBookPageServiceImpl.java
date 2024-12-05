@@ -334,6 +334,7 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 	// 선택한 요소 찜 목록에 추가
 	@Override
 	public int putWishlist(Map<String, Object> map) {
+		
 
 		return mapper.putWishlist(map);
 	}
@@ -366,7 +367,6 @@ public class SearchBookPageServiceImpl implements SearchBookPageService {
 	public List<Integer> getWishList(int memberNo) {
 		return mapper.getWishList(memberNo);
 	}
-	
 	
 	
 	
