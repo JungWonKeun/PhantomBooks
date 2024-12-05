@@ -43,23 +43,25 @@
             <!-- 검색 섹션 -->
             <section class="inquiry-search">
                 <div class="filter-area">
-                    <label for="sort-dropdown">조회 기간:</label>
-                    <select id="sort-dropdown">
+                    <div class="filter-item">
+                        <label for="sort-dropdown">조회 기간 : </label>
+                        <select id="sort-dropdown">
                         <option value="7">7일</option>
                         <option value="1">1개월</option>
                         <option value="3">3개월</option>
                         <option value="6">6개월</option>
                         <option value="12">1년</option>
-                    </select>
+                        </select>
+                    </div>
                     <div class="date">
-                        <label for="startDate">시작일:</label>
+                        <label for="startDate">시작일 : </label>
                         <input type="date" id="startDate">
 
-                        <label for="endDate">종료일:</label>
+                        <label for="endDate">종료일 : </label>
                         <input type="date" id="endDate">
 
                     </div>
-                    <buton id="searchButton">조회</buton>
+                    <button id="searchButton">조회</button>
                 </div>
 
             </section>
