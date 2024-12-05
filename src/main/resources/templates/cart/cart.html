@@ -50,10 +50,17 @@
                 </div>
               </td>
               <td>
-                <img th:src="${item.bookCover != null ? item.bookCover : '/images/bookCover/default.jpg'}"
-                  alt="Book Cover" class="book-cover">
+                <a th:href="@{/searchBookPage/bookDetail/{bookNo}(bookNo=${item.bookNo})}">
+                  <img th:src="${item.bookCover != null ? item.bookCover : '/images/bookCover/default.jpg'}"
+                    alt="Book Cover" class="book-cover">
+                </a>
               </td>
-              <td th:text="${item.bookTitle}"></td>
+
+              <td>
+                <a th:href="@{/searchBookPage/bookDetail/{bookNo}(bookNo=${item.bookNo})}">
+                  <span th:text="${item.bookTitle}"></span>
+                </a>
+              </td>
               <td class="book-price" th:data-price="${item.bookPrice}"></td>
 
               <td>

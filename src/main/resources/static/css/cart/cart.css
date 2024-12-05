@@ -430,3 +430,9 @@
   transform: translateX(0);
   transition: transform 0.1s ease-out; 
 }
+
+.cartTable a,
+.recommendation-item a { 
+  text-decoration: none;
+  color: black;
+}

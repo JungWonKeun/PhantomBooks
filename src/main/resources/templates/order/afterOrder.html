@@ -14,8 +14,6 @@
 <body>
     <header th:replace="~{common/common}"></header>
     <main class="afterOrderMain">
-        <h1>주문이 완료되었습니다!</h1><br><br>
-
         <section>
             <h3>구매한 상품</h3>
             <table class="table table-bordered">
@@ -30,12 +28,20 @@
                 <tbody>
                     <tr th:each="item : ${orderItems}">
                         <td>
-                            <img th:src="${item.bookCover != null ? item.bookCover : '/images/bookCover/default.jpg'}"
-                                alt="책 이미지" class="img-thumbnail" style="max-width: 100px;">
+                            <a th:href="@{/searchBookPage/bookDetail/{bookNo}(bookNo=${item.bookNo})}">
+                                <img th:src="${item.bookCover != null ? item.bookCover : '/images/bookCover/default.jpg'}"
+                                    alt="책 이미지" class="img-thumbnail" style="max-width: 100px;">
+                            </a>
                         </td>
-                        <td th:text="${item.bookTitle != null ? item.bookTitle : '제목 없음'}">책 이름</td>
+                        <td>
+                            <a th:href="@{/searchBookPage/bookDetail/{bookNo}(bookNo=${item.bookNo})}">
+                                <span th:text="${item.bookTitle}"></span>
+                            </a>
+                        </td>
                         <td th:text="${item.bookCount}">0</td>
-                        <td th:text="${item.orderPrice != null && item.bookCount != null && item.bookCount > 0 ? item.orderPrice / item.bookCount : 0}">0</td>
+                        <td
+                            th:text="${item.orderPrice != null && item.bookCount != null && item.bookCount > 0 ? item.orderPrice / item.bookCount : 0}">
+                            0</td>
                     </tr>
 
                 </tbody>

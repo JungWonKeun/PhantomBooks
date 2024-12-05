@@ -22,70 +22,56 @@
   <main class="orderMain">
     <!-- 배송 정보와 주문 상품 목록을 묶는 컨테이너 -->
     <div class="infoAndOrder">
-      <!-- 배송 정보 영역 -->
-      <div class="addressForm">
-        <h4>배송 정보</h4>
-        <div class="form-group">
-          <label for="userName">수령인</label>
-          <input type="text" id="userName" name="userName" required placeholder="수령인" />
-        </div>
-        <div class="form-group">
-          <label for="userTelNo">전화번호</label>
-          <input type="tel" id="userTelNo" name="userTelNo" required pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"
-            placeholder="010-1234-5678" />
-        </div>
-        <!-- 기본 배송지 -->
+      <div class="addressContainer">
+        <!-- 배송 정보 영역 -->
         <div class="addressForm">
-          <p>
-            <input type="checkbox" id="defaultAddressCheck" checked="on" />
-            기본 배송지
-          </p>
+          <h4>배송 정보</h4>
+          <div class="form-group">
+            <label for="userName">수령인</label>
+            <input type="text" id="userName" name="userName" required placeholder="수령인" th:value="${loginMember?.name}"/>
+          </div>
+          <div class="form-group">
+            <label for="userTelNo">전화번호</label>
+            <input type="tel" id="userTelNo" name="userTelNo" required pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-1234-5678" th:value="${loginMember?.telNo}"/>      
+
+          </div>
           <div class="form-floating mb-2">
-            <input type="text" class="form-control" id="userZip" name="zip" readonly
-              th:value="${defaultAddress?.zip}" />
+            <input type="text" class="form-control" id="userZip" name="zip" readonly th:value="${loginMember?.zip}"/>
             <label for="zip">우편번호</label>
           </div>
           <div class="form-floating mb-2">
-            <input type="text" class="form-control" id="userAddress" name="address" readonly
-              th:value="${defaultAddress?.address}" />
+            <input type="text" class="form-control" id="userAddress" name="address" readonly th:value="${loginMember?.address}"/>
             <label for="address">주소</label>
           </div>
           <div class="form-floating mb-2">
-            <input type="text" class="form-control" id="userDetailAddress" name="detailAddress" readonly
-              th:value="${defaultAddress?.detailAddress}" />
+            <input type="text" class="form-control" id="userDetailAddress" name="detailAddress" readonly th:value="${loginMember?.detailAddress}"/>
             <label for="detailAddress">상세 주소</label>
           </div>
-          <button type="button" id="addAddressBtn" class="btn btn-primary mt-3">배송지 추가</button>
-          <div id="additionalAddresses"></div>
+          <button type="button" id="addAddressBtn" class="btn btn-primary mt-3">배송지 변경</button>
+        </div>
+        
+        <!-- 추가 배송지 폼 -->
+        <div class="additional-address-form" style="display: none;">
+          <h4>추가 배송지</h4>
+          <div class="form-floating mb-2">
+            <input type="text" class="form-control" id="addZip" th:value="${loginMember?.addZip}" readonly>
+            <label for="addZip">우편번호</label>
+          </div>
+          <div class="form-floating mb-2">
+            <input type="text" class="form-control" id="addAddress" th:value="${loginMember?.addAddress}" readonly>
+            <label for="addAddress">주소</label>
+          </div>
+          <div class="form-floating mb-2">
+            <input type="text" class="form-control" id="addDetailAddress" th:value="${loginMember?.addDetailAddress}">
+            <label for="addDetailAddress">상세 주소</label>
+          </div>
+          <div class="addressBtnContainer">
+            <button type="button" class="btn btn-secondary findAddressBtn">주소 검색</button>
+            <button type="button" class="btn btn-success validateButton">변경하기</button>
+          </div>
         </div>
       </div>
-
-      <div class="additional-address-form">
-        <p>
-          <input type="checkbox" class="defaultAddressCheck" id="additionalAddressCheck">
-          추가 배송지
-        </p>
-        <div class="form-floating mb-2">
-          <input type="text" class="form-control zip-input" id="addZip" th:value="${loginMember?.addZip}" placeholder="우편번호" readonly>
-          <label for="addZip">우편번호</label>
-        </div>
-        <div class="form-floating mb-2">
-          <input type="text" class="form-control address-input" id="addAddress" th:value="${loginMember?.addAddress}" placeholder="주소"
-            readonly>
-          <label for="addAddress">주소</label>
-        </div>
-        <div class="form-floating mb-2">
-          <input type="text" class="form-control detail-address-input" id="addDetailAddress" th:value="${loginMember?.addDetailAddress}"
-            placeholder="상세 주소">
-          <label for="addDetailAddress">상세 주소</label>
-        </div>
-        <button type="button" class="btn btn-secondary findAddressBtn">주소 검색</button>
-        <button type="button" class="btn btn-success validateButton">입력 확인</button>
-      </div>
-
-
-
-
+      
       <!-- 주문 상품 목록 -->
       <div id="orderTableContainer">
         <div class="orderHeader">
@@ -105,10 +91,16 @@
             <tbody>
               <tr th:each="item : ${orderItems}" th:attr="data-book-no=${item.bookNo}">
                 <td>
+                  <a th:href="@{/searchBookPage/bookDetail/{bookNo}(bookNo=${item.bookNo})}">
                   <img th:src="${item.bookCover != null ? item.bookCover : '/images/bookCover/default.jpg'}" alt="책이미지"
                     class="book-cover">
+                  </a>
                 </td>
-                <td th:text="${item.bookTitle}">상품명</td>
+                <td>
+                  <a th:href="@{/searchBookPage/bookDetail/{bookNo}(bookNo=${item.bookNo})}">
+                    <span th:text="${item.bookTitle}"></span>
+                  </a>
+                </td>
                 <td th:text="${item.cartCount}">수량</td>
                 <td>
                   <span class="book-price" th:attr="data-price=${item.bookPrice}"
@@ -139,9 +131,60 @@
       let selectedAddress = null;
 
       document.addEventListener('DOMContentLoaded', () => {
+        // 기본 배송지 요소
+        const userZip = document.getElementById('userZip');
+        const userAddress = document.getElementById('userAddress');
+        const userDetailAddress = document.getElementById('userDetailAddress');
 
+        // 추가 배송지 요소
+        const additionalAddressForm = document.querySelector('.additional-address-form');
+        const addZip = document.getElementById('addZip');
+        const addAddress = document.getElementById('addAddress');
+        const addDetailAddress = document.getElementById('addDetailAddress');
 
+        // 초기에는 추가 배송지 숨기기
+        additionalAddressForm.style.display = 'none';
 
+        // 배송지 추가 버튼 클릭 시
+        document.getElementById('addAddressBtn').addEventListener('click', () => {
+          additionalAddressForm.style.display = 'block';
+        });
+
+        // 주소 검색 버튼 클릭 시
+        document.querySelector('.findAddressBtn').addEventListener('click', () => {
+          new daum.Postcode({
+            oncomplete: (data) => {
+              addZip.value = data.zonecode;
+              addAddress.value = data.roadAddress || data.jibunAddress;
+              addDetailAddress.focus();
+            }
+          }).open();
+        });
+
+        // 입력하기 버튼 클릭 시
+        document.querySelector('.validateButton').addEventListener('click', () => {
+          if (!addZip.value || !addAddress.value || !addDetailAddress.value) {
+            alert('모든 주소 정보를 입력해주세요.');
+            return;
+          }
+
+          // 기본 배송지 정보 업데이트
+          userZip.value = addZip.value;
+          userAddress.value = addAddress.value;
+          userDetailAddress.value = addDetailAddress.value;
+
+          // selectedAddress 업데이트
+          selectedAddress = {
+            zip: userZip.value,
+            address: userAddress.value,
+            detailAddress: userDetailAddress.value
+          };
+
+          // 추가 배송지 폼 숨기기
+          additionalAddressForm.style.display = 'none';
+
+          alert('배송지가 변경되었습니다.');
+        });
 
         // 주문 도서 접기 기능
         const totalItemCountElement = document.getElementById('totalItemCount');
@@ -189,115 +232,6 @@
             orderTable.classList.add('hidden');
             toggleTableBtn.textContent = '펼치기';
           }
-        });
-
-
-
-
-
-
-
-        const defaultAddressCheckbox = document.getElementById('defaultAddressCheck');
-        const zipInput = document.getElementById('userZip');
-        const addressInput = document.getElementById('userAddress');
-        const detailAddressInput = document.getElementById('userDetailAddress');
-
-        const addAddressBtn = document.getElementById('addAddressBtn');
-        const additionalAddressesContainer = document.getElementById('additionalAddresses');
-        let addZip = /*[[${addZip != null ? addZip : ''}]]*/ ''; // 추가 배송지 우편번호
-        let addAddress = /*[[${addAddress != null ? addAddress : ''}]]*/ ''; // 추가 배송지 주소
-        let addDetailAddress = /*[[${addDetailAddress != null ? addDetailAddress : ''}]]*/ ''; // 추가 배송지 상세주소
-
-        // 초기 selectedAddress 설정
-        selectedAddress = {
-          zip: zipInput.value,
-          address: addressInput.value,
-          detailAddress: detailAddressInput.value,
-        };
-
-        // 기본 배송지 선택 시 추가 배송지 해제
-        defaultAddressCheckbox.addEventListener('change', () => {
-          if (defaultAddressCheckbox.checked) {
-            // 기본 배송지 선택 시 selectedAddress 동기화
-            selectedAddress = {
-              zip: zipInput.value,
-              address: addressInput.value,
-              detailAddress: detailAddressInput.value,
-            };
-            console.log('배송지 선택됨:', selectedAddress);
-          }
-        });
-
-        // 추가 배송지 폼 생성
-        const additionalAddressForm = `
-      <div class="additional-address-form">
-        <p>
-          <input type="checkbox" class="defaultAddressCheck" id="additionalAddressCheck">
-          추가 배송지
-        </p>
-        <div class="form-floating mb-2">
-          <input type="text" class="form-control zip-input" id="addZip" value="${addZip}" placeholder="우편번호" readonly>
-          <label for="addZip">우편번호</label>
-        </div>
-        <div class="form-floating mb-2">
-          <input type="text" class="form-control address-input" id="addAddress" value="${addAddress}" placeholder="주소" readonly>
-          <label for="addAddress">주소</label>
-        </div>
-        <div class="form-floating mb-2">
-          <input type="text" class="form-control detail-address-input" id="addDetailAddress" value="${addDetailAddress}" placeholder="상세 주소">
-          <label for="addDetailAddress">상세 주소</label>
-        </div>
-        <button type="button" class="btn btn-secondary findAddressBtn">주소 검색</button>
-        <button type="button" class="btn btn-success validateButton">입력 확인</button>
-      </div>
-    `;
-
-        // 추가 배송지 폼 삽입
-        additionalAddressesContainer.innerHTML = additionalAddressForm;
-
-        const additionalAddressCheckbox = document.getElementById('additionalAddressCheck');
-        const addZipInput = document.getElementById('addZip');
-        const addAddressInput = document.getElementById('addAddress');
-        const addDetailAddressInput = document.getElementById('addDetailAddress');
-
-        // 추가 배송지 선택 시 기본 배송지 해제
-        additionalAddressCheckbox.addEventListener('change', () => {
-          if (additionalAddressCheckbox.checked) {
-            defaultAddressCheckbox.checked = false;
-            selectedAddress = {
-              zip: addZipInput.value,
-              address: addAddressInput.value,
-              detailAddress: addDetailAddressInput.value,
-            };
-            console.log('추가 배송지 선택됨:', selectedAddress);
-          }
-        });
-
-        // 주소 검색 버튼
-        document.querySelector('.findAddressBtn').addEventListener('click', () => {
-          new daum.Postcode({
-            oncomplete: (data) => {
-              addZipInput.value = data.zonecode;
-              addAddressInput.value = data.roadAddress || data.jibunAddress;
-              addDetailAddressInput.focus();
-            },
-          }).open();
-        });
-
-        // 입력 확인 버튼
-        document.querySelector('.validateButton').addEventListener('click', () => {
-          if (!addZipInput.value || !addAddressInput.value || !addDetailAddressInput.value) {
-            alert('추가 배송지 정보를 모두 입력해주세요.');
-            return;
-          }
-          alert('추가 배송지로 선택되었습니다.');
-          additionalAddressCheckbox.checked = true;
-          defaultAddressCheckbox.checked = false;
-          selectedAddress = {
-            zip: addZipInput.value,
-            address: addAddressInput.value,
-            detailAddress: addDetailAddressInput.value,
-          };
         });
 
         // 결제 버튼 클릭 이벤트
