@@ -72,7 +72,8 @@ public interface SearchBookPageService {
 	 void buyBook(int bookNo, int bookPrice, String bookTitle);
 
 	 // 찜 목록 조회 
-	List<Integer> getWishList(int memberNo); 
+	List<Integer> getWishList(int memberNo);
+
 	
 
 
