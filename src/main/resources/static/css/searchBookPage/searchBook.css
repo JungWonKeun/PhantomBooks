@@ -86,7 +86,178 @@ button i {
 }
 
 /* 필터 섹션 스타일 */
-.filter-section {
+/* 필터 사이드바 스타일 - 힙하고 심플한 느낌으로 책의 요소를 강조 */
+/* 필터 사이드바 스타일 - 힙하고 심플한 느낌으로 책의 요소를 강조 */
+.filter-sidebar {
+  position: fixed;
+  top: 80px;
+  left: 20px;
+  width: 280px;
+  background: linear-gradient(145deg, #e0f7fa, #f1faff);
+  border: 1px solid #aacfd0;
+  border-radius: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 25px;
+  z-index: 1000;
+  font-family: 'Merriweather', serif;
+  transition: all 0.4s ease;
+}
+
+.filter-sidebar:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  transform: translateY(-5px);
+}
+
+/* 선택된 카테고리와 취향 팝업 박스 스타일 */
+.selected-popup {
+  margin-bottom: 25px;
+  padding: 20px;
+  background-color: #f0faff;
+  border: 1px solid #aacfd0;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  font-family: 'Merriweather', serif;
+  transition: background-color 0.4s ease, transform 0.3s ease;
+  position: relative;
+}
+
+.selected-popup::before {
+  content: '\1F4D6'; /* 책 아이콘을 강조하여 책의 느낌을 더함 */
+  position: absolute;
+  top: 0;
+  left: 15px;
+  background: #e0f7fa;
+  padding: 5px;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 1.5rem;
+}
+
+.selected-popup h3 {
+  margin-top: 0;
+  font-size: 1.6rem;
+  color: #004d73;
+  font-weight: bold;
+  text-align: center;
+  text-shadow: 1px 1px 2px #aacfd0;
+}
+
+.selected-popup:hover {
+  background-color: #eaf6f8;
+  transform: scale(1.02);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 버튼 스타일 */
+.filter-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 20px;
+  padding: 14px;
+  background: linear-gradient(135deg, #00b4d8, #0096c7);
+  color: #ffffff;
+  border: none;
+  border-radius: 16px;
+  font-size: 1.2rem;
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  transition: background-color 0.4s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.filter-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 300%;
+  height: 300%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  transition: transform 0.5s ease;
+}
+
+.filter-btn:hover::before {
+  transform: translateX(0) translateY(0) rotate(45deg);
+}
+
+.filter-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.filter-btn:active {
+  background-color: #0077b6;
+  transform: scale(1);
+}
+
+/* 선택한 값 스타일 */
+.selected-values {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #e3f2fd;
+  border-radius: 16px;
+  font-size: 1.1rem;
+  color: #004d73;
+  min-height: 70px;
+  font-family: 'Merriweather', serif;
+  line-height: 1.6;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.4s ease;
+  text-align: justify;
+}
+
+.selected-values:hover {
+  background-color: #d4e6f1;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 미디어 쿼리: 반응형 디자인을 위한 조정 */
+@media (max-width: 768px) {
+  .filter-sidebar {
+    position: static;
+    width: 100%;
+    box-shadow: none;
+    border: none;
+    border-radius: 0;
+    margin-bottom: 20px;
+  }
+
+  .filter-btn {
+    font-size: 1rem;
+    padding: 12px;
+  }
+
+  .selected-popup {
+    padding: 15px;
+  }
+
+  .selected-values {
+    font-size: 1rem;
+  }
+}
+
+/* 전반적인 애니메이션 효과 추가 */
+.filter-sidebar, .selected-popup, .filter-btn, .selected-values {
+  transition: all 0.4s ease;
+}
+
+/* 현대적이면서도 책의 느낌을 강조한 요소 */
+.selected-popup:hover h3 {
+  color: #006494;
+  text-shadow: 2px 2px 3px #b3e0e6;
+}
+
+.filter-sidebar:hover {
+  background: linear-gradient(145deg, #e0f7fa, #f1faff);
+}
+
+
+/* .filter-section {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -131,7 +302,8 @@ button i {
   background-color: rgb(29, 30, 57);
   transform: translateY(-2px);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+} */
+
 
 /* 선택된 값 스타일 */
 .selected-values {
@@ -268,11 +440,11 @@ button i {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-bottom: 15px;
   margin-top: 30px;
-  max-height: 250px;
+  max-height: 270px;
 }
 
 .book-item-image img {
-  width: 120px;
+  width: 145px;
   height: auto;
   border-radius: 8px;
 }
