@@ -28,7 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // 전체 선택 버튼 클릭 시 ifChecked 함수를 호출
-    selectAllButton.addEventListener("click", () => ifChecked('all'));
 });
 
 /* 장바구니 시작  */
@@ -242,6 +241,8 @@ document.getElementById("categoryButton").addEventListener("click", function () 
     if (!selectedCategoryValuesDiv.hasChildNodes()) {
         selectedCategoryValuesDiv.innerHTML = "선택한 항목: 없음";
     }
+
+    
 
     // 체크박스 변경 이벤트 등록
     checkboxCategory.addEventListener("change", function () {
