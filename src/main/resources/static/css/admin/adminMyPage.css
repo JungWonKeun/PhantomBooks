@@ -13,6 +13,7 @@
   background-color: #EFEFEF;
   font-family: 'Pretendard-Regular';
   box-sizing: border-box;
+  /* border: 1px solid black; */
 }
 
 html, body {
@@ -20,9 +21,9 @@ html, body {
   padding: 0;
   height: 100%;
   overflow: hidden; /* 스크롤 없애기 */
-  background-color: #efefef;
 }
 
+/* 전체 헤더 스타일 */
 .header {
   display: flex;
   justify-content: flex-end;
@@ -119,6 +120,24 @@ html, body {
   width: 500px;
 }
 
+.adminName{
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+}
+
+.content-box {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 20px;
+  width: 100%; 
+  min-height: 100vh;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+
 
 
 
@@ -141,6 +160,7 @@ html, body {
   font-weight: bold;
   color: #333;
   position: relative;
+  margin-top: 20px;;
 }
 
 .menu:hover {
@@ -175,26 +195,76 @@ html, body {
 }
 
 
-.content-box {
+/* 드롭다운 필터 css */
+.content {
+  flex-grow: 1; 
   display: flex;
-  flex-direction: row;
-  align-items: stretch;
+  flex-direction: column;
   gap: 20px;
-  width: 100%; 
-  min-height: 100vh;
-  height: 100%;
-  overflow-x: hidden;
+  padding: 20px;
+  background-color: #efefef;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  min-width: 0; 
+  max-width: 100%;
+  margin-top: 0px;
+  padding-top: 0px;
 }
 
-.content {
-  flex-grow: 1;  /* 주 콘텐츠가 사이드바 공간을 제외한 나머지를 차지하도록 설정 */
-  padding: 30px;
-  padding-top: 0;
-  padding-left: 0;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  margin-bottom: 0;
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropbtn_icon {
+  font-family: 'Material Icons';
+}
+
+.dropbtn {
+  border: 1px solid rgb(37, 37, 37);
+  border-radius: 4px;
+  background-color: #EFEFEF;
+  font-weight: 400;
+  color: rgb(37, 37, 37);
+  padding: 12px;
+  width: 200px;
+  text-align: left;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  z-index: 1; 
+  font-weight: 400;
+  background-color: #f9f9f9;
+  min-width: 200px;
+  border: 1px solid #ccc; 
+  border-radius: 4px; 
+}
+
+.dropdown-content a {
+  display: block;
+  text-decoration: none;
+  color: rgb(37, 37, 37);
+  font-size: 12px;
+  padding: 12px 20px;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-content a:hover {
+  background-color: #555;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.title{
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
 }
 
 
@@ -204,11 +274,25 @@ html, body {
   background-color: #EFEFEF;
 }
 
+
+
 /* 입력 필드의 오른쪽 여백을 늘려서 유효성 아이콘과 clear-btn이 겹치지 않도록 조정 */
 .form-control {
-  width: 700px;
-  padding-right: 60px; /* 여유 있는 오른쪽 패딩 추가 */
+  width: 400px;
 }
+
+.infoChangeArea{
+  border: 2px solid #a7a7a7;
+  border-radius: 5px;
+  padding: 20px;
+  padding-bottom: 0px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  height: fit-content;
+  
+  width: max-content;
+}
+
 
 
 div label {
@@ -216,11 +300,22 @@ div label {
 }
 
 #updateBtn{
-  margin-bottom: 100px;
+  margin-bottom: 20px;
+  background-color: #205375; 
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 300;
+  margin-left: 40%;
+  margin-top: 10%;
 }
 
 .red {
   color: red;
   margin-bottom: 0;
   align-items: center;
+  width: 50px;
 }
