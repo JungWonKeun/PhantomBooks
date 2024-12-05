@@ -33,6 +33,8 @@ const sendMessage = () => {
   chattingSock.send( JSON.stringify(chattingObj) );
 
   inputChatting.value = ""; // 보낸 채팅 내용 삭제
+
+  selectChattingFn(); // 메시지 목록을 다시 조회
 }
 
 // -----------------------------------------------------------------------------------------
@@ -320,6 +322,7 @@ const selectRoomList = () => {
 			const targetName = document.createElement("span");
 			targetName.classList.add("target-name");
 			targetName.innerText = room.targetNickname;
+      selectTargetName = room.targetNickname;
 			
 			const recentSendTime = document.createElement("span");
 			recentSendTime.classList.add("recent-send-time");
@@ -395,7 +398,6 @@ const roomListAddEvent = () => {
 			selectChattingNo = item.getAttribute("chat-no");
 			selectTargetNo = item.getAttribute("target-no");
 
-			selectTargetName = item.children[0].children[0].children[0];
 
 			if(item.children[0].children[0].children[0] != undefined){
 				item.children[0].children[0].children[0].remove();

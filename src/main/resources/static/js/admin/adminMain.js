@@ -8,7 +8,7 @@ openPopupButton.addEventListener("click", () => {
   window.open(
     "/admin/chatting",  // 팝업으로 열고 싶은 페이지나 URL
     "관리자 채팅창",  // 새 창의 이름
-    "width=400,height=600,scrollbars=yes,resizable=yes"
+    "width=450,height=750,scrollbars=yes,resizable=yes"
   );
 });
 
