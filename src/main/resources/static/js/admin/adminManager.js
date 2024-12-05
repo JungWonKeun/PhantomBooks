@@ -176,7 +176,8 @@ viewSelect.addEventListener("change", ()=>{
   if(myChart !== null){
     myChart.destroy();
   }
- 
+  
+  chartData(1, sortSelect.Value)
 })
 
 

@@ -80,11 +80,6 @@
   
     <div class="content">
       <h2>FAQ 관리</h2>
-      <select name="key" class="sortSelect">
-        <option value="all">전체보기</option>
-        <option value="Y">노출</option>
-        <option value="N">비노출</option>
-      </select>
 
 
     
@@ -96,6 +91,7 @@
             <th class="content">내용</th>
             <th class="status">노출여부</th>
             <th class="button">상태 변경</th>
+            <th class="button">삭제</th>
           </tr>
         </thead>
 
@@ -120,9 +116,16 @@
               <td th:text="*{content}">
                 1:1 문의를 등록하려면 고객센터 페이지의 "1:1 문의하기" 버튼을 클릭하세요. 등록 양식을 작성한 후 "등록" 버튼을 누르면 문의가 접수됩니다. 접수된 문의는 마이페이지에서 확인 가능합니다.
               </td>
-              <td th:text="*{faqYn}">
-                N
-              </td>
+              <th:block th:if= "${faq.faqYn == 'Y'}">
+                <td>
+                  노출
+                </td>
+              </th:block>
+              <th:block th:if= "${faq.faqYn == 'N'}">
+                <td>
+                  비노출
+                </td>
+              </th:block>
               <td>
                 <button class="updateBtn" th:value="*{faqId}">
                   노출 상태 변경

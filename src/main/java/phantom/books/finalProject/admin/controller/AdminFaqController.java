@@ -49,6 +49,14 @@ public class AdminFaqController {
 		 return "admin/adminFaq";
 	}
 	
+	@GetMapping("faqList")
+	@ResponseBody
+	public Map<String, Object> faqList(
+			@RequestParam(value = "key", required = false, defaultValue = "all") String key,
+			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
+		return service.faqList(key, cp);
+	}
+	
 	
 	// FAQ 추가하기 
 	@PutMapping("")

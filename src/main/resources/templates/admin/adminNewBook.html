@@ -80,13 +80,6 @@
   
     <div class="content">
       <h2>발주 요청관리</h2>
-      <select name="key" class="sortSelect">
-        <option value="all">전체보기</option>
-        <option value="Y">미등록</option>
-        <option value="N">등록</option>
-      </select>
-
-
     
       <table class="request-box">
         <thead class="request">
@@ -127,9 +120,16 @@
               <td th:text="*{requestPrice}">
                 N
               </td>
-              <td th:text="*{requestYn}">
-                y/n
-              </td>
+              <th:block th:if= "${request.requestYn == 'Y'}">
+                <td>
+                  등록 완료
+                </td>
+              </th:block>
+              <th:block th:unless= "${request.requestYn == 'Y'}">
+                <td>
+                  등록 대기
+                </td>
+              </th:block>
               <td>
                 <button class="updateBtn" th:value="*{bookNo}">
                   등록하기

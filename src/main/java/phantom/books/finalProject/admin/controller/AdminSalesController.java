@@ -27,7 +27,7 @@ public class AdminSalesController {
 	@ResponseBody
 	public Map<String, Object> salesList(
 			@RequestParam(value = "cp") int cp,
-			@RequestParam(value = "sort") String sort,
+			@RequestParam(value = "sort", required = false, defaultValue = "sales") String sort,
 			@RequestParam(value = "term", required = false, defaultValue = "year") String term,
 			@RequestParam(value = "date", required = false) String date,
 			@RequestParam(value = "text", required = false) String text
@@ -45,10 +45,11 @@ public class AdminSalesController {
 	@ResponseBody
 	public List<ChartSales> chartData(
 			@RequestParam(value = "cp") int cp,
-			@RequestParam(value = "sort") String sort,
+			@RequestParam(value = "sort", required = false, defaultValue = "sales") String sort,
 			@RequestParam(value = "term", required = false, defaultValue = "year") String term,
 			@RequestParam(value = "date", required = false) String date,
 			@RequestParam(value = "text", required = false) String text){
+		
 		return service.chartdata(cp, sort, term, date, text);
 	}
 }
