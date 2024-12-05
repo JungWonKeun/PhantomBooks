@@ -3,29 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>관리자 문의 관리 페이지</title>
-
-  <script src="https://kit.fontawesome.com/890489b5e8.js" crossorigin="anonymous"></script>
+  <title>관리자 문의 관리 페이지 || PhantomBooks</title>
+  <script src="https://kit.fontawesome.com/913e662347.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="/css/admin/adminReview.css">
 </head>
+
 <body>
   <section class="header">
     <div class="logo">
       <a href="/admin">
-          <img src="/images/고스트 코딩왕.png" alt="Logo">
+        <img src="/images/고스트 코딩왕.png" alt="Logo">
       </a>
     </div>
-  
-   
+
+
     <div class="function">
       <!-- 관리자 담당 업무 -->
       <div class="adminName">
-        <div th:if= "${session.loginMember}"
-             th:text="${session.loginMember.adminName}">
+        <div th:if="${session.loginMember}" th:text="${session.loginMember.adminName}">
           담당
         </div>
       </div>
-  
+
       <!-- 채팅방 입장 아이콘 -->
       <div class="chatting">
         <button class="fa-solid fa-paper-plane" id="openPopup"></button>
@@ -36,60 +35,61 @@
   </section>
 
 
-    <section class="content-box">
-      <div class="sideBar">
-        <h3 class="menu">
-          <i class="fa-solid fa-users"></i>&nbsp;&nbsp;사용자 관련 관리
-          <ul class="submenu">
-            <li><a href="/admin/myPage">&nbsp;&nbsp;&nbsp;-&nbsp;내정보 변경</a></li>
-            <li><a href="/admin">&nbsp;&nbsp;&nbsp;-&nbsp;회원 관리</a></li>
-            <li>
-              <a href="/admin/adminManager" 
-                th:if= "${session.loginMember.name == '관리자' }">&nbsp;&nbsp;&nbsp;-&nbsp;관리자 계정 관리</a>
-            </li>
-          </ul>
-        </h3>
-      
-        <h3 class="menu">
-          <i class="fa-solid fa-arrow-trend-up"></i>&nbsp;&nbsp;매출 및 일정 관리
-          <ul class="submenu">
-            <li><a href="/admin/sales">&nbsp;&nbsp;&nbsp;-&nbsp;매출 관리</a></li>
-            <li><a href="/admin/schedule">&nbsp;&nbsp;&nbsp;-&nbsp;일정 관리</a></li>
-          </ul>
-        </h3>
-        
-        <h3 class="menu">
-          <i class="fa-solid fa-warehouse"></i>&nbsp;&nbsp;도서 관리
-          <ul class="submenu">
-            <li><a href="/admin/manager">&nbsp;&nbsp;&nbsp;-&nbsp;재고 관리</a></li>
-            <li><a href="/admin/request">&nbsp;&nbsp;&nbsp;-&nbsp;발주 요청</a></li>
-            <li><a href="/admin/newBook">&nbsp;&nbsp;&nbsp;-&nbsp;새 책 등록</a></li>
-          </ul>
-        </h3>
-        <h3 class="menu">
-          <i class="fa-solid fa-question"></i>&nbsp;&nbsp;고객 지원
-          <ul class="submenu">
-            <li><a href="/admin/query">&nbsp;&nbsp;&nbsp;-&nbsp;문의 관리</a></li>
-            <li><a href="/admin/review">&nbsp;&nbsp;&nbsp;-&nbsp;리뷰 관리</a></li>
-            <li><a href="/admin/faq">&nbsp;&nbsp;&nbsp;-&nbsp;FAQ 관리</a></li>
-            <li><a href="/admin/notice">&nbsp;&nbsp;&nbsp;-&nbsp;공지사항 관리</a></li>
-          </ul>
-        </h3>
+  <section class="content-box">
+    <div class="sideBar">
+      <h3 class="menu">
+        <i class="fa-solid fa-users"></i>&nbsp;&nbsp;사용자 관련 관리
+        <ul class="submenu">
+          <li><a href="/admin/myPage">&nbsp;&nbsp;&nbsp;-&nbsp;내정보 변경</a></li>
+          <li><a href="/admin">&nbsp;&nbsp;&nbsp;-&nbsp;회원 관리</a></li>
+          <li>
+            <a href="/admin/adminManager" th:if="${session.loginMember.name == '관리자' }">&nbsp;&nbsp;&nbsp;-&nbsp;관리자 계정
+              관리</a>
+          </li>
+        </ul>
+      </h3>
+
+      <h3 class="menu">
+        <i class="fa-solid fa-arrow-trend-up"></i>&nbsp;&nbsp;매출 및 일정 관리
+        <ul class="submenu">
+          <li><a href="/admin/sales">&nbsp;&nbsp;&nbsp;-&nbsp;매출 관리</a></li>
+          <li><a href="/admin/schedule">&nbsp;&nbsp;&nbsp;-&nbsp;일정 관리</a></li>
+        </ul>
+      </h3>
+
+      <h3 class="menu">
+        <i class="fa-solid fa-warehouse"></i>&nbsp;&nbsp;도서 관리
+        <ul class="submenu">
+          <li><a href="/admin/manager">&nbsp;&nbsp;&nbsp;-&nbsp;재고 관리</a></li>
+          <li><a href="/admin/request">&nbsp;&nbsp;&nbsp;-&nbsp;발주 요청</a></li>
+          <li><a href="/admin/newBook">&nbsp;&nbsp;&nbsp;-&nbsp;새 책 등록</a></li>
+        </ul>
+      </h3>
+      <h3 class="menu">
+        <i class="fa-solid fa-question"></i>&nbsp;&nbsp;고객 지원
+        <ul class="submenu">
+          <li><a href="/admin/query">&nbsp;&nbsp;&nbsp;-&nbsp;문의 관리</a></li>
+          <li><a href="/admin/review">&nbsp;&nbsp;&nbsp;-&nbsp;리뷰 관리</a></li>
+          <li><a href="/admin/faq">&nbsp;&nbsp;&nbsp;-&nbsp;FAQ 관리</a></li>
+          <li><a href="/admin/notice">&nbsp;&nbsp;&nbsp;-&nbsp;공지사항 관리</a></li>
+        </ul>
+      </h3>
+    </div>
+  
+  
+    <div class="content2">
+      <div class="title">
+        <h2>리뷰 관리</h2>
+        <select class="sortSelect">
+          <option value="all">최신순</option>
+          <option value="gradeDown">평점 높은 순</option>
+          <option value="gradeUp">평점 낮은 순</option>
+          <option value="title" hidden>책 제목별</option>
+          <!-- 책 제목 검색 만들어야해요~!!! -->
+          <option value="photo">포토 리뷰</option>
+        </select>
       </div>
-  
-  
-    <div class="content">
-      <h2>리뷰관리
-        <i class="fa-regular fa-bell"></i>
-      </h2>
-      <select class="sortSelect">
-        <option value="all">최신순</option>
-        <option value="gradeDown">평점 높은 순</option>
-        <option value="gradeUp">평점 낮은 순</option>
-        <option value="title" hidden>책 제목별</option>
-        <!-- 책 제목 검색 만들어야해요~!!! -->
-        <option value="photo">포토 리뷰</option>
-      </select>
+
     
       <table class="review-box">
         <thead class="review">
@@ -115,7 +115,7 @@
             <td>
               <i class = "fa-solid fa-star-sharp"></i>
             </td>
-            <td>3점</td>
+            <td class="reviewAdminTd">3점</td>
             <td>사진없어요</td>
             <td>무슨말인지 하나도 모르겠네요. 재구매는 없습니다.</td>
             <td>정원근</td>
