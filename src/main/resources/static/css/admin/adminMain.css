@@ -618,6 +618,9 @@ html, body {
   flex-direction: column;
   gap: 20px;
 }
+.pop-up.hidden {
+  display: none;
+} 
 
 /* 각 섹션 내부의 테이블 스타일 */
 .pop-up table {

@@ -2,6 +2,16 @@ const list = document.querySelector("#list");
 let myChart; // 차트영역 전역변수 선언
 let memberNo = 0; // memberNo 전역변수
 
+const openPopupButton = document.getElementById("chatting");
+// 팝업 열기
+openPopupButton.addEventListener("click", () => {
+  window.open(
+    "/admin/chatting",  // 팝업으로 열고 싶은 페이지나 URL
+    "관리자 채팅창",  // 새 창의 이름
+    "width=400,height=600,scrollbars=yes,resizable=yes"
+  );
+});
+
 
 /* 사이드바 열고 닫기 */
 document.querySelectorAll('.menu').forEach(menu => {
