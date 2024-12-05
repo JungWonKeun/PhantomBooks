@@ -475,13 +475,19 @@ const initialValues = {
   address: document.getElementById('address')?.value || '',
   detailAddress: document.getElementById('detailAddress')?.value || '',
   addAddress: document.getElementById('addAddress')?.value || '',
-  addDetailAddress: document.getElementById('addDetailAddress')?.value || ''
+  addDetailAddress: document.getElementById('addDetailAddress')?.value || '',
+  zip: document.getElementById('zip')?.value || '',
+  addZip: document.getElementById('addZip')?.value || ''
 };
+
+// 리셋 버튼 요소 선택
+const resetBtn = document.getElementById('resetBtn');
 
 // 수정된 toggleSubmitButton 함수
 function toggleSubmitButton() {
   const submitButton = document.getElementById('submitBtn');
-  if (!submitButton) return;
+  const resetButton = document.getElementById('resetBtn');
+  if (!submitButton || !resetButton) return;
 
   const currentValues = {
     name: document.getElementById('name')?.value,
@@ -490,7 +496,9 @@ function toggleSubmitButton() {
     address: document.getElementById('address')?.value,
     detailAddress: document.getElementById('detailAddress')?.value,
     addAddress: document.getElementById('addAddress')?.value,
-    addDetailAddress: document.getElementById('addDetailAddress')?.value
+    addDetailAddress: document.getElementById('addDetailAddress')?.value,
+    zip: document.getElementById('zip')?.value,
+    addZip: document.getElementById('addZip')?.value
   };
 
   // 값이 변경되었는지 확인
@@ -509,8 +517,50 @@ function toggleSubmitButton() {
 
   // 버튼 표시/숨김 및 활성화/비활성화 처리
   submitButton.style.display = hasChanges ? 'block' : 'none';
+  resetButton.style.display = hasChanges ? 'block' : 'none';
   submitButton.disabled = !(isNameValid && isBirthValid && isPhoneValid && phoneVerificationValid);
 }
+
+// 리셋 버튼 클릭 이벤트
+resetBtn.addEventListener('click', function() {
+  if (confirm('모든 변경사항을 초기값으로 되돌리시겠습니까?')) {
+    // 모든 입력 필드를 초기값으로 복원
+    Object.keys(initialValues).forEach(key => {
+      const element = document.getElementById(key);
+      if (element) {
+        element.value = initialValues[key];
+        
+        // readonly 속성 복원
+        if (key === 'telNo') {
+          element.setAttribute('readonly', 'readonly');
+          document.getElementById('phoneCheckBtn').style.display = 'none';
+          document.getElementById('phoneChangeBtn').style.display = 'block';
+          document.getElementById('verificationSection').style.display = 'none';
+        }
+        
+        // 주소 관련 버튼 상태 복원
+        if (key === 'zip') {
+          document.getElementById('addressFindBtn').style.display = 
+            initialValues.zip ? 'none' : 'block';
+          document.getElementById('addressChangeBtn').style.display = 
+            initialValues.zip ? 'block' : 'none';
+        }
+        if (key === 'addZip') {
+          document.getElementById('addAddressFindBtn').style.display = 
+            initialValues.addZip ? 'none' : 'block';
+          document.getElementById('addAddressChangeBtn').style.display = 
+            initialValues.addZip ? 'block' : 'none';
+        }
+      }
+    });
+
+    // 전화번호 인증 상태 복원
+    isPhoneVerified = true;
+
+    // 버튼 상태 업데이트
+    toggleSubmitButton();
+  }
+});
 
 // 이벤트 리스너 추가
 document.addEventListener('DOMContentLoaded', () => {
@@ -527,21 +577,25 @@ document.addEventListener('DOMContentLoaded', () => {
 // 페이지 이탈 시 변경사항 확인을 위한 함수 선언
 function checkFormChanges(e) {
   const currentValues = {
-    name: document.getElementById('name')?.value,
-    birthDate: document.getElementById('birthDate')?.value,
-    telNo: document.getElementById('telNo')?.value,
-    address: document.getElementById('address')?.value,
-    detailAddress: document.getElementById('detailAddress')?.value,
-    addAddress: document.getElementById('addAddress')?.value,
-    addDetailAddress: document.getElementById('addDetailAddress')?.value
+    name: document.getElementById('name')?.value || '',
+    birthDate: document.getElementById('birthDate')?.value || '',
+    telNo: document.getElementById('telNo')?.value || '',
+    address: document.getElementById('address')?.value || '',
+    detailAddress: document.getElementById('detailAddress')?.value || '',
+    addAddress: document.getElementById('addAddress')?.value || '',
+    addDetailAddress: document.getElementById('addDetailAddress')?.value || '',
+    zip: document.getElementById('zip')?.value || '',
+    addZip: document.getElementById('addZip')?.value || ''
   };
 
-  // 값이 변경되었는지 확인
-  const hasChanges = Object.keys(initialValues).some(key =>
-    initialValues[key] !== currentValues[key]
-  );
+  // 값이 변경되었는지 확인 (trim 처리 추가)
+  const hasChanges = Object.keys(initialValues).some(key => {
+    const initial = (initialValues[key] || '').trim();
+    const current = (currentValues[key] || '').trim();
+    return initial !== current;
+  });
 
-  // 변경사항이 있는 경우
+  // 변경사항이 있는 경우에만 경고 메시지 표시
   if (hasChanges) {
     const message = '저장되지 않은 변경사항이 있습니다. 정말로 페이지를 떠나시겠습니까?';
     e.returnValue = message;
@@ -549,14 +603,19 @@ function checkFormChanges(e) {
   }
 }
 
-// beforeunload 이벤트에 함수 등록
-window.addEventListener('beforeunload', checkFormChanges);
+// beforeunload 이벤트에 함수 등록 (폼 제출 중이 아닐 때만)
+let isSubmitting = false;
+window.addEventListener('beforeunload', (e) => {
+  if (!isSubmitting) {
+    return checkFormChanges(e);
+  }
+});
 
 // form submit 시에는 경고 메시지가 표시되지 않도록 처리
 const form = document.getElementById('changeinfoForm');
 if (form) {
   form.addEventListener('submit', () => {
-    window.removeEventListener('beforeunload', checkFormChanges);
+    isSubmitting = true;
   });
 }
 

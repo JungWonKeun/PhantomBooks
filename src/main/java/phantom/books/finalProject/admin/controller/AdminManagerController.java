@@ -91,4 +91,18 @@ public class AdminManagerController {
 	}
 	
 
+	@GetMapping("logout")
+	@ResponseBody
+	public String logout(SessionStatus status, HttpSession session) {
+		
+		status.setComplete(); 
+		
+		if (session != null) {
+			session.removeAttribute("passwordChecked"); 
+			session.invalidate(); 
+		}
+		
+		return "redirect:/"; 
+	}
+
 }

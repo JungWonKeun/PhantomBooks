@@ -7,8 +7,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -270,30 +272,61 @@ public class SearchBookPageController {
 		return service.myPreferenceBringingIn(loginMember.getMemberNo());
 	}
 
-	// 선택한 책을 찜 목록에 담기
+	// 선택한 책을 찜 목록에 담기 기본틀 잡기 보고 수정
+	/*
+	 * @ResponseBody
+	 * 
+	 * @PutMapping("/addWishlist") public String addWishlist(@RequestBody
+	 * Map<String, List<Integer>> paramMap,
+	 * 
+	 * @SessionAttribute("loginMember") Member loginMember) {
+	 * 
+	 * int memberNo = loginMember.getMemberNo();
+	 * 
+	 * log.debug("memberNo : {}", memberNo); log.debug("paramMap: {}", paramMap);
+	 * List<Integer> bookNo = paramMap.get("bookNo");
+	 * 
+	 * Map<String, Object> map = Map.of("bookNo", bookNo, "memberNo", memberNo);
+	 * 
+	 * // 찜 목록에 추가하는 서비스 호출 int addWishlist = service.putWishlist(map);
+	 * 
+	 * String message = null;
+	 * 
+	 * if (addWishlist > 0) { message = "추가 성공"; }
+	 * 
+	 * return "redirect:/searchBookPage/searchBooks"; }
+	 */
+	
 	@ResponseBody
 	@PutMapping("/addWishlist")
-	public String addWishlist(@RequestBody Map<String, List<Integer>> paramMap,
-			@SessionAttribute("loginMember") Member loginMember) {
+	public Map<String, Object> addWishlist(@RequestBody Map<String, List<Integer>> paramMap,
+	                                       @SessionAttribute("loginMember") Member loginMember) {
+	    int memberNo = loginMember.getMemberNo();
+	    List<Integer> bookNoList = paramMap.get("bookNo");
 
-		int memberNo = loginMember.getMemberNo();
+	    log.debug("memberNo : {}", memberNo);
+	    log.debug("paramMap: {}", paramMap);
 
-		log.debug("memberNo : {}", memberNo);
-		log.debug("paramMap: {}", paramMap);
-		List<Integer> bookNo = paramMap.get("bookNo");
+	    // 기존 찜 목록 조회
+	    List<Integer> existingWishlist = service.getWishList(memberNo);
 
-		Map<String, Object> map = Map.of("bookNo", bookNo, "memberNo", memberNo);
+	    // 중복되지 않은 책 번호 필터링
+	    List<Integer> booksToAdd = bookNoList.stream()
+	                                         .filter(bookNo -> !existingWishlist.contains(bookNo))
+	                                         .collect(Collectors.toList());
 
-		// 찜 목록에 추가하는 서비스 호출
-		int addWishlist = service.putWishlist(map);
+	    // 새로운 책 번호 삽입
+	    Map<String, Object> insertMap = Map.of("bookNo", booksToAdd, "memberNo", memberNo);
+	    int insertedCount = 0;
+	    if (!booksToAdd.isEmpty()) {
+	        insertedCount = service.putWishlist(insertMap);
+	    }
 
-		String message = null;
-
-		if (addWishlist > 0) {
-			message = "추가 성공";
-		}
-
-		return "redirect:/searchBookPage/searchBooks";
+	    // 결과 생성
+	    Map<String, Object> result = new HashMap<>();
+	    result.put("insertedCount", insertedCount);
+	    result.put("alreadyExists", bookNoList.size() - booksToAdd.size()); // 중복된 항목 개수
+	    return result; // JSON 형태로 반환
 	}
 
 	// 책한권 찜 보내기

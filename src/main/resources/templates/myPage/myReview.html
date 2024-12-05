@@ -37,6 +37,14 @@
     
                     <!-- 컨텐츠 영역 -->
                     <div class="review-grid">
+                        <!-- 데이터가 없을 경우 표시할 메시지 -->
+                        <div th:if="${#lists.isEmpty(writeReview)}" class="no-data-message">
+                            <i class="fas fa-comment-slash"></i>
+                            <p>작성한 리뷰가 없습니다.</p>
+                            <a href="/myPage/myOrder" class="write-review-btn">구매내역에서 리뷰 작성하기</a>
+                        </div>
+
+                        <!-- 기존 리뷰 아이템들 -->
                         <div th:each="review : ${writeReview}" class="review-item">
                             <a th:href="@{/searchBookPage/bookDetail/{bookNo}(bookNo=${review.bookNo})}"
                                 class="review-summary">

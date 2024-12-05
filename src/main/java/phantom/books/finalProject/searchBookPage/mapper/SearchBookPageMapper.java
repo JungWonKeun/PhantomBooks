@@ -113,6 +113,7 @@ public interface SearchBookPageMapper {
 		// 찜목록 조회
 		List<Integer> getWishList(int memberNo);
 
+
 	
 
 

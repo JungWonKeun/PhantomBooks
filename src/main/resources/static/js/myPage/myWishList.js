@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const selectAllCheckbox = document.getElementById('selectAll');
     const deleteSelectedBtn = document.getElementById('deleteSelected');
     const addToCartBtn = document.getElementById('addToCart');
@@ -8,10 +8,10 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateButtonStates() {
         const checkedBoxes = document.querySelectorAll('.wish-checkbox:checked');
         const checkedCount = checkedBoxes.length;
-        
+
         deleteSelectedBtn.disabled = checkedCount === 0;
         addToCartBtn.disabled = checkedCount === 0;
-        
+
         // 버튼 텍스트 업데이트
         if (checkedCount > 0) {
             deleteSelectedBtn.innerHTML = `<i class="fas fa-trash"></i> 선택 삭제 (${checkedCount})`;
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // 전체 선택 체크박스 이벤트
-    selectAllCheckbox.addEventListener('change', function() {
+    selectAllCheckbox.addEventListener('change', function () {
         wishCheckboxes.forEach(checkbox => {
             checkbox.checked = this.checked;
         });
@@ -32,15 +32,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 개별 체크박스 이벤트
     wishCheckboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', function() {
+        checkbox.addEventListener('change', function () {
             updateSelectAllCheckbox();
             updateButtonStates();
         });
     });
 
     // 선택 삭제 버튼 이벤트
-    deleteSelectedBtn.addEventListener('click', async function() {
-        if(!confirm('선택한 항목을 삭제하시겠습니까?')) return;
+    deleteSelectedBtn.addEventListener('click', async function () {
+        if (!confirm('선택한 항목을 삭제하시겠습니까?')) return;
 
         const selectedBookNos = Array.from(wishCheckboxes)
             .filter(cb => cb.checked)
@@ -55,20 +55,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: JSON.stringify(selectedBookNos)
             });
 
-            if(response.ok) {
+            if (response.ok) {
                 // 삭제 성공 시 페이지 새로고침
                 location.reload();
             } else {
                 throw new Error('삭제 실패');
             }
-        } catch(error) {
+        } catch (error) {
             console.error('Error:', error);
             alert('삭제 중 오류가 발생했습니다.');
         }
     });
 
     // 장바구니 버튼 이벤트
-    addToCartBtn.addEventListener('click', async function() {
+    addToCartBtn.addEventListener('click', async function () {
         const selectedBookNos = Array.from(wishCheckboxes)
             .filter(cb => cb.checked)
             .map(cb => parseInt(cb.dataset.bookNo));
@@ -108,4 +108,40 @@ document.addEventListener('DOMContentLoaded', function() {
         selectAllCheckbox.checked = totalCheckboxes === checkedCount;
         selectAllCheckbox.indeterminate = checkedCount > 0 && checkedCount < totalCheckboxes;
     }
+
+    // 하트 버튼 클릭 이벤트
+    document.querySelectorAll('.book-heart').forEach(heart => {
+        heart.addEventListener('click', async function (e) {
+            e.preventDefault(); // 상위 링크로의 이벤트 전파 방지
+            e.stopPropagation(); // 이벤트 버블링 방지
+
+            const bookNo = this.dataset.bookNo;
+
+            if (!confirm('찜 목록에서 삭제하시겠습니까?')) return;
+
+            try {
+                const response = await fetch('/member/deleteWishlist', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify([parseInt(bookNo)])
+                });
+
+                if (response.ok) {
+                    // 삭제 성공 시 해당 아이템 요소 제거
+                    const wishlistItem = this.closest('.wishlist-item');
+                    wishlistItem.remove();
+
+                    // 페이지 새로고침
+                    location.reload();
+                } else {
+                    throw new Error('삭제 실패');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('삭제 중 오류가 발생했습니다.');
+            }
+        });
+    });
 });
