@@ -363,5 +363,7 @@ public class MemberController {
 		response.put("message", memberId + "회원님 비밀번호 변경이 완료되었습니다.");
 		return ResponseEntity.ok(response);
 	}
+	
+	
 
 }

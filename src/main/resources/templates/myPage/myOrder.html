@@ -39,25 +39,42 @@
 
                     </div>
 
-                    <!-- 주문 목록 -->
-                    <div class="order-grid">
-                        <div th:each="purchase : ${buyList}" class="order-item">
-                            <a th:href="@{/order/afterOrder(orderNo=${purchase.orderNo})}" class="order-summary">
-                                <div class="order-title">
-                                    <span th:text="${purchase.orderDate}">주문일</span>
-                                    <span th:text="${purchase.bookTitle}" class="orderBookTitle">책 제목</span>
-                                    <span th:if="${purchase.bookCount > 1}" th:text="|등  총 ${purchase.bookCount}권|"
-                                        class="book-count"> 총 2권</span>
-                                </div>
-                                <div class="order-price">
-                                    <span th:text="${#numbers.formatInteger(purchase.totalPrice, 0, 'COMMA')}"
-                                        class="total-price">32,000</span>원
-                                </div>
+                    <!-- 데이터가 없을 경우 표시할 메시지 - order-grid 밖으로 이동 -->
+                    <div th:if="${#lists.isEmpty(buyList)}" class="no-data-message">
+                        <i class="fas fa-shopping-cart"></i>
+                        <p>구매 내역이 없습니다.</p>
+                        <div class="empty-order-buttons">
+                            <a href="/searchBookPage/searchBooks" class="empty-browse-btn">
+                                <i class="fas fa-search"></i> 도서 둘러보기
+                            </a>
+                            <a href="/cart/list" class="empty-cart-btn">
+                                <i class="fas fa-shopping-cart"></i> 장바구니로 이동
                             </a>
                         </div>
+                    </div>
 
+                    <!-- 주문 목록 그리드는 데이터가 있을 때만 표시 -->
+                    <div th:unless="${#lists.isEmpty(buyList)}">
+                        <div class="order-grid">
+                            <!-- 기존 주문 아이템들 -->
+                            <div th:each="purchase : ${buyList}" class="order-item">
+                                <a th:href="@{/order/afterOrder(orderNo=${purchase.orderNo})}" class="order-summary">
+                                    <div class="order-title">
+                                        <span th:text="${purchase.orderDate}">주문일</span>
+                                        <span th:text="${purchase.bookTitle}" class="orderBookTitle">책 제목</span>
+                                        <span th:if="${purchase.bookCount > 1}" th:text="|등  총 ${purchase.bookCount}권|"
+                                            class="book-count"> 총 2권</span>
+                                    </div>
+                                    <div class="order-price">
+                                        <span th:text="${#numbers.formatInteger(purchase.totalPrice, 0, 'COMMA')}"
+                                            class="total-price">32,000</span>원
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        
                         <!-- 페이지네이션 -->
-                        <div class="pagination gap-1" th:if="${!#lists.isEmpty(buyList)}">
+                        <div class="pagination gap-1">
                             <!-- 첫 페이지 버튼 - 항상 활성화 -->
                             <a th:href="@{/myPage/myOrder(page=1)}" class="page-link">&laquo;&laquo;</a>
 
