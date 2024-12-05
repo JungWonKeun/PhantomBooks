@@ -77,11 +77,18 @@ public class MemberController {
 	public ResponseEntity<?> login(@RequestParam("memberId") String memberId, @RequestParam("memberPw") String memberPw,
 			HttpSession session) {
 		Member loginMember = service.login(memberId, memberPw);
+		
+		log.debug("loginMember: {}", loginMember);
 
 		if (loginMember == null) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"error\": \"Invalid credentials\"}");
 		} else {
 			session.setAttribute("loginMember", loginMember); // 로그인 성공 시 세션에 사용자 정보 저장
+			if (loginMember.getAuthority() == 2) {
+				session.setAttribute("role", "ADMIN");				
+			}else {
+				session.setAttribute("role", "USER");
+			}
 			return ResponseEntity.ok(loginMember);
 		}
 	}
@@ -107,6 +114,7 @@ public class MemberController {
 
 		if (session != null) {
 			session.removeAttribute("passwordChecked"); // passwordChecked 속성 삭제
+			session.removeAttribute("role");  // role 제거
 			session.invalidate(); // 전체 세션 무효화
 		}
 
