@@ -115,15 +115,15 @@ updateBtn.addEventListener("click", () => {
   
   // checked 된 noticeId
   const noticeId = document.querySelector("#checkedNoticeId").value;
+  addPopupLayer.classList.remove("popup-layer-close");
 
-  fetch("/admin/notice/noticeInfo?noticeId="+noticeId)
-  .then(response => {if(response.ok) return response.json();})
-  .then(notice => {if(notice != null){
+  const updateNotice = async fetch("/admin/notice/noticeInfo?noticeId="+noticeId);
+  const response1 = response.json();
+  const notice = await{if(notice != null){
     title.value = notice.title;
     content.value = notice.content;
 
     // 팝업 나타나게 하기
-    addPopupLayer.classList.remove("popup-layer-close");
     title.focus();
     const addNoticeBtn = document.querySelector("#addNoticeBtn");
     const back = document.querySelector("#back");
