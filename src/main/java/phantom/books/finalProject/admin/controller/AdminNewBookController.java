@@ -34,11 +34,13 @@ public class AdminNewBookController {
 	@GetMapping("")
 	public String newBook(
 			@SessionAttribute("loginMember") Member loginMember,
+			@RequestParam(value = "key", required = false, defaultValue = "all") String key,
+			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
 			Model model) {
 		
 		Map<String, Object> map = new HashMap<>();
 		
-		map = service.newBookList();
+		map = service.newBookList(cp, key);
 		
 		Pagination pagination = (Pagination)map.get("pagination");
 		List<Request> requestList = (List<Request>)map.get("newBookList");
