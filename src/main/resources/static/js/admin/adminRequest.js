@@ -81,12 +81,13 @@ const listUp = (cp, sort, view, text) => {
         const th115 = document.createElement("th");
         const th5 = document.createElement("th");
         th111.rowSpan ="9";
-        
+        th111.className="resultAreaImg";
+
         const img = document.createElement("img");
         img.src = book.bookCover;
         th111.append(img);
-        img.style.width = '300px'; // 원하는 너비
-        img.style.height = '300px'; // 원하는 높이
+        img.style.width = '184px'; // 원하는 너비
+        img.style.height = '267px'; // 원하는 높이
 
         th112.innerHTML = "책 제목";
         th113.innerHTML = "출판사";
@@ -100,6 +101,7 @@ const listUp = (cp, sort, view, text) => {
 
         tr11.append(th111, th112, th113, th114, th115);
         tr1.append(th2, th3, th4, th5);
+        tr1.classList = "requestTableTr";
 
         const th26 = document.createElement("th");
         const th27 = document.createElement("th");
@@ -123,6 +125,8 @@ const listUp = (cp, sort, view, text) => {
 
         tr21.append(th26, th27, th28, th29);
         tr2.append(th6, th7, th8, th9);
+        tr2.classList = "requestTableTr";
+        
 
         const th310 =document.createElement("th");
         const th311 =document.createElement("th");
@@ -150,6 +154,7 @@ const listUp = (cp, sort, view, text) => {
 
         tr31.append(th310, th311, th312, th313);
         tr3.append( th11, th12, th10, th13);
+        tr3.classList = "requestTableTr";
         
         const th16 = document.createElement("th");
         const th17 = document.createElement("th");
@@ -163,6 +168,7 @@ const listUp = (cp, sort, view, text) => {
         th16.innerHTML= "요청 이메일";
         const input = document.createElement("input")
         th17.append(input);
+        th17.classList="requestTableTr";
         let email = book.email;
         
         input.value = book.email;
@@ -172,7 +178,10 @@ const listUp = (cp, sort, view, text) => {
         })
 
         th14.append(button1);
+        th14.classList="requestTableTr";
+
         th15.append(button2);
+        th15.classList="requestTableTr";
 
         button1.addEventListener("click", ()=>{
           const alarm = confirm(email + "으로 발주요청을 보내시겠습니까?");

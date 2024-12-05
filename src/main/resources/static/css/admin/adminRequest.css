@@ -9,31 +9,98 @@
 /* 드롭다운 스타일 */
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
-*{
+* {
   background-color: #EFEFEF;
   font-family: 'Pretendard-Regular';
   box-sizing: border-box;
-  border: 1px black solid;
+  /* border: 1px solid black; */
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   height: 100%;
-  overflow: hidden; /* 스크롤 없애기 */
+  overflow: hidden;
+  /* 스크롤 없애기 */
 }
 
-.header{
-  width: auto;
-  height: 70px;
-  margin: 0;
-
+/* 전체 헤더 스타일 */
+.header {
   display: flex;
-  flex-direction: row;
-
-  align-items: flex-start;
   justify-content: flex-end;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #EFEFEF;
+  /* 부드러운 배경색 */
 }
+
+/* 로고 스타일 */
+.header .logo img {
+  width: 120px;
+  height: auto;
+}
+
+/* 기능 섹션 스타일 */
+.header .function {
+  display: flex;
+  justify-content: end;
+  align-items: end;
+  gap: 20px;
+  margin-top: 15px;
+
+}
+
+/* 관리자 담당 업무 스타일 */
+.header .adminName {
+  border: 2px solid #205375;
+  border-radius: 8px;
+  padding: 3px 3px;
+  background-color: #EFEFEF;
+  font-size: 17px;
+  color: #205375;
+  font-weight: bold;
+  text-align: center;
+  white-space: nowrap;
+  width: 100px;
+  height: 44px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 비행기 버튼 스타일 */
+.header .chatting button {
+  background-color: #205375;
+  color: #fff;
+  font-size: 23px;
+  padding: 10px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-right: 30px;
+}
+
+.header .chatting button:hover {
+  transform: scale(1.1);
+}
+
+.header .chatting button:focus {
+  outline: 2px solid #a5d8ff;
+}
+
+/* 모바일 반응형 */
+@media screen and (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .header .function {
+    justify-content: center;
+  }
+}
+
 /* 로고 */
 .logo {
   position: absolute;
@@ -47,7 +114,7 @@ html, body {
   max-height: 80px;
 }
 
-.function{
+.function {
   display: flex;
   flex-direction: row;
 
@@ -56,14 +123,21 @@ html, body {
   width: 500px;
 }
 
-.content-box{
+
+
+.content-box {
   display: flex;
   flex-direction: row;
-  align-items: start;
-  justify-content: start;
-
-  margin-top: 10px;
+  align-items: stretch;
+  gap: 20px;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
+
+
+
+
 
 /* 사이드바 css입니당 */
 .sideBar {
@@ -84,6 +158,8 @@ html, body {
   font-weight: bold;
   color: #333;
   position: relative;
+  margin-top: 20px;
+  ;
 }
 
 .menu:hover {
@@ -116,34 +192,62 @@ html, body {
 .menu.active .submenu {
   display: block;
 }
-.content{
+
+
+/* 드롭다운 필터 css */
+.content {
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
-  width: 1500px;
-  height: 850px;
+  gap: 9px;
+  background-color: #efefef;
+  border-radius: 8px;
+  height: 100%;
+  margin-bottom: 200px;
+  margin-top: -25px;
+  z-index: 10;
 }
 
-.graph-box{
-  width: 1500px;
-  height: 400px;
+.title>h2 {
+  padding-top: 2px;
 }
 
-.title{
-  margin-top: -100px;
-  font-size: 30px;
-  font-weight: 100;
+#sortSelect {
+  width: 90px;
+  border: 1px solid #205375;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+
+
+#viewSelect {
+  width: 80px;
+  border: 1px solid #205375;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.sort-box {
+  display: flex;
+  align-items: center;
+  /* 수직 가운데 정렬 */
+  gap: 10px;
+  /* 각 요소 간 간격 */
 }
 
 /* 테이블 */
 .list {
   width: 1500px;
   height: 400px;
-  overflow-y: auto; /* 세로 스크롤 활성화 */
-  overflow-x: hidden; /* 가로 스크롤 비활성화 */
+  overflow-y: auto;
+  /* 세로 스크롤 활성화 */
+  overflow-x: hidden;
+  /* 가로 스크롤 비활성화 */
   padding: 0;
 }
 
-.list > table{
+.list>table {
   width: 1500px;
   height: 380px;
 }
@@ -160,20 +264,21 @@ html, body {
   background-color: #EFEFEF;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  table-layout: fixed;;
-  
+  table-layout: fixed;
+  ;
+
 }
 
 
 .bookList th {
-  position: sticky; 
+  position: sticky;
   top: 0;
   z-index: 10;
   background-color: #EFEFEF;
-  color: #fff; 
+  color: #fff;
   text-align: center;
   font-size: 14px;
-  font-weight: 300; 
+  font-weight: 300;
   text-transform: uppercase;
   height: 25px;
 }
@@ -185,8 +290,7 @@ html, body {
 .bookList th:nth-child(5),
 .bookList th:nth-child(6),
 .bookList th:nth-child(7),
-.bookList th:nth-child(8)
- {
+.bookList th:nth-child(8) {
   background-color: #205375;
 }
 
@@ -196,11 +300,11 @@ html, body {
   padding: 12px 15px;
   text-align: center;
   font-size: 14px;
-  color: rgb(29, 30, 57); 
+  color: rgb(29, 30, 57);
   background-color: #EFEFEF;
 }
 
-.bookList th:nth-child(1){
+.bookList th:nth-child(1) {
   width: 150px;
 }
 
@@ -215,8 +319,9 @@ html, body {
 }
 
 
-.bookList button, .delete {
-  background-color: #205375; 
+.bookList button,
+.delete {
+  background-color: #205375;
   color: #fff;
   border: none;
   padding: 8px 12px;
@@ -235,7 +340,7 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 10px; 
+  margin-top: 10px;
   padding: 10px 0;
   background-color: #EFEFEF;
 }
@@ -247,7 +352,7 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px; 
+  gap: 10px;
 }
 
 .pagination a {
@@ -255,93 +360,177 @@ html, body {
   padding: 8px 12px;
   text-decoration: none;
   background-color: #205375;
-  color: #fff; 
-  border-radius: 4px; 
+  color: #fff;
+  border-radius: 4px;
   font-size: 14px;
   font-weight: 600;
   transition: background-color 0.3s ease;
 }
 
 .pagination a:hover {
-  background-color: rgb(29, 30, 57); 
-  cursor: pointer; 
+  background-color: rgb(29, 30, 57);
+  cursor: pointer;
 }
 
 .pagination a.current {
   background-color: #205375;
-  font-weight: bold; 
-  cursor: pointer; 
+  font-weight: bold;
+  cursor: pointer;
 }
 
 
 .hidden {
-  visibility: hidden; 
+  visibility: hidden;
   pointer-events: none;
 }
 
-.sort-dropdown {
-  position: relative;
-  display: inline-block;
-  margin-bottom: 20px;
+
+/* 발주 요청 테이블 */
+#resultArea {
+  margin-top: 20px;
+  padding: 0;
+  border: 2px solid #205375;
+  width: 1500px;
+  max-width: 100%;
+}
+
+
+
+#resultArea table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#resultArea th,
+#resultArea td {
+  text-align: center;
+  font-size: 16px;
+  color: #333;
+  border: 1px solid #ccc;
+}
+
+#resultArea th {
+  background-color: #EFEFEF;
+  color: #333;
+  font-weight: bold;
+}
+
+#resultArea tbody tr:nth-child(even) {
+  background-color: #f9f9f9; /* 짝수 행 색상 */
+}
+
+#resultArea tbody tr:hover {
+  background-color: #e3e3e3; /* 행에 마우스 오버 시 색상 변경 */
+}
+
+.resultAreaImg {
+  width: 184px;
+  height: 267px;
+  padding: 0px;
+  margin: 0;
+}
+
+.requestTableTr > button{
+  border: 1px solid #205375;
+  background-color: #205375;
+  color: #ccc;
+  border-radius: 8px;
+  padding: 5px 10px;
+}
+
+#newRequestBtn{
+  border: 1px solid #205375;
+  background-color: #205375;
+  color: #EFEFEF;
+  border-radius: 8px;
+  padding: 5px 10px;
+  width: fit-content;
+}
+
+/* 신간 발주 요청 팝업 스타일 */
+#newBook {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #efefef;
+  border: 2px solid #205375;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  width: 500px;
+  height: 600px;
+  padding: 20px;
+  z-index: 1000;
+  overflow-y: scroll;
+}
+
+#newBook div {
+  margin-bottom: 15px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
-#sortSelect {
-  border: 1px solid rgb(37, 37, 37);
-  border-radius: 4px;
-  background-color: #f5f5f5;
-  font-weight: 600;
-  color: rgb(37, 37, 37);
-  padding: 12px;
-  width: 200px;
-  text-align: left;
+#newBook label {
+  font-weight: bold;
+  color: #205375;
+  margin-bottom: 5px;
+}
+
+#newBook input[type="text"],
+#newBook input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+#newBook input[type="text"]:focus {
+  outline: none;
+  border-color: #205375;
+  box-shadow: 0 0 5px rgba(32, 83, 117, 0.5);
+}
+
+#newBook button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
-  font-size: 20px;
-  appearance: none; 
-  background-image: url('data:image/svg+xml;utf8,<svg fill="%23000000" height="10" viewBox="0 0 24 24" width="10" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  background-size: 12px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-#sortSelect:hover,
-#sortSelect:focus {
-  border-color: #007bff;
-  box-shadow: 0 2px 6px rgba(0, 123, 255, 0.2);
+#newBook #requestBtn {
+  background-color: #205375;
+  color: #fff;
+  margin-right: 10px;
 }
 
-#sortSelect option {
-  font-size: 15px;
-  color: rgb(37, 37, 37);
+#newBook #requestBtn:hover {
+  background-color: rgb(29, 30, 57);
 }
 
-.sort-dropdown {
-  position: relative;
-  display: inline-block;
+#newBook #back {
+  background-color: #ccc;
+  color: #333;
+}
+
+#newBook #back:hover {
+  background-color: #aaa;
+}
+
+/* 팝업 내부 제목 스타일 */
+#newBook h2 {
+  text-align: center;
+  color: #205375;
+  font-weight: bold;
   margin-bottom: 20px;
-  display: flex;
-  flex-direction: row;
+  font-size: 18px;
 }
 
-#viewSelect {
-  border: 1px solid rgb(37, 37, 37);
-  border-radius: 4px;
-  background-color: #f5f5f5;
-  font-weight: 400;
-  color: rgb(37, 37, 37);
-  padding: 12px;
-  width: 200px;
-  text-align: left;
-  cursor: pointer;
-  font-size: 15px;
-  appearance: none; 
-  background-image: url('data:image/svg+xml;utf8,<svg fill="%23000000" height="10" viewBox="0 0 24 24" width="10" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  background-size: 12px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+/* 반응형 처리 */
+@media screen and (max-width: 768px) {
+  #newBook {
+    width: 90%;
+  }
 }
