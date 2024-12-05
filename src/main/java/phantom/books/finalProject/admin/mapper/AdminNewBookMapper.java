@@ -13,10 +13,10 @@ import phantom.books.finalProject.admin.dto.Request;
 public interface AdminNewBookMapper {
 
 	// 요청 목록 수
-	int countNewBook();
+	int countNewBook(int cp);
 
 	// 요청 목록
-	List<Request> newBookList(RowBounds bounds);
+	List<Request> newBookList(int cp, RowBounds bounds);
 
 	// 기존 책 발주인지 확인
 	int selectBook(int bookNo);

@@ -25,18 +25,18 @@ public class AdminNewBookServiceImpl implements AdminNewBookService {
 	
 	// 발주 요청 목록
 	@Override
-	public Map<String, Object> newBookList() {
+	public Map<String, Object> newBookList(int cp, String key) {
 
-		int countNewBook = mapper.countNewBook();
+		int countNewBook = mapper.countNewBook(cp);
 		
 		Pagination pagination = new Pagination(1, countNewBook, 20, 5);
 		
 		int limit = pagination.getLimit();
-		int offset = (1-1) * limit;
+		int offset = (cp-1) * limit;
 		
 		RowBounds bounds = new RowBounds(offset, limit);
 		
-		List<Request> newBookList = mapper.newBookList(bounds);
+		List<Request> newBookList = mapper.newBookList(cp, bounds);
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("pagination", pagination);
