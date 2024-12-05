@@ -1,4 +1,5 @@
 // 전체 선택 또는 선택 해제 기능을 구현하는 함수
+// 전체 선택 또는 선택 해제 기능을 구현하는 함수
 document.addEventListener("DOMContentLoaded", () => {
     const selectAllButton = document.getElementById("selectAllButton");
 
@@ -28,6 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // 전체 선택 버튼 클릭 시 ifChecked 함수를 호출
+    selectAllButton.addEventListener("click", () => ifChecked('all'));
 });
 
 /* 장바구니 시작  */
@@ -145,7 +147,7 @@ function singleCartBtn(button) {
     // 책 제목을 알림에 표시
     const bookTitleElement = bookItem.querySelector('.book-title');
     const bookTitle = bookTitleElement ? bookTitleElement.textContent.trim() : '';
-   alert(`"${bookTitle}"을(를) 장바구니에 추가했습니다.`);
+    alert(`"${bookTitle}"을(를) 장바구니에 추가했습니다.`);
 
     // 서버에 bookNo를 전송
     fetch(`/searchBookPage/singleCart`, {
@@ -163,8 +165,8 @@ function singleCartBtn(button) {
         })
         .then(data => {
             if (data == true) {
-              /*   alert('장바구니에 성공적으로 추가되었습니다.'); */
-                if(confirm("장바구니로 이동하시겠습니까?")) {
+                /*   alert('장바구니에 성공적으로 추가되었습니다.'); */
+                if (confirm("장바구니로 이동하시겠습니까?")) {
                     window.location.href = "/cart";
                 }
             } else {
@@ -242,7 +244,7 @@ document.getElementById("categoryButton").addEventListener("click", function () 
         selectedCategoryValuesDiv.innerHTML = "선택한 항목: 없음";
     }
 
-    
+
 
     // 체크박스 변경 이벤트 등록
     checkboxCategory.addEventListener("change", function () {
@@ -482,7 +484,7 @@ document.addEventListener("DOMContentLoaded", () => {
     searchOptionSelect.addEventListener('change', function () {
         document.getElementById('hiddenSearchOption').value = this.value === "none" ? "" : this.value;
     });
-   
+
 
 });
 
@@ -527,7 +529,7 @@ categoryButton.addEventListener("click", () => {
                 updateAllCancelButtonVisibility();
             })
             .catch(error => console.error("Error:", error)
-        ).then(location.reload(alert("로그인후 이용해 주세요")));
+            ).then(location.reload(alert("로그인후 이용해 주세요")));
     } else {
         // "해제하기" 상태
         const checkboxes = document.querySelectorAll('.categoryCheckbox');
@@ -650,7 +652,6 @@ preferenceButton.addEventListener("click", () => {
             })
             .catch(error => console.error("Error:", error)
             ).then(location.reload(alert("로그인후 이용해 주세요")));
-            
     } else {
         // "해제하기" 상태
         const checkboxes = document.querySelectorAll('.preferenceCheckbox');
@@ -770,7 +771,7 @@ function singleWishListBtn(button) {
     // 책 제목을 알림에 표시
     const bookTitleElement = bookItem.querySelector('.book-title');
     const bookTitle = bookTitleElement ? bookTitleElement.textContent.trim() : '';
-   
+
 
     // 서버에 bookNo를 전송
     fetch(`/searchBookPage/singleWishlist`, {
@@ -791,34 +792,34 @@ function singleWishListBtn(button) {
                 alert(`"${bookTitle}"을(를) 찜 목록에 추가했습니다.`);
                 location.reload();
             } else {
-               if(confirm(`이미 찜한 책입니다.
-                \n"${bookTitle}"를 삭제 하시겠습니까?`)){   
-                    
-                fetch(`/searchBookPage/deleteWishlist`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ bookNo: bookNo }) // PUT 요청 본문에 bookNo를 JSON 형식으로 전송합니다.
-                })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('찜 목록 삭제에 실패했습니다.');
-                        }
-                        return response.text(); // 응답을 텍스트로 처리합니다.
+                if (confirm(`이미 찜한 책입니다.
+                \n"${bookTitle}"를 삭제 하시겠습니까?`)) {
+
+                    fetch(`/searchBookPage/deleteWishlist`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ bookNo: bookNo }) // PUT 요청 본문에 bookNo를 JSON 형식으로 전송합니다.
                     })
-                    .then(data => {
-                    if (data === "삭제 성공") {
-                        alert(`"${bookTitle}"을(를) 찜 목록에서 삭제했습니다.`);
-                        location.reload();
-                    }
-                    })
-                    .catch(error => {
-                        console.error('에러:', error);
-                    });
-               }else{
-                   return;
-               }
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('찜 목록 삭제에 실패했습니다.');
+                            }
+                            return response.text(); // 응답을 텍스트로 처리합니다.
+                        })
+                        .then(data => {
+                            if (data === "삭제 성공") {
+                                alert(`"${bookTitle}"을(를) 찜 목록에서 삭제했습니다.`);
+                                location.reload();
+                            }
+                        })
+                        .catch(error => {
+                            console.error('에러:', error);
+                        });
+                } else {
+                    return;
+                }
             }
         })
         .catch(error => console.error('에러:', error));
@@ -830,7 +831,7 @@ function singleWishListBtn(button) {
 document.getElementById("applyOption").addEventListener("click", () => {
     // 검색 폼의 검색 아이콘을 선택합니다.
     const searchIcon = document.querySelector('.search-bar .search-icon');
-    
+
     // 검색 아이콘 클릭
     if (searchIcon) {
         searchIcon.click();

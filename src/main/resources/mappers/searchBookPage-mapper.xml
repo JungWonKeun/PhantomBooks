@@ -190,10 +190,10 @@
 		<if test="searchTitle != null and searchTitle != ''">
 			AND (
 			B.BOOK_TITLE LIKE '%' || #{searchTitle} || '%'
-			OR
-			B.BOOK_WRITER LIKE '%' || #{searchTitle} || '%'
+<!-- 			OR
+			B.BOOK_WRITER LIKE '%' || #{bookWriter} || '%'
 			OR B.COMPANY_NAME LIKE
-			'%' || #{searchTitle} || '%'
+			'%' || #{searchTitle} || '%' -->
 			)
 		</if>
 		<choose>
@@ -267,6 +267,10 @@
 		<if test="searchTitle != null and searchTitle != ''">
 			AND LOWER(B.BOOK_TITLE) LIKE '%' || LOWER(#{searchTitle})
 			|| '%'
+<!-- 			OR
+			B.BOOK_WRITER LIKE '%' || #{bookWriter} || '%'
+			OR B.COMPANY_NAME LIKE
+			'%' || #{searchTitle} || '%' -->
 		</if>
 		<choose>
 			<when
@@ -572,7 +576,8 @@
 	</delete>
 
 	<select id="getWishList" parameterType="int" resultType="int">
-		SELECT BOOK_NO
+		SELECT
+		BOOK_NO
 		FROM WISHLIST
 		WHERE MEMBER_NO = #{memberNo}
 	</select>
