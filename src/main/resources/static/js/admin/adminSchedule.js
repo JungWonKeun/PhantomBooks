@@ -21,8 +21,10 @@ openPopupButton.addEventListener("click", () => {
 document.addEventListener("DOMContentLoaded", () => {
     let calendarTag = document.querySelector('#calendar'); // HTML 요소 ID가 'calendar'인 태그를 가져옴
     let calendar = new FullCalendar.Calendar(calendarTag, {
-        height: '550px', // 캘린더 높이 설정
+        height: '800px', // 캘린더 높이 설정
+        aspectRatio: 2,
         expandRows: true, // 화면 크기에 맞게 캘린더 높이를 자동 조정
+        ihandleWindowResize : true, // 기본값 | Type : Boolean
         slotMinTime: '00:00', // Day 뷰에서의 시작 시간
         slotMaxTime: '23:59', // Day 뷰에서의 종료 시간
 
