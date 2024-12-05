@@ -52,14 +52,6 @@ body {
   width: 100%;
 }
 
-.container {
-  background-color: #f8f9fa;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  overflow: hidden;
-  max-height: 900px !important;
-}
 
 
 .card {
