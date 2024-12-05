@@ -1,31 +1,32 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>관리자 문의 관리 페이지</title>
 
-  <script src="https://kit.fontawesome.com/890489b5e8.js" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/913e662347.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="/css/admin/adminQuery.css">
 </head>
+
 <body>
   <section class="header">
     <div class="logo">
       <a href="/admin">
-          <img src="/images/고스트 코딩왕.png" alt="Logo">
+        <img src="/images/고스트 코딩왕.png" alt="Logo">
       </a>
     </div>
-  
-   
+
+
     <div class="function">
       <!-- 관리자 담당 업무 -->
       <div class="adminName">
-        <div th:if= "${session.loginMember}"
-             th:text="${session.loginMember.adminName}">
+        <div th:if="${session.loginMember}" th:text="${session.loginMember.adminName}">
           담당
         </div>
       </div>
-  
+
       <!-- 채팅방 입장 아이콘 -->
       <div class="chatting">
         <button class="fa-solid fa-paper-plane" id="openPopup"></button>
@@ -44,12 +45,12 @@
           <li><a href="/admin/myPage">&nbsp;&nbsp;&nbsp;-&nbsp;내정보 변경</a></li>
           <li><a href="/admin">&nbsp;&nbsp;&nbsp;-&nbsp;회원 관리</a></li>
           <li>
-            <a href="/admin/adminManager" 
-              th:if= "${session.loginMember.name == '관리자' }">&nbsp;&nbsp;&nbsp;-&nbsp;관리자 계정 관리</a>
+            <a href="/admin/adminManager" th:if="${session.loginMember.name == '관리자' }">&nbsp;&nbsp;&nbsp;-&nbsp;관리자 계정
+              관리</a>
           </li>
         </ul>
       </h3>
-    
+
       <h3 class="menu">
         <i class="fa-solid fa-arrow-trend-up"></i>&nbsp;&nbsp;매출 및 일정 관리
         <ul class="submenu">
@@ -57,7 +58,7 @@
           <li><a href="/admin/schedule">&nbsp;&nbsp;&nbsp;-&nbsp;일정 관리</a></li>
         </ul>
       </h3>
-      
+
       <h3 class="menu">
         <i class="fa-solid fa-warehouse"></i>&nbsp;&nbsp;도서 관리
         <ul class="submenu">
@@ -76,16 +77,19 @@
         </ul>
       </h3>
     </div>
-  
-  
+
+
     <div class="content">
-      <h2>문의관리</h2>
+      <div>
+        <h2>문의관리</h2>
+      </div>
+
       <select class="sortSelect">
         <option value="all">답변 상태</option>
         <option value="no">미답변</option>
         <option value="ok">답변 완료</option>
       </select>
-    
+
       <table class="query-box">
         <thead class="query">
           <tr>
@@ -97,7 +101,7 @@
           </tr>
         </thead>
 
-        <tbody class="queryContent"> 
+        <tbody class="queryContent">
           <tr>
             <td class="status">답변완료</td> <!-- div1 -->
             <td><!-- div2 -->
@@ -105,7 +109,7 @@
                 <span class="arrow-icon"></span>배송이 언제되는건가요?
               </div>
               <div class="supporting-text" style="display: none;"> <!--content -->
-                <p> 
+                <p>
                   20241105에 주문을 했는데 <br>
                   아직도 배송이 안오네요 <br>
                   <br>
@@ -122,16 +126,16 @@
           </tr>
         </tbody>
       </table>
-      <div class="pagination-area" >
+      <div class="pagination-area">
         <ul class="pagination">
-        
-          
+
+
         </ul>
       </div>
     </div>
   </section>
 
-  
+
   <!-- <script>
     document.addEventListener("DOMContentLoaded", function () {
       const toggles = document.querySelectorAll(".faq-toggle");
@@ -148,6 +152,7 @@
         });
     });
   </script> -->
-<script src="/js/admin/adminQuery.js"></script>
+  <script src="/js/admin/adminQuery.js"></script>
 </body>
+
 </html>

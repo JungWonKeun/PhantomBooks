@@ -304,9 +304,7 @@ body {
   background-color: #ffffff;
 }
 
-.admin-box tr:hover td {
-  background-color: #a3a2a2;
-}
+
 
 /* 홀수 행의 첫 번째 th */
 .adminContent tr:nth-child(odd) th:first-child {
@@ -352,7 +350,6 @@ body {
   border: 1px solid #205375;
   border-radius: 8px;
 }
-
 
 
 .modifyBtn{
