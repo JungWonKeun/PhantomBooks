@@ -21,6 +21,16 @@ document.querySelectorAll('.menu').forEach(menu => {
   });
 });
 
+/* 이름 클릭 시 로그아웃 */
+const logout = document.querySelector(".adminName");
+
+logout.addEventListener("click", () => {
+  fetch("/admin/logout")
+  .then(response => { if(response.ok) return response.text();})
+  .then(result => { if(result == 1) window.location.href = "/";})
+})
+
+
 const changeBtn = document.querySelectorAll(".changeBtn");
 
 changeBtn.forEach((button)=> {
@@ -115,15 +125,15 @@ updateBtn.addEventListener("click", () => {
   
   // checked 된 noticeId
   const noticeId = document.querySelector("#checkedNoticeId").value;
-  addPopupLayer.classList.remove("popup-layer-close");
 
-  const updateNotice = async fetch("/admin/notice/noticeInfo?noticeId="+noticeId);
-  const response1 = response.json();
-  const notice = await{if(notice != null){
+  fetch("/admin/notice/noticeInfo?noticeId="+noticeId)
+  .then(response => {if(response.ok) return response.json();})
+  .then(notice => {if(notice != null){
     title.value = notice.title;
     content.value = notice.content;
 
     // 팝업 나타나게 하기
+    addPopupLayer.classList.remove("popup-layer-close");
     title.focus();
     const addNoticeBtn = document.querySelector("#addNoticeBtn");
     const back = document.querySelector("#back");

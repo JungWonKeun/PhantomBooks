@@ -23,6 +23,16 @@ document.querySelectorAll('.menu').forEach(menu => {
   });
 });
 
+/* 이름 클릭 시 로그아웃 */
+const logout = document.querySelector(".adminName");
+
+logout.addEventListener("click", () => {
+  fetch("/admin/logout")
+  .then(response => { if(response.ok) return response.text();})
+  .then(result => { if(result == 1) window.location.href = "/";})
+})
+
+
 let openContent = null; // 현재 열려 있는 답글 폼을 추적
 
 const listUp = (cp, sort) => {

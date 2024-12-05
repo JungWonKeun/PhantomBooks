@@ -98,7 +98,7 @@ if(chattingSock != undefined){
       ul.scrollTop = ul.scrollHeight; // 스크롤 제일 밑으로
     }
 
-    selectRoomList();
+    selectChattingFn();
 
   })
 }
@@ -322,7 +322,7 @@ const selectRoomList = () => {
 			const targetName = document.createElement("span");
 			targetName.classList.add("target-name");
 			targetName.innerText = room.targetNickname;
-      selectTargetName = room.targetNickname;
+     
 			
 			const recentSendTime = document.createElement("span");
 			recentSendTime.classList.add("recent-send-time");
@@ -398,6 +398,8 @@ const roomListAddEvent = () => {
 			selectChattingNo = item.getAttribute("chat-no");
 			selectTargetNo = item.getAttribute("target-no");
 
+      console.log(item.children[0].children[0].children[0]);
+      selectTargetName = item.children[0].children[0].children[0].innerText;
 
 			if(item.children[0].children[0].children[0] != undefined){
 				item.children[0].children[0].children[0].remove();

@@ -21,6 +21,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  /* 이름 클릭 시 로그아웃 */
+const logout = document.querySelector(".adminName");
+
+logout.addEventListener("click", () => {
+  fetch("/admin/logout")
+  .then(response => { if(response.ok) return response.text();})
+  .then(result => { if(result == 1) window.location.href = "/";})
+})
+
   // 내용 작성 영역
   const faqContent = document.querySelector(".faqContent");
 
