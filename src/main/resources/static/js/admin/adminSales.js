@@ -127,6 +127,7 @@ week.addEventListener("click", () => {
 
   listUp(1, sortSelect.value, term);
 
+
   chartData(1, sortSelect.value, term);
 });
 month.addEventListener("click", () => {
@@ -213,9 +214,7 @@ searchText.addEventListener("input", () => {
 const searchBtn = document.querySelector("#searchBtn");
 
 searchBtn.addEventListener("click", () => {
-  // if(myChart !== null){
-  //   myChart.destroy();
-  // }
+
   const selectedSort =  sortSelect.value;
   chartData(1, selectedSort, term.value, date.value, text);
 })
@@ -233,7 +232,7 @@ const paginationAddEvent = () => {
       if(a.classList.contains('current')) return;
       
       const cp = e.target.dataset.page;
-      listUp(cp, sortSelect.value, term);
+      listUp(cp, sortSelect.value, termSelect.value, dateSelect.value, searchText.value);
     });
   });
 }
