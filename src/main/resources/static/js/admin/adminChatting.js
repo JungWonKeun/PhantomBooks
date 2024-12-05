@@ -1,6 +1,3 @@
-
-
-
 // 채팅에 사용될 SockJS 객체를 저장할 변수
 let chattingSock;
 
@@ -82,9 +79,6 @@ if(chattingSock != undefined){
         li.classList.add("target-chat");
     
         // 상대 프로필
-        const img = document.createElement("img");
-        img.setAttribute("src", selectTargetProfile);
-        
         const div = document.createElement("div");
     
         // 상대 이름
@@ -94,7 +88,7 @@ if(chattingSock != undefined){
         const br = document.createElement("br");
     
         div.append(b, br, p, span);
-        li.append(img,div);
+        li.append(div);
     
       }
     
@@ -139,16 +133,30 @@ const addTargetPopupLayer
 
  const chattingContent = document.querySelector(".chatting-content");
 
+ const back = document.querySelector("#back");
+
+  back.classList.remove("hidden");
+
+back.addEventListener("click", () => {
+
+  chattingContent.classList.add("hidden");
+  chattingArea.classList.remove("hidden");
+  targetInput.classList.add("hidden");
+  addTargetPopupLayer.classList.remove("hidden");
+  addTarget.classList.remove("hidden");
+})
+
 
 // 추가버튼 클릭 시
 addTarget.addEventListener("click", () => {
- addTargetPopupLayer.classList.remove("popup-layer-close");
+ addTargetPopupLayer.classList.remove("hidden");
+ targetInput.classList.remove("hidden");
  targetInput.focus();
 });
 
 // 닫기(X) 버튼 클릭 시
 closeBtn.addEventListener("click", () => {
-  addTargetPopupLayer.classList.add("popup-layer-close");
+  addTargetPopupLayer.classList.add("hidden");
   resultArea.innerHTML = ""; // 검색 목록 내용 지우기
 });
 
@@ -215,16 +223,17 @@ targetInput.addEventListener("input", () => {
  * @param e : 이벤트 객체
  */
 const chattingEnter = (e) => {
-  
+  addTargetPopupLayer.classList.add("hidden");
+  targetInput.classList.add("hidden");
   // e.crrentTarget : 이벤트 리스너가 설정된 요소
 
   // data-id 값을 얻어와 저장(참여자 회원 번호)
   const targetNo = e.currentTarget.dataset.id;
   // console.log(targetNo);
-
+  
   chattingArea.classList.add("hidden");
   chattingContent.classList.remove("hidden");
-
+  
   fetch("/admin/chatting/enter", {
     method : "POST",
     headers : {"Content-Type": "application/json"},
@@ -238,11 +247,11 @@ const chattingEnter = (e) => {
     // 입장한 채팅방 번호
     console.log(chattingNo);
     selectRoomList(); // 비동기로 채팅방 목록 조회
-
+    
     setTimeout(() => {
       // 입장하려던 채팅방이 이미
       // 채팅방 목록에 존재하는 경우
-
+      
       // 1) 채팅방 목록 li 태그 얻어오기
       const itemList = document.querySelectorAll(".chatting-item");
       
@@ -253,22 +262,22 @@ const chattingEnter = (e) => {
         if(item.getAttribute("chat-no") == chattingNo){
           item.focus();
           item.click(); // 클릭 -> selectChattingFn() 호출됨
-
+          
           // 검색창 닫기
-          addTargetPopupLayer.classList.add("popup-layer-close"); 
-
+          addTargetPopupLayer.classList.add("hidden"); 
+          
           // 검색창 내용 비우기
           targetInput.value = "";
           resultArea.innerHTML = "";
           return;
         }
-
+        
       }
-
+      
     }, 300);
   })
   .catch(err => console.error(err));
-
+  
 }
 
 
@@ -490,53 +499,3 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   })
 })
-
-
-    // 팝업 요소
-    const popup = document.getElementById("popup");
-    const popupHeader = document.getElementById("popupHeader");
-    const openPopupButton = document.getElementById("openPopup");
-    const closePopupButton = document.getElementById("closePopup");
-
-    let offsetX = 0;
-    let offsetY = 0;
-    let isDragging = false;
-
-    // 팝업 열기
-    openPopupButton.addEventListener("click", () => {
-        popup.style.display = "block";
-        selectRoomList();
-        chattingArea.classList.remove("hidden");
-    });
-
-    // 팝업 닫기
-    closePopupButton.addEventListener("click", () => {
-        popup.style.display = "none";
-
-        chattingContent.classList.add("hidden");
-
-        // 추가버튼 삭제
-        const addTarget = document.querySelector("#addTarget");
-        addTarget.classList.remove("hidden");
-    });
-
-    // 드래그 시작
-    popupHeader.addEventListener("mousedown", (e) => {
-        isDragging = true;
-        offsetX = e.clientX - popup.offsetLeft;
-        offsetY = e.clientY - popup.offsetTop;
-        popupHeader.style.cursor = "grabbing";
-    });
-
-    // 드래그 중
-    document.addEventListener("mousemove", (e) => {
-        if (!isDragging) return;
-        popup.style.left = `${e.clientX - offsetX}px`;
-        popup.style.top = `${e.clientY - offsetY}px`;
-    });
-
-    // 드래그 종료
-    document.addEventListener("mouseup", () => {
-        isDragging = false;
-        popupHeader.style.cursor = "grab";
-    });
