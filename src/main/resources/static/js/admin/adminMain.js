@@ -13,6 +13,7 @@ openPopupButton.addEventListener("click", () => {
 });
 
 
+
 /* 사이드바 열고 닫기 */
 document.querySelectorAll('.menu').forEach(menu => {
   menu.addEventListener('click', function () {
@@ -21,6 +22,15 @@ document.querySelectorAll('.menu').forEach(menu => {
     this.classList.toggle('active');
   });
 });
+
+/* 이름 클릭 시 로그아웃 */
+const logout = document.querySelector(".adminName");
+
+logout.addEventListener("click", () => {
+  fetch("/admin/logout")
+  .then(response => { if(response.ok) return response.text();})
+  .then(result => { if(result == 1) window.location.href = "/";})
+})
 
 
 const listUp = (cp, sort, term, date) => {

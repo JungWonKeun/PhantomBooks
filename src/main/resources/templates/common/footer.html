@@ -1,4 +1,4 @@
-<footer class="footer bg-dark text-light py-5" th:fragment="footer">
+<footer class="footer  text-light py-5" th:fragment="footer" style="background-color: rgb(29,30,57);">
     <div class="container">
         <div class="row">
             <!-- 고객 센터 정보 영역 -->
@@ -31,9 +31,13 @@
                     <div class="col-md-4 mb-3">
                         <h5 class="fw-bold mb-3">서비스</h5>
                         <ul class="list-unstyled">
-                            <li><a href="/support" class="text-light text-decoration-none">고객센터</a></li>
+                            <li><a href="/support" class="text-light text-decoration-none">고객지원</a></li>
                             <li><a href="/customer/qna" class="text-light text-decoration-none">FAQ</a></li>
-                            <li><a href="/customer/inquiry" class="text-light text-decoration-none" onclick="checkLoginForInquiry(event)">1:1 문의하기</a></li>
+                            <li><a href="/customer/query" class="text-light text-decoration-none" 
+                                   th:unless= "${session.loginMember}" onclick="alert('로그인 회원만 이용 가능합니다.');"
+                                   data-bs-toggle="modal" data-bs-target="#modalLogin">1:1 문의하기</a></li>
+                            <li><a href="/customer/query" th:if="${session.loginMember}" class="text-light text-decoration-none">1:1 문의하기</a></li>
+                            <li><a href="/customer/notice" class="text-light text-decoration-none">공지사항</a></li>
                             <li><a href="/intellectual" class="text-light text-decoration-none">지식재산권 침해 신고</a></li>
                             <li><a href="/business" class="text-light text-decoration-none">기업 고객 문의</a></li>
                         </ul>

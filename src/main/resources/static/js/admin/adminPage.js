@@ -54,6 +54,7 @@ const listUp = (cp) => {
       // 관리자 번호
       const th1 = document.createElement("th");
       th1.innerHTML = admin.memberId.split("n")[1];
+      th1.classList.add("tableAdminNo");
 
       // 관리자 아이디
       const th2 = document.createElement("td");
@@ -100,7 +101,9 @@ const listUp = (cp) => {
           const btn1 = document.createElement("button");
           const btn2 = document.createElement("button");
           btn1.innerHTML = "수정";
+          btn1.classList.add("modifyBtn");
           btn2.innerHTML = "취소";
+          btn1.classList.add("cancleBtn");
 
 
           th5.append(btn1, btn2);

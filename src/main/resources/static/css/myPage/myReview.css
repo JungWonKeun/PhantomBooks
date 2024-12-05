@@ -267,3 +267,40 @@
     color: #6c757d;
     opacity: 0.5;
 }
+
+.no-data-message {
+    text-align: center;
+    padding: 100px 20px;  /* 상하 패딩 증가 */
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    margin: 40px 0;      /* 마진 증가 */
+    width: 100%;         /* 전체 너비 사용 */
+}
+
+.no-data-message i {
+    font-size: 80px;     /* 아이콘 크기 증가 */
+    color: #6c757d;
+    margin-bottom: 30px; /* 여백 증가 */
+}
+
+.no-data-message p {
+    font-size: 24px;     /* 텍스트 크기 증가 */
+    color: #495057;
+    margin-bottom: 30px; /* 여백 증가 */
+    font-weight: 500;    /* 약간 더 굵게 */
+}
+
+.no-data-message a {
+    display: inline-block;
+    padding: 15px 30px;  /* 버튼 크기 증가 */
+    background-color: #205375;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    font-size: 18px;     /* 버튼 텍스트 크기 증가 */
+}
+
+.no-data-message a:hover {
+    background-color: #1a4560;
+}

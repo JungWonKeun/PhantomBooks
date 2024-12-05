@@ -39,7 +39,7 @@
       <div class="checkbox-categoryList">
         <div class="myCategoryBringingIn">
           <label>
-            <button id="myCategoryBringingInBtn"> 내 카테고리 불러오기</button>
+            <button id="myCategoryBringingInBtn" th:if="${session.loginMember != null}"> 내 카테고리 불러오기</button>
             <button id="catBtnAllCancel" hidden>전체 선택 취소</button>
           </label>
           </div>
@@ -98,7 +98,7 @@
       <div class="checkbox-preferenceList">
         <div class="myPreferenceBringingIn">
           <label>
-            <button id="myPreferenceBringingInBtn"> 내 취향 불러오기</button>
+            <button id="myPreferenceBringingInBtn" th:if="${session.loginMember != null}"> 내 취향 불러오기</button>
             <button id="preBtnAllCancel" hidden>전체 선택 취소</button>    
           </label>
         </div>
@@ -211,18 +211,19 @@
 
       <div th:each="book : ${bookList}" class="book-item" data-book-no="${book.bookNo}"
         data-score-avg="${book.scoreAvg}">
-        <div class="checkbox-wrapper-39">
+        <div class="checkbox-wrapper-39" th:if="${session.loginMember != null}">
           <label>
             <input type="checkbox" 
                    th:value="${book.bookNo}" 
                    class="book-checkbox" 
-                   id="bookCheckbox">
+                   id="bookCheckbox"
+                   >
             <span class="checkbox"></span>
           </label>
         </div>
         
         <div class="book-item-image">
-          <img th:src="${book.bookCover != null ? book.bookCover : '/images/bookCover/default.jpg'}" alt="책 이미지">
+         <a th:href="@{/searchBookPage/bookDetail/{bookNo}(bookNo=${book.bookNo})}"> <img th:src="${book.bookCover != null ? book.bookCover : '/images/bookCover/default.jpg'}" alt="책 이미지"></a>
         </div>
         <a th:href="@{/searchBookPage/bookDetail/{bookNo}(bookNo=${book.bookNo})}" class="bookItemAtag">
           <div class="book-item-details">
