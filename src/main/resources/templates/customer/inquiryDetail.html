@@ -31,11 +31,11 @@
             </th:block>
           </p>
         </div>
-        <div class="inquiryDetail-content" th:text="*{queryContent}">
+        <div class="inquiryDetail-content" th:utext="*{queryContent}">
           내용
         </div>
 
-        <div class="inquiryDetail-content">
+        <div class="inquiryDetail-content2">
           <span>답글</span>
           <p th:if="${inquiry.reply != null}" th:text="*{reply}"></p>
           <p th:if="${inquiry.reply == null}">작성된 답글이 없습니다.</p>
