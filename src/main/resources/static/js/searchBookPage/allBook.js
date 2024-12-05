@@ -28,7 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // 전체 선택 버튼 클릭 시 ifChecked 함수를 호출
-    selectAllButton.addEventListener("click", () => ifChecked('all'));
 });
 
 /* 장바구니 시작  */
@@ -242,6 +241,8 @@ document.getElementById("categoryButton").addEventListener("click", function () 
     if (!selectedCategoryValuesDiv.hasChildNodes()) {
         selectedCategoryValuesDiv.innerHTML = "선택한 항목: 없음";
     }
+
+    
 
     // 체크박스 변경 이벤트 등록
     checkboxCategory.addEventListener("change", function () {
@@ -525,7 +526,8 @@ categoryButton.addEventListener("click", () => {
                 // 전체 선택 취소 버튼 표시 여부 업데이트
                 updateAllCancelButtonVisibility();
             })
-            .catch(error => console.error("Error:", error));
+            .catch(error => console.error("Error:", error)
+        ).then(location.reload(alert("로그인후 이용해 주세요")));
     } else {
         // "해제하기" 상태
         const checkboxes = document.querySelectorAll('.categoryCheckbox');
@@ -646,7 +648,9 @@ preferenceButton.addEventListener("click", () => {
                 // 전체 선택 취소 버튼 표시 여부 업데이트
                 updatePreferenceCancelButtonVisibility();
             })
-            .catch(error => console.error("Error:", error));
+            .catch(error => console.error("Error:", error)
+            ).then(location.reload(alert("로그인후 이용해 주세요")));
+            
     } else {
         // "해제하기" 상태
         const checkboxes = document.querySelectorAll('.preferenceCheckbox');

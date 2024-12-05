@@ -86,6 +86,7 @@ const listUp = (cp, sort, title) => {
       const td4 = document.createElement("td");
       const div = document.createElement("div");
       div.append(displayRating(review.reviewScore));
+      td4.classList.add("reviewScore");
 
       td4.append(div);
       

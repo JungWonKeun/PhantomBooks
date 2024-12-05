@@ -1,31 +1,32 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>관리자 문의 관리 페이지</title>
 
-  <script src="https://kit.fontawesome.com/890489b5e8.js" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/913e662347.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="/css/admin/adminFaq.css">
 </head>
+
 <body>
   <section class="header">
     <div class="logo">
       <a href="/admin">
-          <img src="/images/고스트 코딩왕.png" alt="Logo">
+        <img src="/images/고스트 코딩왕.png" alt="Logo">
       </a>
     </div>
-  
-   
+
+
     <div class="function">
       <!-- 관리자 담당 업무 -->
       <div class="adminName">
-        <div th:if= "${session.loginMember}"
-             th:text="${session.loginMember.adminName}">
+        <div th:if="${session.loginMember}" th:text="${session.loginMember.adminName}">
           담당
         </div>
       </div>
-  
+
       <!-- 채팅방 입장 아이콘 -->
       <div class="chatting">
         <button class="fa-solid fa-paper-plane" id="openPopup"></button>
@@ -44,12 +45,12 @@
           <li><a href="/admin/myPage">&nbsp;&nbsp;&nbsp;-&nbsp;내정보 변경</a></li>
           <li><a href="/admin">&nbsp;&nbsp;&nbsp;-&nbsp;회원 관리</a></li>
           <li>
-            <a href="/admin/adminManager" 
-              th:if= "${session.loginMember.name == '관리자' }">&nbsp;&nbsp;&nbsp;-&nbsp;관리자 계정 관리</a>
+            <a href="/admin/adminManager" th:if="${session.loginMember.name == '관리자' }">&nbsp;&nbsp;&nbsp;-&nbsp;관리자 계정
+              관리</a>
           </li>
         </ul>
       </h3>
-    
+
       <h3 class="menu">
         <i class="fa-solid fa-arrow-trend-up"></i>&nbsp;&nbsp;매출 및 일정 관리
         <ul class="submenu">
@@ -57,7 +58,7 @@
           <li><a href="/admin/schedule">&nbsp;&nbsp;&nbsp;-&nbsp;일정 관리</a></li>
         </ul>
       </h3>
-      
+
       <h3 class="menu">
         <i class="fa-solid fa-warehouse"></i>&nbsp;&nbsp;도서 관리
         <ul class="submenu">
@@ -76,13 +77,13 @@
         </ul>
       </h3>
     </div>
-  
-  
-    <div class="content">
-      <h2>FAQ 관리</h2>
 
 
-    
+    <div class="content2">
+      <div class="title">
+        <h2>FAQ 관리</h2>
+      </div>
+
       <table class="faq-box">
         <thead class="faq">
           <tr>
@@ -95,17 +96,16 @@
           </tr>
         </thead>
 
-        <tbody class="faqContent"> 
-          <th:block th:if= "${#lists.isEmpty(faqList)}">
+        <tbody class="faqContent">
+          <th:block th:if="${#lists.isEmpty(faqList)}">
             <tr>
               <th colspan="5">FAQ로 등록된 자료가 없습니다.</th>
             </tr>
           </th:block>
 
           <th:block th:unless="${#lists.isEmpty(faqList)}">
-            <tr th:each= "faq:${faqList}"
-                th:object="${faq}">  
-              
+            <tr th:each="faq:${faqList}" th:object="${faq}">
+
 
               <td th:text="*{faqId}" th:name="*{faqId}">
                 FAQ 번호
@@ -114,14 +114,15 @@
                 어떻게 새로운 1:1 문의를 등록하나요?
               </td>
               <td th:text="*{content}">
-                1:1 문의를 등록하려면 고객센터 페이지의 "1:1 문의하기" 버튼을 클릭하세요. 등록 양식을 작성한 후 "등록" 버튼을 누르면 문의가 접수됩니다. 접수된 문의는 마이페이지에서 확인 가능합니다.
+                1:1 문의를 등록하려면 고객센터 페이지의 "1:1 문의하기" 버튼을 클릭하세요. 등록 양식을 작성한 후 "등록" 버튼을 누르면 문의가 접수됩니다. 접수된 문의는 마이페이지에서 확인
+                가능합니다.
               </td>
-              <th:block th:if= "${faq.faqYn == 'Y'}">
+              <th:block th:if="${faq.faqYn == 'Y'}">
                 <td>
                   노출
                 </td>
               </th:block>
-              <th:block th:if= "${faq.faqYn == 'N'}">
+              <th:block th:if="${faq.faqYn == 'N'}">
                 <td>
                   비노출
                 </td>
@@ -130,52 +131,54 @@
                 <button class="updateBtn" th:value="*{faqId}">
                   노출 상태 변경
                 </button>
+              </td>
+              <td>
                 <button class="deleteBtn" th:value="*{faqId}">
                   삭제
                 </button>
-                
+
               </td>
             </tr>
           </th:block>
         </tbody>
       </table>
 
-      
-      <div class="pagination-area" th:unless= "${#lists.isEmpty(faqList)}">
-        
+
+      <div class="pagination-area" th:unless="${#lists.isEmpty(faqList)}">
+
         <ul class="pagination" th:object="${pagination}">
-          
+
           <!-- 첫 페이지로 이동 -->
           <li><a href="#">&lt;&lt;</a></li>
-          
+
           <!-- 이전 목록 마지막 번호로 이동 -->
           <li><a href="#">&lt;</a></li>
-          
+
           <!-- 특정 페이지로 이동 -->
-          
+
           <!-- 
             #numbers.sequence(startPage, endPage)
             -> startPage부터 endPage까지 1씩 증가하는 숫자를 가진
             List를 만들어서 반환
           -->
-          <th:block th:each= "i : *{#numbers.sequence(startPage, endPage)}">
-            
+          <th:block th:each="i : *{#numbers.sequence(startPage, endPage)}">
+
             <!-- 현재 보고있는 페이지 -->
-            <li th:if= "${i}==*{currentPage}">
+            <li th:if="${i}==*{currentPage}">
               <a class="current" th:text="${i}">현재 페이지</a>
             </li>
-            
-            <!-- 보고있지 않은 페이지 -->                    
-            <li th:unless = "${i} == *{currentPage}">
+
+            <!-- 보고있지 않은 페이지 -->
+            <li th:unless="${i} == *{currentPage}">
               <a href="#" th:text="${i}">이동할 수 있는 페이지</a>
             </li>
-            
-            
+
+
           </th:block>
-          
+
           <!-- 다음 목록 시작 번호로 이동 -->
           <li><a href="#">&gt;</a></li>
-          
+
           <!-- 끝 페이지로 이동 -->
           <li><a href="#">&gt;&gt;</a></li>
         </ul>
@@ -183,23 +186,21 @@
 
       <div class="btn-area">
         <!-- 로그인 상태일 때만 글쓰기 버튼 노출 -->
-        <button th:if= "${session.loginMember}"
-        id="insertBtn">글쓰기</button>                     
+        <button th:if="${session.loginMember}" id="insertBtn">글쓰기</button>
       </div>
-  
-      <div id="addPopupLayer" class="popup-layer-close">
+
+      <div id="addPopupLayer">
+        <h2>FAQ 추가</h2>
         <div class="input-area">
-          제목 <input type="text" id="inputTitle" name="title" placeholder="제목을 입력하세요" autocomplete="off">
-          내용 <input type="text" id="inputContent" name="content" placeholder="내용을 입력하세요" autocomplete="off"></input>
+          <input type="text" id="inputTitle" placeholder="제목을 입력하세요">
+          <input type="text" id="inputContent" placeholder="내용을 입력하세요">
         </div>
-  
-  
         <button id="addFaqBtn">등록하기</button>
         <button id="back">돌아가기</button>
       </div>
 
     </div>
-    
+
   </section>
   <script th:inline="javaScript">
     const faqList = /*[[${faqList}]]*/ "FAQ리스트";
@@ -207,4 +208,5 @@
   </script>
   <script src="/js/admin/adminFaq.js"></script>
 </body>
+
 </html>
